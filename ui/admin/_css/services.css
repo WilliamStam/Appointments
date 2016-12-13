@@ -1,0 +1,35 @@
+#right-area {
+  z-index: 1040; }
+  #right-area #side-bar-body {
+    overflow-y: auto; }
+  #right-area.fixed #side-bar {
+    position: static; }
+    #right-area.fixed #side-bar.navbar-offcanvas {
+      overflow: hidden; }
+  #right-area.fixed #side-bar-body {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    overflow-y: auto;
+    margin: 0; }
+
+.offcanvas-stop-scrolling #right-area #side-bar.navbar-offcanvas {
+  overflow: hidden;
+  z-index: 999999; }
+
+#left-area .advert-list-item {
+  border-bottom: 1px solid #ccc; }
+  #left-area .advert-list-item .advert-list-dates {
+    font-weight: bold; }
+
+#left-area .advert-record {
+  cursor: pointer; }
+
+#left-area.selected .advert-record {
+  opacity: 0.5;
+  filter: blur(2px); }
+  #left-area.selected .advert-record.active {
+    opacity: 1;
+    filter: blur(0); }

@@ -1,0 +1,45 @@
+//@import "components/jquery-ui.scss";
+@import "components/select2.scss";
+@import "components/bootstrap.scss";
+@import "components/font-awesome.scss";
+
+
+
+#system-timer-btn {
+	position  : fixed;
+	left      : 10px;
+	bottom    : 10px;
+	max-width : 30px;
+	z-index: 999999;
+	a {
+		opacity:0.5;
+		color:#000;
+		&:hover {
+			opacity:1;
+		}
+
+	}
+}
+
+#systemTimers-container {
+	.btn-row-details {
+		cursor : pointer;
+		&:hover {
+			td {
+				background-color: #DEEBFF;
+			}
+		}
+	}
+	td {
+		font-size:10px;
+		padding:3px 5px;
+		border-bottom:1px solid #e1e1e1;
+	}
+
+	.row-details {
+
+		display : none;
+	}
+
+}
+

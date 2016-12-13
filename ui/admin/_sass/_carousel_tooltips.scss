@@ -1,0 +1,28 @@
+.carousel {
+	&.tips {
+		position:relative;
+		.carousel-inner {
+			
+			padding-left:30px;
+			padding-right:30px;
+			text-align: center;
+			width:auto;
+			.fa {
+				margin-right:10px;
+				margin-left:-10px;
+			}
+		}
+		.carousel-control {
+			font-size:inherit;
+			color:#444;
+			&.left,&.right {
+				width:30px;
+				background: none;
+			}
+
+			.right {
+
+			}
+		}
+	}
+}

@@ -1,0 +1,90 @@
+#details-appointment {
+
+  @media (min-width: $screen-sm) {
+	#services-column {
+	  padding-left:0;
+	}
+  }
+
+  #agenda-view {
+	margin-left:-9px;
+	margin-right:-9px;
+	margin-top:-11px;
+	position:relative;
+
+	height:25px;
+	overflow:hidden;
+
+	#agenda-view-area {
+	  position: absolute;
+	  top:0;
+	  left:0;
+	  right:0;
+	  bottom:0;
+	}
+
+	#agenda-view-hours {
+	  position: absolute;
+	  top:0;
+	  left:0;
+	  right:0;
+	  bottom:0;
+	  z-index: 3;
+
+	  .agenda-hour {
+
+		border:1px solid $border-color;
+		border-right-color:transparent;
+		float:left;
+		text-align: center;
+		line-height:25px;
+		color:darken($border-color,10%);
+
+		box-sizing: border-box;
+		&:last-child {
+		  border-right-color:$border-color;
+		}
+	  }
+	}
+	#agenda-items {
+	  position: absolute;
+	  top:0;
+	  left:0;
+	  right:0;
+	  bottom:0;
+
+	  .agenda-item {
+		position:absolute;
+		top:0;
+		bottom:0;
+		z-index: 1;
+		&.current {
+		  z-index: 2;
+		  background-color: lighten($color-navy-blue,4%);
+
+
+
+		}
+		.item-label {
+
+		  position: absolute;
+		  top:0;
+		  left:0;
+		  right:0;
+		  bottom:0;
+		  z-index: 400;
+
+
+
+		}
+	  }
+	}
+
+
+
+
+
+
+  }
+
+}

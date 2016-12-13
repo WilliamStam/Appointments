@@ -1,0 +1,43 @@
+@import "./vendor/twbs/bootstrap-sass/assets/stylesheets/bootstrap/variables";
+@import "./vendor/twbs/bootstrap-sass/assets/stylesheets/bootstrap/mixins";
+@import "./vendor/components/font-awesome/scss/variables";
+$fa-font-path: "/vendor/components/font-awesome/fonts";
+
+@import "_variables.scss";
+
+// Additional variables
+$menu-width: 180px;
+$main-transition: all 0.1s ease-out 0s;
+
+
+
+@import "theme/style.scss";
+
+
+@import "bootstrap-datetimepicker.scss";
+@import "records.scss";
+//@import "ckeditor.scss";
+
+
+
+@import "carousel_tooltips.scss";
+@import "pagination.scss";
+@import "margins.scss";
+@import "modals.scss";
+
+@import "breadcrumbs.scss";
+@import "panels.scss";
+@import "toolbar.scss";
+
+@import "loadingmask.scss";
+//@import "codemirror.scss";
+@import "toastr.scss";
+
+@import "offcanvas.scss";
+
+@import "details_pane.scss";
+@import "list.scss";
+@import "navbar.scss";
+@import "page.scss";
+@import "forms.scss";
+@import "typeahead.scss";

@@ -1,0 +1,47 @@
+@import "/vendor/ivaynberg/select2/dist/css/select2.css";
+.select2-container {
+	.select2-selection--single, .select2-selection--multiple {
+		border-color : #e4e5e7 !important;
+		font-size    : 14px;
+		height       : 34px;
+		line-height  : 1.42857;
+
+	}
+;
+	.select2-selection--multiple {
+		height     : auto;
+		min-height : 36px;
+		.select2-selection__choice {
+			background-color : #fff;
+			margin-right     : 10px;
+			border           : none;
+			box-shadow       : 0 0 3px #ccc;
+			padding-right    : 8px;
+		}
+		.select2-selection__choice__remove {
+			margin-right : 5px !important;
+		}
+		input[placeholder] { width: 100% !important; }
+
+	}
+
+}
+
+.select2-container--default .select2-selection--single .select2-selection__arrow {
+	height : 32px;
+}
+
+.select2-selection__rendered {
+	padding-top : 2px;
+}
+
+.select2-search__field {
+	border-color : #e4e5e7 !important;
+}
+
+.select2-dropdown {
+	border-color  : rgba(0, 0, 0, 0.15);
+	border-radius : 4px;
+	box-shadow    : 0 6px 12px rgba(0, 0, 0, 0.176);
+}
+

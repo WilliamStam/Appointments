@@ -1,0 +1,180 @@
+<html>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>Test Page</title>
+<meta name="description" content="">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+
+<link rel="stylesheet" href="/ui/style.css">
+<link rel="stylesheet" href="/ui/front/_style.css">
+
+
+<body>
+
+<script>
+	console.log("--- START OF PAGE ---")
+</script>
+
+<section class="container">
+	<div class="row">
+		<div class="col-sm-6">
+			<section class="ad-server-advert-block">
+				<script type="text/javascript" class="ad-server-script">
+				!(function(key,module,options ){
+					var scriptNode   = document.createElement('script');
+					var PARAMS = arguments;
+					scriptNode.onload = function() {
+						if (typeof SCRIPT == "function") {
+							SCRIPT.apply(this, PARAMS);
+						}
+					};
+					scriptNode.src   = "//adverts.local/"+key+"/"+module+".js?"+Object.keys(options).map(function(k) {
+							if (typeof(options[k]) !== "function") return encodeURIComponent(k) + "=" + encodeURIComponent(options[k]);
+						}).join('&');
+					scriptNode.async = true;
+					document.scripts[ document.scripts.length - 1 ].parentNode.appendChild( scriptNode );
+				})("c4ca4238a0b923820dcc509a6f75849b","banner_250x250",{
+					"debugging":false,			// to enable debugging. check console
+					"advert":"", 				// advert ID either 123 or md5 of the ID
+					"keywords":"",				// keywords the site wants to pass to ad-server
+					"mustContain":"",			// adverts must contain these keywords
+					"mustNotContain":"",		// adverts must NOT contain these keywords
+					"onLoad":function(){		// function executed as the script is called
+
+						/* if the advert loads we add an attr to the parent tag that it loaded */
+						this.parentNode.setAttribute("data-loaded", "1");
+
+					},
+					"onAdvert":function(data,script){		// function executed right after the adverts script has been called	(when an advert is found)
+
+						/* we remove the "loading" text box */
+						this.parentNode.getElementsByClassName("advert-text")[0].remove();
+					},
+					"onEmpty":function(data){		// function executed when no advert is found
+
+						/* no advert found so we change the loading text to not found */
+						this.parentNode.getElementsByClassName("advert-text")[0].innerHTML = "no advert found - " + data.module.module;
+						this.parentNode.getElementsByClassName("advert-text")[0].className = "advert-text not-found";
+
+					},
+					"onEnd":function(){},		// function executed when the script has finished loading the advert and cleanup
+				});
+				</script>
+				<div class="advert-text">
+					Loading Advert
+				</div>
+			</section>
+		</div>
+		<div class="col-sm-6">
+
+			<section class="ad-server-advert-block">
+				<script type="text/javascript" class="ad-server-script">
+					!(function(key,module,options ){
+						var scriptNode   = document.createElement('script');
+						var PARAMS = arguments;
+						scriptNode.onload = function() {
+							if (typeof SCRIPT == "function") {
+								SCRIPT.apply(this, PARAMS);
+							}
+						};
+						scriptNode.src   = "//adverts.local/"+key+"/"+module+".js?"+Object.keys(options).map(function(k) {
+								if (typeof(options[k]) !== "function") return encodeURIComponent(k) + "=" + encodeURIComponent(options[k]);
+							}).join('&');
+						scriptNode.async = true;
+						document.scripts[ document.scripts.length - 1 ].parentNode.appendChild( scriptNode );
+					})("c4ca4238a0b923820dcc509a6f75849b","banner_250x250",{
+						"debugging":true,
+						"advert":"",
+						"keywords":"",
+						"mustContain":"",
+						"mustNotContain":"",
+						"onLoad":function(){		// function executed as the script is called
+
+							/* if the advert loads we add an attr to the parent tag that it loaded */
+							this.parentNode.setAttribute("data-loaded", "1");
+
+						},
+						"onAdvert":function(data,script){		// function executed right after the adverts script has been called	(when an advert is found)
+
+							/* we remove the "loading" text box */
+							this.parentNode.getElementsByClassName("advert-text")[0].remove();
+						},
+						"onEmpty":function(data){		// function executed when no advert is found
+
+							/* no advert found so we change the loading text to not found */
+							this.parentNode.getElementsByClassName("advert-text")[0].innerHTML = "no advert found - " + data.module.module;
+							this.parentNode.getElementsByClassName("advert-text")[0].className = "advert-text not-found";
+
+						},
+						"onEnd":function(){},		// function executed when the script has finished loading the advert and cleanup
+					});
+
+				</script>
+				<div class="advert-text">
+					Loading Advert
+				</div>
+			</section>
+		</div>
+	</div>
+</section>
+
+<script type="text/javascript">
+	!(function(key,module,options ){
+		var scriptNode   = document.createElement('script');
+		var PARAMS = arguments;
+		scriptNode.onload = function() {
+			if (typeof SCRIPT == "function") {
+				SCRIPT.apply(this, PARAMS);
+			}
+		};
+		scriptNode.src   = "//adverts.local/"+key+"/"+module+".js?"+Object.keys(options).map(function(k) {
+				if (typeof(options[k]) !== "function") return encodeURIComponent(k) + "=" + encodeURIComponent(options[k]);
+			}).join('&');
+		scriptNode.async = true;
+		document.scripts[ document.scripts.length - 1 ].parentNode.appendChild( scriptNode );
+	})("1","testing_stats_collecting",{"debugging":false});
+
+</script>
+
+<script>
+	function check_adverts(){
+		var adverts = document.getElementsByClassName("ad-server-advert-block");
+		for(var i = 0; i < adverts.length; i++){
+			var advert = adverts.item(i);
+			if (!advert.getAttribute("data-loaded")) {
+				advert.getElementsByClassName("advert-text")[0].className  = "advert-text error";
+				advert.getElementsByClassName("advert-text")[0].innerHTML  = "Advert Failed to load / ad blocker?";
+			}
+
+		}
+
+		console.log("advert count down")
+	}
+
+setTimeout(check_adverts,6000);
+
+	console.log("--- END OF PAGE ---")
+	console.log(performance.now())
+</script>
+<style>
+	.ad-server-block {
+		border:3px solid #f1f1f1;
+	}
+	.advert-text {
+		height:100px;
+		border:3px solid #ccc;
+		text-align: center;
+		line-height: 100px;
+	}
+	.advert-text.error {
+		border:3px solid red;
+		color:red;
+	}
+	.advert-text.not-found {
+
+		color:#ccc;
+	}
+</style>
+</body>
+</html>

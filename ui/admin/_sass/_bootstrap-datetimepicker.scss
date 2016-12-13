@@ -1,0 +1,52 @@
+@import "./vendor/twbs/bootstrap-sass/assets/stylesheets/bootstrap/variables";
+@import "./vendor/components/bootstrap-datetimepicker/src/sass/bootstrap-datetimepicker-build.scss";
+
+
+.bootstrap-datetimepicker-widget {
+	table td.day {
+		width: 30px;
+		border:1px solid #e4e5e7;
+	}
+	.timepicker-hour {
+		border:1px solid #e4e5e7;
+	}
+	.timepicker-minute {
+		border:1px solid #e4e5e7;
+	}
+} 
+
+
+.bootstrap-datetimepicker-widget table th {
+	width: 30px;
+}
+.table-condensed > thead > tr > th, .table-condensed > thead > tr > td, .table-condensed > tbody > tr > th, .table-condensed > tbody > tr > td, .table-condensed > tfoot > tr > th, .table-condensed > tfoot > tr > td {
+	padding:5px 10px;
+}
+.bootstrap-datetimepicker-widget {
+	width:100%;
+	.datepicker {
+		width:55%;
+	}
+	.timepicker {
+		padding-top:20px;
+		width:40%;
+
+	}
+	@media (max-width: $screen-xs-max) {
+		.datepicker {
+			width:100%;
+		}
+		.timepicker {
+			padding-top:20px;
+			width:100%;
+
+		}
+		
+		
+	}
+
+}
+.bootstrap-datetimepicker-widget table td.disabled, .bootstrap-datetimepicker-widget table td.disabled:hover {
+	color:#ccc;
+}
+

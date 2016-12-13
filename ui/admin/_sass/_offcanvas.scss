@@ -1,0 +1,68 @@
+// Bootstrap vars
+$screen-xs-max:                   767px !default;
+$offcanvas-media:                 $screen-xs-max!default;
+
+.offcanvas-strip-close {
+  display:none;
+}
+
+@media (max-width: $offcanvas-media) {
+	.offcanvas {
+	  position:fixed;
+	  top:100px;
+	  bottom:0px;
+
+	  z-index: 100;
+	  right:0;
+	  width:400px;
+
+	  &.in {
+		.offcanvas-inner {
+
+		  position:absolute;
+		  top:0;
+		  left:30px;
+		  right:0;
+		  bottom:0;
+		  box-shadow: 0 0 20px rgba(0, 0, 0, .3);
+		}
+		.offcanvas-strip-close {
+		  position:absolute;
+		  top:0;
+		  bottom:0;
+		  width:30px;
+		  cursor: pointer;
+		  display:block;
+		  background-color:rgba(250,250,250,0.4);
+		  i.fa {
+			font-size:20px;
+			position:absolute;
+			top:50%;
+			left:50%;
+			margin-left:-2px;
+			margin-top:-10px;
+		  }
+		  &:hover {
+			background-color:rgba(100,100,100,0.4)
+		  }
+		}
+
+	  }
+
+	  &.offcanvas-left {
+		left:-400px;
+		.offcanvas-strip-close {
+		  right:0;
+		}
+	  }
+	  &.offcanvas-right {
+		right:-400px;
+		.offcanvas-strip-close {
+		  left:0;
+		}
+	  }
+
+
+	}
+
+}

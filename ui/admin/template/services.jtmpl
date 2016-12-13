@@ -1,0 +1,125 @@
+<script type="text/x-jqote-template" id="template-form">
+	<![CDATA[
+
+	<div class="panel">
+		<div class="panel-heading built"><% if(this.ID){ %>Edit Record<% } else { %>New Record<% } %></div>
+		<div class="panel-body form-horizontal">
+
+			<div class="form-group">
+				<label for="label" class="col-sm-2 control-label">Label</label>
+				<div class="col-sm-10">
+					<input type="text" class="form-control" id="label" name="label" placeholder="Label" value="<%= this.label %>">
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label for="category" class="col-sm-2 control-label">Category</label>
+				<div class="col-sm-8">
+						<input type="text" class="form-control" id="category" name="category" placeholder="Category/Group" value="<%= this.category||'' %>" style="width:100%;">
+
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="duration" class="col-sm-2 control-label">Duration</label>
+				<div class="col-sm-5">
+					<div class="input-group">
+						<input type="text" class="form-control" id="duration" name="duration" placeholder="Time in minutes" value="<%= this.duration %>">
+						<span class="input-group-addon">Minutes</span>
+					</div>
+
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label for="duration" class="col-sm-2 control-label">Price</label>
+				<div class="col-sm-5">
+					<div class="input-group">
+						<span class="input-group-addon">R</span>
+						<input type="text" class="form-control" id="price" name="price" placeholder="Price" value="<%= this.price %>">
+
+					</div>
+
+				</div>
+			</div>
+
+
+		</div>
+		<div class="panel-footer">
+			<% if(this.ID){ %>
+
+			<button class="btn btn-danger" type="button" id="btn-delete-record" ><i class="fa fa-trash"></i></button>
+			<% } %>
+			<div class="pull-right">
+				<% if(this.ID){ %>
+				<button class="btn btn-link record" data-id="" type="button">New</button>
+				<% } %>
+				<button class="btn btn-primary" type="submit">Save</button>
+			</div>
+			<div class="clearfix"></div>
+		</div>
+	</div>
+
+	<div class="alert alert-info">
+		<p>
+			<strong>Note:</strong> Please refresh the page for the newly saved record to appear in the appointment form
+		</p>
+	</div>
+
+	]]>
+</script>
+
+<script type="text/x-jqote-template" id="template-list">
+	<![CDATA[
+	<div class="panel-heading p-n">
+		<form class="form-inline" role="search" id="filter-form" style="padding-bottom:5px;">
+
+			<div class="input-group" style="width:100%;">
+				<input type="text" class="form-control" placeholder="Search" name="search" id="search" value="<%= this.search %>">
+				<% if(this.search){ %>
+				<div class="input-group-btn" style="width: 37px; " id="btn-search-clear">
+					<button class="btn btn-link" type="reset"><i class="fa fa-close"></i></button>
+				</div>
+				<% } %>
+				<div class="input-group-btn" style="width: 37px;">
+					<button class="btn btn-default" type="submit"><i class="fa fa-search"></i></button>
+				</div>
+
+			</div>
+		</form>
+	</div>
+	<div class="panel-body p-n" >
+
+		<table class="table records" id="record-list">
+
+			<thead>
+			<tr>
+				<th>Name</th>
+				<th>Price</th>
+				<th>Duration</th>
+			</tr>
+			</thead>
+			<tbody>
+			<% for(var i in this.list){ %>
+			<tr class="heading" >
+				<td class="text-right" colspan="3"><%= this.list[i].label||'No Category' %></td>
+			</tr>
+				<% for(var g in this.list[i].records){ %>
+				<tr class="record " data-id="<%= this.list[i].records[g].ID %>">
+					<td><%= this.list[i].records[g].label %></td>
+					<td class="text-right font-light">R<%= this.list[i].records[g].price||'' %></td>
+					<td class="text-right font-light"><%= this.list[i].records[g].duration||'' %></td>
+				</tr>
+				<% } %>
+			<% } %>
+			</tbody>
+		</table>
+
+	</div>
+	<div class="panel-footer text-small text-center font-trans p-n"><%= this.list.length %> Records</div>
+
+
+
+
+
+	]]>
+</script>

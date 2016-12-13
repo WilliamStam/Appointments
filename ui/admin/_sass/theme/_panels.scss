@@ -1,0 +1,267 @@
+/* Panels */
+.panel > .panel-heading {
+  color: inherit;
+  font-weight: 600;
+  padding: 10px 4px;
+  transition: all .3s;
+  border: 1px solid transparent;
+}
+
+.panel .built.panel-heading {
+  border-bottom: none;
+}
+
+.panel > .panel-footer, .panel > .panel-section {
+  color: inherit;
+  border: 1px solid $border-color;
+  border-top: none;
+  font-size: 90%;
+  background: $color-bright;
+  padding: 10px 15px;
+}
+
+.panel.panel-collapse > .panel-heading, .panel .built {
+  background: #fff;
+  border-color: $border-color;
+  border: 1px solid $border-color;
+  padding: 10px 10px;
+  border-radius: 2px;
+}
+
+.panel .panel-body {
+  background: #fff;
+  border: 1px solid $border-color;
+  border-radius: 2px;
+  padding: 20px;
+  position: relative;
+}
+
+
+.panel.panel-group .panel-body:first-child {
+  border-top: 1px solid $border-color;
+}
+
+.panel.panel-group .panel-body {
+  border-top: none;
+}
+
+.panel-collapse .panel-body {
+  border: none;
+}
+
+.panel {
+  background-color: none;
+  border: none;
+  box-shadow: none;
+  margin-bottom: 25px;
+}
+
+.panel-tools {
+  display: inline-block;
+  float: right;
+  margin-top: 0;
+  padding: 0;
+  position: relative;
+}
+
+.panel .alert {
+  margin-bottom: 0;
+  border-radius: 0;
+  border: 1px solid $border-color;
+  border-bottom: none;
+}
+
+.panel-tools a {
+  margin-left: 5px;
+  color: lighten($color-text, 20%);
+  cursor: pointer;
+}
+
+.panel.green .panel-body {
+  border-top: 2px solid $color-green;
+}
+
+.panel.blue .panel-body {
+  border-top: 2px solid $color-blue;
+}
+
+.panel.yellow .panel-body {
+  border-top: 2px solid $color-yellow;
+}
+
+.panel.violet .panel-body {
+  border-top: 2px solid $color-violet;
+}
+
+.panel.orange .panel-body {
+  border-top: 2px solid $color-orange;
+}
+
+.panel.red .panel-body {
+  border-top: 2px solid $color-red;
+}
+
+.panel.reddeep .panel-body {
+  border-top: 2px solid $color-red-deep;
+}
+
+.panel.navyblue .panel-body {
+  border-top: 2px solid $color-navy-blue;
+}
+.panel.grey .panel-body {
+  border-top: 2px solid $color-grey;
+}
+
+.panel.bggreen .panel-body {
+  background: $color-green;
+  color: #fff;
+  border:none;
+}
+
+.panel.bgblue .panel-body {
+  background: $color-blue;
+  color: #fff;
+  border:none;
+}
+
+.panel.bgyellow .panel-body {
+  background: $color-yellow;
+  color: #fff;
+  border:none;
+}
+
+.panel.bgviolet .panel-body {
+  background: $color-violet;
+  color: #fff;
+  border:none;
+}
+
+.panel.bgorange .panel-body {
+  background: $color-orange;
+  color: #fff;
+  border:none;
+}
+
+.panel.bgred .panel-body {
+  background: $color-red;
+  color: #fff;
+  border:none;
+}
+
+.panel.bgreddeep .panel-body {
+  background: $color-red-deep;
+  color: #fff;
+  border:none;
+}
+
+.panel.bgnavyblue .panel-body {
+  background: $color-navy-blue;
+  color: #fff;
+  border:none;
+}
+
+.panel-group .panel-heading {
+  background-color: $color-bright;
+}
+
+.small-header .panel {
+  margin-bottom: 0;
+}
+
+.small-header {
+  padding: 0 !important;
+}
+
+.small-header .panel-body {
+  padding: 15px 25px;
+  border-right: none;
+  border-left: none;
+  border-top: none;
+  border-radius: 0;
+  //  background: $color-bright;
+}
+
+.panel-body h5, .panel-body h4 {
+  font-weight: 600;
+}
+
+.small-header .panel-body h2 {
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+  margin: 0 0 0 0;
+}
+
+.small-header .panel-body small {
+  color: lighten($color-text, 10%);
+}
+
+.breadcrumb {
+  padding: 2px 0px;
+  margin-top: 6px;
+  margin-bottom: 0px;
+  list-style: none;
+  background-color: #fff;
+  font-size: 11px;
+
+  > li {
+    display: inline-block;
+
+    + li:before {
+      padding: 0 5px;
+      color: $color-navy-blue;
+    }
+  }
+
+  > .active {
+    color: lighten($color-text,20%);
+  }
+}
+
+.wrapper {
+  padding: 10px 20px;
+}
+
+.panel.collapsed .panel-body, .panel.collapsed .panel-footer {
+  display: none;
+}
+
+.panel.collapsed .fa.fa-chevron-up:before {
+  content: "\f078";
+}
+.panel.collapsed .fa.fa-chevron-down:before {
+  content: "\f077";
+}
+
+.panel.collapsed.panel-collapse .panel-body {
+  border-width: 0 1px 1px 1px;
+  border-color: $border-color;
+  border-style: solid;
+}
+
+.panel.collapsed .built.panel-heading {
+  border-bottom: 1px solid $border-color;
+}
+
+body.fullscreen-panel-mode {
+  overflow-y: hidden;
+}
+
+.panel.fullscreen {
+  z-index: 2030;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: auto;
+  margin-bottom: 0;
+}
+
+.panel.fullscreen .showhide {
+  display: none;
+}
+
+.panel.fullscreen .panel-body {
+  min-height: calc(100% - 77px);
+}

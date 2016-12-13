@@ -1,0 +1,23 @@
+{
+  "name": "Appointments",
+  "version": "1.0.0",
+  "private": true,
+  "minimum-stability": "dev",
+  "devDependencies": {
+    "autoprefixer": "latest",
+    "autoprefixer-core": "latest",
+    "grunt": "latest",
+    "grunt-contrib-clean": "latest",
+    "grunt-contrib-concat": "latest",
+    "grunt-contrib-cssmin": "latest",
+    "grunt-contrib-less": "latest",
+    "grunt-contrib-uglify": "latest",
+    "grunt-contrib-watch": "latest",
+    "grunt-newer": "latest",
+    "grunt-postcss": "latest",
+    "grunt-sass": "latest",
+    "jit-grunt": "latest",
+    "load-grunt-config": "latest",
+    "time-grunt": "latest"
+  }
+}

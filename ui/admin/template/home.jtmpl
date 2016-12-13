@@ -1,0 +1,96 @@
+<script type="text/x-jqote-template" id="template-view-list">
+	<![CDATA[
+
+	<section id="view-list-area">
+		<div class="panel">
+
+			<div class="panel-body">
+				<div class="row font-extra-bold">
+					<div class="col-sm-1 col-xs-4">Time</div>
+					<div class="col-sm-1 col-xs-4">Duration</div>
+					<div class="col-sm-3 col-xs-12">Name</div>
+
+					<div class="col-sm-6">Services</div>
+				</div>
+			</div>
+		</div>
+
+		<% for (var i in this.list){ %>
+		<div class="panel <% if (this.list[i].label.status=='1'){ %>past<% } %> <% if (this.list[i].label.status=='0'){ %>blue<% } %>">
+			<div class="panel-heading built">
+				<%= this.list[i].label.day %>
+				<div class="panel-tools"><%= this.list[i].label.date %></div>
+			</div>
+			<div class="panel-body">
+
+
+				<% for (var g in this.list[i].records){ %>
+
+				<div class="row record-row <% if (this.list[i].records[g].past=='1'){ %>past<% } %> <% if (this.list[i].records[g].active=='1'){ %>active<% } %> appointment-row" data-id="<%= this.list[i].records[g].ID %>">
+					<div class="col-sm-1 col-xs-6">
+						<% if (this.list[i].records[g].past=='1'){ %>
+						<em><%= this.list[i].records[g].time.start_view %></em>
+						<% } else { %>
+						<span class="badge <% if (this.list[i].records[g].active=='1'){ %>badge-primary<% } else { %>badge-default<% } %>">
+							<strong><%= this.list[i].records[g].time.start_view %></strong>
+						</span>
+						<% } %>
+
+					</div>
+					<div class="col-sm-1 col-xs-6"><%= this.list[i].records[g].duration_view %></div>
+					<div class="col-sm-3"><%= this.list[i].records[g].client.first_name %> <%= this.list[i].records[g].client.last_name||'' %></div>
+
+					<div class="col-sm-6">
+						<ul>
+							<% for(var h in this.list[i].records[g].services){ %>
+							<li >
+								<% if (this.list[i].records[g].services[h].staff){ %>
+								<small class="pull-right"><%= this.list[i].records[g].services[h].staff.first_name %> <%= this.list[i].records[g].services[h].staff.last_name %></small>
+								<% } %>
+								<%= this.list[i].records[g].services[h].label %> <% if(this.list[i].records[g].services[h].category){ %> <small>(<%= this.list[i].records[g].services[h].category %>)</small><% } %>
+							</li>
+							<% } %>
+						</ul>
+					</div>
+				</div>
+
+				<% } %>
+
+
+
+			</div>
+			<div class="panel-footer">
+
+
+				<div class="row text-center">
+					<div class="col-xs-6"><strong><%= this.list[i].records.length %></strong> <em>Appointments</em></div>
+					<div class="col-xs-6"><strong><%= this.list[i].label.duration_view %></strong> <em>Duration</em></div>
+				</div>
+			</div>
+		</div>
+		<% } %>
+
+
+	</section>
+
+	]]>
+</script>
+
+<script type="text/x-jqote-template" id="template-view-day">
+	<![CDATA[
+
+<h3>day view</h3>
+	<div id="calendar"></div>
+
+
+	]]>
+</script>
+<script type="text/x-jqote-template" id="template-view-calendar">
+	<![CDATA[
+
+<h3>calendar view</h3>
+	<div id="calendar"></div>
+
+
+	]]>
+</script>

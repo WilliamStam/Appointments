@@ -1,0 +1,34 @@
+#carousel-appointments .carousel-inner {
+  padding-left: 60px;
+  padding-right: 60px; }
+
+#carousel-appointments .carousel-control {
+  background: none;
+  color: #ccc;
+  text-shadow: none; }
+
+#view-list-area .panel.past .panel-heading {
+  color: #b4b4b4; }
+
+#view-list-area .panel-body {
+  padding-top: 0;
+  padding-bottom: 0; }
+  #view-list-area .panel-body .record-row {
+    cursor: pointer;
+    border-bottom: 1px dotted #ccc;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    padding-top: 5px;
+    padding-bottom: 5px; }
+    #view-list-area .panel-body .record-row:last-child {
+      border-bottom: none; }
+    #view-list-area .panel-body .record-row:hover {
+      background-color: #395168;
+      color: #fff; }
+    #view-list-area .panel-body .record-row.past {
+      color: #b4b4b4; }
+    #view-list-area .panel-body .record-row.active {
+      font-weight: bold; }
+    #view-list-area .panel-body .record-row ul {
+      margin: 0;
+      padding-left: 15px; }

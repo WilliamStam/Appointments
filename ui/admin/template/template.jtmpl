@@ -1,0 +1,702 @@
+<script type="text/x-jqote-template" id="template-timers-tr">
+	<![CDATA[
+
+	<% if(this.msg!="Page Execute: "){ %>
+	<tr>
+		<td><%= this.msg %>
+			<div class="s g"><%= this.arg %></div>
+		</td>
+		<% if (this.tim > 0.5) { %>
+		<td style="color: red;"><%= this.tim %></td>
+		<% } else { %>
+		<td><%= this.tim %></td>
+		<% } %>
+
+	</tr>
+	<% } %>
+
+	]]>
+</script>
+<script type="text/x-jqote-template" id="template-timers-tr-models">
+	<![CDATA[
+
+	<tr style="background-color:#f1f1f1; ">
+		<td><%= this.k %></td>
+		<td style="width: 90px; <% if ( this.t > 0.5 ) { %>color: red;<% } %>"><%= this.t %></td>
+	</tr>
+	<% for(var i in this.m) { %>
+	<tr class="btn-row-details ">
+		<td class="s <% if (this.m[i].c > 1) { %>text-danger<% } %>">
+			<%= this.m[i].c %>&nbsp;|&nbsp;<%= this.m[i].l %>
+		</td>
+		<td class="s <% if (this.m[i].t > 0.5) { %>text-danger<% } %>">
+			<%= this.m[i].t %>
+		</td>
+	</tr>
+	<tr class="row-details">
+		<td colspan="2">
+			<% for(var g in this.m[i].m) { %>
+			<div class="clearfix"></div>
+			<div class="pull-right f10" style="<% if ( this.m[i].m[g].tim > 0.5 ) { %>color: red;<% } %>"><%=
+				this.m[i].m[g].tim %>
+			</div>
+			<div class="dg f10">
+				<div class="">
+					<%= this.m[i].m[g].arg.file %> : <%= this.m[i].m[g].arg.line %><br>
+					<em><%= this.m[i].m[g].arg.class %>-><%= this.m[i].m[g].arg.function %>(<%= this.m[i].m[g].arg.args
+						%>)</em>
+				</div>
+				<% if (this.m[i].m[g].bt) { %>
+				<div style="margin-left:30px;" class="g f9 border-top">
+
+					<%= this.m[i].m[g].bt.file %> : <%= this.m[i].m[g].bt.line %><br>
+					<em style="margin-left: 10px;"><%= this.m[i].m[g].bt.class %>-><%= this.m[i].m[g].bt.function %>(<%=
+						this.m[i].m[g].bt.args %>)</em>
+
+
+				</div>
+				<% } %>
+
+			</div>
+			<% } %>
+		</td>
+	</tr>
+
+	<% } %>
+
+
+	]]>
+</script>
+<script type="text/x-jqote-template" id="template-pagination">
+	<![CDATA[
+
+
+	<ul class="pagination pagination-sm" style="margin:0;">
+		<% if(!this.hide_fast_jump){ %>
+		<li data-page="1"
+		<% if ('1'==this.current) { %>class="disabled"<% } %>>
+		<a href="#">«</a>
+		</li>
+		<% } %>
+		<li data-page="<%= this.previous %>"
+		<% if ('1'==this.current) { %>class="disabled"<% } %>>
+		<a href="#"><</a>
+		</li>
+		<% for(var i in this.pages) { %>
+		<li data-page="<%= this.pages[i].p %>"
+				class="<% if (this.current==this.pages[i].p) { %>active<% } %>">
+			<a href="#"><%= this.pages[i].p %></a>
+		</li>
+		<% } %>
+		<li data-page="<%= this.next %>"
+		<% if (this.last==this.current) { %>class="disabled"<% } %>>
+		<a href="#">></a>
+		</li>
+		<% if(!this.hide_fast_jump){ %>
+		<li data-page="<%= this.last %>"
+		<% if (this.last==this.current) { %>class="disabled"<% } %>>
+		<a href="#">»</a>
+		</li>
+		<% } %>
+	</ul>
+
+
+	]]>
+</script>
+
+<script type="text/x-jqote-template" id="template-modal-form-appointment">
+	<![CDATA[
+
+
+	<div class="modal-dialog" role="document" id="form-appointment">
+		<div class="modal-content">
+			<div class="modal-header">
+
+
+				<div class="btn-group pull-right" style="margin-right:-20px;">
+					<a class="btn btn-default appointment-row" href="#" data-id="<%= this.details.ID %>">
+						<i class="fa fa-arrow-left "></i>
+
+					</a>
+					<a class="btn btn-default" href="#" data-dismiss="modal" aria-label="Close">
+						<i class="fa fa-close "></i>
+					</a>
+
+
+				</div>
+
+				<h4 class="modal-title"><% if(this.details.ID){ %>Edit <% } else { %>Add <% } %>
+					<small> - Appointment</small>
+				</h4>
+			</div>
+			<div class="modal-body" style="padding:0 10px 10px 10px;">
+
+				<div class="panel">
+					<div class="panel-body no-border">
+						<div class="form-group has-feedback">
+							<input type="text" name="client-search" class="form-control" id="client-search" placeholder="Client name or phone number" value="">
+							<span class="fa fa-search form-control-feedback" style="margin-top:10px; right:0;" aria-hidden="true"></span>
+						</div>
+						<table class="table table-condensed" id="client-select-area"></table>
+
+					</div>
+
+
+					<div class="btn-group btn-group-justified">
+						<a href="#" class="btn btn-info btn-outline client-edit-btn" data-id="">
+							<i class="fa fa-plus"></i> New Client
+						</a>
+						<a href="#" class="btn btn-info btn-outline form-modal-forms-btn" data-form="walkin-form">
+							<i class="fa fa-blind"></i> Walk-In
+						</a>
+					</div>
+				</div>
+
+				<section class="forms" id="client-form"><%= $.jqote($("#template-form-client"),this) %></section>
+				<section class="forms" id="walkin-form"><%= $.jqote($("#template-form-walkin"),this) %></section>
+				<section class="forms" id="appointment-form"><%= $.jqote($("#template-form-appointment"),this) %>
+				</section>
+
+
+			</div>
+
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+
+
+	]]>
+</script>
+
+
+<script type="text/x-jqote-template" id="template-form-appointment">
+	<![CDATA[
+
+
+	<form action="#" id="form-appointment-capture">
+		<div class="panel blue form-group">
+			<div class="panel-heading ">Client
+				<div class="panel-tools"></div>
+			</div>
+			<div class="panel-body no-border " id="client-area-form">
+
+			</div>
+			<input type="hidden" name="clientID" id="clientID" value="<%= this.details.clientID %>">
+
+			<% if(this.details.clientID){ %>
+			<% setClient(this.details.clientID); %>
+			<% } %>
+
+		</div>
+
+		<div class="panel blue form-group">
+			<div class="panel-heading ">Appointment
+				<div class="panel-tools"></div>
+			</div>
+			<div class="panel-body no-border ">
+
+				<div class="row">
+					<div class="col-sm-12">
+
+						<div id="appointmentStart-inline"></div>
+						<input type="hidden" value="<%= this.details.appointmentStart %>" id="appointmentStart" name="appointmentStart" class="form-control">
+					</div>
+				</div>
+
+			</div>
+		</div>
+
+		<div class="panel blue form-group">
+			<div class="panel-heading ">Services
+				<div class="panel-tools"></div>
+			</div>
+			<div class="panel-body no-border ">
+
+				<section id="services-area">
+
+
+					<%= $.jqote($("#template-appointment-services-area-item"),this.details.services) %>
+
+
+				</section>
+				<div style="border-top:1px solid #ccc; margin-top:5px; margin-bottom:5px;">
+
+				</div>
+
+				<div class="row">
+					<div class="col-xs-8">
+						<button class="btn btn-outline btn-primary2 btn-new-service" type="button">
+							<i class="fa fa-plus"></i> Add a service
+						</button>
+					</div>
+					<div class="col-xs-2 text-right">
+						<p class="form-control-static">
+							Duration:
+						</p>
+
+					</div>
+					<div class="col-xs-2">
+						<p class="form-control-static" id="services-area-duration" style="font-weight:bold;">
+
+						</p>
+					</div>
+
+
+				</div>
+
+				<div class="row">
+					<div class="col-xs-12 text-center">
+						<h2 style="padding-top:20px;">End time:
+							<span id="appointmentEnd" style="font-weight:bold;"></span></h2>
+
+					</div>
+
+				</div>
+
+
+				<div>
+
+				</div>
+
+
+			</div>
+		</div>
+
+
+		<div class="panel blue form-group">
+			<div class="panel-heading ">Notes
+				<div class="panel-tools"></div>
+			</div>
+			<div class="panel-body no-border ">
+
+
+				<div class="row">
+					<div class="col-sm-12">
+
+									<textarea name="notes" id="notes" cols="30" rows="5" class="form-control" placeholder="Notes. Only visible to staff">
+										<%= this.details.notes||'' %>
+									</textarea>
+					</div>
+				</div>
+
+
+			</div>
+		</div>
+
+
+		<div class="modal-footer" style="margin:-10px;">
+			<button type="submit" class="btn btn-primary">Save changes</button>
+		</div>
+
+	</form>
+
+
+	]]>
+</script>
+
+
+<script type="text/x-jqote-template" id="template-appointment-services-area-item">
+	<![CDATA[
+	<% var co = this.recordID||"new-"+document.getElementsByClassName("service-group").length; %>
+
+	<div class="row input-groups service-group">
+		<input type="hidden" name="services[records][]" value="<%= co %>">
+		{% if _staff|length %}
+			<div class="col-xs-5 group-item">
+				<select name="services[<%= co %>][staffID]" id="staffID-<%= co %>" class="form-control" style="width:100%">
+					<option value="">
+						Anyone
+					</option>
+					{% for row in _staff %}
+						<option value="{{ row['ID'] }}" style="width:100%" <% if(this.staff && this.staff.ID=="{{ row['ID'] }}"){ %>selected="selected"<% } %>>
+						{{ row['first_name'] }} {{ row['last_name'] }}
+						</option>
+					{% endfor %}
+				</select>
+			</div>
+
+		{% endif %}
+		<div class="col-xs-{% if _staff|length > 1 %}5{% else %}10{% endif %} group-item">
+			<select name="services[<%= co %>][serviceID]" id="serviceID-<%= co %>" class="form-control services-select" style="width:100%">
+				<option value="" data-duration-view="">
+					Service
+				</option>
+				{% for group in _services %}
+					<optgroup label="{{ group['label'] }}">
+						{% for row in group['records'] %}
+
+							<option value="{{ row['ID'] }}" style="width:100%" data-duration="{{ row['duration'] }}" data-duration-view="{{ row['duration_view'] }}"  <% if(this.ID=="{{ row['ID'] }}"){ %>selected="selected"<% } %>>
+							{{ row['label'] }}
+							</option>
+
+						{% endfor %}
+					</optgroup>
+
+				{% endfor %}
+			</select>
+		</div>
+
+		<div class="col-xs-2">
+			<p class="form-control-static">
+
+			</p>
+
+
+		</div>
+
+
+	</div>
+
+
+	]]>
+</script>
+
+
+<script type="text/x-jqote-template" id="template-form-client">
+	<![CDATA[
+
+
+	<form action="#" id="form-client-capture">
+
+		<div class="panel orange">
+			<div class="panel-heading ">Client Details
+				<div class="panel-tools"></div>
+			</div>
+			<div class="panel-body no-border">
+
+
+				<div class="row">
+					<div class="col-sm-6">
+						<div class="form-group">
+							<label class="control-label" for="first_name">
+								<abbr title="required">*</abbr> First name
+							</label>
+							<input class="form-control" placeholder="e.g. John" type="text" name="first_name" id="first_name" style="" value="<%= this.details.first_name||'' %>">
+						</div>
+					</div>
+					<div class="col-sm-6">
+						<div class="form-group">
+							<label class="control-label" for="last_name">
+								Last name
+							</label>
+							<input class="form-control" placeholder="e.g. Doe" type="text" name="last_name" id="last_name" value="<%= this.details.last_name||'' %>">
+						</div>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-sm-6">
+						<div class="form-group">
+							<label class="control-label" for="mobile_number">
+								<abbr title="required">*</abbr> Mobile Number
+							</label>
+
+							<div class="input-group">
+									<span class="input-group-addon" title="Send notifications here">
+										<input type="checkbox" name="mobile_number_notification" id="mobile_number_notification" value="1">
+									</span>
+								<input class="form-control" placeholder="072 123 4567" type="text" name="mobile_number" id="mobile_number" style="" value="<%= this.details.mobile_number||'' %>">
+							</div>
+
+
+						</div>
+					</div>
+					<div class="col-sm-6">
+						<div class="form-group">
+							<label class="control-label" for="email">
+								E-mail
+							</label>
+							<div class="input-group">
+								<span class="input-group-addon" title="Send notifications here">
+									<input type="checkbox" name="email_notification" id="email_notification" value="1">
+								</span>
+								<input class="form-control" placeholder="mail@example.com" type="text" name="email" id="email" value="<%= this.details.email||'' %>">
+							</div>
+
+						</div>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-sm-12">
+						<label class="control-label" for="notes">
+							Client Notes
+						</label>
+						<textarea name="notes" id="notes" cols="30" rows="5" class="form-control"
+								placeholder="Client Notes. Only visible to staff">
+								<%= this.details.notes||'' %>
+							</textarea>
+
+					</div>
+				</div>
+
+
+			</div>
+
+
+		</div>
+
+
+		<div class="modal-footer" style="margin:-10px;">
+			<button type="reset" class="btn btn-link">Cancel</button>
+			<button type="submit" class="btn btn-primary">Save changes</button>
+		</div>
+
+	</form>
+
+
+	]]>
+</script>
+
+
+<script type="text/x-jqote-template" id="template-form-walkin">
+	<![CDATA[
+
+
+	<form action="#" id="form-client-capture">
+
+		<div class="panel orange">
+			<div class="panel-heading ">Walk-In Client
+				<div class="panel-tools"></div>
+			</div>
+			<div class="panel-body no-border">
+
+
+			</div>
+
+
+		</div>
+
+
+		<div class="modal-footer" style="margin:-10px;">
+			<button type="reset" class="btn btn-link">Cancel</button>
+			<button type="submit" class="btn btn-primary">Save changes</button>
+		</div>
+
+	</form>
+
+
+	]]>
+</script>
+
+
+<script type="text/x-jqote-template" id="template-client-form-display">
+	<![CDATA[
+
+
+	<div class="row">
+		<div class="col-sm-9">
+			<h3>
+				<%= this.details.first_name %> <%= this.details.last_name %>
+			</h3>
+			<div>
+				<%= this.details.mobile_number||'' %>
+			</div>
+		</div>
+		<div class="col-xs-3">
+			<div class="btn-group-vertical" style="width:100%">
+				<% if(this.details.ID && this.details.ID != "walkin"){ %>
+				<a href="#" class="btn btn-default client-edit-btn" data-form="client-form" data-id="<%= this.details.ID %>">
+					<i class="fa fa-pencil"></i> Edit Client
+				</a>
+				<% } %>
+				<a href="#" class="btn btn-default client-edit-btn" data-id=""><i class="fa fa-plus"></i> New Client</a>
+				<a href="#" class="btn btn-default form-modal-forms-btn" data-form="walkin-form">
+					<i class="fa fa-blind"></i> Walk-In
+				</a>
+
+			</div>
+
+		</div>
+	</div>
+
+
+	]]>
+</script>
+
+<script type="text/x-jqote-template" id="template-client-list">
+	<![CDATA[
+
+	<tbody>
+	<% for(var i in this.list){ %>
+	<tr class="record client-record" data-id="<%= this.list[i].ID %>">
+		<td><%= this.list[i].first_name %></td>
+		<td><%= this.list[i].last_name %></td>
+		<td><%= this.list[i].mobile_number %></td>
+	</tr>
+
+	<% } %>
+
+	</tbody>
+	<tfoot>
+	<% if(this.list.length){ %>
+	<tr>
+		<td colspan="3" class="clear-client-search" style="color: #ccc; cursor: pointer">clear search</td>
+	</tr>
+
+	<% }%>
+	</tfoot>
+
+
+	]]>
+</script>
+
+<script type="text/x-jqote-template" id="template-modal-appointment">
+	<![CDATA[
+
+
+	<div class="modal-dialog" role="document" id="details-appointment">
+		<div class="modal-content">
+			<div class="modal-header">
+
+
+				<div class="btn-group pull-right" style="margin-right:-20px;">
+					<a class="btn btn-default form-appointment-btn" href="#" data-id="<%= this.ID %>">
+						<i class="fa fa-pencil "></i>
+
+					</a>
+					<a class="btn btn-default" href="#" data-dismiss="modal" aria-label="Close">
+						<i class="fa fa-close "></i>
+					</a>
+
+
+				</div>
+
+
+				<div class="modal-title">
+					<%= this.label.main %>
+					<small style="margin-left:30px;"><%= this.label.small %></small>
+				</div>
+
+
+			</div>
+			<div class="modal-body" style="padding:10px;">
+
+				<div id="agenda-view">
+
+
+					<div id="agenda-view-area" style="left:-<%= this.agenda.settings.l %>%;right:-<%= this.agenda.settings.r %>%;">
+
+						<div id="agenda-view-hours">
+							{% for i in 0..23 %}
+							<div class="agenda-hour" style="width:<%= this.agenda.settings.width %>%">
+								{{ i }}:00
+							</div>
+							{% endfor %}
+						</div>
+						<div id="agenda-items">
+							<% for(var i in this.agenda.items){ %>
+							<div class="agenda-item <% if(this.agenda.items[i].current=='1'){ %>current<% } %>" style="left:<%= this.agenda.items[i].l %>%;right:<%= this.agenda.items[i].r %>%;">
+								<div class="item-label" title="<%= this.agenda.items[i].label %>">
+
+
+								</div>
+
+							</div>
+							<% } %>
+
+						</div>
+					</div>
+				</div>
+
+				<div class="row" style="margin-top:15px;">
+					<div class="col-sm-6">
+
+						<div style="padding:0 10px;">
+							<h3><%= this.client.first_name %> <%= this.client.last_name||'' %></h3>
+							<% if(this.client.ID){ %>
+							<hr>
+							<% if(this.client.mobile_number){ %>
+							<div>
+								<%= this.client.mobile_number %> <% if(this.client.mobile_number_notification==1){ %>
+								*<% } %>
+							</div>
+							<% } %>
+							<% if(this.client.email){ %>
+							<div>
+								<%= this.client.email %> <% if(this.client.email_notification==1){ %> *<% } %>
+							</div>
+							<% } %>
+							<% } %>
+							<% if (this.notes){ %>
+							<hr>
+							<div>
+								<%= this.notes %>
+							</div>
+							<% } %>
+						</div>
+
+
+					</div>
+					<div class="visible-xs-block">
+						<hr>
+					</div>
+					<div class="col-sm-6" id="services-column">
+						<h4>Services</h4>
+						<ul class="list-group">
+							<% for(var i in this.services){ %>
+							<li class="list-group-item heading text-right"><%= this.services[i].label %></li>
+							<% for(var g in this.services[i].records){ %>
+							<li class="list-group-item">
+								<span class="badge"><%= this.services[i].records[g].duration_view %></span>
+								<%= this.services[i].records[g].label %>
+
+								<% if(this.services[i].records[g].staff){ %>
+								<div style="font-size: smaller">
+									(<%= this.services[i].records[g].staff.first_name %> <%=
+									this.services[i].records[g].staff.last_name %>)
+								</div>
+
+								<% } %>
+							</li>
+							<% } %>
+							<% } %>
+
+						</ul>
+
+						<div class="row text-center">
+							<div class="col-xs-6">
+								<h4>
+									<small><em>Total:</em></small>
+									<%= this.duration_view %>
+								</h4>
+							</div>
+							<div class="col-xs-6">
+								<h4>
+									<small><em>End: </em></small>
+									<%= this.time.end_view %>
+								</h4>
+							</div>
+						</div>
+
+
+					</div>
+				</div>
+
+
+			</div>
+
+			<div class="modal-footer">
+
+				<div class="row">
+					<div class="col-sm-8 text-left">
+						<a class="btn btn-default form-appointment-btn" href="#" data-id="<%= this.ID %>">
+							<i class="fa fa-pencil "></i>
+						</a>
+
+					</div>
+					<div class="col-sm-4">
+						<div class="btn-group btn-group-justified">
+							<a href="#" class="btn btn-default" type="button" disabled><i class="fa fa-arrow-circle-left"></i>
+							</a>
+							<a href="#" class="btn btn-default" type="button"><i class="fa fa-arrow-circle-right"></i>
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	]]>
+</script>

@@ -1,0 +1,38 @@
+
+#page-content {
+	padding:60px 0 0 0;
+}
+html {
+	margin: 0;
+	padding: 0;
+
+	//overflow-x: hidden!important;
+}
+
+body {
+
+	background-color: $color-background;
+	font-size: 13px;
+	color: $color-text;
+	margin: 0;
+	padding: 0;
+
+}
+//@import url("https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700");
+
+body.load-font {
+  font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.section-row {
+	margin:0 -15px;
+}
+@media (max-width : 767px) {
+
+	.section-row {
+		margin:0;
+		#left-area, #right-area {
+			padding:0;
+		}
+	}
+}

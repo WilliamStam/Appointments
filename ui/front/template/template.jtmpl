@@ -1,0 +1,120 @@
+<script type="text/x-jqote-template" id="template-timers-tr">
+	<![CDATA[
+	
+	<% if(this.msg!="Page Execute: "){ %>
+	<tr>
+		<td><%= this.msg %>
+			<div class="s g"><%= this.arg %></div>
+		</td>
+		<% if (this.tim > 0.5) { %>
+		<td style="color: red;"><%= this.tim %></td>
+		<% } else { %>
+		<td><%= this.tim %></td>
+		<% } %>
+	
+	</tr>
+	<% } %>
+	
+	]]>
+</script>
+<script type="text/x-jqote-template" id="template-timers-tr-models">
+	<![CDATA[
+	
+	<tr style="background-color:#f1f1f1; ">
+		<td><%= this.k %></td>
+		<td style="width: 140px; <% if ( this.t > 0.5 ) { %>color: red;<% } %>"><%= this.t %></td>
+	</tr>
+	<% for(var i in this.m) { %>
+	<tr class="btn-row-details ">
+		<td class="s <% if (this.m[i].c > 1) { %>text-danger<% } %>">
+			<%= this.m[i].c %>&nbsp;|&nbsp;<%= this.m[i].l %>
+		</td>
+		<td class="s <% if (this.m[i].t > 0.5) { %>text-danger<% } %>">
+			<%= this.m[i].t %>
+		</td>
+	</tr>
+	<tr class="row-details">
+		<td colspan="2">
+			<% for(var g in this.m[i].m) { %>
+			<div class="clearfix"></div>
+			<div class="pull-right f10" style="<% if ( this.m[i].m[g].tim > 0.5 ) { %>color: red;<% } %>"><%=
+				this.m[i].m[g].tim %>
+			</div>
+			<div class="dg f10">
+				<div class="">
+					<%= this.m[i].m[g].arg.file %> : <%= this.m[i].m[g].arg.line %><br>
+					<em><%= this.m[i].m[g].arg.class %>-><%= this.m[i].m[g].arg.function %>(<%= this.m[i].m[g].arg.args
+						%>)</em>
+				</div>
+				<% if (this.m[i].m[g].bt) { %>
+				<div style="margin-left:30px;" class="g f9 border-top">
+					
+					<%= this.m[i].m[g].bt.file %> : <%= this.m[i].m[g].bt.line %><br>
+					<em style="margin-left: 10px;"><%= this.m[i].m[g].bt.class %>-><%= this.m[i].m[g].bt.function %>(<%=
+						this.m[i].m[g].bt.args %>)</em>
+				
+				
+				</div>
+				<% } %>
+			
+			</div>
+			<% } %>
+		</td>
+	</tr>
+	
+	<% } %>
+	
+	
+	]]>
+</script>
+
+<script type="text/x-jqote-template" id="template-ward-details">
+	<![CDATA[
+	<% if (this.name){ %>
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title">Ward: <%= this.name %></h4>
+			</div>
+			<div class="modal-body" style="position: relative;">
+				<div id="map-area-modal-bg"><div id="leaflet-modal"></div></div>
+				
+				<div style="height:100px;">
+					ssss
+				</div>
+				
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				<button type="button" class="btn btn-primary">Save changes</button>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+	
+	<% } else { %>
+	<form class="intro-form-block address-lookup-form" >
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title">Please enter an address</h4>
+			</div>
+			<div class="modal-body" style="position: relative;">
+				
+					<input type="text" class="form-control" id="address"  name="address" placeholder="16B Joubert Street, Louis Trichardt">
+						
+				
+			
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				<button type="submit" class="btn btn-primary">Go</button>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+	</form>
+	<% } %>
+
+]]>
+</script>

@@ -1,0 +1,56 @@
+@import "../_sass/variables.scss";
+#carousel-appointments {
+
+  .carousel-inner {
+	padding-left:60px;
+	padding-right:60px;
+  }
+
+  .carousel-control{
+	background: none;
+	color:#ccc;
+	text-shadow:none;
+  }
+}
+
+
+#view-list-area {
+  .panel {
+	&.past {
+	  .panel-heading {
+		color:#b4b4b4;
+	  }
+	}
+  }
+  .panel-body {
+	padding-top:0;
+	padding-bottom:0;
+	.record-row {
+	  cursor:pointer;
+	  border-bottom:1px dotted #ccc;
+	  margin-top:5px;
+	  margin-bottom:5px;
+	  padding-top:5px;
+	  padding-bottom:5px;
+	  &:last-child {
+		border-bottom:none;
+	  }
+	  &:hover {
+		background-color: lighten($color-navy-blue, 3%);
+		color:#fff;
+	  }
+	  &.past {
+		color: #b4b4b4;
+	  }
+	  &.active {
+		font-weight:bold;
+
+	  }
+
+	  ul {
+		margin:0;
+		padding-left:15px;
+	  }
+	}
+  }
+}

@@ -1,0 +1,193 @@
+{
+  "name": "WilliamStam/Ad-Server",
+  "description": "Appointments",
+  "minimum-stability": "stable",
+  "license": "proprietary",
+  "authors": [
+    {
+      "name": "William Stam",
+      "email": "william@impreshin.com"
+    }
+  ],
+  "config": {
+    "optimize-autoloader": true
+  },
+  "repositories": [
+    {
+      "type": "package",
+      "package": {
+        "name": "components/jquery-hotkeys",
+        "version": "dev-master",
+        "source": {
+          "url": "https://github.com/jeresig/jquery.hotkeys",
+          "type": "git",
+          "reference": "origin/master"
+        }
+      }
+    },
+    {
+      "type": "package",
+      "package": {
+        "name": "components/jquery-mousewheel",
+        "version": "dev-master",
+        "source": {
+          "url": "https://github.com/jquery/jquery-mousewheel/",
+          "type": "git",
+          "reference": "origin/master"
+        }
+      }
+    },
+    
+    {
+      "type": "package",
+      "package": {
+        "name": "components/jQote2",
+        "version": "dev-master",
+        "source": {
+          "url": "https://github.com/aefxx/jQote2",
+          "type": "git",
+          "reference": "origin/master"
+        }
+      }
+    },
+    {
+      "type": "package",
+      "package": {
+        "name": "components/TouchSwipe-Jquery-Plugin",
+        "version": "dev-master",
+        "source": {
+          "url": "https://github.com/mattbryson/TouchSwipe-Jquery-Plugin",
+          "type": "git",
+          "reference": "origin/master"
+        }
+      }
+    },
+    {
+      "type": "package",
+      "package": {
+        "name": "components/bootstrap-datetimepicker",
+        "version": "dev-master",
+        "source": {
+          "url": "https://github.com/Eonasdan/bootstrap-datetimepicker",
+          "type": "git",
+          "reference": "origin/master"
+        }
+      }
+    },
+    {
+      "type": "package",
+      "package": {
+        "name": "components/smartmenus",
+        "version": "dev-master",
+        "source": {
+          "url": "https://github.com/vadikom/smartmenus",
+          "type": "git",
+          "reference": "origin/master"
+        }
+      }
+    },
+    {
+      "type": "package",
+      "package": {
+        "name": "components/daterangepicker",
+        "version": "dev-master",
+        "source": {
+          "url": "https://github.com/dangrossman/bootstrap-daterangepicker",
+          "type": "git",
+          "reference": "origin/master"
+        }
+      }
+    },
+    {
+      "type": "package",
+      "package": {
+        "name": "components/HideSeek",
+        "version": "dev-master",
+        "source": {
+          "url": "https://github.com/vdw/HideSeek",
+          "type": "git",
+          "reference": "origin/master"
+        }
+      }
+    },
+    {
+      "type": "package",
+      "package": {
+        "name": "components/toastr",
+        "version": "dev-master",
+        "source": {
+          "url": "https://github.com/CodeSeven/toastr",
+          "type": "git",
+          "reference": "origin/master"
+        }
+      }
+    },
+    {
+      "type": "package",
+      "package": {
+        "name": "components/nicescroll",
+        "version": "dev-master",
+        "source": {
+          "url": "https://github.com/inuyaksa/jquery.nicescroll",
+          "type": "git",
+          "reference": "origin/master"
+        }
+      }
+    },
+    {
+      "type": "package",
+      "package": {
+        "name": "codemirror/CodeMirror",
+        "version": "dev-master",
+        "source": {
+          "url": "https://github.com/codemirror/CodeMirror",
+          "type": "git",
+          "reference": "origin/master"
+        }
+      }
+    },
+    {
+      "type": "package",
+      "package": {
+        "name": "components/Bootstrap-Offcanvas",
+        "version": "dev-master",
+        "source": {
+          "url": "https://github.com/iamphill/Bootstrap-Offcanvas",
+          "type": "git",
+          "reference": "origin/master"
+        }
+      }
+    },
+    {
+      "type": "package",
+      "package": {
+        "name": "components/FullCalendar",
+        "version": "dev-master",
+        "source": {
+          "url": "https://github.com/fullcalendar/fullcalendar",
+          "type": "git",
+          "reference": "origin/master"
+        }
+      }
+    }
+  ],
+  "require": {
+    "components/jquery": "3.*",
+    "twbs/bootstrap-sass": "3.*",
+    "twig/twig": "*",
+    "components/modernizr": "*",
+    "bcosca/fatfree": "3.*",
+    "components/jquery-hotkeys": "dev-master",
+    "components/jquery-mousewheel": "dev-master",
+    "components/Font-Awesome": "4.*",
+    "components/jQote2": "dev-master",
+    "components/TouchSwipe-Jquery-Plugin": "dev-master",
+    "ivaynberg/select2": "4.*",
+    "timrwood/moment": "2.*",
+    "components/HideSeek":"dev-master",
+    "components/toastr":"dev-master",
+    "components/bootstrap-datetimepicker":"dev-master",
+    "twitter/typeahead.js":"*"
+
+  }
+}

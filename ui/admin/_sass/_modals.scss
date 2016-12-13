@@ -1,0 +1,26 @@
+
+.modal-header {
+	padding: 10px 30px;
+}
+.modal {
+  z-index:3000;
+	form {
+		padding:0;
+		margin:0;
+	}
+}
+.modal-backdrop{
+  z-index:2950;
+}
+.modal-open[style="padding-right: 17px;"] #main-nav-bar {
+	padding-right: 17px;
+}
+
+.modal-open {
+
+  .select2-dropdown {
+	z-index : 4051!important;
+  }
+
+
+}
