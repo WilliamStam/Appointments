@@ -16,14 +16,21 @@ class home extends _ {
 
 		$agenda_items = models\appointments::getInstance()->getAll("DATE_FORMAT(appointmentStart,'%Y%m%d') = '{$currrentDate}'","appointmentStart ASC","",array("format"=>true,"client"=>true,"services"=>true));
 		$n = array();
+		$return["stats"] = array(
+			"count"=>count($agenda_items),
+			"duration"=>0
+		);
 		foreach ($agenda_items as $item){
 			//test_array($item);
+			$return["stats"]['duration'] = $return["stats"]['duration'] + $item['duration'];
 			if ($item['active']==1)$item['status']="current";
 			$n[] = $item;
 		}
 		$agenda_items = $n;
 
 		$return['agenda'] = models\appointments::getInstance()->agenda_view($agenda_items);
+
+		$return["stats"]['duration_view'] = seconds_to_time($return["stats"]['duration']*60,true);
 
 
 		$this->head = $return;

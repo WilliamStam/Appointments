@@ -103,9 +103,9 @@
 			<div class="row">
 				<div class="col-sm-5">
 					<h3>
-						1 Appointments today
+						<%= this.stats.count %> Appointments today
 					</h3>
-					Total booked time today: 8h 35m
+					Total booked time today: <%= this.stats.duration_view %>
 				</div>
 				<div class="col-sm-7">
 

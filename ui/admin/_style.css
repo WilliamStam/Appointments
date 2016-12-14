@@ -3232,7 +3232,7 @@ ul.mailbox-list li:hover a, ul.h-list li:hover a {
       position: absolute;
       top: 0;
       bottom: 0;
-      background-color: #999; }
+      background-color: #d6d6d6; }
       .agenda-view .agenda-items .agenda-item.current {
         background-color: #3b536b; }
       .agenda-view .agenda-items .agenda-item .item-label {

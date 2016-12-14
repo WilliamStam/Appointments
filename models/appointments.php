@@ -394,7 +394,7 @@ class appointments extends _ {
 
 		$business_hours = array(
 			"start"=>date("Y-m-d H:i:s",strtotime("07:30:00")),
-			"end"=>date("Y-m-d H:i:s",strtotime("16:00:00"))
+			"end"=>date("Y-m-d H:i:s",strtotime("18:00:00"))
 		);
 
 		$day_s = strtotime(date("Y-m-d 00:00:00",strtotime($business_hours['start'])));
