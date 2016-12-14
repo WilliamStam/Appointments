@@ -241,10 +241,12 @@ $(document).ready(function () {
 		e.preventDefault();
 		var $this = $(this);
 		var ID = $this.attr("data-id");
+		if (ID){
+			$.bbq.pushState({"appID":ID});
+			getAppointmentView()
+		}
 
-		$.bbq.pushState({"appID":ID});
 
-		getAppointmentView()
 	});
 
 
@@ -396,6 +398,12 @@ $(document).ready(function () {
 
 
 	})
+	$(document).on("click", "#details-appointment .btn[data-dismiss='modal']", function (e) {
+		e.preventDefault();
+		$.bbq.pushState("appID","");
+
+
+	})
 
 });
 function show_form(form){
@@ -450,8 +458,38 @@ function getAppointmentView() {
 		$("#modal-window").jqotesub($("#template-modal-appointment"), data).modal("show");
 
 		//$("#content-area").jqotesub($("#template-view-" + section), data);
-
+		appointmentArrowButtons();
 	}, "data-appointment")
+
+
+}
+
+function appointmentArrowButtons(){
+
+	var $btn_prev = $("#details-appointment .record-direction-btns .btn-prev").attr("disabled","disabled");
+	var $btn_next = $("#details-appointment .record-direction-btns .btn-next").attr("disabled","disabled");
+
+
+	var $agenda = $("#details-appointment .agenda-view");
+
+
+	var id = $(".agenda-item.current",$agenda).find(".appointment-row").attr("data-id");
+	var $current = $(".agenda-item.current",$agenda);
+
+	var prev = $current.prev(".agenda-item").find(".appointment-row").attr("data-id");
+	var next = $current.next(".agenda-item").find(".appointment-row").attr("data-id");
+
+	if (prev){
+		$btn_prev.removeAttr("disabled").attr("data-id",prev);
+	}
+	if (next){
+		$btn_next.removeAttr("disabled").attr("data-id",next);
+	}
+
+
+
+
+
 
 
 }

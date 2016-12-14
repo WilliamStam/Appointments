@@ -10,7 +10,23 @@ class home extends _ {
 
 		$this->options = $_GET;
 
+		$return = array();
 
+		$currrentDate = date("Ymd",strtotime("today"));
+
+		$agenda_items = models\appointments::getInstance()->getAll("DATE_FORMAT(appointmentStart,'%Y%m%d') = '{$currrentDate}'","appointmentStart ASC","",array("format"=>true,"client"=>true,"services"=>true));
+		$n = array();
+		foreach ($agenda_items as $item){
+			//test_array($item);
+			if ($item['active']==1)$item['status']="current";
+			$n[] = $item;
+		}
+		$agenda_items = $n;
+
+		$return['agenda'] = models\appointments::getInstance()->agenda_view($agenda_items);
+
+
+		$this->head = $return;
 	}
 
 	function appointment(){
@@ -19,6 +35,17 @@ class home extends _ {
 		$ID = isset($_GET['ID'])?$_GET['ID']:"";
 
 		$return = models\appointments::getInstance()->get($ID,array("format"=>true,"services"=>true,"client"=>true));
+		$return['status'] = "current";
+
+		$currrentDate = date("Ymd",strtotime($return['appointmentStart']));
+
+		$agenda_items = models\appointments::getInstance()->getAll("DATE_FORMAT(appointmentStart,'%Y%m%d') = '{$currrentDate}'","appointmentStart ASC","",array("format"=>true,"client"=>true,"services"=>true));
+
+
+
+
+	//	test_array($agenda_items);
+
 
 		$return['services'] = models\services::getInstance()->format($return['services'],array("group"=>"category"));
 
@@ -43,127 +70,31 @@ class home extends _ {
 
 
 
-		$business_hours = array(
-			"start"=>date("Y-m-d H:i:s",strtotime(date("Y-m-d",strtotime($return['time']['start']))." 07:30:00")),
-			"end"=>date("Y-m-d H:i:s",strtotime(date("Y-m-d",strtotime($return['time']['start']))." 16:00:00"))
-		);
 
 
 
 
 
-//test_array($business_hours);
 
 
 
-		$return['agenda']['items'] = array();
+		$return['agenda'] = models\appointments::getInstance()->agenda_view($agenda_items);
 
 
-		$day_s = strtotime(date("Y-m-d 00:00:00",strtotime($business_hours['start'])));
-		$day_e = strtotime(date("Y-m-d 23:59:59",strtotime($business_hours['end'])));
 
-		$day = $day_e - $day_s;
 
 
 
 
-		$s = strtotime($return['time']['start']);
-		$e = strtotime($return['time']['end']);
 
 
-		$l = $s - $day_s;
 
 
-		$l= ($l / $day)*100;
 
-	//test_array(date("Y-m-d H:i:s",$day_s));
 
 
-		$r = $day_e - $e;
 
-		if ($r < 0){
-			$r = 0;
-		} else {
-			$r = ($r / $day)*100;
-		}
 
-		//$r = 100 - $r;
-
-		if ($l < 0)$l = 0;
-		// if ($r < 0)$l = 0;
-
-		//test_array(array("day s"=>$day_s,"day e"=>$day_e, "day"=> $day,"s"=>$s,"e"=>$e,"l"=>$l ));
-		$return['agenda']['items'][] = array(
-			"current"=>1,
-			"label"=>$return['client']['first_name']." " . $return['client']['last_name'],
-			"l"=>$l,
-			"r"=> $r
-		);
-
-
-
-
-
-
-		$return['agenda']['settings'] = array(
-			"width"=>(100 / 24)
-		);
-
-
-
-
-
-
-		$endh = strtotime($business_hours['end']);
-		$starth = strtotime($business_hours['start']);
-
-
-		//test_array(date("Y-m-d H:i:s",$day_s));
-
-		$secinday = 60 * 60 * 24;
-		//$starth = (($day_s - $starth)/$secinday)*100;
-		//$endh = (($day_e - $endh)/$secinday)*100;
-
-		$starth_ = (($starth - $day_s));
-		$endh_ = (($day_e - $endh));
-
-
-		//test_array(array($starth,$day_s,$starth_,date("Y-m-d H:i:s",$day_s)));
-
-
-		$s = ($starth_ / $secinday)*100;
-		$e = ($endh_ / $secinday)*100;
-
-
-
-		$c_ = $secinday - $starth_ - $endh_;
-		$c =  ($c_ / $secinday)*100;
-
-
-		$m = $starth_ +  $endh_;
-		$m_ = $secinday / ($secinday - $m);
-
-
-
-//test_array(array($m,$secinday,$m_));
-
-		$multiplier = $m_;
-
-
-		$return['agenda']['settings']['l'] = $s *$multiplier;
-		$return['agenda']['settings']['r'] = $e*$multiplier;
-		$return['agenda']['settings']['m'] = $multiplier;
-
-
-		//$return['agenda']['settings']['l'] = $starth * $return['agenda']['settings']['width'];
-		//	$return['agenda']['settings']['r'] = $endh * $return['agenda']['settings']['width'];
-
-
-
-
-
-		//test_array($return['agenda']['settings']);
-	//	test_array(array("end"=>array($day_e, $endh, $endh_, $e),"start"=>array($day_s,$starth,$starth_, $s),"combined"=>array($c_,$c,($e+$s+$c))));
 
 
 
@@ -253,6 +184,7 @@ class home extends _ {
 
 
 
+		$return['head'] = $this->head;
 
 		return $GLOBALS["output"]['data'] = $return;
 	}

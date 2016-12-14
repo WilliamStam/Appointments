@@ -32,3 +32,9 @@
     #view-list-area .panel-body .record-row ul {
       margin: 0;
       padding-left: 15px; }
+
+#header-agenda-area {
+  margin-top: -10px;
+  background-color: #fff;
+  z-index: auto;
+  position: relative; }

@@ -571,22 +571,22 @@
 			</div>
 			<div class="modal-body" style="padding:10px;">
 
-				<div id="agenda-view">
+				<div class="agenda-view">
 
 
-					<div id="agenda-view-area" style="left:-<%= this.agenda.settings.l %>%;right:-<%= this.agenda.settings.r %>%;">
+					<div class="agenda-view-area" style="left:-<%= this.agenda.settings.l %>%;right:-<%= this.agenda.settings.r %>%;">
 
-						<div id="agenda-view-hours">
+						<div class="agenda-view-hours">
 							{% for i in 0..23 %}
 							<div class="agenda-hour" style="width:<%= this.agenda.settings.width %>%">
 								{{ i }}:00
 							</div>
 							{% endfor %}
 						</div>
-						<div id="agenda-items">
+						<div class="agenda-items">
 							<% for(var i in this.agenda.items){ %>
-							<div class="agenda-item <% if(this.agenda.items[i].current=='1'){ %>current<% } %>" style="left:<%= this.agenda.items[i].l %>%;right:<%= this.agenda.items[i].r %>%;">
-								<div class="item-label" title="<%= this.agenda.items[i].label %>">
+							<div class="agenda-item <% if(this.agenda.items[i].ID == this.ID) { %>current<% } %>" style="left:<%= this.agenda.items[i].agenda.l %>%;right:<%= this.agenda.items[i].agenda.r %>%;">
+								<div class="item-label appointment-row" title="<%= this.agenda.items[i].client.first_name %> <%= this.agenda.items[i].client.last_name||'' %>" data-id="<%= this.agenda.items[i].ID %>">
 
 
 								</div>
@@ -595,6 +595,9 @@
 							<% } %>
 
 						</div>
+						<% if(this.agenda.today){ %>
+						<div class="agenda-now" style="left:<%= this.agenda.today %>%"></div>
+						<% } %>
 					</div>
 				</div>
 
@@ -685,10 +688,10 @@
 
 					</div>
 					<div class="col-sm-4">
-						<div class="btn-group btn-group-justified">
-							<a href="#" class="btn btn-default" type="button" disabled><i class="fa fa-arrow-circle-left"></i>
+						<div class="btn-group btn-group-justified record-direction-btns" >
+							<a href="#" class="btn btn-default btn-prev appointment-row" type="button"><i class="fa fa-arrow-circle-left"></i>
 							</a>
-							<a href="#" class="btn btn-default" type="button" disabled><i class="fa fa-arrow-circle-right"></i>
+							<a href="#" class="btn btn-default btn-next appointment-row" type="button"><i class="fa fa-arrow-circle-right"></i>
 							</a>
 						</div>
 					</div>

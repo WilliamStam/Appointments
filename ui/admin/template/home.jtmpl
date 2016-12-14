@@ -94,3 +94,104 @@
 
 	]]>
 </script>
+
+<script type="text/x-jqote-template" id="template-header">
+	<![CDATA[
+
+	<div class="panel">
+		<div class="panel-body">
+			<div class="row">
+				<div class="col-sm-5">
+					<h3>
+						1 Appointments today
+					</h3>
+					Total booked time today: 8h 35m
+				</div>
+				<div class="col-sm-7">
+
+
+					<div id="carousel-appointments" class="carousel" data-interval="false" data-wrap="false">
+
+
+						<!-- Wrapper for slides -->
+						<div class="carousel-inner" role="listbox">
+							<div class="item active">
+								<div>Duration: 4 Hours</div>
+								<h4 style="margin:0;">Next up:
+									<small> Waxing +3 at <strong>14:00</strong> - john doe</small>
+								</h4>
+							</div>
+							<div class="item">
+								<div>Duration: 2 Hours</div>
+								<h4 style="margin:0;">14:30
+									<small> Waxing +3 - john doe</small>
+								</h4>
+							</div>
+							<div class="item">
+								<div>Duration: 15 Minutes</div>
+								<h4 style="margin:0;">15:30
+									<small> Waxing +3 - john doe</small>
+								</h4>
+							</div>
+						</div>
+
+						<!-- Controls -->
+						<a class="left carousel-control" href="#carousel-appointments" role="button" data-slide="prev">
+							<span class="fa fa-chevron-left" aria-hidden="true"></span>
+							<span class="sr-only">Previous</span>
+						</a>
+						<a class="right carousel-control" href="#carousel-appointments" role="button" data-slide="next">
+							<span class="fa fa-chevron-right" aria-hidden="true"></span>
+							<span class="sr-only">Next</span>
+						</a>
+					</div>
+
+
+				</div>
+			</div>
+
+
+		</div>
+	</div>
+
+	<div id="header-agenda-area"></div>
+	]]>
+</script>
+
+<script type="text/x-jqote-template" id="template-header-agenda">
+	<![CDATA[
+
+
+	<div class="agenda-view">
+
+
+		<div class="agenda-view-area" style="left:-<%= this.agenda.settings.l %>%;right:-<%= this.agenda.settings.r %>%;">
+
+			<div class="agenda-view-hours">
+				{% for i in 0..23 %}
+					<div class="agenda-hour" style="width:<%= this.agenda.settings.width %>%">
+						{{ i }}:00
+					</div>
+				{% endfor %}
+			</div>
+			<div class="agenda-items">
+				<% for(var i in this.agenda.items){ %>
+				<div class="agenda-item <%= this.agenda.items[i].status %>" style="left:<%= this.agenda.items[i].agenda.l %>%;right:<%= this.agenda.items[i].agenda.r %>%;">
+					<div class="item-label appointment-row" title="<%= this.agenda.items[i].client.first_name %> <%= this.agenda.items[i].client.last_name||'' %>" data-id="<%= this.agenda.items[i].ID %>">
+
+
+					</div>
+
+				</div>
+				<% } %>
+
+			</div>
+			<% if(this.agenda.today){ %>
+			<div class="agenda-now" style="left:<%= this.agenda.today %>%"></div>
+			<% } %>
+		</div>
+	</div>
+
+
+	]]>
+</script>

@@ -379,7 +379,129 @@ class appointments extends _ {
 		$timer->_stop(__NAMESPACE__, __CLASS__, __FUNCTION__, func_get_args());
 		return $records;
 	}
-	
+	function agenda_view($records){
+		$single = false;
+		if (isset($records['ID'])) {
+			$single = true;
+			$records = array($records);
+		}
+
+		$return = array();
+
+		$dateForNow = array();
+
+		//test_array($records);
+
+		$business_hours = array(
+			"start"=>date("Y-m-d H:i:s",strtotime("07:30:00")),
+			"end"=>date("Y-m-d H:i:s",strtotime("16:00:00"))
+		);
+
+		$day_s = strtotime(date("Y-m-d 00:00:00",strtotime($business_hours['start'])));
+		$day_e = strtotime(date("Y-m-d 23:59:59",strtotime($business_hours['end'])));
+		$day = $day_e - $day_s;
+
+		//test_array($business_hours);
+		$new_records = array();
+		foreach ($records as $item){
+
+			if (!in_array(date("Y-m-d",strtotime($item['appointmentStart'])),$dateForNow))$dateForNow[] =  date("Y-m-d",strtotime($item['appointmentStart']));
+
+			$day_s_item = strtotime(date("Y-m-d 00:00:00",strtotime($item['time']['start'])));
+			$day_e_item = strtotime(date("Y-m-d 23:59:59",strtotime($item['time']['end'])));
+			$day_item = $day_e_item - $day_s_item;
+
+			$s = strtotime($item['time']['start']);
+			$e = strtotime($item['time']['end']);
+
+
+			$l = $s - $day_s_item;
+
+
+			$l= ($l / $day_item)*100;
+
+			//test_array(date("Y-m-d H:i:s",$day_e_item));
+
+
+			$r = $day_e_item - $e;
+
+			if ($r < 0){
+				$r = 0;
+			} else {
+				$r = ($r / $day_item)*100;
+			}
+
+			//$r = 100 - $r;
+
+			if ($l < 0)$l = 0;
+			// if ($r < 0)$l = 0;
+
+			//test_array(array("day s"=>$day_s,"day e"=>$day_e, "day"=> $day,"s"=>$s,"e"=>$e,"l"=>$l ));
+
+
+
+			$item['agenda']['l'] = $l;
+			$item['agenda']['r'] = $r;
+			$new_records[] = $item;
+		}
+
+
+		$return['settings'] = array(
+			"width"=>(100 / 24)
+		);
+
+		if ($single) $new_records = $new_records[0];
+		$return['items'] = $new_records;
+
+
+
+		$endh = strtotime($business_hours['end']);
+		$starth = strtotime($business_hours['start']);
+
+		$secinday = 60 * 60 * 24;
+		$starth_ = (($starth - $day_s));
+		$endh_ = (($day_e - $endh));
+
+		$s = ($starth_ / $secinday)*100;
+		$e = ($endh_ / $secinday)*100;
+
+
+		$m = $starth_ +  $endh_;
+		$m_ = $secinday / ($secinday - $m);
+
+
+		$multiplier = $m_;
+
+		$now = strtotime("now");
+
+		$nowh_ = (($now - $day_s));
+		$n = ($nowh_ / $secinday)*100;
+
+
+		if (count($dateForNow)==1){
+			if (isset($dateForNow[0])){
+				if (date("Y-m-d",$now) == $dateForNow[0]){
+					$return['today'] = $n;
+				}
+
+
+			}
+
+		}
+
+
+
+
+
+		$return['settings']['l'] = $s *$multiplier;
+		$return['settings']['r'] = $e*$multiplier;
+		$return['settings']['m'] = $multiplier;
+		$return['settings']['d'] = $day;
+
+
+		return $return;
+
+	}
 	
 	
 	

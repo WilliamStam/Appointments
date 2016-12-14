@@ -35,6 +35,8 @@ function getData() {
 
 
 		$("#content-area").jqotesub($("#template-view-" + section), data);
+		$("#header-area").jqotesub($("#template-header"), data.head);
+		$("#header-agenda-area").jqotesub($("#template-header-agenda"), data.head);
 
 
 

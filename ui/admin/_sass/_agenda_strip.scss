@@ -1,0 +1,95 @@
+.agenda-view {
+
+  position:relative;
+  font-size:9px;
+  height:20px;
+  overflow:hidden;
+
+  .agenda-view-area {
+	position: absolute;
+	top:3px;
+	left:0;
+	right:0;
+	bottom:3px;
+  }
+
+  .agenda-view-hours {
+	position: absolute;
+	top:0;
+	left:0;
+	right:0;
+	bottom:0;
+
+	z-index:2;
+	.agenda-hour {
+
+	  border:1px solid $border-color;
+	  border-right-color:transparent;
+	  float:left;
+	  text-align: center;
+	  line-height:15px;
+	  color:darken($border-color,20%);
+
+	  box-sizing: border-box;
+	  &:last-child {
+		border-right-color:$border-color;
+	  }
+	}
+  }
+  .agenda-items {
+	position: absolute;
+	top:0;
+	left:0;
+	right:0;
+	bottom:0;
+
+	.agenda-item {
+	  position:absolute;
+	  top:0;
+	  bottom:0;
+
+	  background-color: #999;
+	  &.current {
+
+		background-color: lighten($color-navy-blue,4%);
+
+
+
+	  }
+	  .item-label {
+		position: absolute;
+		top:0;
+		left:0;
+		right:0;
+		bottom:0;
+		z-index: 4;
+
+
+
+
+	  }
+	}
+  }
+
+
+  .agenda-now {
+	width:4px;
+	background-color: red;
+	position: absolute;
+	top:-3px;
+	bottom:-3px;
+	z-index: 6;
+	margin-left:-2px;
+	opacity:0.5;
+  }
+
+
+  .appointment-row {
+	cursor:pointer;
+	&:hover {
+	  border:1px solid $color-navy-blue;
+	}
+
+  }
+
+}
