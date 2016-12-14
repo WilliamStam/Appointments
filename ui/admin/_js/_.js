@@ -458,6 +458,7 @@ function getAppointmentView() {
 		$("#modal-window").jqotesub($("#template-modal-appointment"), data).modal("show");
 
 		//$("#content-area").jqotesub($("#template-view-" + section), data);
+		console.log(data);
 		appointmentArrowButtons();
 		$('*[data-toggle="tooltip"]').tooltip();
 	}, "data-appointment")
