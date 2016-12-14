@@ -578,15 +578,15 @@
 
 						<div class="agenda-view-hours">
 							{% for i in 0..23 %}
-							<div class="agenda-hour" style="width:<%= this.agenda.settings.width %>%">
-								{{ i }}:00
-							</div>
+								<div class="agenda-hour" style="width:<%= this.agenda.settings.width %>%">
+									{{ i }}:00
+								</div>
 							{% endfor %}
 						</div>
 						<div class="agenda-items">
 							<% for(var i in this.agenda.items){ %>
 							<div class="agenda-item <% if(this.agenda.items[i].ID == this.ID) { %>current<% } %>" style="left:<%= this.agenda.items[i].agenda.l %>%;right:<%= this.agenda.items[i].agenda.r %>%;">
-								<div class="item-label appointment-row" title="<%= this.agenda.items[i].client.first_name %> <%= this.agenda.items[i].client.last_name||'' %>" data-id="<%= this.agenda.items[i].ID %>">
+								<div class="item-label appointment-row"  title="<strong><%= this.agenda.items[i].client.first_name||'Walk-In' %> <%= this.agenda.items[i].client.last_name||'' %></strong><br><%= this.agenda.items[i].time.start_view %> - <%= this.agenda.items[i].time.end_view %>" data-id="<%= this.agenda.items[i].ID %>" data-toggle="tooltip" data-placement="bottom" data-content="<%= this.agenda.items[i].client.first_name||'Walk-In' %> <%= this.agenda.items[i].client.last_name||'' %>" data-html="true" data-trigger="hover" data-container="#details-appointment">
 
 
 								</div>
@@ -604,7 +604,7 @@
 				<div class="row" style="margin-top:15px;">
 					<div class="col-sm-6">
 
-						<div style="padding:0 10px;">
+						<div style="padding:0 5px;">
 							<h3><%= this.client.first_name %> <%= this.client.last_name||'' %></h3>
 							<% if(this.client.ID){ %>
 							<hr>
@@ -620,12 +620,14 @@
 							</div>
 							<% } %>
 							<% } %>
+
 							<% if (this.notes){ %>
-							<hr>
-							<div>
-								<%= this.notes %>
+							<label style="margin-bottom:-10px; font-size:10px; margin-top:30px;">Appointment Note:</label>
+							<div class="alert alert-info">
+								<p><%= this.notes %></p>
 							</div>
 							<% } %>
+
 						</div>
 
 
@@ -675,6 +677,20 @@
 					</div>
 				</div>
 
+				<div class="row">
+					<div class="col-sm-12">
+						<div style="padding:0 5px;">
+							<% if (this.client.notes){ %>
+							<label style="margin-bottom:-10px; font-size:10px;">Client Note:</label>
+							<div class="alert alert-warning">
+								<p><%= this.client.notes %></p>
+							</div>
+							<% } %>
+						</div>
+					</div>
+
+				</div>
+
 
 			</div>
 
@@ -688,10 +704,12 @@
 
 					</div>
 					<div class="col-sm-4">
-						<div class="btn-group btn-group-justified record-direction-btns" >
-							<a href="#" class="btn btn-default btn-prev appointment-row" type="button"><i class="fa fa-arrow-circle-left"></i>
+						<div class="btn-group btn-group-justified record-direction-btns">
+							<a href="#" class="btn btn-default btn-prev appointment-row" type="button">
+								<i class="fa fa-arrow-circle-left"></i>
 							</a>
-							<a href="#" class="btn btn-default btn-next appointment-row" type="button"><i class="fa fa-arrow-circle-right"></i>
+							<a href="#" class="btn btn-default btn-next appointment-row" type="button">
+								<i class="fa fa-arrow-circle-right"></i>
 							</a>
 						</div>
 					</div>

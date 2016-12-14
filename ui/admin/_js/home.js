@@ -39,7 +39,8 @@ function getData() {
 		$("#header-agenda-area").jqotesub($("#template-header-agenda"), data.head);
 
 
-
+		$('*[data-toggle="popover"]').popover()
+		$('*[data-toggle="tooltip"]').tooltip()
 
 
 

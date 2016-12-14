@@ -1,11 +1,11 @@
-#carousel-appointments .carousel-inner {
-  padding-left: 60px;
-  padding-right: 60px; }
-
-#carousel-appointments .carousel-control {
-  background: none;
+#header-area .no-records {
+  font-size: 30px;
   color: #ccc;
-  text-shadow: none; }
+  opacity: 0.4;
+  font-weight: bold;
+  font-style: italic;
+  font-variant: small-caps;
+  padding: 10px !important; }
 
 #view-list-area .panel.past .panel-heading {
   color: #b4b4b4; }
@@ -38,3 +38,36 @@
   background-color: #fff;
   z-index: auto;
   position: relative; }
+
+#upcoming-appointments-area .row-active-app {
+  padding: 20px 0; }
+
+#upcoming-appointments-area .row-next-app {
+  padding: 20px 0; }
+
+@media (min-width: 768px) {
+  #upcoming-appointments-area {
+    margin-top: -15px;
+    margin-bottom: -15px; }
+    #upcoming-appointments-area .alert {
+      border-top: none;
+      border-bottom: none;
+      border-right: none;
+      margin-right: -25px; }
+    #upcoming-appointments-area h3 {
+      text-align: right; }
+      #upcoming-appointments-area h3 small {
+        margin-right: 20px; } }
+
+@media (max-width: 768px) {
+  #upcoming-appointments-area .alert {
+    margin-left: -20px;
+    margin-right: -20px; } }
+
+.services-popover {
+  width: 300px;
+  font-size: smaller; }
+  .services-popover .badge {
+    font-size: smaller; }
+  .services-popover .popover-list {
+    margin: 0; }

@@ -3194,6 +3194,9 @@ ul.mailbox-list li:hover a, ul.h-list li:hover a {
     background-color: #46637f;
     color: #fff; }
 
+.appointment-row {
+  cursor: pointer; }
+
 .agenda-view {
   position: relative;
   font-size: 9px;

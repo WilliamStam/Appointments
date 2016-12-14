@@ -308,6 +308,8 @@ class appointments extends _ {
 				"start"=> date("Y-m-d H:i:s",strtotime($item['appointmentStart'])),
 				"end"=> date("Y-m-d H:i:s",strtotime(" + ".$item['duration']." minutes",strtotime($item['appointmentStart']))),
 			);
+			$item['time']['start_view'] = date("H:i:s",strtotime($item['time']['start']));
+			$item['time']['end_view'] = date("H:i:s",strtotime($item['time']['end']));
 
 			if (strtotime($item['time']['start'])<=strtotime("now") && strtotime($item['time']['end'])>=strtotime("now")){
 				$item['active'] = 1;

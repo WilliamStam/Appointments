@@ -6850,6 +6850,7 @@ function getAppointmentView() {
 
 		//$("#content-area").jqotesub($("#template-view-" + section), data);
 		appointmentArrowButtons();
+		$('*[data-toggle="tooltip"]').tooltip();
 	}, "data-appointment")
 
 

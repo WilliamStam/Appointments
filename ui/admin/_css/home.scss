@@ -1,62 +1,114 @@
+@import "../../../vendor/twbs/bootstrap-sass/assets/stylesheets/bootstrap/_variables.scss";
+@import "../../../vendor/twbs/bootstrap-sass/assets/stylesheets/bootstrap/_mixins.scss";
 @import "../_sass/variables.scss";
-#carousel-appointments {
 
-  .carousel-inner {
-	padding-left:60px;
-	padding-right:60px;
-  }
-
-  .carousel-control{
-	background: none;
-	color:#ccc;
-	text-shadow:none;
+#header-area {
+  .no-records {
+	font-size: 30px;
+	color: #ccc;
+	opacity: 0.4;
+	font-weight: bold;
+	font-style: italic;;
+	font-variant: small-caps;
+	padding: 10px !important;
   }
 }
-
 
 #view-list-area {
   .panel {
 	&.past {
 	  .panel-heading {
-		color:#b4b4b4;
+		color: #b4b4b4;
 	  }
 	}
   }
   .panel-body {
-	padding-top:0;
-	padding-bottom:0;
+	padding-top: 0;
+	padding-bottom: 0;
 	.record-row {
-	  cursor:pointer;
-	  border-bottom:1px dotted #ccc;
-	  margin-top:5px;
-	  margin-bottom:5px;
-	  padding-top:5px;
-	  padding-bottom:5px;
+	  cursor: pointer;
+	  border-bottom: 1px dotted #ccc;
+	  margin-top: 5px;
+	  margin-bottom: 5px;
+	  padding-top: 5px;
+	  padding-bottom: 5px;
 	  &:last-child {
-		border-bottom:none;
+		border-bottom: none;
 	  }
 	  &:hover {
 		background-color: lighten($color-navy-blue, 3%);
-		color:#fff;
+		color: #fff;
 	  }
 	  &.past {
 		color: #b4b4b4;
 	  }
 	  &.active {
-		font-weight:bold;
+		font-weight: bold;
 
 	  }
 
 	  ul {
-		margin:0;
-		padding-left:15px;
+		margin: 0;
+		padding-left: 15px;
 	  }
 	}
   }
 }
+
 #header-agenda-area {
-  margin-top:-10px;
+  margin-top: -10px;
   background-color: #fff;
   z-index: auto;
   position: relative;
+}
+
+#header-area {
+
+}
+
+#upcoming-appointments-area {
+
+  .row-active-app {
+	padding: 20px 0;
+  }
+  .row-next-app {
+	padding: 20px 0;
+  }
+
+  @media (min-width: $screen-sm) {
+	.alert {
+	  border-top: none;
+	  border-bottom: none;
+	  border-right: none;
+	  margin-right: -25px;
+	}
+	margin-top: -15px;
+	margin-bottom: -15px;
+	h3 {
+	  text-align: right;
+	  small {
+		margin-right: 20px;
+	  }
+	}
+  }
+  @media (max-width: $screen-sm) {
+	.alert {
+
+	  margin-left: -20px;
+	  margin-right: -20px;
+	}
+
+  }
+
+}
+
+.services-popover {
+  width: 300px;
+  font-size: smaller;
+  .badge {
+	font-size: smaller;
+  }
+  .popover-list {
+	margin: 0;
+  }
 }

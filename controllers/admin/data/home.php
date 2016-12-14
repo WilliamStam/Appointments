@@ -20,10 +20,14 @@ class home extends _ {
 			"count"=>count($agenda_items),
 			"duration"=>0
 		);
+		$active = array();
 		foreach ($agenda_items as $item){
 			//test_array($item);
 			$return["stats"]['duration'] = $return["stats"]['duration'] + $item['duration'];
-			if ($item['active']==1)$item['status']="current";
+			if ($item['active']==1){
+				$item['status']="current";
+				$active = $item;
+			}
 			$n[] = $item;
 		}
 		$agenda_items = $n;
@@ -32,6 +36,27 @@ class home extends _ {
 
 		$return["stats"]['duration_view'] = seconds_to_time($return["stats"]['duration']*60,true);
 
+
+		if (isset($active['services'])){
+			$active['services_count'] = count($active['services']);
+			$active['services'] = models\services::getInstance()->format($active['services'],array("group"=>"category"));
+		}
+		$return['active'] = $active;
+		$return["next"] = models\appointments::getInstance()->getAll("appointmentStart > now()","appointmentStart ASC","0,1",array("format"=>true,"client"=>true,"services"=>true));
+
+
+		if (isset($return["next"][0])){
+			$return["next"] = $return["next"][0];
+			$return["next"]['services_count'] = count($return["next"]['services']);
+			$return['next']['services'] = models\services::getInstance()->format($return['next']['services'],array("group"=>"category"));
+
+			if (date("Y-m-d H:i:s",strtotime("+1 hour"))>date("Y-m-d H:i:s",strtotime($return["next"]['appointmentStart']))){
+				$return["next"]['status'] = "shortly";
+			}
+
+		}
+
+		//test_array($return["next"]);
 
 		$this->head = $return;
 	}
