@@ -40,10 +40,10 @@
   position: relative; }
 
 #upcoming-appointments-area .row-active-app {
-  padding: 20px 0; }
+  padding: 0; }
 
 #upcoming-appointments-area .row-next-app {
-  padding: 20px 0; }
+  padding: 0 0; }
 
 @media (min-width: 768px) {
   #upcoming-appointments-area {
@@ -54,6 +54,10 @@
       border-bottom: none;
       border-right: none;
       margin-right: -25px; }
+      #upcoming-appointments-area .alert .col-sm-7 {
+        text-align: right; }
+      #upcoming-appointments-area .alert .col-sm-5 {
+        padding-top: 10px; }
     #upcoming-appointments-area h3 {
       text-align: right; }
       #upcoming-appointments-area h3 small {

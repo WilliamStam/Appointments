@@ -165,6 +165,7 @@
 
 							<h4 class="visible-xs-block">Active Appointment:</h4>
 							<h3><small class="hidden-xs">Active Appointment: </small> <%= this.active.client.first_name||"Walk-In" %> <%= this.active.client.last_name||"" %></h3>
+							<div>Until: <strong><%= this.active.time.end_view %></strong></div>
 
 						</div>
 						<div class="col-sm-5">
@@ -187,21 +188,23 @@
 							</div>
 						</div>
 
-					</div></div>
+					</div>
+					</div>
 
 					<% } else { %>
 					<% if(this.next.ID){ %>
 					<div class="alert <% if(this.next.status=='shortly'){ %> alert-info<% } %>">
 					<div class="row appointment-row row-next-app" data-id="<%= this.next.ID %>">
 
-						<div class="col-sm-7">
+						<div class="col-sm-7 ">
 
 
-							<h4 class="visible-xs-block">Next Appointment:</h4>
+							<h4 class="visible-xs-block ">Next Appointment:</h4>
 							<h3>
 								<small class="hidden-xs">Next Appointment:</small>
 								<%= this.next.client.first_name||"Walk-In" %> <%= this.next.client.last_name||"" %>
 							</h3>
+							<div>Starts in: <strong><%= this.next.time.startsin %></strong></div>
 
 						</div>
 						<div class="col-sm-5">
@@ -226,6 +229,7 @@
 							</abbr>
 							</div>
 						</div>
+
 
 					</div>
 					</div>

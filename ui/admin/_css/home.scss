@@ -69,10 +69,10 @@
 #upcoming-appointments-area {
 
   .row-active-app {
-	padding: 20px 0;
+	padding: 0;
   }
   .row-next-app {
-	padding: 20px 0;
+	padding: 0 0;
   }
 
   @media (min-width: $screen-sm) {
@@ -81,6 +81,13 @@
 	  border-bottom: none;
 	  border-right: none;
 	  margin-right: -25px;
+	  .col-sm-7 {
+		text-align:right;
+	  }
+	  .col-sm-5 {
+		padding-top:10px;
+	  }
+
 	}
 	margin-top: -15px;
 	margin-bottom: -15px;

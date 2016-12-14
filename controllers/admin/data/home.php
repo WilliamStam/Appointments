@@ -37,11 +37,21 @@ class home extends _ {
 		$return["stats"]['duration_view'] = seconds_to_time($return["stats"]['duration']*60,true);
 
 
-		if (isset($active['services'])){
-			$active['services_count'] = count($active['services']);
-			$active['services'] = models\services::getInstance()->format($active['services'],array("group"=>"category"));
+		if ($active['ID']){
+			if (isset($active['services'])){
+				$active['services_count'] = count($active['services']);
+				$active['services'] = models\services::getInstance()->format($active['services'],array("group"=>"category"));
+			}
+
+
+			$active['time']['startsin'] = seconds_to_time(strtotime($active['appointmentStart'])-strtotime("now"),true);
 		}
+
+
 		$return['active'] = $active;
+
+
+
 		$return["next"] = models\appointments::getInstance()->getAll("appointmentStart > now()","appointmentStart ASC","0,1",array("format"=>true,"client"=>true,"services"=>true));
 
 
@@ -53,6 +63,9 @@ class home extends _ {
 			if (date("Y-m-d H:i:s",strtotime("+1 hour"))>date("Y-m-d H:i:s",strtotime($return["next"]['appointmentStart']))){
 				$return["next"]['status'] = "shortly";
 			}
+
+			$return["next"]['time']['startsin'] = seconds_to_time(strtotime($return["next"]['appointmentStart'])-strtotime("now"),true);
+
 
 		}
 
