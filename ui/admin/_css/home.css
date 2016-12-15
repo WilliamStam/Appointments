@@ -75,3 +75,6 @@
     font-size: smaller; }
   .services-popover .popover-list {
     margin: 0; }
+
+#search-form button[type='reset'] {
+  display: none; }

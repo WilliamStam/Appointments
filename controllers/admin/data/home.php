@@ -169,6 +169,7 @@ class home extends _ {
 
 		$list_value = isset($_GET['list_value'])?$_GET['list_value']:user::settings("list_value_".$list_filter);
 
+		$search = isset($_GET['search'])?$_GET['search']:"";
 
 
 		$next = "";
@@ -176,6 +177,29 @@ class home extends _ {
 		$label = "";
 		$current = "";
 		$where = "1";
+
+		if ($search){
+
+			$fields = array(
+				"clients.first_name",
+				"clients.last_name",
+				"clients.mobile_number",
+				"clients.email",
+				"clients.notes",
+				"services.label",
+				"services.category",
+				"appointments.notes",
+				"appointments.appointmentStart",
+
+			);
+
+			$fields_str = implode(" LIKE '%$search%' OR ",$fields)." LIKE '%$search%'";
+
+			$where .= " AND ($fields_str) ";
+		}
+
+		//test_array($where);
+
 		switch($list_filter){
 			case "day":
 
@@ -258,6 +282,7 @@ class home extends _ {
 
 
 		$return['settings'] = array(
+			"search"=>$search,
 			"list_filter"=>$list_filter,
 			"list_value"=>$list_value,
 			"label"=>$label,

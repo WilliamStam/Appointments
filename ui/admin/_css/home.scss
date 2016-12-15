@@ -119,3 +119,9 @@
 	margin: 0;
   }
 }
+
+#search-form {
+  button[type='reset'] {
+	display:none;
+  }
+}

@@ -91,16 +91,18 @@ class appointments extends _ {
 		
 
 
-
-		$result = $f3->get("DB")->exec("
-			 SELECT DISTINCT *
-			FROM appointments 
+		$sql = "
+			 SELECT DISTINCT appointments.*
+			FROM 
+			(((`appointments` LEFT JOIN clients ON clients.ID = appointments.clientID) left join appointments_services ON appointments.ID = appointments_services.appointmentID) left join services ON services.ID = appointments_services.serviceID)
 			$where
-			GROUP BY ID
+			GROUP BY appointments.ID
 			$orderby
 			$limit;
-		", $args, $ttl
-		);
+		";
+
+		//test_array($sql);
+		$result = $f3->get("DB")->exec($sql, $args, $ttl);
 
 		$return = $result;
 		$timer->_stop(__NAMESPACE__, __CLASS__, __FUNCTION__, func_get_args());

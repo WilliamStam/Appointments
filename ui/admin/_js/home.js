@@ -9,6 +9,12 @@ $(document).ready(function () {
 		getData();
 	});
 
+	$(document).on("reset", "#search-form", function (e) {
+		e.preventDefault();
+		$("#search").val("");
+		getData();
+	});
+
 
 
 	$(document).on("hide.bs.modal","#modal-window",function(){
@@ -85,6 +91,12 @@ function getData() {
 		$("#content-area").jqotesub($("#template-view-" + section), data);
 		$("#header-area").jqotesub($("#template-header"), data.head);
 		$("#header-agenda-area").jqotesub($("#template-header-agenda"), data.head);
+
+		if (data.settings.search){
+			$("#search-form button[type='reset']").show();
+		} else {
+			$("#search-form button[type='reset']").hide();
+		}
 
 
 		$('*[data-toggle="popover"]').popover()
