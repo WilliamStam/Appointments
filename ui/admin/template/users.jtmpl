@@ -72,7 +72,7 @@
 
 			<tbody>
 			<% for(var i in this.list){ %>
-			<tr class="record " data-id="<%= this.list[i].ID %>">
+			<tr class="record " data-id="<%= this.list[i].ID %>" title="Last login: <%= this.list[i].timeago.lastlogin||'none' %>">
 				<td><%= this.list[i].fullname %></td>
 				<td style="font-size: 9px; color:#ccc; padding-top:10px;" class="text-right">
 
