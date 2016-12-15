@@ -29,7 +29,7 @@ class appointments extends _ {
 
 	function get($ID,$options=array()) {
 		$timer = new timer();
-		$where = "(ID = '$ID' OR MD5(ID) = '$ID')";
+		$where = "(appointments.ID = '$ID' OR MD5(appointments.ID) = '$ID')";
 		
 		
 		$result = $this->getData($where,"","0,1",$options);
