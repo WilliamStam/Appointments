@@ -394,7 +394,7 @@ $(document).ready(function () {
 		} else{
 			show_form("");
 		}
-		console.log($("#clientID").val())
+	//	console.log($("#clientID").val())
 
 
 	})
@@ -486,7 +486,7 @@ function getAppointmentView() {
 		$("#modal-window").jqotesub($("#template-modal-appointment"), data).modal("show");
 
 		//$("#content-area").jqotesub($("#template-view-" + section), data);
-		console.log(data);
+	//	console.log(data);
 		appointmentArrowButtons();
 		$('*[data-toggle="tooltip"]').tooltip();
 	}, "data-appointment")
