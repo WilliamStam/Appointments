@@ -1,17 +1,12 @@
 @import "./vendor/twbs/bootstrap-sass/assets/stylesheets/bootstrap/variables";
 @import "./vendor/twbs/bootstrap-sass/assets/stylesheets/bootstrap/mixins";
-@import "./vendor/components/font-awesome/scss/variables";
-$fa-font-path: "/vendor/components/font-awesome/fonts";
 
-@import "_variables.scss";
+
+@import "../../_sass/_variables";
 
 // Additional variables
-$menu-width: 180px;
-$main-transition: all 0.1s ease-out 0s;
 
 
-
-@import "theme/style.scss";
 
 
 @import "bootstrap-datetimepicker.scss";

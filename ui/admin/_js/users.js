@@ -78,11 +78,18 @@ $(document).ready(function () {
 	
 	
 	sideMenu();
-	
-	$.doTimeout(4000,function(){
-		//$("#side-bar").trigger("offcanvas.open");
-	})
-	
+
+
+	$(document).on("click", ".open-side-bar", function (e) {
+		e.preventDefault();
+
+		$("#side-bar").find(".offcanvas").trigger("offcanvas.open");
+
+	});
+
+
+
+
 });
 function highlightCurrent(){
 	var ID =  $.bbq.getState("ID");
@@ -102,6 +109,19 @@ function getForm() {
 		$("#left-area").jqotesub($("#template-form"), data);
 		
 		highlightCurrent();
+
+		$("#side-bar .offcanvas").trigger("offcanvas.close");
+		$("#left-area").swipe( {
+			swipe:function(event, direction, distance, duration, fingerCount, fingerData) {
+				if ($(window).width()<768){
+					if (direction=="left"){
+						$("#side-bar").find(".offcanvas").trigger("offcanvas.open");
+					}
+				}
+			},
+			threshold: 75,
+			allowPageScroll: "auto"
+		});
 		
 		$(window).trigger("resize");
 	},"form-data")

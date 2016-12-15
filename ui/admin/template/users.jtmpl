@@ -20,9 +20,12 @@
 			<div class="form-group">
 				<label for="password" class="col-sm-2 control-label">Password</label>
 				<div class="col-sm-10">
-					<input type="password" class="form-control" id="password" name="password" placeholder="password" value="<%= this.password %>">
+					<input type="password" class="form-control" id="password" name="password" placeholder="password" value="">
+					<% if (this.ID){ %>
+					<div class="help-block">Leave blank to keep the current password</div>
+					<% } %>
 				</div>
-				<div class="help-text">Leave blank to keep the current password</div>
+
 			</div>
 
 		</div>

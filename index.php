@@ -118,13 +118,14 @@ $f3->set('session', $SID);
 
 
 $f3->route('GET|POST /', 'controllers\front\home->page');
+$f3->route('GET|POST /login', 'controllers\front\login->page');
 
 $f3->route('GET|POST /admin', 'controllers\admin\home->page');
 $f3->route('GET|POST /admin/services', 'controllers\admin\services->page');
 $f3->route('GET|POST /admin/products', 'controllers\admin\products->page');
 $f3->route('GET|POST /admin/clients', 'controllers\admin\clients->page');
 $f3->route('GET|POST /admin/staff', 'controllers\admin\staff->page');
-$f3->route('GET|POST /admin/users', 'controllers\admin\users->page');
+$f3->route('GET|POST /admin/settings/users', 'controllers\admin\users->page');
 
 
 
@@ -154,22 +155,28 @@ $f3->route('GET /php', function () {
 
 
 $f3->route("GET|POST /admin/save/@function", function ($app, $params) {
+	//test_array($params);
 	$app->call("controllers\\admin\\save\\save->" . $params['function']);
 });
 $f3->route("GET|POST /admin/save/@class/@function", function ($app, $params) {
+	//test_array($params);
 	$app->call("controllers\\admin\\save\\" . $params['class'] . "->" . $params['function']);
 });
 $f3->route("GET|POST /admin/save/@folder/@class/@function", function ($app, $params) {
+	///test_array($params);
 	$app->call("controllers\\admin\\save\\" . $params['folder'] . "\\" . $params['class'] . "->" . $params['function']);
 });
 $f3->route("GET|POST /admin/data/@function", function ($app, $params) {
+	//test_array($params);
 	$app->call("controllers\\admin\\data\\data->" . $params['function']);
 });
 $f3->route("GET|POST /admin/data/@class/@function", function ($app, $params) {
-	//test_array($params); 
+	//test_array($params);
+	//test_array($params);
 	$app->call("controllers\\admin\\data\\" . $params['class'] . "->" . $params['function']);
 });
 $f3->route("GET|POST /admin/data/@folder/@class/@function", function ($app, $params) {
+	//test_array($params);
 	$app->call("controllers\\admin\\data\\" . $params['folder'] . "\\" . $params['class'] . "->" . $params['function']);
 });
 

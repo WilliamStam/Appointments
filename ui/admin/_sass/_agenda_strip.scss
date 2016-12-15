@@ -3,7 +3,7 @@
   position:relative;
   font-size:9px;
   height:20px;
-  overflow:hidden;
+ overflow:hidden;
 
   .agenda-view-area {
 	position: absolute;
@@ -20,20 +20,50 @@
 	right:0;
 	bottom:0;
 
-	z-index:2;
+	z-index:3;
 	.agenda-hour {
 
 	  border:1px solid $border-color;
 	  border-right-color:transparent;
 	  float:left;
 	  text-align: center;
-	  line-height:15px;
-	  color:darken($border-color,20%);
+	  vertical-align: middle;
+	  color:darken($border-color,40%);
+	  text-shadow:1px 1px  #fff;
 
 	  box-sizing: border-box;
 	  &:last-child {
 		border-right-color:$border-color;
 	  }
+	}
+  }
+  .agenda-closed {
+	position: absolute;
+	top:0;
+	left:0;
+	right:0;
+	bottom:0;
+
+	.agenda-closed-item {
+	  position: absolute;
+	  top: 0;
+	  bottom: 0;
+	  background:
+			  /* On "top" */
+			  repeating-linear-gradient(
+							  45deg,
+							  transparent,
+							  transparent 5px,
+							  #f1f1f1 5px,
+							  #f1f1f1 10px
+			  ),
+				/* on "bottom" */
+			  linear-gradient(
+							  to bottom,
+							  #e1e1e1,
+							  #e1e1e1
+			  );
+
 	}
   }
   .agenda-items {
@@ -48,14 +78,8 @@
 	  top:0;
 	  bottom:0;
 
-	  background-color: #d6d6d6;
-	  &.current {
-
-		background-color: lighten($color-navy-blue,4%);
-
-
-
-	  }
+	  background-color:  lighten($color-navy-blue,50%);
+	  background: linear-gradient(to bottom, lighten($color-navy-blue,55%),lighten($color-navy-blue,40%));
 	  .item-label {
 		position: absolute;
 		top:0;
@@ -63,11 +87,18 @@
 		right:0;
 		bottom:0;
 		z-index: 4;
-
-
-
-
 	  }
+
+	  &.current {
+
+		background-color: lighten($color-navy-blue,4%);
+		background: linear-gradient(to bottom, lighten($color-navy-blue,20%),lighten($color-navy-blue,5%));
+
+		.item-label {
+		  z-index: 6;
+		}
+	  }
+
 	}
   }
 

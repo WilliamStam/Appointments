@@ -391,6 +391,12 @@ class appointments extends _ {
 
 		$return = array();
 
+		$return['closed_hours'] = array(
+			"l"=>0,
+			"r"=>0,
+		);
+
+
 		$dateForNow = array();
 
 		//test_array($records);
@@ -400,9 +406,17 @@ class appointments extends _ {
 			"end"=>date("Y-m-d H:i:s",strtotime("18:00:00"))
 		);
 
+
+		$business_hours['start_l'] = $business_hours['start'];
+		$business_hours['end_r'] = $business_hours['end'];
+
+
 		$day_s = strtotime(date("Y-m-d 00:00:00",strtotime($business_hours['start'])));
 		$day_e = strtotime(date("Y-m-d 23:59:59",strtotime($business_hours['end'])));
 		$day = $day_e - $day_s;
+
+
+
 
 		//test_array($business_hours);
 		$new_records = array();
@@ -416,6 +430,14 @@ class appointments extends _ {
 
 			$s = strtotime($item['time']['start']);
 			$e = strtotime($item['time']['end']);
+
+
+			if (date("Y-m-d H:i:s",$s)<$business_hours['start_l']){
+				$business_hours['start_l'] = date("Y-m-d H:i:s",$s);
+			}
+			if (date("Y-m-d H:i:s",$e)>$business_hours['end_r']){
+				$business_hours['end_r'] = date("Y-m-d H:i:s",$e);
+			}
 
 
 			$l = $s - $day_s_item;
@@ -458,8 +480,8 @@ class appointments extends _ {
 
 
 
-		$endh = strtotime($business_hours['end']);
-		$starth = strtotime($business_hours['start']);
+		$endh = strtotime($business_hours['end_r']);
+		$starth = strtotime($business_hours['start_l']);
 
 		$secinday = 60 * 60 * 24;
 		$starth_ = (($starth - $day_s));
@@ -492,6 +514,24 @@ class appointments extends _ {
 
 		}
 
+		$endh_close = strtotime($business_hours['end']);
+
+		$starth_close = strtotime($business_hours['start']);
+		$starth_close_ = (($starth_close - $day_s));
+		$s_close = 100 - ($starth_close_ / $secinday)*100;
+
+		$endh_close = strtotime($business_hours['end']);
+		$endh_close_ = (($day_e-$endh_close));
+		$e_close = 100 - ($endh_close_ / $secinday)*100;
+
+
+	//	test_array($e_close);
+// 68.65 | 80.7
+
+		$return['closed_hours'] = array(
+			"l"=>$s_close,
+			"r"=>$e_close,
+		);
 
 
 
@@ -502,6 +542,7 @@ class appointments extends _ {
 		$return['settings']['d'] = $day;
 
 
+		//test_array($return);
 		return $return;
 
 	}

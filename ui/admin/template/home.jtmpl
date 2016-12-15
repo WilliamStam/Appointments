@@ -106,35 +106,30 @@
 	<![CDATA[
 
 
-
-
-
 	]]>
 </script>
 <script type="text/x-jqote-template" id="template-header-popover">
 	<![CDATA[
-			<ul class='list-group popover-list'>
-				<% for(var i in this.services){ %>
-				<li class='list-group-item heading text-right'><%= this.services[i].label %></li>
-				<% for(var g in this.services[i].records){ %>
-				<li class='list-group-item'>
-					<span class='badge'><%= this.services[i].records[g].duration_view %></span>
-					<%= this.services[i].records[g].label %>
+	<ul class='list-group popover-list'>
+		<% for(var i in this.services){ %>
+		<li class='list-group-item heading text-right'><%= this.services[i].label %></li>
+		<% for(var g in this.services[i].records){ %>
+		<li class='list-group-item'>
+			<span class='badge'><%= this.services[i].records[g].duration_view %></span>
+			<%= this.services[i].records[g].label %>
 
-					<% if(this.services[i].records[g].staff){ %>
-					<div style='font-size: smaller'>
-						(<%= this.services[i].records[g].staff.first_name %> <%=
-						this.services[i].records[g].staff.last_name %>)
-					</div>
+			<% if(this.services[i].records[g].staff){ %>
+			<div style='font-size: smaller'>
+				(<%= this.services[i].records[g].staff.first_name %> <%=
+				this.services[i].records[g].staff.last_name %>)
+			</div>
 
-					<% } %>
-				</li>
-				<% } %>
-				<% } %>
+			<% } %>
+		</li>
+		<% } %>
+		<% } %>
 
-			</ul>
-
-
+	</ul>
 
 
 	]]>
@@ -158,80 +153,90 @@
 
 					<% if(this.active.ID){ %>
 					<div class="alert alert-success">
-					<div class="row appointment-row row-active-app" data-id="<%= this.active.ID %>">
+						<div class="row appointment-row row-active-app" data-id="<%= this.active.ID %>">
 
-						<div class="col-sm-7">
+							<div class="col-sm-7">
 
 
-							<h4 class="visible-xs-block">Active Appointment:</h4>
-							<h3><small class="hidden-xs">Active Appointment: </small> <%= this.active.client.first_name||"Walk-In" %> <%= this.active.client.last_name||"" %></h3>
-							<div>Until: <strong><%= this.active.time.end_view %></strong></div>
+								<h4 class="visible-xs-block">Active Appointment:</h4>
+								<h3>
+									<small class="hidden-xs">Active Appointment:</small>
+									<%= this.active.client.first_name||"Walk-In" %> <%= this.active.client.last_name||""
+									%>
+								</h3>
+								<div>Until: <strong><%= this.active.time.end_view %></strong></div>
+
+							</div>
+							<div class="col-sm-5">
+
+								<% if(this.active.client.ID){ %>
+								<% if(this.active.client.mobile_number){ %>
+								<div>
+									<%= this.active.client.mobile_number %> <%
+									if(this.active.client.mobile_number_notification==1){ %>
+									*<% } %>
+								</div>
+								<% } %>
+								<% if(this.active.client.email){ %>
+								<div>
+									<%= this.active.client.email %> <% if(this.active.client.email_notification==1){ %>
+									*<% } %>
+								</div>
+								<% } %>
+								<% } %>
+								<div>
+									<abbr data-toggle="popover" data-placement="bottom" data-content="<%= $.jqote($('#template-header-popover'),this.active) %>" data-html="true" data-trigger="hover" data-template='<div class="popover services-popover" role="tooltip"><div class="arrow"></div><h3 class="popover-title"></h3><div class="popover-content" style="padding:0"></div></div>' title="Services"><%=
+										this.active.services.length %> Service<% if(this.active.services.length>1){
+										%>s<% } %></abbr>
+								</div>
+							</div>
 
 						</div>
-						<div class="col-sm-5">
-
-							<% if(this.active.client.ID){ %>
-							<% if(this.active.client.mobile_number){ %>
-							<div>
-								<%= this.active.client.mobile_number %> <% if(this.active.client.mobile_number_notification==1){ %>
-								*<% } %>
-							</div>
-							<% } %>
-							<% if(this.active.client.email){ %>
-							<div>
-								<%= this.active.client.email %> <% if(this.active.client.email_notification==1){ %> *<% } %>
-							</div>
-							<% } %>
-							<% } %>
-							<div>
-							<abbr  data-toggle="popover" data-placement="bottom" data-content="<%= $.jqote($('#template-header-popover'),this.active) %>" data-html="true" data-trigger="hover" data-template='<div class="popover services-popover" role="tooltip"><div class="arrow"></div><h3 class="popover-title"></h3><div class="popover-content" style="padding:0"></div></div>' title="Services"><%= this.active.services.length %> Service<% if(this.active.services.length>1){ %>s<% } %></abbr>
-							</div>
-						</div>
-
-					</div>
 					</div>
 
 					<% } else { %>
 					<% if(this.next.ID){ %>
 					<div class="alert <% if(this.next.status=='shortly'){ %> alert-info<% } %>">
-					<div class="row appointment-row row-next-app" data-id="<%= this.next.ID %>">
+						<div class="row appointment-row row-next-app" data-id="<%= this.next.ID %>">
 
-						<div class="col-sm-7 ">
+							<div class="col-sm-7 ">
 
 
-							<h4 class="visible-xs-block ">Next Appointment:</h4>
-							<h3>
-								<small class="hidden-xs">Next Appointment:</small>
-								<%= this.next.client.first_name||"Walk-In" %> <%= this.next.client.last_name||"" %>
-							</h3>
-							<div>Starts in: <strong><%= this.next.time.startsin %></strong></div>
+								<h4 class="visible-xs-block ">Next Appointment:</h4>
+								<h3>
+									<small class="hidden-xs">Next Appointment:</small>
+									<%= this.next.client.first_name||"Walk-In" %> <%= this.next.client.last_name||"" %>
+								</h3>
+								<div>Starts in: <strong><%= this.next.time.startsin %></strong></div>
+
+							</div>
+							<div class="col-sm-5">
+
+								<% if(this.next.client.ID){ %>
+								<% if(this.next.client.mobile_number){ %>
+								<div>
+									<%= this.next.client.mobile_number %> <%
+									if(this.next.client.mobile_number_notification==1){ %>
+									*<% } %>
+								</div>
+								<% } %>
+								<% if(this.next.client.email){ %>
+								<div>
+									<%= this.next.client.email %> <% if(this.next.client.email_notification==1){ %> *<%
+									} %>
+								</div>
+								<% } %>
+								<% } %>
+								<div>
+									<abbr data-toggle="popover" data-placement="bottom" data-content="<%= $.jqote($('#template-header-popover'),this.next) %>" data-html="true" data-trigger="hover" data-template='<div class="popover services-popover" role="tooltip"><div class="arrow"></div><h3 class="popover-title"></h3><div class="popover-content" style="padding:0"></div></div>' title="Services">
+										<%= this.next.services.length %> Service<% if(this.next.services.length>1){
+										%>s<% } %>
+									</abbr>
+								</div>
+							</div>
+
 
 						</div>
-						<div class="col-sm-5">
-
-							<% if(this.next.client.ID){ %>
-							<% if(this.next.client.mobile_number){ %>
-							<div>
-								<%= this.next.client.mobile_number %> <%
-								if(this.next.client.mobile_number_notification==1){ %>
-								*<% } %>
-							</div>
-							<% } %>
-							<% if(this.next.client.email){ %>
-							<div>
-								<%= this.next.client.email %> <% if(this.next.client.email_notification==1){ %> *<% } %>
-							</div>
-							<% } %>
-							<% } %>
-							<div>
-							<abbr  data-toggle="popover" data-placement="bottom" data-content="<%= $.jqote($('#template-header-popover'),this.next) %>" data-html="true" data-trigger="hover" data-template='<div class="popover services-popover" role="tooltip"><div class="arrow"></div><h3 class="popover-title"></h3><div class="popover-content" style="padding:0"></div></div>' title="Services">
-								<%= this.next.services.length %> Service<% if(this.next.services.length>1){ %>s<% } %>
-							</abbr>
-							</div>
-						</div>
-
-
-					</div>
 					</div>
 
 
@@ -261,6 +266,12 @@
 
 		<div class="agenda-view-area" style="left:-<%= this.agenda.settings.l %>%;right:-<%= this.agenda.settings.r %>%;">
 
+			<div class="agenda-closed">
+				<div class="agenda-closed-item" style="left:0;right:<%= this.agenda.closed_hours.l %>%"></div>
+				<div class="agenda-closed-item" style="right:0;left:<%= this.agenda.closed_hours.r %>%"></div>
+
+			</div>
+
 			<div class="agenda-view-hours">
 				{% for i in 0..23 %}
 					<div class="agenda-hour" style="width:<%= this.agenda.settings.width %>%">
@@ -271,7 +282,7 @@
 			<div class="agenda-items">
 				<% for(var i in this.agenda.items){ %>
 				<div class="agenda-item <%= this.agenda.items[i].status %>" style="left:<%= this.agenda.items[i].agenda.l %>%;right:<%= this.agenda.items[i].agenda.r %>%;">
-					<div class="item-label appointment-row" title="<strong><%= this.agenda.items[i].client.first_name||'Walk-In' %> <%= this.agenda.items[i].client.last_name||'' %></strong><br><%= this.agenda.items[i].time.start_view %> - <%= this.agenda.items[i].time.end_view %>" data-id="<%= this.agenda.items[i].ID %>" data-toggle="tooltip" data-placement="bottom" data-content="<%= this.agenda.items[i].client.first_name||'Walk-In' %> <%= this.agenda.items[i].client.last_name||'' %>" data-html="true" data-trigger="hover" data-container="body" >
+					<div class="item-label appointment-row" title="<strong><%= this.agenda.items[i].client.first_name||'Walk-In' %> <%= this.agenda.items[i].client.last_name||'' %></strong><br><%= this.agenda.items[i].time.start_view %> - <%= this.agenda.items[i].time.end_view %>" data-id="<%= this.agenda.items[i].ID %>" data-toggle="tooltip" data-placement="bottom" data-content="<%= this.agenda.items[i].client.first_name||'Walk-In' %> <%= this.agenda.items[i].client.last_name||'' %>" data-html="true" data-trigger="hover" data-container="body">
 
 
 					</div>
@@ -280,6 +291,8 @@
 				<% } %>
 
 			</div>
+
+
 			<% if(this.agenda.today){ %>
 			<div class="agenda-now" style="left:<%= this.agenda.today %>%"></div>
 			<% } %>

@@ -13,13 +13,21 @@ class users extends _ {
 	function form() {
 		$result = array();
 		$ID = isset($_REQUEST['ID'])?$_REQUEST['ID']:"";
-		
 		$values = array(
-				"label" => $this->post("label",true),
-				
+				"fullname" => $this->post("fullname",true),
+				"username" => $this->post("username",true),
+				"password" => $this->post("password"),
+
 				
 		);
-	
+
+
+		if ($ID=="" && $values['password']==""){
+			$this->errors['password'] = "Password is required";
+		}
+
+
+
 		
 		if (count($this->errors)==0){
 			

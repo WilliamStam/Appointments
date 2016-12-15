@@ -11,7 +11,9 @@ class _ extends \controllers\_ {
 		$this->cfg = $this->f3->get("cfg");
 		$this->params = $this->f3->get("PARAMS");
 		$this->f3->set("__runJSON", false);
-		
+		if ($this->user['ID']==""){
+			$this->f3->reroute("/login");
+		}
 		
 	}
 

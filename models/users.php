@@ -127,13 +127,21 @@ class users extends _ {
 		$timer = new timer();
 		$f3 = \Base::instance();
 		$return = array();
-
 		$domain=$f3->get("domain");
 		$domainID = $domain['ID'];
 		
 		if (isset($values['ID'])) unset($values['ID']);
-		if (isset($values['password'])) $values['password'] = md5(md5('salt') . $values['password']);
+		if (isset($values['password'])){
+			if ($values['password']!=""){
+				$values['password'] = md5(md5('salt') . $values['password']);
+			} else {
+				unset($values['password']);
+			}
 
+		}
+
+
+		//test_array($values);
 
 		$a = new \DB\SQL\Mapper($f3->get("DB"), "users");
 		$a->load("ID='$ID'");
@@ -210,7 +218,7 @@ class users extends _ {
 	
 	static function lastActivity($user){
 		if ($user['ID']){
-			self::_save($user['ID'],array("lastActivity"=>date("Y-m-d H:i:s")));
+			//self::_save($user['ID'],array("lastActivity"=>date("Y-m-d H:i:s")));
 		}
 		
 		

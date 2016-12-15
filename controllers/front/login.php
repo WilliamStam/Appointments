@@ -8,27 +8,33 @@ class login extends _ {
 	}
 	function page(){
 		//if ($this->user['ID']=="")$this->f3->reroute("/login");
+		$username = isset($_REQUEST['login_username']) ? $_REQUEST['login_username'] : "";
+		$password = isset($_REQUEST['login_password']) ? $_REQUEST['login_password'] : "";
+		$response = array();
+		if ($username && $password) {
+			$response = $this->login();
+		}
 		
 		
-		
-		$tmpl = new \template("template.twig");
+		$tmpl = new \template("template.twig","ui/front");
 		$tmpl->page = array(
 				"section"    => "login",
 				"sub_section"=> "login",
 				"template"   => "login",
 				"meta"       => array(
-						"title"=> "Elections 2016 | Admin Login",
+						"title"=> "Admin Login",
 				),
 		);
-		$tmpl->msg = isset($_GET['msg'])?$_GET['msg']:"";
+		$tmpl->username = $username;
+		$tmpl->response = $response;
 		$tmpl->output();
 	}
 	function login(){
-		$username = isset($_REQUEST['login_email']) ? $_REQUEST['login_email'] : "";
+		$username = isset($_REQUEST['login_username']) ? $_REQUEST['login_username'] : "";
 		$password = isset($_REQUEST['login_password']) ? $_REQUEST['login_password'] : "";
 		
 		
-		$userO = new \models\user();
+		$userO = new \models\users();
 		$uID = $userO->login($username, $password);
 		
 		$user = $userO->get($uID);
@@ -39,11 +45,13 @@ class login extends _ {
 		if ($user['ID']){
 			$this->f3->reroute("/admin");
 		} else {
-			$this->f3->reroute("/login?msg=Login+Failed");
+			return array(
+				"failed"=>true,
+				"msg"=>"Login Failed"
+			);
 		}
 		
 		
 		
-		return "Login Failed";
 	}
 }

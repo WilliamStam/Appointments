@@ -8,6 +8,9 @@ class _ extends \controllers\_ {
 		$this->f3 = \Base::instance();
 		parent::__construct();
 		$this->user = $this->f3->get("user");
+		if ($this->user['ID']==""){
+			$this->f3->error(403);
+		}
 		
 		$this->f3->set("__runJSON", true);
 		

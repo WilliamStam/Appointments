@@ -8,8 +8,10 @@ class _ extends \controllers\_ {
 		parent::__construct();
 		$this->user = $this->f3->get("user");
 		$this->cfg = $this->f3->get("cfg");
-		
 
+		if ($this->user['ID']==""){
+			$this->f3->error(403);
+		}
 		$this->f3->set("__runJSON", true);
 	}
 	

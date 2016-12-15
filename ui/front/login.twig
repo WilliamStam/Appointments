@@ -1,0 +1,42 @@
+
+<form action="/login" method="post" id="loginForm">
+<div class="login-container">
+	<div class="row">
+		<div class="col-md-12">
+
+			<div class="panel {% if response.failed %}red{% else %}navyblue{% endif %}">
+				<div class="panel-header built">
+					<div class="text-center m-b-md">
+						<h3>PLEASE LOGIN</h3>
+						{% if response.msg %}
+						<div class="alert {% if response.failed %}alert-danger{% else %}alert-info{% endif %}">
+							<p>{{ response.msg }}</p>
+						</div>
+						{% endif %}
+					</div>
+				</div>
+				<div class="panel-body">
+
+						<div class="form-group">
+							<label class="control-label" for="username">Username</label>
+							<input type="text" placeholder="username" title="Please enter you username" required="" value="{{ username }}" name="login_username" id="login_username" class="form-control">
+						</div>
+						<div class="form-group">
+							<label class="control-label" for="password">Password</label>
+							<input type="password" title="Please enter your password" placeholder="******" required="" value="" name="login_password" id="login_password" class="form-control">
+						</div>
+
+
+
+				</div>
+				<div class="panel-footer">
+					<button class="btn {% if response.failed %}btn-danger{% else %}btn-primary{% endif %} btn-block">{% if response.failed %}{{ response.msg }}{% else %}Login{% endif %}</button>
+					<a href="/" class="btn btn-default btn-block">Cancel</a>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</div>
+</form>
+

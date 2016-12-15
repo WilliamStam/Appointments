@@ -575,7 +575,11 @@
 
 
 					<div class="agenda-view-area" style="left:-<%= this.agenda.settings.l %>%;right:-<%= this.agenda.settings.r %>%;">
+						<div class="agenda-closed">
+							<div class="agenda-closed-item" style="left:0;right:<%= this.agenda.closed_hours.l %>%"></div>
+							<div class="agenda-closed-item" style="right:0;left:<%= this.agenda.closed_hours.r %>%"></div>
 
+						</div>
 						<div class="agenda-view-hours">
 							{% for i in 0..23 %}
 								<div class="agenda-hour" style="width:<%= this.agenda.settings.width %>%">

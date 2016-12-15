@@ -17,6 +17,7 @@ class users extends _ {
 
 
 		$return = models\users::getInstance()->get($ID);
+		unset($return['password']);
 
 
 		return $GLOBALS["output"]['data'] = $return;
