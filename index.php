@@ -97,12 +97,14 @@ $f3->set('_v', $minVersion);
 $uID = isset($_SESSION['uID']) ? base64_decode($_SESSION['uID']) : "";
 
 $userO = new \models\users();
-$user = $userO->get($uID);
+$user = $userO->get($uID,array("format"=>true));
+
+//test_array($user);
 if (isset($_GET['auID']) && $user['su'] == '1') {
 	$_SESSION['uID'] = $_GET['auID'];
 	$user = $userO->get($_GET['auID']);
 }
-//test_array($uID); 
+//test_array($user);
 
 $f3->set('user', $user);
 

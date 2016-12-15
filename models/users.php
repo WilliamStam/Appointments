@@ -33,7 +33,9 @@ class users extends _ {
 		} else {
 			$return = parent::dbStructure("users");
 		}
-		
+		if ($options['format']){
+			$return = $this->format($return,$options);
+		}
 		//test_array($return);
 		$timer->_stop(__NAMESPACE__, __CLASS__, __FUNCTION__, func_get_args());
 		return $return;
@@ -140,6 +142,7 @@ class users extends _ {
 
 		}
 
+		if (isset($values['settings']))$values['settings'] = json_encode($values['settings']);
 
 		//test_array($values);
 
@@ -198,6 +201,7 @@ class users extends _ {
 		foreach ($data as $item) {
 			$item['timeago']['lastlogin'] = timesince($item['lastlogin']);
 			$item['timeago']['lastActivity'] = timesince($item['lastActivity']);
+			$item['settings'] = json_decode($item['settings'],true);
 
 			$n[] = $item;
 		}
@@ -225,6 +229,29 @@ class users extends _ {
 		
 		//test_array($settings); 
 	}
-	
+
+
+	static function settings($property,$new_value=""){
+		$f3 = \Base::instance();
+		$user = $f3->get("user");
+
+		$settings = $user['settings'];
+
+
+		if ($new_value){
+			$settings[$property] = $new_value;
+			if ($user['ID']){
+				self::_save($user['ID'],array("settings"=>$settings));
+			}
+		}
+
+
+
+		return isset($settings[$property])?$settings[$property] :"";
+
+
+		//test_array($settings);
+	}
+
 	
 }

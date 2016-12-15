@@ -1,26 +1,63 @@
 <script type="text/x-jqote-template" id="template-view-list">
 	<![CDATA[
 
+
 	<section id="view-list-area">
-		<div class="panel">
+		<div class="panel" id="filter-bar">
 
-			<div class="panel-body">
-				<div class="row font-extra-bold">
-					<div class="col-sm-1 col-xs-4">Time</div>
-					<div class="col-sm-1 col-xs-4">Duration</div>
-					<div class="col-sm-3 col-xs-12">Name</div>
+			<div class="panel-body" style="padding:5px;">
 
-					<div class="col-sm-6">Services</div>
+				<div class="row" style="margin:0;">
+					<div class="col-sm-3 text-center">
+						<div class="btn-group btn-group-justified">
+							<a href="#" class="btn btn-default <% if (this.settings.nav.prev){ %>section-list-jump <% } else { %>disabled<% } %>" data-value="<%= this.settings.nav.prev %>" data-section="<%= this.settings.list_filter %>"><i class="fa fa-arrow-left"></i></a>
+
+
+
+							<a href="#" class="btn  section-list-jump  <% if(this.settings.nav.current==this.settings.nav.now){ %>disabled btn-default<% } else { %>btn-info<% } %>" data-value="<%= this.settings.nav.now %>" data-section="<%= this.settings.list_filter %>">Current</a>
+
+
+
+							<a href="#" class="btn btn-default  <% if (this.settings.nav.next){ %>section-list-jump <% } else { %>disabled<% } %>" data-value="<%= this.settings.nav.next %>" data-section="<%= this.settings.list_filter %>"><i class="fa fa-arrow-right"></i></a>
+						</div>
+					</div>
+					<div class="col-sm-4">
+						<div class="btn-group btn-group-justified" data-toggle="buttons">
+							<label class="btn btn-default <% if (this.settings.list_filter=='day' || this.settings.list_filter==''){ %>active<% } %>">
+								<input type="radio" name="filter" id="filter-day" autocomplete="off" value="day"  <% if (this.settings.list_filter=='day' || this.settings.list_filter==''){ %>checked="checked"<% } %>>
+								 Day
+							</label>
+							<label class="btn btn-default  <% if (this.settings.list_filter=='week'){ %>active<% } %>">
+								<input type="radio" name="filter" id="view-week" value="week" autocomplete="off"  <% if (this.settings.list_filter=='week'){ %>checked="checked"<% } %>>
+								Week
+							</label>
+							<label class="btn btn-default  <% if (this.settings.list_filter=='month'){ %>active<% } %>">
+								<input type="radio" name="filter" id="view-month" value="month" autocomplete="off" <% if (this.settings.list_filter=='month'){ %>checked="checked"<% } %>>
+								 Month
+							</label>
+						</div>
+					</div>
+					<div class="col-sm-5">
+						<h3 class="text-right" style="margin:0; padding:5px 10px 0 0;"><%= this.settings.label %></h3>
+					</div>
+
+
 				</div>
+
+
+
+
 			</div>
 		</div>
 
 		<% for (var i in this.list){ %>
 		<div class="panel <% if (this.list[i].label.status=='1'){ %>past<% } %> <% if (this.list[i].label.status=='0'){ %>blue<% } %>">
+
 			<div class="panel-heading built">
 				<%= this.list[i].label.day %>
 				<div class="panel-tools"><%= this.list[i].label.date %></div>
 			</div>
+
 			<div class="panel-body">
 
 
@@ -77,8 +114,9 @@
 			</div>
 		</div>
 		<% } %>
-
-
+		<% if (!this.list.length){ %>
+<div class="no-records">No Records Found</div>
+		<% } %>
 	</section>
 
 	]]>

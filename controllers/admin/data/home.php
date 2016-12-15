@@ -3,6 +3,7 @@
 namespace controllers\admin\data;
 
 use \models as models;
+use \models\users as user;
 
 class home extends _ {
 	function __construct() {
@@ -101,7 +102,7 @@ class home extends _ {
 		if (isset($return['time']['start'])){
 
 			$return['label']['main'] = date("H:i",strtotime($return['time']['start']));
-			$return['label']['small'] =  date("l, d M Y",strtotime($return['time']['start']));
+			$return['label']['small'] =  date("D, d M Y",strtotime($return['time']['start']));
 			$return['label']['today'] =  date("Ymd",strtotime($return['time']['start']))==date("Ymd",strtotime("now"))?1:0;
 
 			$return['time']['start_view'] = date("H:i",strtotime($return['time']['start']));
@@ -162,9 +163,116 @@ class home extends _ {
 	function view_list() {
 		$return = array();
 		$return['options'] = $this->options;
+		user::settings("section","list");
+		$list_filter = isset($_GET['list_filter'])?$_GET['list_filter']:user::settings("list_filter");
+		$list_filter = $list_filter?$list_filter:"day";
+
+		$list_value = isset($_GET['list_value'])?$_GET['list_value']:user::settings("list_value_".$list_filter);
 
 
-		$records = models\appointments::getInstance()->getAll("appointmentStart","appointmentStart","",array("services"=>true,"client"=>true));
+
+		$next = "";
+		$prev = "";
+		$label = "";
+		$current = "";
+		$where = "1";
+		switch($list_filter){
+			case "day":
+
+				$list_value = $list_value?$list_value:date("Y-m-d",strtotime("now"));
+
+				$next = date("Y-m-d",strtotime("+1 day",strtotime($list_value)));
+				$prev = date("Y-m-d",strtotime("-1 day",strtotime($list_value)));
+				$current = date("Y-m-d",strtotime("now"));
+
+				$label = date("D, d M Y",strtotime($list_value));
+				$currrentDate = date("Y-m-d",strtotime($list_value));
+
+				$where .= " AND (DATE_FORMAT(appointmentStart,'%Y-%m-%d') = '{$currrentDate}')";
+
+				break;
+
+			case "week":
+
+
+
+
+				$list_value = $list_value?$list_value:date("W-Y");
+				$val_parts = explode("-",$list_value);
+
+
+
+				$week_start = date("Y-m-d", strtotime($val_parts[1].'W'.str_pad($val_parts[0], 2, 0, STR_PAD_LEFT)));
+				$week_end = date("Y-m-d", strtotime($val_parts[1].'W'.str_pad($val_parts[0], 2, 0, STR_PAD_LEFT).' +6 days'));
+
+
+
+				//test_array(array($week_start,$week_end));
+
+
+				$next = date("W-Y",strtotime("+1 week",strtotime($week_start)));
+				$prev = date("W-Y",strtotime("-1 week",strtotime($week_start)));
+				$current = date("W-Y",strtotime("now"));
+
+
+				$label =  date("d M", strtotime($week_start)) . " - " . date("d M", strtotime($week_end)). " (Week ".   date("W",strtotime($week_start)) .  ")";
+
+				$where .= " AND ((DATE_FORMAT(appointmentStart,'%Y-%m-%d') >= '{$week_start}' AND DATE_FORMAT(appointmentStart,'%Y-%m-%d') <= '{$week_end}'))";
+
+				break;
+
+
+			case "month":
+
+
+
+
+				$list_value = $list_value?$list_value:date("m-Y");
+				$val_parts = explode("-",$list_value);
+
+
+				$month_start = date("Y-m-d",strtotime($val_parts[1]."-".$val_parts[0]."-01"));
+				$month_end = date("Y-m-d",strtotime($val_parts[1]."-".$val_parts[0]."-".date('t',strtotime($month_start))));
+
+				$label =  date("F Y", strtotime($month_start)) ;
+
+
+				//test_array(array($month_start,$list_value,$month_end,$label));
+
+
+				$next = date("m-Y",strtotime("+1 month",strtotime($month_start)));
+				$prev = date("m-Y",strtotime("-1 month",strtotime($month_start)));
+				$current = date("m-Y",strtotime("now"));
+
+
+
+				$where .= " AND ((DATE_FORMAT(appointmentStart,'%Y-%m-%d') >= '{$month_start}' AND DATE_FORMAT(appointmentStart,'%Y-%m-%d') <= '{$month_end}'))";
+
+				break;
+
+
+
+		}
+
+
+
+
+		$return['settings'] = array(
+			"list_filter"=>$list_filter,
+			"list_value"=>$list_value,
+			"label"=>$label,
+			"nav"=>array(
+				"current"=>$list_value,
+				"now"=>$current,
+				"next"=>$next,
+				"prev"=>$prev,
+			)
+
+		);
+
+
+
+		$records = models\appointments::getInstance()->getAll($where,"appointmentStart","",array("services"=>true,"client"=>true));
 
 
 		$list = array();
@@ -239,15 +347,30 @@ class home extends _ {
 	function view_day() {
 		$return = array();
 		$return['options'] = $this->options;
+		\models\users::settings("section","day");
 
 
+
+
+
+
+
+
+
+
+
+
+		$return['head'] = $this->head;
 		return $GLOBALS["output"]['data'] = $return;
 	}
 	function view_calendar() {
 		$return = array();
 		$return['options'] = $this->options;
+		\models\users::settings("section","calendar");
 
 
+
+		$return['head'] = $this->head;
 		return $GLOBALS["output"]['data'] = $return;
 	}
 

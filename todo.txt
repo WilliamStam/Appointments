@@ -5,7 +5,7 @@
 	day view
 	calendar view
 	search
-
+	user settings
 	logs created for appointments (log event ID to be added)
 	rich text editor for notes
 
