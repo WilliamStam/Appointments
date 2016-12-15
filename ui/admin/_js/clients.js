@@ -113,17 +113,7 @@ function getForm() {
 		highlightCurrent();
 
 		$("#side-bar .offcanvas").trigger("offcanvas.close");
-		$("#left-area").swipe( {
-			swipe:function(event, direction, distance, duration, fingerCount, fingerData) {
-				if ($(window).width()<768){
-					if (direction=="left"){
-						$("#side-bar").find(".offcanvas").trigger("offcanvas.open");
-					}
-				}
-			},
-			threshold: 75,
-			allowPageScroll: "auto"
-		});
+
 
 
 		
