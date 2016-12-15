@@ -35,7 +35,7 @@ class users extends _ {
 
 		$return['search'] = $search;
 
-		$return['list'] = models\users::getInstance()->getAll($where);
+		$return['list'] = models\users::getInstance()->getAll($where,"fullname ASC","",array("format"=>true));
 
 
 		return $GLOBALS["output"]['data'] = $return;

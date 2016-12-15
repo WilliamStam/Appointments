@@ -74,6 +74,10 @@
 			<% for(var i in this.list){ %>
 			<tr class="record " data-id="<%= this.list[i].ID %>">
 				<td><%= this.list[i].fullname %></td>
+				<td style="font-size: 9px; color:#ccc; padding-top:10px;" class="text-right">
+
+					<%= this.list[i].timeago.lastActivity||'' %>
+				</td>
 			</tr>
 			<% } %>
 			</tbody>

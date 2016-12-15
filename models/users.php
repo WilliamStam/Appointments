@@ -24,12 +24,7 @@ class users extends _ {
 		}
 
 
-		$result = $this->f3->get("DB")->exec("
-			SELECT *
-			FROM users
-			WHERE $where;
-		"
-		);
+		$result = $this->getData($where,"","0,1",$options);
 
 
 		if (count($result)) {
@@ -43,8 +38,13 @@ class users extends _ {
 		$timer->_stop(__NAMESPACE__, __CLASS__, __FUNCTION__, func_get_args());
 		return $return;
 	}
-
 	public function getAll($where = "", $orderby = "", $limit = "", $options = array()) {
+		$result = $this->getData($where,$orderby,$limit,$options);
+		$result = $this->format($result,$options);
+		return $result;
+
+	}
+	public function getData($where = "", $orderby = "", $limit = "", $options = array()) {
 		$timer = new timer();
 		$f3 = \Base::instance();
 
@@ -196,8 +196,9 @@ class users extends _ {
 		$i = 1;
 		$n = array();
 		foreach ($data as $item) {
-			
-			
+			$item['timeago']['lastlogin'] = timesince($item['lastlogin']);
+			$item['timeago']['lastActivity'] = timesince($item['lastActivity']);
+
 			$n[] = $item;
 		}
 		
@@ -218,7 +219,7 @@ class users extends _ {
 	
 	static function lastActivity($user){
 		if ($user['ID']){
-			//self::_save($user['ID'],array("lastActivity"=>date("Y-m-d H:i:s")));
+			self::_save($user['ID'],array("lastActivity"=>date("Y-m-d H:i:s")));
 		}
 		
 		
