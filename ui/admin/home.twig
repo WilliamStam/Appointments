@@ -28,11 +28,11 @@
 							<input type="radio" name="view" id="view-list" autocomplete="off" value="list" {% if _user['settings']['section']|default("list")=="list" %}checked="checked"{% endif %}>
 							<i class="fa fa-list"></i> List
 						</label>
-						<label class="btn btn-default {% if _user['settings']['section'] =='day' %}active{% endif %}">
+						<label class="btn btn-default disabled {% if _user['settings']['section'] =='day' %}active{% endif %}">
 							<input type="radio" name="view" id="view-day" value="day" autocomplete="off" {% if _user['settings']['section']=="day" %}checked="checked"{% endif %}>
 							<i class="fa fa-calendar-o"></i> Day View
 						</label>
-						<label class="btn btn-default {% if _user['settings']['section']=='calendar' %}active{% endif %}">
+						<label class="btn btn-default disabled {% if _user['settings']['section']=='calendar' %}active{% endif %}">
 							<input type="radio" name="view" id="view-calendar" value="calendar" autocomplete="off"  {% if _user['settings']['section']=="calendar" %}checked="checked"{% endif %}>
 							<i class="fa fa-calendar"></i> Calendar
 						</label>
