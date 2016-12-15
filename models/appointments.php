@@ -407,8 +407,8 @@ class appointments extends _ {
 		);
 
 
-		$business_hours['start_l'] = $business_hours['start'];
-		$business_hours['end_r'] = $business_hours['end'];
+		$business_hours['start_l'] = date("H:i:s",strtotime($business_hours['start']));
+		$business_hours['end_r'] = date("H:i:s",strtotime($business_hours['end']));
 
 
 		$day_s = strtotime(date("Y-m-d 00:00:00",strtotime($business_hours['start'])));
@@ -432,11 +432,17 @@ class appointments extends _ {
 			$e = strtotime($item['time']['end']);
 
 
-			if (date("Y-m-d H:i:s",$s)<$business_hours['start_l']){
-				$business_hours['start_l'] = date("Y-m-d H:i:s",$s);
+			if (date("His",$s)<date("His",strtotime($business_hours['start_l']))){
+				$business_hours['start_l'] = date("H:i:s",$s);
 			}
-			if (date("Y-m-d H:i:s",$e)>$business_hours['end_r']){
-				$business_hours['end_r'] = date("Y-m-d H:i:s",$e);
+			if (date("His",$e)>date("His",strtotime($business_hours['end_r']))){
+				$business_hours['end_r'] = date("H:i:s",$e);
+			}
+
+
+
+			if ($item['ID']=='1'){
+			//	if (isset($_GET['debug'])) test_array(array($business_hours,date("His",$s),date("His",strtotime($business_hours['start_l'])),$comp));
 			}
 
 

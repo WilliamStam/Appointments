@@ -34,6 +34,8 @@ class home extends _ {
 
 		$return['agenda'] = models\appointments::getInstance()->agenda_view($agenda_items);
 
+	//	if (isset($_GET['debug'])) test_array($return);
+
 		$return["stats"]['duration_view'] = seconds_to_time($return["stats"]['duration']*60,true);
 
 
