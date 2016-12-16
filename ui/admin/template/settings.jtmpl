@@ -4,6 +4,9 @@
 		<div class="col-sm-4">
 			<div class="panel">
 				<div class="panel-heading built">Open Hours (of the week)</div>
+				<div class="alert alert-info">
+					<p>Select the Opening and Closing times for the days of the week</p>
+				</div>
 				<div class="panel-body form-horizontal">
 
 					{% set weekdays = ['Sunday','Monday',"Tuesday",'Wednesday',"Thursday",'Friday','Saturday'] %}
@@ -26,16 +29,20 @@
 
 
 				</div>
+				<div class="alert alert-info">
+					<p>Remove any day's value to mark it as closed</p>
+				</div>
 			</div>
-			<div class="alert alert-info">
-				<p>Remove any day's value to mark it as closed</p>
-			</div>
+
 
 		</div>
 		<div class="col-sm-8">
 
 			<div class="panel">
 				<div class="panel-heading built">Closed Days</div>
+				<div class="alert alert-info">
+					<p>Click on any day to mark it as "closed". (ie public holidays) This day repeats every year</p>
+				</div>
 				<div class="panel-body form-horizontal">
 					<div class="row">
 						{% for i in 1..12 %}
