@@ -3,7 +3,7 @@
 namespace controllers\admin\save;
 use \models as models;
 
-class settings_open extends _ {
+class settings extends _ {
 	function __construct() {
 		parent::__construct();
 	}
@@ -12,21 +12,26 @@ class settings_open extends _ {
 	
 	function form() {
 		$result = array();
-		$ID = isset($_REQUEST['ID'])?$_REQUEST['ID']:"";
-		
-		$values = array(
-				"label" => $this->post("label",true),
-				
-				
-		);
-	
-		
+
+		$values = array();
+
+		if (isset($_POST['open'])){
+			$values['open']=$_POST['open'];
+		}
+		if (isset($_POST['closed'])){
+			$values['closed']=$_POST['closed'];
+		}
+
+		//test_array($_POST);
+
+
+		$response = "";
 		if (count($this->errors)==0){
-			
-			$ID = models\products::_save($ID,$values);
+			//test_array($values);
+			$response = models\settings::_save($values);
 		}
 		$return = array(
-				"ID" => $ID,
+				"ID" => $response,
 				"errors" => $this->errors
 		);
 		
@@ -42,7 +47,7 @@ class settings_open extends _ {
 		
 		if (count($this->errors)==0){
 			
-			$result = models\products::_delete($ID);
+			$result = models\settings::_delete($ID);
 		}
 		$return = array(
 				"result" => $result,

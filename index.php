@@ -106,6 +106,7 @@ if (isset($_GET['auID']) && $user['su'] == '1') {
 }
 //test_array($user);
 
+$f3->set('settings', models\settings::getInstance()->getAll("",array("format"=>true)));
 $f3->set('user', $user);
 
 if ($user['ID']) {
@@ -127,6 +128,7 @@ $f3->route('GET|POST /admin/services', 'controllers\admin\services->page');
 $f3->route('GET|POST /admin/products', 'controllers\admin\products->page');
 $f3->route('GET|POST /admin/clients', 'controllers\admin\clients->page');
 $f3->route('GET|POST /admin/staff', 'controllers\admin\staff->page');
+$f3->route('GET|POST /admin/settings', 'controllers\admin\settings->page');
 $f3->route('GET|POST /admin/settings/users', 'controllers\admin\users->page');
 
 

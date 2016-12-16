@@ -74,4 +74,24 @@
 
 
   }
+
+
+  .text-area-panel {
+	padding:0;
+	.note-toolbar {
+	  padding:0;
+	}
+	.panel {
+	  .panel-body {
+		border-top:1px solid $border-color;
+	  }
+	}
+	.note-editor.note-frame {
+	  border:none;
+	}
+
+
+
+  }
+
 }

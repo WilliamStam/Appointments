@@ -1,0 +1,27 @@
+.calendar-table-area {
+  font-size: 10px;
+  text-align: center;
+  min-height: 240px; }
+  .calendar-table-area h4 {
+    margin: 0;
+    padding: 0;
+    font-size: 14px;
+    text-align: left; }
+  .calendar-table-area table.calendar-table td.day-view {
+    padding: 0; }
+    .calendar-table-area table.calendar-table td.day-view label {
+      padding: 5px;
+      margin: 0;
+      display: block;
+      cursor: pointer; }
+      .calendar-table-area table.calendar-table td.day-view label .day-checkbox {
+        display: none; }
+      .calendar-table-area table.calendar-table td.day-view label:hover {
+        background-color: #f1f1f1; }
+    .calendar-table-area table.calendar-table td.day-view.active {
+      background-color: #34495e;
+      color: #fff; }
+      .calendar-table-area table.calendar-table td.day-view.active:hover label {
+        background-color: #587ca0; }
+  .calendar-table-area table.calendar-table .weekend {
+    background-color: #e9e9e9; }

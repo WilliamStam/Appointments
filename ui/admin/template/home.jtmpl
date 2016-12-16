@@ -305,6 +305,8 @@
 		<div class="agenda-view-area" style="left:-<%= this.agenda.settings.l %>%;right:-<%= this.agenda.settings.r %>%;">
 
 			<div class="agenda-closed">
+				<div class="agenda-closed-line" style="right:<%= this.agenda.closed_hours.l %>%"></div>
+				<div class="agenda-closed-line" style="left:<%= this.agenda.closed_hours.r %>%"></div>
 				<div class="agenda-closed-item" style="left:0;right:<%= this.agenda.closed_hours.l %>%"></div>
 				<div class="agenda-closed-item" style="right:0;left:<%= this.agenda.closed_hours.r %>%"></div>
 

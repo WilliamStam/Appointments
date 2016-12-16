@@ -20,6 +20,8 @@ var jsfile_admin = [
 	'vendor/ivaynberg/select2/dist/js/select2.full.min.js',
 	'vendor/components/bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js',
 	'vendor/twitter/typeahead.js/dist/typeahead.bundle.min.js',
+	'vendor/Summernote/Summernote/dist/summernote.min.js',
+	'vendor/weareoutman/clockpicker/dist/bootstrap-clockpicker.min.js',
 	'ui/_js/plugins/jquery.getData.js',
 	'ui/_js/plugins/jquery.ba-dotimeout.min.js',
 	'ui/_js/plugins/jquery.ba-bbq.js',

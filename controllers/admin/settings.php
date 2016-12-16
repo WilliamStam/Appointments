@@ -2,7 +2,7 @@
 namespace controllers\admin;
 use \timer as timer;
 use \models as models;
-class settings_open extends _ {
+class settings extends _ {
 	function __construct(){
 		parent::__construct();
 	}
@@ -13,10 +13,10 @@ class settings_open extends _ {
 		$tmpl = new \template("template.twig","ui/admin");
 		$tmpl->page = array(
 			"section"    => "settings",
-			"sub_section"=> "open",
-			"template"   => "settings_open",
+			"sub_section"=> "settings",
+			"template"   => "settings",
 			"meta"       => array(
-				"title"=> "Admin | Settings | Open Hours",
+				"title"=> "Admin | Settings",
 			),
 		);
 		$tmpl->output();

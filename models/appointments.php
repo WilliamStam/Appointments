@@ -391,6 +391,53 @@ class appointments extends _ {
 			$records = array($records);
 		}
 
+		$settings = $this->f3->get("settings");
+		$dateForNow = array();
+		foreach ($records as $item) {
+
+			if (!in_array(date("Y-m-d", strtotime($item['appointmentStart'])), $dateForNow)) {
+				$dateForNow[] = date("Y-m-d", strtotime($item['appointmentStart']));
+			}
+
+		}
+
+		$business_hours = false;
+		if (count($dateForNow)==1){
+			if (isset($dateForNow[0])){
+
+				$dayofweek = strtolower(date('l', strtotime($dateForNow[0])));
+
+
+
+
+
+				if (isset($settings['open'][$dayofweek])){
+					//test_array($settings['open'][$dayofweek])
+
+					if (($settings['open'][$dayofweek]['start'] && $settings['open'][$dayofweek]['end']) && !in_array(date('d-m', strtotime($dateForNow[0])),$settings['closed'])){
+						$business_hours = array(
+							"start"=>date("Y-m-d H:i:s",strtotime($settings['open'][$dayofweek]['start'].":00")),
+							"end"=>date("Y-m-d H:i:s",strtotime($settings['open'][$dayofweek]['end'].":00"))
+						);
+					}
+
+				}
+
+
+			}
+
+		}
+		$bussiness_hours_active = true;
+		if (!$business_hours){
+			$bussiness_hours_active = false;
+			$business_hours = array(
+				"start"=>date("Y-m-d H:i:s",strtotime("00:00:00")),
+				"end"=>date("Y-m-d H:i:s",strtotime("00:00:00"))
+			);
+		}
+
+
+		//test_array($business_hours);
 		$return = array();
 
 		$return['closed_hours'] = array(
@@ -399,18 +446,19 @@ class appointments extends _ {
 		);
 
 
-		$dateForNow = array();
+
 
 		//test_array($records);
 
-		$business_hours = array(
-			"start"=>date("Y-m-d H:i:s",strtotime("07:30:00")),
-			"end"=>date("Y-m-d H:i:s",strtotime("18:00:00"))
-		);
+		$business_hours['start_l'] = "23:59:00";
+		$business_hours['end_r'] = "00:00:00";
+		if ($bussiness_hours_active){
+			$business_hours['start_l'] = date("H:i:s",strtotime($business_hours['start']));
+			$business_hours['end_r'] = date("H:i:s",strtotime($business_hours['end']));
+		}
 
 
-		$business_hours['start_l'] = date("H:i:s",strtotime($business_hours['start']));
-		$business_hours['end_r'] = date("H:i:s",strtotime($business_hours['end']));
+
 
 
 		$day_s = strtotime(date("Y-m-d 00:00:00",strtotime($business_hours['start'])));
@@ -424,7 +472,7 @@ class appointments extends _ {
 		$new_records = array();
 		foreach ($records as $item){
 
-			if (!in_array(date("Y-m-d",strtotime($item['appointmentStart'])),$dateForNow))$dateForNow[] =  date("Y-m-d",strtotime($item['appointmentStart']));
+
 
 			$day_s_item = strtotime(date("Y-m-d 00:00:00",strtotime($item['time']['start'])));
 			$day_e_item = strtotime(date("Y-m-d 23:59:59",strtotime($item['time']['end'])));
@@ -548,6 +596,7 @@ class appointments extends _ {
 		$return['settings']['r'] = $e*$multiplier;
 		$return['settings']['m'] = $multiplier;
 		$return['settings']['d'] = $day;
+		$return['settings']['active'] = $bussiness_hours_active;
 
 
 		//test_array($return);

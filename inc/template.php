@@ -86,6 +86,7 @@ class template {
 
 		
 
+		$this->vars['_settings'] = $this->f3->get('settings');
 		$this->vars['_user'] = $this->f3->get('user');
 		$this->vars['_isAjax'] = is_ajax();
 

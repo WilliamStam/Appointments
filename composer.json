@@ -169,6 +169,30 @@
           "reference": "origin/master"
         }
       }
+    },
+    {
+      "type": "package",
+      "package": {
+        "name": "Summernote/Summernote",
+        "version": "dev-master",
+        "source": {
+          "url": "https://github.com/summernote/summernote/",
+          "type": "git",
+          "reference": "origin/master"
+        }
+      }
+    },
+    {
+      "type": "package",
+      "package": {
+        "name": "weareoutman/clockpicker",
+        "version": "dev-gh-pages",
+        "source": {
+          "url": "https://github.com/weareoutman/clockpicker",
+          "type": "git",
+          "reference": "gh-pages"
+        }
+      }
     }
   ],
   "require": {
@@ -187,6 +211,8 @@
     "components/HideSeek":"dev-master",
     "components/toastr":"dev-master",
     "components/bootstrap-datetimepicker":"dev-master",
+    "Summernote/summernote":"dev-master",
+    "weareoutman/clockpicker":"dev-gh-pages",
     "twitter/typeahead.js":"*"
 
   }

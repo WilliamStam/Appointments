@@ -262,25 +262,25 @@
 		</div>
 
 
-		<div class="panel blue form-group">
+		<div class="panel form-group">
 			<div class="panel-heading ">Notes
 				<div class="panel-tools"></div>
 			</div>
-			<div class="panel-body no-border ">
+			<div class="panel-body no-border text-area-panel">
 
 
-				<div class="row">
-					<div class="col-sm-12">
+
 
 									<textarea name="notes" id="notes" cols="30" rows="5" class="form-control" placeholder="Notes. Only visible to staff">
 										<%= this.details.notes||'' %>
 									</textarea>
-					</div>
-				</div>
+
 
 
 			</div>
 		</div>
+
+
 
 
 		<div class="modal-footer" style="margin:-10px;">
@@ -357,11 +357,11 @@
 
 	<form action="#" id="form-client-capture">
 
-		<div class="panel orange">
+		<div class="panel orange" style="padding-bottom:0;margin-bottom:0;">
 			<div class="panel-heading ">Client Details
 				<div class="panel-tools"></div>
 			</div>
-			<div class="panel-body no-border">
+			<div class="panel-body no-border" style="padding-bottom:0;margin-bottom:0;">
 
 
 				<div class="row">
@@ -416,25 +416,28 @@
 					</div>
 				</div>
 
-				<div class="row">
-					<div class="col-sm-12">
-						<label class="control-label" for="notes">
-							Client Notes
-						</label>
-						<textarea name="notes" id="notes" cols="30" rows="5" class="form-control"
-								placeholder="Client Notes. Only visible to staff">
-								<%= this.details.notes||'' %>
-							</textarea>
-
-					</div>
-				</div>
-
-
 			</div>
 
 
 		</div>
 
+		<div class="panel form-group" style="padding:0 15px;">
+			<div class="panel-heading ">Notes
+				<div class="panel-tools"></div>
+			</div>
+			<div class="panel-body no-border text-area-panel">
+
+
+
+
+									<textarea name="notes" id="notes" cols="30" rows="5" class="form-control" placeholder="Client Notes. Only visible to staff">
+										<%= this.details.notes||'' %>
+									</textarea>
+
+
+
+			</div>
+		</div>
 
 		<div class="modal-footer" style="margin:-10px;">
 			<button type="reset" class="btn btn-link">Cancel</button>
@@ -564,7 +567,7 @@
 
 				<div class="modal-title">
 					<%= this.label.main %>
-					<small style="margin-left:30px;"><%= this.label.small %></small>
+					<small <% if(!this.agenda.settings.active){ %>style="margin-left:30px;" class="label label-danger" title="Closed"<% } else { %>style="margin-left:30px;"<% } %>><%= this.label.small %></small>
 				</div>
 
 
@@ -576,6 +579,8 @@
 
 					<div class="agenda-view-area" style="left:-<%= this.agenda.settings.l %>%;right:-<%= this.agenda.settings.r %>%;">
 						<div class="agenda-closed">
+							<div class="agenda-closed-line" style="right:<%= this.agenda.closed_hours.l %>%"></div>
+							<div class="agenda-closed-line" style="left:<%= this.agenda.closed_hours.r %>%"></div>
 							<div class="agenda-closed-item" style="left:0;right:<%= this.agenda.closed_hours.l %>%"></div>
 							<div class="agenda-closed-item" style="right:0;left:<%= this.agenda.closed_hours.r %>%"></div>
 

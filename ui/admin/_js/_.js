@@ -439,7 +439,17 @@ function show_form(form){
 	if (form){
 		$("#modal-window #" + form).stop(true, true).show(400);
 	}
-
+	if (form == "client-form"){
+		$('#client-form textarea#notes').summernote({
+			minHeight:200,
+			toolbar: [
+				['headline', ['style']],
+				['style', ['bold', 'italic', 'underline', 'superscript', 'subscript', 'strikethrough', 'clear']],
+				['textsize', ['fontsize']],
+				['alignment', ['ul', 'ol', 'paragraph', 'lineheight']]
+			]
+		});
+	}
 
 
 
@@ -456,8 +466,11 @@ function setClient(ID){
 
 
 			$("#client-area-form").jqotesub($("#template-client-form-display"),data);
-			$("#clientID").val(data.details.ID).attr("data-old-clientID",$("#clientID").val());;
+			$("#clientID").val(data.details.ID).attr("data-old-clientID",$("#clientID").val());
 			show_form("appointment-form");
+
+
+
 		},"client-data")
 	}
 
@@ -562,6 +575,20 @@ function getAppointmentForm() {
 		})
 
 		update_services_duration();
+
+		$('textarea#notes').summernote({
+			minHeight:200,
+			toolbar: [
+				['headline', ['style']],
+				['style', ['bold', 'italic', 'underline', 'superscript', 'subscript', 'strikethrough', 'clear']],
+				['textsize', ['fontsize']],
+				['alignment', ['ul', 'ol', 'paragraph', 'lineheight']]
+			]
+		});
+
+
+
+
 
 
     }, "form-data")

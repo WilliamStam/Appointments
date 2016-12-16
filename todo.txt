@@ -1,15 +1,15 @@
 	agenda line
 		add reserved times to the bar
 	reserved time popup
-	list filter bar
+
 	day view
 	calendar view
-	search
-	user settings
-	logs created for appointments (log event ID to be added)
-	rich text editor for notes
 
-	company open hours / days of the week / other closed days
+
+	logs created for appointments (log event ID to be added)
+
+
+	closed days of the year (public holidays)
 
 	front form
 

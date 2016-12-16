@@ -4,9 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "2835c1ce66d35a387140c8d02c8e588d",
-    "content-hash": "25c32ec356dd9148202bc1ff3b891398",
+    "hash": "12ea89efb70395193ab019af4b7f5a75",
+    "content-hash": "e49d55fb8286e14025f121e901973b3c",
     "packages": [
+        {
+            "name": "Summernote/Summernote",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/summernote/summernote/",
+                "reference": "origin/master"
+            },
+            "type": "library",
+            "time": "2016-08-07 05:17:16"
+        },
         {
             "name": "bcosca/fatfree",
             "version": "3.6.0",
@@ -674,6 +685,17 @@
                 "typeahead"
             ],
             "time": "2015-04-27 04:02:14"
+        },
+        {
+            "name": "weareoutman/clockpicker",
+            "version": "dev-gh-pages",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/weareoutman/clockpicker",
+                "reference": "gh-pages"
+            },
+            "type": "library",
+            "time": "2014-08-07 11:42:35"
         }
     ],
     "packages-dev": [],
@@ -686,7 +708,9 @@
         "components/touchswipe-jquery-plugin": 20,
         "components/hideseek": 20,
         "components/toastr": 20,
-        "components/bootstrap-datetimepicker": 20
+        "components/bootstrap-datetimepicker": 20,
+        "summernote/summernote": 20,
+        "weareoutman/clockpicker": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

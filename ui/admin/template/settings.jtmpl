@@ -1,0 +1,134 @@
+<script type="text/x-jqote-template" id="template-form">
+	<![CDATA[
+	<div class="row">
+		<div class="col-sm-4">
+			<div class="panel">
+				<div class="panel-heading built">Open Hours (of the week)</div>
+				<div class="panel-body form-horizontal">
+
+					{% set weekdays = ['Sunday','Monday',"Tuesday",'Wednesday',"Thursday",'Friday','Saturday'] %}
+					{% for d in weekdays %}
+						<div class="form-group">
+							<label class="col-sm-3 control-label text-right">{{ d|slice(0,3) }}</label>
+							<div class="col-sm-9">
+								<div class="row time-row">
+									<div class="col-xs-6">
+										<input type="text" class="form-control time-input time-start" id="open-{{ d|lower }}-start" name="open[{{ d|lower }}][start]" value="<% if(this.settings.open){ %><%= this.settings.open.{{ d|lower }}.start||'' %><% } %>" placeholder="Closed">
+									</div>
+									<div class="col-xs-6">
+										<input type="text" class="form-control time-input time-end" id="open-{{ d|lower }}-end" name="open[{{ d|lower }}][end]" value="<% if(this.settings.open){ %><%= this.settings.open.{{ d|lower }}.end||'' %><% } %>">
+									</div>
+								</div>
+
+							</div>
+						</div>
+					{% endfor %}
+
+
+				</div>
+			</div>
+			<div class="alert alert-info">
+				<p>Remove any day's value to mark it as closed</p>
+			</div>
+
+		</div>
+		<div class="col-sm-8">
+
+			<div class="panel">
+				<div class="panel-heading built">Closed Days</div>
+				<div class="panel-body form-horizontal">
+					<div class="row">
+						{% for i in 1..12 %}
+							{% set time = "15-"~"%02d"|format(i)~"-"~time|date("Y") %}
+							<div class="col-sm-6">
+								<div class="calendar-table-area">
+							<table class="table table-condensed table-bordered calendar-table" style="">
+								<thead>
+								<tr>
+									<th colspan="7" class="center">
+										<h4>{{ time|date('F') }}</h4>
+									</th>
+								</tr>
+								<tr>
+									<th width="12%" class="weekend">Sun</th>
+									<th width="15%">Mon</th>
+									<th width="15%">Tue</th>
+									<th width="16%">Wed</th>
+									<th width="15%">Thu</th>
+									<th width="15%">Fri</th>
+									<th width="12%" class="weekend">Sat</th>
+								</tr>
+								</thead>
+								<tbody>
+								<tr>
+									{% set daysInMonth = time|date('t') %}
+									{% set startDow = time|date('F 1\\s\\t Y')|date('w') %}
+									{% set dow = startDow %}
+									{% for day in range(1,daysInMonth) %}
+									{% if loop.first and startDow != 0 %}
+										<td colspan="{{ startDow }}"></td>
+									{% endif %}
+									{% set date_key = "%02d"|format(day)~"-"~time|date("m") %}
+									<td class="day-view {% if dow==0 or dow==6 %}weekend{% endif %}" id="day-{{ date_key }}">
+										<label>
+											{{ day }}
+
+
+												<input type="checkbox" class="day-checkbox" value="{{ date_key }}" id="day-{{ date_key }}" name="closed[]" <% if(this.settings.closed && this.settings.closed.indexOf("{{ date_key }}")!=-1){ %>checked="checked"<% } %> >
+
+												{# day content here #}
+
+										</label>
+									</td>
+									{% if loop.last and dow != 6 %}
+										<td colspan="{{ 6 - dow }}">&nbsp;</td>
+									{% endif %}
+									{% if dow == 6 %}
+									{% set dow = 0 %}
+								</tr>
+								<tr>
+									{% else %}
+										{% set dow = dow + 1 %}
+									{% endif %}
+									{% endfor %}
+								</tr>
+								</tbody>
+							</table>
+								</div>
+							</div>
+						{% endfor %}
+					</div>
+				</div>
+			</div>
+
+
+		</div>
+
+	</div>
+
+	<div class="panel">
+
+		<div class="panel-footer">
+			<% if(this.ID){ %>
+
+			<button class="btn btn-danger" type="button" id="btn-delete-record"><i class="fa fa-trash"></i></button>
+			<% } %>
+			<div class="pull-right">
+				<% if(this.ID){ %>
+				<button class="btn btn-link record" data-id="" type="button">New</button>
+				<% } %>
+				<button class="btn btn-primary" type="submit">Save</button>
+			</div>
+			<div class="clearfix"></div>
+		</div>
+	</div>
+
+	]]>
+</script>
+
+<script type="text/x-jqote-template" id="template-form-closed-days">
+	<![CDATA[
+
+
+	]]>
+</script>
