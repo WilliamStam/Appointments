@@ -2,6 +2,8 @@
 	<![CDATA[
 	<div class="row">
 		<div class="col-sm-4">
+
+
 			<div class="panel">
 				<div class="panel-heading built">Open Hours (of the week)</div>
 				<div class="alert alert-info">

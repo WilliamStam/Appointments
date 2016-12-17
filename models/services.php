@@ -207,6 +207,7 @@ class services extends _ {
 			if (isset($item['data'])) $item['data'] = json_decode($item['data'],true);
 
 			$item['duration_view'] = seconds_to_time($item['duration']*60,true);
+			$item['price_view'] = currency($item['price']);
 
 
 
