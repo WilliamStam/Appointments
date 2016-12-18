@@ -218,7 +218,7 @@ class appointments extends _ {
 			}
 
 
-			$staff = count($ids['staff'])?staff::getInstance()->getAll("ID in (".implode(",",$ids['staff']).")"):array();
+			$staff = count($ids['staff'])?staff::getInstance()->getAll("ID in (".implode(",",$ids['staff']).")","fullname ASC"):array();
 			$services = count($ids['services'])?services::getInstance()->getAll("ID in (".implode(",",$ids['services']).")","category ASC, label ASC"):array();
 
 			$data_arr = array();
