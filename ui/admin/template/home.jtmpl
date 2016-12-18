@@ -75,7 +75,7 @@
 
 					</div>
 					<div class="col-sm-1 col-xs-6"><%= this.list[i].records[g].duration_view %></div>
-					<div class="col-sm-3"><%= this.list[i].records[g].client.first_name %> <%=
+					<div class="col-sm-3"><%= this.list[i].records[g].client.first_name||'' %> <%=
 						this.list[i].records[g].client.last_name||'' %>
 					</div>
 
