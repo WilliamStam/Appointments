@@ -34,7 +34,7 @@ class services extends _ {
 
 		$return['search'] = $search;
 
-		$records = models\services::getInstance()->getAll($where,"","",array("format"=>true,"group"=>"category"));
+		$records = models\services::getInstance()->getAll($where,"category ASC, label ASC","",array("format"=>true,"group"=>"category"));
 
 
 
