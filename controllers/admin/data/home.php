@@ -33,7 +33,7 @@ class home extends _ {
 		}
 		$agenda_items = $n;
 
-		$return['agenda'] = models\appointments::getInstance()->agenda_view($agenda_items);
+		$return['agenda'] = models\appointments::getInstance()->agenda_view($agenda_items,date("Y-m-d",strtotime("today")));
 
 	//	if (isset($_GET['debug'])) test_array($return);
 

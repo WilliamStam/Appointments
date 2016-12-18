@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "12ea89efb70395193ab019af4b7f5a75",
-    "content-hash": "e49d55fb8286e14025f121e901973b3c",
+    "hash": "7e3c3a8c771036fd6d1e134b635ea97e",
+    "content-hash": "ff5f0edb69171e3fe6e9755fea10cf01",
     "packages": [
         {
             "name": "Summernote/Summernote",
@@ -269,6 +269,17 @@
             },
             "type": "library",
             "time": "2016-07-27 11:55:41"
+        },
+        {
+            "name": "components/twitter-bootstrap-wizard",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/VinceG/twitter-bootstrap-wizard",
+                "reference": "origin/master"
+            },
+            "type": "library",
+            "time": "2016-04-01 15:57:02"
         },
         {
             "name": "ivaynberg/select2",
@@ -708,6 +719,7 @@
         "components/touchswipe-jquery-plugin": 20,
         "components/hideseek": 20,
         "components/toastr": 20,
+        "components/twitter-bootstrap-wizard": 20,
         "components/bootstrap-datetimepicker": 20,
         "summernote/summernote": 20,
         "weareoutman/clockpicker": 20

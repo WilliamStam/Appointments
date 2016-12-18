@@ -136,6 +136,8 @@ class appointments extends _ {
 
 		if (isset($values['services'])){
 
+			//test_array($values['services']);
+
 			$b = new \DB\SQL\Mapper($f3->get("DB"), "appointments_services");
 			foreach ($values['services'] as $key=>$val){
 				$b->load("ID='$key'");
@@ -384,7 +386,7 @@ class appointments extends _ {
 		$timer->_stop(__NAMESPACE__, __CLASS__, __FUNCTION__, func_get_args());
 		return $records;
 	}
-	function agenda_view($records){
+	function agenda_view($records,$day=""){
 		$single = false;
 		if (isset($records['ID'])) {
 			$single = true;
@@ -401,6 +403,9 @@ class appointments extends _ {
 
 		}
 
+		if ($day){
+			$dateForNow = array(date("Y-m-d", strtotime($day)));
+		}
 		$business_hours = false;
 		if (count($dateForNow)==1){
 			if (isset($dateForNow[0])){

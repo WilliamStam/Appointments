@@ -36,6 +36,39 @@
 				</div>
 			</div>
 
+			<h3>Client form Settings</h3>
+			<div class="panel">
+				<div class="panel-heading built">How many days ahead can the client book</div>
+
+				<div class="panel-body form-horizontal">
+
+					<div class="form-group">
+						<label for="daysAhead" class="col-sm-4 control-label">Days</label>
+						<div class="col-sm-8">
+							<input type="text" name="daysAhead" class="form-control" id="daysAhead" placeholder="ie: 60" value="<% if(this.settings.daysAhead){ %><%= this.settings.daysAhead %><% } %>">
+						</div>
+					</div>
+
+
+				</div>
+
+			</div>
+
+			<div class="panel">
+				<div class="panel-heading built">Appointment time slots</div>
+
+				<div class="panel-body form-horizontal">
+
+					<div class="form-group">
+						<label for="timeslots" class="col-sm-4 control-label">Minutes</label>
+						<div class="col-sm-8">
+							<input type="text" name="timeslots" class="form-control" id="timeslots" placeholder="ie: 15" value="<% if(this.settings.timeslots){ %><%= this.settings.timeslots %><% } %>">
+						</div>
+					</div>
+				</div>
+			</div>
+
+
 
 		</div>
 		<div class="col-sm-8">

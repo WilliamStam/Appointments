@@ -67,7 +67,7 @@ class template {
 		$this->vars['_javascript'] = $GLOBALS['javascript'];
 
 
-		$services = models\services::getInstance()->getAll("","","", array("format" => true,"group"=>"category"));
+		$services = models\services::getInstance()->getAll("","category ASC, label ASC","", array("format" => true,"group"=>"category"));
 
 
 

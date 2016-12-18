@@ -60,7 +60,7 @@ function resize() {
         var $this = $(this);
         var h = $this.find("> .panel-heading").outerHeight();
         var f = $this.find("> .panel-footer").outerHeight();
-        var $body = $this.find(".panel-body");
+        var $body = $this.find("> .panel-body");
         $body.css({top: h, bottom: f});
 
 

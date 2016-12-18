@@ -21,6 +21,12 @@ class settings extends _ {
 		if (isset($_POST['closed'])){
 			$values['closed']=$_POST['closed'];
 		}
+		if (isset($_POST['daysAhead'])){
+			$values['daysAhead']=$_POST['daysAhead'];
+		}
+		if (isset($_POST['timeslots'])){
+			$values['timeslots']=$_POST['timeslots'];
+		}
 
 		//test_array($_POST);
 

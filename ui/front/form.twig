@@ -1,64 +1,120 @@
-<a href="/admin" class="btn btn-primary btn-large">Admin</a>
-<div class="animate-panel" id="content-area">
-
-</div>
-
+<form id="rootwizard">
+	<div class="panel panel-fixed">
+		<div class="panel-heading built " style="padding:0;">
 
 
-
-<!--
-
-
-<div class="fluid-container">
-
-	<div class="col-sm-12">
-		<div class="panel">
-			<div class="panel-heading">Select the Services</div>
-		</div>
-
-		{% for row in _services %}
-			<div class="panel">
-				<div class="panel-heading">{{ row['label'] }}</div>
-				<div class="panel-body">
-					{% for service in row['records'] %}
-						<div class="row">
-							<div class="col-sm-3">{{ service['label'] }}</div>
-							<div class="col-sm-3">{{ service['duration_view'] }}</div>
-							<div class="col-sm-3">{{ service['price_view'] }}</div>
-							<div class="col-sm-3"><button class="btn btn-default">Add</button></div>
+			<ul class="nav-justified" id="wizard-tabs">
+				<li>
+					<a href="#tab-number" data-toggle="tab">
+						<span class="step-number">1</span>
+						<span class="step-name">Number</span>
+						<div class="badge-block">
+							<span class="badge"></span>
 						</div>
-					{% endfor %}
+
+					</a>
+				</li>
+				<li>
+					<a href="#tab-services" data-toggle="tab">
+						<span class="step-number">2</span>
+						<span class="step-name">Services</span>
+						<div class="badge-block">
+							<span class="badge"></span>
+						</div>
+					</a>
+				</li>
+				<li>
+					<a href="#tab-details" data-toggle="tab">
+						<span class="step-number">3</span>
+						<span class="step-name">Details</span>
+						<div class="badge-block">
+							<span class="badge"></span>
+						</div>
+					</a>
+				</li>
+				<li>
+					<a href="#tab-appointment-day" data-toggle="tab">
+						<span class="step-number">4</span>
+						<span class="step-name">Day</span>
+						<div class="badge-block">
+							<span class="badge"></span>
+						</div>
+					</a>
+				</li>
+				<li>
+					<a href="#tab-appointment-time" data-toggle="tab">
+						<span class="step-number">5</span>
+						<span class="step-name">Time</span>
+						<div class="badge-block">
+							<span class="badge"></span>
+						</div>
+					</a>
+				</li>
+				<li>
+					<a href="#tab-confirm" data-toggle="tab">
+						<span class="step-number">6</span>
+						<span class="step-name">Confirm</span>
+						<div class="badge-block">
+							<span class="badge"></span>
+						</div>
+					</a>
+				</li>
+			</ul>
+		</div>
+		<div class="panel-body">
+
+			<div class="tab-content  form-horizontal" id="form-tabs">
+				<div class="tab-pane" id="tab-number" data-form="form-number">
+
 
 				</div>
+				<div class="tab-pane" id="tab-services" data-form="form-services">
+
+				</div>
+				<div class="tab-pane" id="tab-details" data-form="form-client-details">
+
+				</div>
+				<div class="tab-pane" id="tab-appointment-day" data-form="form-appointment-day">
+
+				</div>
+				<div class="tab-pane" id="tab-appointment-time" data-form="form-appointment-time">
+
+				</div>
+				<div class="tab-pane" id="tab-confirm" data-form="form-confirm">
+
+				</div>
+
+
 			</div>
-		{% endfor %}
-		<div class="panel">
-			<div class="panel-footer">
-				<div class="text-right">
-					<button class="btn btn-primary">Next</button>
+
+
+		</div>
+
+		<div class="panel-footer" id="form-footer">
+			<div id="form-footer-confirm">
+				<button class="btn btn-primary btn-block" type="submit">Place Booking</button>
+			</div>
+			<div id="form-footer-other">
+				<div class="row">
+					<div class="col-xs-3">
+						<a href="#" class="btn btn-primary btn-block  button-previous">
+							<i class="fa fa-arrow-circle-left"></i><span class="hidden-xs" style="padding-left:10px;">Previous</span>
+						</a>
+					</div>
+					<div class="col-xs-6">
+
+						<div id="services-selected"></div>
+					</div>
+					<div class="col-xs-3">
+						<button type="submit" class="btn btn-primary btn-block ">
+							<span class="hidden-xs" style="padding-right:10px;">Next</span><i class="fa fa-arrow-circle-right"></i>
+						</button>
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
+</form>
+<form action="" id="confirm-form-area-form">
 
-
-	<div class="col-sm-12">
-		<div class="panel">
-			<div class="panel-heading">Please enter your phone number</div>
-			<div class="panel-body">
-				<div class="form-group has-feedback">
-					<input type="text" name="client-search" class="form-control" id="client-search" placeholder="Mobile number" value=""><span class="fa fa-search form-control-feedback" style="margin-top:10px; right:0;" aria-hidden="true"></span>
-				</div>
-
-			</div>
-			<div class="panel-footer">
-				<div class="text-right">
-					<button class="btn btn-primary">Next</button>
-				</div>
-			</div>
-		</div>
-	</div>
-
-
-</div>
--->
+</form>

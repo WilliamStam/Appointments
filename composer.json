@@ -185,6 +185,18 @@
     {
       "type": "package",
       "package": {
+        "name": "components/twitter-bootstrap-wizard",
+        "version": "dev-master",
+        "source": {
+          "url": "https://github.com/VinceG/twitter-bootstrap-wizard",
+          "type": "git",
+          "reference": "origin/master"
+        }
+      }
+    },
+    {
+      "type": "package",
+      "package": {
         "name": "weareoutman/clockpicker",
         "version": "dev-gh-pages",
         "source": {
@@ -210,6 +222,7 @@
     "timrwood/moment": "2.*",
     "components/HideSeek":"dev-master",
     "components/toastr":"dev-master",
+    "components/twitter-bootstrap-wizard":"dev-master",
     "components/bootstrap-datetimepicker":"dev-master",
     "Summernote/summernote":"dev-master",
     "weareoutman/clockpicker":"dev-gh-pages",

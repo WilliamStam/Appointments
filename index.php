@@ -185,6 +185,15 @@ $f3->route("GET|POST /admin/data/@folder/@class/@function", function ($app, $par
 	$app->call("controllers\\admin\\data\\" . $params['folder'] . "\\" . $params['class'] . "->" . $params['function']);
 });
 
+$f3->route("GET|POST /data/@class/@function", function ($app, $params) {
+	$app->call("controllers\\front\\data\\" . $params['class'] . "->" . $params['function']);
+});
+$f3->route("GET|POST /save/@class/@function", function ($app, $params) {
+	$app->call("controllers\\front\\save\\" . $params['class'] . "->" . $params['function']);
+});
+
+
+
 
 $f3->run();
 

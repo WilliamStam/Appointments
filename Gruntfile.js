@@ -1,8 +1,15 @@
 var jsfile = [
 	'vendor/components/jquery/jquery.js',
-	//'vendor/components/jqueryui/jquery-ui.js',
 	'vendor/twbs/bootstrap-sass/assets/javascripts/bootstrap.min.js' ,
+	'vendor/timrwood/moment/moment.js',
 	'vendor/components/jQote2/jquery.jqote2.js',
+	'ui/_plugins/jquery.bootstrap.wizard.js',
+	//'vendor/components/twitter-bootstrap-wizard/jquery.bootstrap.wizard.min.js',
+	'vendor/components/bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js',
+	'ui/_js/plugins/jquery.getData.js',
+	'ui/_js/plugins/jquery.ba-dotimeout.min.js',
+	'vendor/Summernote/Summernote/dist/summernote.min.js',
+	'ui/_js/plugins/jquery.ba-bbq.js',
 	'ui/_js/_.js'
 ];
 
@@ -11,20 +18,18 @@ var jsfile_admin = [
 //	'vendor/components/jquery-mousewheel/jquery.mousewheel.js',
 //	'vendor/components/nicescroll/jquery.nicescroll.js',
 	
-	'vendor/timrwood/moment/moment.js',
+
 //	'vendor/components/hideseek/jquery.hideseek.min.js',
 //	'vendor/moxiecode/plupload/js/plupload.full.min.js',
 //	'vendor/moxiecode/plupload/js/jquery.plupload.queue/jquery.plupload.queue.js',
 	'vendor/components/toastr/toastr.js',
 	'vendor/components/TouchSwipe-Jquery-Plugin/jquery.touchSwipe.min.js',
 	'vendor/ivaynberg/select2/dist/js/select2.full.min.js',
-	'vendor/components/bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js',
+
 	'vendor/twitter/typeahead.js/dist/typeahead.bundle.min.js',
-	'vendor/Summernote/Summernote/dist/summernote.min.js',
+
 	'vendor/weareoutman/clockpicker/dist/bootstrap-clockpicker.min.js',
-	'ui/_js/plugins/jquery.getData.js',
-	'ui/_js/plugins/jquery.ba-dotimeout.min.js',
-	'ui/_js/plugins/jquery.ba-bbq.js',
+
 	'ui/_js/plugins/jquery.highlight.js',
 //	'ui/_js/plugins/jquery.ui.touch-punch.min.js',
 //	'ui/_js/plugins/jquery.keepalive.js',

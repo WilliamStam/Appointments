@@ -1,0 +1,322 @@
+@import "../../../vendor/twbs/bootstrap-sass/assets/stylesheets/bootstrap/_variables.scss";
+@import "../../../vendor/twbs/bootstrap-sass/assets/stylesheets/bootstrap/_mixins.scss";
+@import "../../_sass/_variables";
+
+body {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+#content-area {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.panel-fixed {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  margin-bottom: 0;
+  padding-bottom: 0;
+  > .panel-heading {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	> .row {
+	  margin-left: 0;
+	  margin-right: 0;
+	}
+
+	h1 {
+	  margin: 0;
+	  padding: 4px;
+	  text-align: center;
+	  font-variant: small-caps;
+	  font-weight: bold;
+	  font-size: 28px;
+	}
+  }
+  > .panel-body {
+	position: absolute;
+
+	left: 0;
+	right: 0;
+
+	overflow-y: auto;
+  }
+  > .panel-footer {
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: 0;
+
+  }
+
+}
+
+.pagination {
+  padding: 0;
+  margin: 0;
+  li {
+	label {
+	  padding: 5px;
+	  border: 1px solid #f1f1f1;
+	  width: 80px;
+	  text-align: center;
+	  cursor: pointer;
+	  input {
+		display: none;
+	  }
+	  .dayName {
+		color: #666;
+	  }
+	  .day {
+		font-size: 18px;
+	  }
+	  .month {
+		color: #666;
+	  }
+	  &:hover {
+		color: #fff;
+		background-color: lighten($color-navy-blue, 20%);
+		.dayName, .day, .month {
+		  color: #fff;
+		}
+	  }
+	}
+	&.active {
+	  label {
+		background-color: $color-navy-blue;
+		color: #fff;
+		.dayName, .month {
+		  color: #f1f1f1;
+		}
+	  }
+	}
+	&.disabled {
+	  color: #ccc !important;
+	  label {
+		cursor: default;
+		.dayName, .day, .month {
+		  color: #ccc;
+		}
+		&:hover {
+		  color: inherit;
+		  background-color: #f1f1f1;
+		  .dayName, .day, .month {
+			color: inherit;
+		  }
+		}
+	  }
+
+	}
+  }
+
+}
+
+.panel-service {
+  margin: 0;
+  &:not(:first-child){
+	margin-top:30px;
+  }
+  .panel-heading {
+
+
+	font-variant: small-caps;
+  }
+  .panel-body {
+	padding: 0;
+
+	label {
+	  padding: 10px;
+	  display: block;
+	  cursor: pointer;
+	  &:not(:last-child){
+		border-bottom:1px dotted #ccc;
+	  }
+	  &.active {
+		background-color: $color-navy-blue;
+		color: #fff;
+	  }
+	  &:hover {
+		color: #fff;
+		background-color: lighten($color-navy-blue, 20%);
+	  }
+
+	  input {
+		display: none;
+	  }
+
+	  .ps-heading {
+		font-weight:bold;
+
+	  }
+	  .ps-duration {
+		font-weight:normal;
+	  }
+	  .ps-price {
+			font-weight:bold;
+			text-align:right;
+	  }
+
+	}
+
+  }
+}
+
+#rootwizard {
+
+  .nav-justified {
+	margin: 0;
+	padding: 0;
+	display: table;
+	width: 100%;
+	table-layout: fixed;
+	border-collapse: separate;
+	> li {
+	  float: none;
+	  display: table-cell;
+	  width: 17%;
+
+	}
+	> li > a {
+	  width: 100%;
+	  margin-right: -1px;
+	}
+
+  }
+
+  .nav-justified > li {
+	position: relative;
+
+	.badge-block {
+	  position: absolute;
+	  top: 5px;
+	  right: 5px;
+	  bottom: 0;
+	  left: 0;
+	  text-align: right;
+	  .badge {
+		vertical-align: middle;
+		background-color: $color-red;
+	  }
+	}
+
+	&:not(:first-child):not(:last-child) {
+	  a {
+		border-radius: 0;
+	  }
+	}
+	&:first-child {
+	  a {
+		@include border-right-radius(0);
+	  }
+	}
+
+	&:last-child {
+	  a {
+		@include border-left-radius(0);
+		margin-right: 0;
+	  }
+
+	}
+
+	a {
+	  margin-left: -1px;
+
+	  display: inline-block;
+	  margin-bottom: 0; // For input.btn
+	  font-weight: $btn-font-weight;
+	  text-align: center;
+	  vertical-align: middle;
+	  touch-action: manipulation;
+	  cursor: pointer;
+	  background-image: none; // Reset unusual Firefox-on-Android default style; see https://github.com/necolas/normalize.css/issues/214
+	  border: 1px solid transparent;
+	  white-space: nowrap;
+	  @include button-size($padding-base-vertical, $padding-base-horizontal, $font-size-base, $line-height-base, $btn-border-radius-base);
+	  @include user-select(none);
+	  @include button-variant($btn-default-color, $btn-default-bg, $btn-default-border);
+
+	}
+
+	&.active {
+
+	  a {
+		@include button-variant(#FFFFFF, $color-navy-blue, $btn-primary-border);
+
+		.badge {
+		  color: #fff;
+		  background-color: $color-red;
+		}
+	  }
+	  &:active {
+		a {
+		  @include button-variant(#FFFFFF, $color-navy-blue, $btn-primary-border);
+		}
+	  }
+	}
+
+  }
+
+}
+
+h1 {
+  margin-top: 0;
+  margin-bottom: 30px;
+}
+
+#services-selected {
+  text-align: center;
+  font-size:20px;
+  .ser-group {
+	white-space: nowrap;
+  }
+  .ser-foot-heading {
+
+
+
+
+  }
+  .ser-foot-value {
+	padding:0 5px;
+	font-weight:bold;
+
+  }
+
+
+
+
+
+
+}
+@media (max-width:$screen-xs-max){
+  #services-selected {
+	margin-top:-10px;
+  }
+}
+
+.text-area-panel {
+  padding:0;
+  .note-toolbar {
+	padding:0;
+  }
+  .panel {
+	.panel-body {
+	  border-top:1px solid $border-color;
+	}
+  }
+  .note-editor.note-frame {
+	border:none;
+  }
+
+}

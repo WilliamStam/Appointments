@@ -20,10 +20,13 @@
 
 *Front Form*
 - Slides
-    - [ ] Client select (either phone number lookup or add new)
-    - [ ] Select service
-    - [ ] Choose time
-    - [ ] Confirm
+    - [x] Phone Number
+    - [x] Select service
+    - [x] Details
+    - [x] Choose day
+    - [x] Choose time
+    - [x] Confirm
+-[x] Save form    
 
 *Notifications*
 - [ ] Client side booking
@@ -35,6 +38,9 @@
     - Client
     
 *Settings*
+- Settings
+    -[x] Days ahead clients can book
+    -[ ] Appointment time slots
 - Notifications
     - Templates
         - [ ] New Record

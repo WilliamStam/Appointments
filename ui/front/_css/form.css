@@ -1,0 +1,310 @@
+body {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0; }
+
+#content-area {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0; }
+
+.panel-fixed {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  margin-bottom: 0;
+  padding-bottom: 0; }
+  .panel-fixed > .panel-heading {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0; }
+    .panel-fixed > .panel-heading > .row {
+      margin-left: 0;
+      margin-right: 0; }
+    .panel-fixed > .panel-heading h1 {
+      margin: 0;
+      padding: 4px;
+      text-align: center;
+      font-variant: small-caps;
+      font-weight: bold;
+      font-size: 28px; }
+  .panel-fixed > .panel-body {
+    position: absolute;
+    left: 0;
+    right: 0;
+    overflow-y: auto; }
+  .panel-fixed > .panel-footer {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0; }
+
+.pagination {
+  padding: 0;
+  margin: 0; }
+  .pagination li label {
+    padding: 5px;
+    border: 1px solid #f1f1f1;
+    width: 80px;
+    text-align: center;
+    cursor: pointer; }
+    .pagination li label input {
+      display: none; }
+    .pagination li label .dayName {
+      color: #666; }
+    .pagination li label .day {
+      font-size: 18px; }
+    .pagination li label .month {
+      color: #666; }
+    .pagination li label:hover {
+      color: #fff;
+      background-color: #587ca0; }
+      .pagination li label:hover .dayName, .pagination li label:hover .day, .pagination li label:hover .month {
+        color: #fff; }
+  .pagination li.active label {
+    background-color: #34495e;
+    color: #fff; }
+    .pagination li.active label .dayName, .pagination li.active label .month {
+      color: #f1f1f1; }
+  .pagination li.disabled {
+    color: #ccc !important; }
+    .pagination li.disabled label {
+      cursor: default; }
+      .pagination li.disabled label .dayName, .pagination li.disabled label .day, .pagination li.disabled label .month {
+        color: #ccc; }
+      .pagination li.disabled label:hover {
+        color: inherit;
+        background-color: #f1f1f1; }
+        .pagination li.disabled label:hover .dayName, .pagination li.disabled label:hover .day, .pagination li.disabled label:hover .month {
+          color: inherit; }
+
+.panel-service {
+  margin: 0; }
+  .panel-service:not(:first-child) {
+    margin-top: 30px; }
+  .panel-service .panel-heading {
+    font-variant: small-caps; }
+  .panel-service .panel-body {
+    padding: 0; }
+    .panel-service .panel-body label {
+      padding: 10px;
+      display: block;
+      cursor: pointer; }
+      .panel-service .panel-body label:not(:last-child) {
+        border-bottom: 1px dotted #ccc; }
+      .panel-service .panel-body label.active {
+        background-color: #34495e;
+        color: #fff; }
+      .panel-service .panel-body label:hover {
+        color: #fff;
+        background-color: #587ca0; }
+      .panel-service .panel-body label input {
+        display: none; }
+      .panel-service .panel-body label .ps-heading {
+        font-weight: bold; }
+      .panel-service .panel-body label .ps-duration {
+        font-weight: normal; }
+      .panel-service .panel-body label .ps-price {
+        font-weight: bold;
+        text-align: right; }
+
+#rootwizard .nav-justified {
+  margin: 0;
+  padding: 0;
+  display: table;
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: separate; }
+  #rootwizard .nav-justified > li {
+    float: none;
+    display: table-cell;
+    width: 17%; }
+  #rootwizard .nav-justified > li > a {
+    width: 100%;
+    margin-right: -1px; }
+
+#rootwizard .nav-justified > li {
+  position: relative; }
+  #rootwizard .nav-justified > li .badge-block {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    bottom: 0;
+    left: 0;
+    text-align: right; }
+    #rootwizard .nav-justified > li .badge-block .badge {
+      vertical-align: middle;
+      background-color: #e74c3c; }
+  #rootwizard .nav-justified > li:not(:first-child):not(:last-child) a {
+    border-radius: 0; }
+  #rootwizard .nav-justified > li:first-child a {
+    border-bottom-right-radius: 0;
+    border-top-right-radius: 0; }
+  #rootwizard .nav-justified > li:last-child a {
+    border-bottom-left-radius: 0;
+    border-top-left-radius: 0;
+    margin-right: 0; }
+  #rootwizard .nav-justified > li a {
+    margin-left: -1px;
+    display: inline-block;
+    margin-bottom: 0;
+    font-weight: normal;
+    text-align: center;
+    vertical-align: middle;
+    -ms-touch-action: manipulation;
+        touch-action: manipulation;
+    cursor: pointer;
+    background-image: none;
+    border: 1px solid transparent;
+    white-space: nowrap;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.42857;
+    border-radius: 4px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    color: #333;
+    background-color: #fff;
+    border-color: #ccc; }
+    #rootwizard .nav-justified > li a:focus, #rootwizard .nav-justified > li a.focus {
+      color: #333;
+      background-color: #e6e6e6;
+      border-color: #8c8c8c; }
+    #rootwizard .nav-justified > li a:hover {
+      color: #333;
+      background-color: #e6e6e6;
+      border-color: #adadad; }
+    #rootwizard .nav-justified > li a:active, #rootwizard .nav-justified > li a.active,
+    .open > #rootwizard .nav-justified > li a.dropdown-toggle {
+      color: #333;
+      background-color: #e6e6e6;
+      border-color: #adadad; }
+      #rootwizard .nav-justified > li a:active:hover, #rootwizard .nav-justified > li a:active:focus, #rootwizard .nav-justified > li a:active.focus, #rootwizard .nav-justified > li a.active:hover, #rootwizard .nav-justified > li a.active:focus, #rootwizard .nav-justified > li a.active.focus,
+      .open > #rootwizard .nav-justified > li a.dropdown-toggle:hover,
+      .open > #rootwizard .nav-justified > li a.dropdown-toggle:focus,
+      .open > #rootwizard .nav-justified > li a.dropdown-toggle.focus {
+        color: #333;
+        background-color: #d4d4d4;
+        border-color: #8c8c8c; }
+    #rootwizard .nav-justified > li a:active, #rootwizard .nav-justified > li a.active,
+    .open > #rootwizard .nav-justified > li a.dropdown-toggle {
+      background-image: none; }
+    #rootwizard .nav-justified > li a.disabled:hover, #rootwizard .nav-justified > li a.disabled:focus, #rootwizard .nav-justified > li a.disabled.focus, #rootwizard .nav-justified > li a[disabled]:hover, #rootwizard .nav-justified > li a[disabled]:focus, #rootwizard .nav-justified > li a[disabled].focus,
+    fieldset[disabled] #rootwizard .nav-justified > li a:hover,
+    fieldset[disabled] #rootwizard .nav-justified > li a:focus,
+    fieldset[disabled] #rootwizard .nav-justified > li a.focus {
+      background-color: #fff;
+      border-color: #ccc; }
+    #rootwizard .nav-justified > li a .badge {
+      color: #fff;
+      background-color: #333; }
+  #rootwizard .nav-justified > li.active a {
+    color: #FFFFFF;
+    background-color: #34495e;
+    border-color: #2e6da4; }
+    #rootwizard .nav-justified > li.active a:focus, #rootwizard .nav-justified > li.active a.focus {
+      color: #FFFFFF;
+      background-color: #22303d;
+      border-color: #122b40; }
+    #rootwizard .nav-justified > li.active a:hover {
+      color: #FFFFFF;
+      background-color: #22303d;
+      border-color: #204d74; }
+    #rootwizard .nav-justified > li.active a:active, #rootwizard .nav-justified > li.active a.active,
+    .open > #rootwizard .nav-justified > li.active a.dropdown-toggle {
+      color: #FFFFFF;
+      background-color: #22303d;
+      border-color: #204d74; }
+      #rootwizard .nav-justified > li.active a:active:hover, #rootwizard .nav-justified > li.active a:active:focus, #rootwizard .nav-justified > li.active a:active.focus, #rootwizard .nav-justified > li.active a.active:hover, #rootwizard .nav-justified > li.active a.active:focus, #rootwizard .nav-justified > li.active a.active.focus,
+      .open > #rootwizard .nav-justified > li.active a.dropdown-toggle:hover,
+      .open > #rootwizard .nav-justified > li.active a.dropdown-toggle:focus,
+      .open > #rootwizard .nav-justified > li.active a.dropdown-toggle.focus {
+        color: #FFFFFF;
+        background-color: #151e26;
+        border-color: #122b40; }
+    #rootwizard .nav-justified > li.active a:active, #rootwizard .nav-justified > li.active a.active,
+    .open > #rootwizard .nav-justified > li.active a.dropdown-toggle {
+      background-image: none; }
+    #rootwizard .nav-justified > li.active a.disabled:hover, #rootwizard .nav-justified > li.active a.disabled:focus, #rootwizard .nav-justified > li.active a.disabled.focus, #rootwizard .nav-justified > li.active a[disabled]:hover, #rootwizard .nav-justified > li.active a[disabled]:focus, #rootwizard .nav-justified > li.active a[disabled].focus,
+    fieldset[disabled] #rootwizard .nav-justified > li.active a:hover,
+    fieldset[disabled] #rootwizard .nav-justified > li.active a:focus,
+    fieldset[disabled] #rootwizard .nav-justified > li.active a.focus {
+      background-color: #34495e;
+      border-color: #2e6da4; }
+    #rootwizard .nav-justified > li.active a .badge {
+      color: #34495e;
+      background-color: #FFFFFF; }
+    #rootwizard .nav-justified > li.active a .badge {
+      color: #fff;
+      background-color: #e74c3c; }
+  #rootwizard .nav-justified > li.active:active a {
+    color: #FFFFFF;
+    background-color: #34495e;
+    border-color: #2e6da4; }
+    #rootwizard .nav-justified > li.active:active a:focus, #rootwizard .nav-justified > li.active:active a.focus {
+      color: #FFFFFF;
+      background-color: #22303d;
+      border-color: #122b40; }
+    #rootwizard .nav-justified > li.active:active a:hover {
+      color: #FFFFFF;
+      background-color: #22303d;
+      border-color: #204d74; }
+    #rootwizard .nav-justified > li.active:active a:active, #rootwizard .nav-justified > li.active:active a.active,
+    .open > #rootwizard .nav-justified > li.active:active a.dropdown-toggle {
+      color: #FFFFFF;
+      background-color: #22303d;
+      border-color: #204d74; }
+      #rootwizard .nav-justified > li.active:active a:active:hover, #rootwizard .nav-justified > li.active:active a:active:focus, #rootwizard .nav-justified > li.active:active a:active.focus, #rootwizard .nav-justified > li.active:active a.active:hover, #rootwizard .nav-justified > li.active:active a.active:focus, #rootwizard .nav-justified > li.active:active a.active.focus,
+      .open > #rootwizard .nav-justified > li.active:active a.dropdown-toggle:hover,
+      .open > #rootwizard .nav-justified > li.active:active a.dropdown-toggle:focus,
+      .open > #rootwizard .nav-justified > li.active:active a.dropdown-toggle.focus {
+        color: #FFFFFF;
+        background-color: #151e26;
+        border-color: #122b40; }
+    #rootwizard .nav-justified > li.active:active a:active, #rootwizard .nav-justified > li.active:active a.active,
+    .open > #rootwizard .nav-justified > li.active:active a.dropdown-toggle {
+      background-image: none; }
+    #rootwizard .nav-justified > li.active:active a.disabled:hover, #rootwizard .nav-justified > li.active:active a.disabled:focus, #rootwizard .nav-justified > li.active:active a.disabled.focus, #rootwizard .nav-justified > li.active:active a[disabled]:hover, #rootwizard .nav-justified > li.active:active a[disabled]:focus, #rootwizard .nav-justified > li.active:active a[disabled].focus,
+    fieldset[disabled] #rootwizard .nav-justified > li.active:active a:hover,
+    fieldset[disabled] #rootwizard .nav-justified > li.active:active a:focus,
+    fieldset[disabled] #rootwizard .nav-justified > li.active:active a.focus {
+      background-color: #34495e;
+      border-color: #2e6da4; }
+    #rootwizard .nav-justified > li.active:active a .badge {
+      color: #34495e;
+      background-color: #FFFFFF; }
+
+h1 {
+  margin-top: 0;
+  margin-bottom: 30px; }
+
+#services-selected {
+  text-align: center;
+  font-size: 20px; }
+  #services-selected .ser-group {
+    white-space: nowrap; }
+  #services-selected .ser-foot-value {
+    padding: 0 5px;
+    font-weight: bold; }
+
+@media (max-width: 767px) {
+  #services-selected {
+    margin-top: -10px; } }
+
+.text-area-panel {
+  padding: 0; }
+  .text-area-panel .note-toolbar {
+    padding: 0; }
+  .text-area-panel .panel .panel-body {
+    border-top: 1px solid #e4e5e7; }
+  .text-area-panel .note-editor.note-frame {
+    border: none; }
