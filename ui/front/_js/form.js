@@ -102,8 +102,7 @@ $(document).ready(function () {
 		var data = $("#confirm-form-area-form").serialize();
 		data = data + "&submit[notes]="+$("#notes").val();
 
-		console.log(data)
-		console.log($("#notes").val())
+
 
 		$.post("/save/form/form",data,function(data){
 			var data = data.data;
