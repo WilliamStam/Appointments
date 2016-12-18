@@ -120,7 +120,8 @@ $f3->set('session', $SID);
 //test_array($f3->get("types"));
 
 
-$f3->route('GET|POST /', 'controllers\front\home->page');
+//$f3->route('GET|POST /', 'controllers\front\home->page');
+$f3->route('GET|POST /', 'controllers\front\form->page');
 $f3->route('GET|POST /form', 'controllers\front\form->page');
 $f3->route('GET|POST /login', 'controllers\front\login->page');
 
