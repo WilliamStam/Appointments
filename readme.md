@@ -39,8 +39,8 @@
     
 *Settings*
 - Settings
-    -[x] Days ahead clients can book
-    -[x] Appointment time slots
+    - [x] Days ahead clients can book
+    - [x] Appointment time slots
 - Notifications
     - Templates
         - [ ] New Record
