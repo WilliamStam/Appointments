@@ -47,7 +47,7 @@
 	{% endfor %}
 	</div>
 
-	<input type="text" value="<%= this.post.duration %>" name="duration" id="duration" >
+	<input type="hidden" value="<%= this.post.duration %>" name="duration" id="duration" >
 	]]>
 </script>
 
