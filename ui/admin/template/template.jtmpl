@@ -648,7 +648,9 @@
 						<h4>Services</h4>
 						<ul class="list-group">
 							<% for(var i in this.services){ %>
+							<% if(this.services[i].label){ %>
 							<li class="list-group-item heading text-right"><%= this.services[i].label %></li>
+							<% } %>
 							<% for(var g in this.services[i].records){ %>
 							<li class="list-group-item">
 								<span class="badge"><%= this.services[i].records[g].duration_view %></span>
