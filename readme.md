@@ -10,9 +10,9 @@
 
 
 **Agenda line**
- - [ ] Reserved times to the bar
+- [ ] Reserved times to the bar
  
- **Logs**
+ *Logs*
 - Logs created for appointments (log event ID to be added)
     - [ ] Record added
     - [ ] Record edited
@@ -40,13 +40,12 @@
 *Settings*
 - Settings
     -[x] Days ahead clients can book
-    -[ ] Appointment time slots
+    -[x] Appointment time slots
 - Notifications
     - Templates
         - [ ] New Record
         - [ ] Edited Record
-        - [ ] Appointment Reminder
-    - [ ] Times to send reminder    
+        - [ ] Appointment Reminder  
 
 	
 
