@@ -181,7 +181,7 @@ class home extends _ {
 				"type"=>"notification",
 				"datein"=>$item['datein'],
 				"sort"=>date("YmdHis",strtotime($item['datein']))."2",
-				"label"=>$item['log_label'],
+				"label"=>$item['log_label']." (" . $item['label'].")",
 				"status"=>$item['status'],
 				"records"=>$records
 			);
@@ -195,7 +195,7 @@ class home extends _ {
 
 
 
-		//test_array($notifications);
+	//	test_array($notifications);
 		//test_array($logs);
 
 		$return['logs'] = $log_array;
