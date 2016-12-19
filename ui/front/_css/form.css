@@ -78,7 +78,8 @@ body {
     .pagination li.disabled label {
       cursor: default; }
       .pagination li.disabled label .dayName, .pagination li.disabled label .day, .pagination li.disabled label .month {
-        color: #ccc; }
+        color: #ccc;
+        text-decoration: line-through; }
       .pagination li.disabled label:hover {
         color: inherit;
         background-color: #f1f1f1; }

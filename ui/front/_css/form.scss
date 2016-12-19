@@ -108,6 +108,10 @@ body {
 		cursor: default;
 		.dayName, .day, .month {
 		  color: #ccc;
+		  text-decoration: line-through;
+		}
+		.day {
+
 		}
 		&:hover {
 		  color: inherit;

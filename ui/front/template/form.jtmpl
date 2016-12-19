@@ -93,7 +93,7 @@
 			<ul class="pagination">
 				<% for(var i in this.dates){ %>
 				<li class="<% if(this.dates[i].active=='0'){ %>disabled<% } %>">
-					<label for="appointmentDate_day-<%= this.dates[i].value %>">
+					<label for="appointmentDate_day-<%= this.dates[i].value %>" <% if(this.dates[i].active=='0'){ %>title="Not Available"<% } %>>
 						<div class="dayName"><%= this.dates[i].dayName %></div>
 						<div class="day"><%= this.dates[i].day %></div>
 						<div class="month"><%= this.dates[i].month %></div>
@@ -135,7 +135,7 @@
 				<ul class="pagination">
 					<% for(var i in this.times){ %>
 					<li class="<% if(this.times[i].active=='0'){ %>disabled<% } %>">
-						<label for="appointmentDate_time-<%= this.times[i].value %>">
+						<label for="appointmentDate_time-<%= this.times[i].value %>"  <% if(this.times[i].active=='0'){ %>title="Not Available"<% } %>>
 							<div class="day"><%= this.times[i].hour %>:<%= this.times[i].minute %></div>
 
 							<input type="radio" name="appointmentDate_time" id="appointmentDate_time-<%= this.times[i].value %>" value="<%= this.times[i].value %>" <% if(this.times[i].active=='0'){ %>disabled="disabled"<% } %> <% if(this.post.appointmentDate_time==this.times[i].value){ %>checked="checked"<% } %> >
