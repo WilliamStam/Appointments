@@ -752,7 +752,7 @@
 							<i class="fa fa-pencil "></i>
 						</a>
 						<a class="btn btn-default" role="button" data-toggle="collapse" href="#logs-area" aria-expanded="false" aria-controls="logs-area" title="Record Logs">
-							<i class="fa fa-hourglass "></i>
+							<i class="fa fa-hourglass-o "></i>
 						</a>
 
 					</div>

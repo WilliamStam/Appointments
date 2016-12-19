@@ -7,15 +7,10 @@
 - [ ] Calendar view
 
 
-
-
 **Agenda line**
 - [ ] Reserved times to the bar
- 
-*Logs*
-- Logs created for appointments (log event ID to be added)
-    - [ ] Notifications
 
+ 
 
 
 *Notifications*
