@@ -261,6 +261,22 @@ $(document).ready(function () {
 });
 $(document).ready(function () {
 
+	setTimeout(function(){
+		$.getData("/admin/data/general/sms_credit?hiddenajax=true",{},function(data){
+
+			//console.log(data.credits);
+			if (data.credits){
+				$(".sms-credit-block").each(function(){
+					$(this).html('<span class="badge"  title="Credits Remaining"><i class="fa fa-send"></i><span> '+data.credits+'</span></span>')
+				});
+			}
+
+
+
+		},"sms-credit");
+	},300)
+
+
 	$(document).on("click", ".form-modal-forms-btn", function (e) {
 		e.preventDefault();
 		var $this = $(this);
