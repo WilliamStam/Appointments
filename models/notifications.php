@@ -262,10 +262,11 @@ class notifications extends _ {
 		$this->settings['email_smtp_user'] = $this->settings['email_smtp_user']?$this->settings['email_smtp_user']:"";
 		$this->settings['email_smtp_password'] = $this->settings['email_smtp_password']?$this->settings['email_smtp_password']:"";
 
-		$this->settings['email_smtp_host'] = "197.242.157.56";
+		/*
+		$this->settings['email_smtp_host'] = "127.0.0.1";
 		$this->settings['email_smtp_user'] = "Administrator";
 		$this->settings['email_smtp_password'] = "fdW78yFU";
-
+*/
 
 
 		$smtp = new \SMTP (  $this->settings['email_smtp_host'], $this->settings['email_smtp_port'], $this->settings['email_smtp_scheme'], $this->settings['email_smtp_user'], $this->settings['email_smtp_password'] );
