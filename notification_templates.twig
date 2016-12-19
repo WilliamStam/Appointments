@@ -1,0 +1,6 @@
+Your appointment has been changed.
+{% for row in data['log'] %}{% if row['l'] %}
+	- {{ row['l'] }}{% else %}
+	- {{ row['k'] }} - {{ row['n'] }}{% endif %}{% endfor %}
+
+Regards, us

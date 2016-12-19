@@ -114,10 +114,11 @@
 
 
 				<div class="btn-group pull-right" style="margin-right:-20px;">
+					<% if(this.details.ID){ %>
 					<a class="btn btn-default appointment-row" href="#" data-id="<%= this.details.ID %>">
 						<i class="fa fa-arrow-left "></i>
-
 					</a>
+					<% } %>
 					<a class="btn btn-default" href="#" data-dismiss="modal" aria-label="Close">
 						<i class="fa fa-close "></i>
 					</a>
@@ -701,6 +702,44 @@
 					</div>
 
 				</div>
+				<div class="collapse" id="logs-area">
+				<div class="row">
+					<div class="col-sm-12">
+						<div style="padding:0 5px;">
+							<label style="margin-bottom:-10px; font-size:10px;">Logs:</label>
+
+							<table class="table table-condensed" style="font-size: 10px;">
+								<% for (var i in this.logs){ %>
+								<tr role="button" data-toggle="collapse" data-target="[data-logid='log-records-<%= i %>']" aria-expanded="false" aria-controls="log-records-<%= i %>">
+									<td style="width:40px">
+										<% if (this.logs[i].type=="notification"){ %>
+											<% if (this.logs[i].status=='1'){ %>
+												<i class="fa fa-bell"></i>
+											<% } else { %>
+												<i class="fa fa-bell-slash-o"></i>
+											<% } %>
+
+										<% } %>
+
+									</td>
+									<td style="width:130px;"><%= this.logs[i].datein %></td>
+									<td><%= this.logs[i].label %></td>
+								</tr>
+								<% for (var g in this.logs[i].records){ %>
+								<tr class="collapse" data-logid='log-records-<%= i %>' style="color:#9f9f9f;">
+									<td></td>
+									<td class="text-right"><%= this.logs[i].records[g].label %></td>
+									<td><%= this.logs[i].records[g].value %></td>
+								</tr>
+								<% } %>
+								<% } %>
+							</table>
+
+						</div>
+					</div>
+
+				</div>
+				</div>
 
 
 			</div>
@@ -711,6 +750,9 @@
 					<div class="col-sm-8 text-left">
 						<a class="btn btn-default form-appointment-btn" href="#" data-id="<%= this.ID %>">
 							<i class="fa fa-pencil "></i>
+						</a>
+						<a class="btn btn-default" role="button" data-toggle="collapse" href="#logs-area" aria-expanded="false" aria-controls="logs-area" title="Record Logs">
+							<i class="fa fa-hourglass "></i>
 						</a>
 
 					</div>

@@ -123,9 +123,20 @@ class appointments extends _ {
 
 		$a = new \DB\SQL\Mapper($f3->get("DB"), "appointments");
 		$a->load("ID='$ID'");
+		$action = ($a->dry())?"added":"edit";
 
+
+		$log = array();
 		foreach ($values as $key => $value) {
 			if (isset($a->$key)) {
+				if ($a->$key != $value){
+					$log[] = array(
+						"k"=>$key,
+						"o"=>$a->$key,
+						"n"=>$value,
+					);
+				}
+
 				$a->$key = $value;
 			}
 		}
@@ -138,13 +149,48 @@ class appointments extends _ {
 
 			//test_array($values['services']);
 
+			$services_data = services::getInstance()->getAll();
+			$services = array();
+
+			foreach ($services_data as $item){
+				$services[$item['ID']] = $item;
+			}
+
+
 			$b = new \DB\SQL\Mapper($f3->get("DB"), "appointments_services");
 			foreach ($values['services'] as $key=>$val){
 				$b->load("ID='$key'");
 
 				if ($val['serviceID']==""){
-					$b->erase();
+					if (!$b->dry()){
+						$log[] = array(
+							"k"=>"services-removed",
+							"o"=>$b->serviceID,
+							"n"=>"",
+							"l"=>"Service Removed - [".$services[$b->serviceID]['label']."]"
+						);
+						$b->erase();
+					}
 				} else {
+					if ($b->dry()){
+						$log[] = array(
+							"k"=>"services-added",
+							"o"=>"",
+							"n"=>$val['serviceID'],
+							"l"=>"Service Added - [".$services[$val['serviceID']]['label']."]"
+						);
+					} else {
+						if ($b->serviceID != $val['serviceID']){
+							$log[] = array(
+								"k"=>"services-changed",
+								"o"=>$b->serviceID,
+								"n"=>$val['serviceID'],
+								"l"=>"Service Changed - [".$services[$b->serviceID]['label']."] to [" .$services[$val['serviceID']]['label']."]"
+							);
+						}
+					}
+
+
 					$b->appointmentID = $ID;
 					$b->staffID = $val['staffID']?$val['staffID']:null;
 					$b->serviceID = $val['serviceID'];
@@ -159,6 +205,13 @@ class appointments extends _ {
 
 
 		}
+
+		if(isset($values['from'])&&$values['from']=="front"){
+			$action = $action . "-front";
+		}
+
+		action::getInstance()->call($ID,$action,$log);
+
 
 
 		
@@ -313,7 +366,10 @@ class appointments extends _ {
 				"end"=> date("Y-m-d H:i:s",strtotime(" + ".$item['duration']." minutes",strtotime($item['appointmentStart']))),
 			);
 			$item['time']['start_view'] = date("H:i:s",strtotime($item['time']['start']));
+			$item['time']['start_view_short'] = date("H:i",strtotime($item['time']['start']));
 			$item['time']['end_view'] = date("H:i:s",strtotime($item['time']['end']));
+			$item['time']['end_view_short'] = date("H:i",strtotime($item['time']['end']));
+			$item['time']['day_view'] = date("D, d M Y",strtotime($item['time']['start']));
 
 
 			if (strtotime($item['time']['start'])<=strtotime("now") && strtotime($item['time']['end'])>=strtotime("now")){

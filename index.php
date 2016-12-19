@@ -132,6 +132,7 @@ $f3->route('GET|POST /admin/clients', 'controllers\admin\clients->page');
 $f3->route('GET|POST /admin/staff', 'controllers\admin\staff->page');
 $f3->route('GET|POST /admin/settings', 'controllers\admin\settings->page');
 $f3->route('GET|POST /admin/settings/users', 'controllers\admin\users->page');
+$f3->route('GET|POST /admin/settings/notifications', 'controllers\admin\notifications->page');
 
 
 
@@ -149,6 +150,13 @@ $f3->route('GET|POST /logout', function ($f3, $params) use ($user) {
 $f3->route('GET /php', function () {
 	phpinfo();
 	exit();
+});
+
+
+
+$f3->route('GET /admin/settings/notifications/data', function () {
+
+	test_array(\models\action::getInstance()->show_data());
 });
 
 

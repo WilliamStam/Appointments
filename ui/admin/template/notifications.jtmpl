@@ -1,0 +1,232 @@
+<script type="text/x-jqote-template" id="template-form">
+	<![CDATA[
+	<div class="row">
+		<div class="col-sm-6">
+
+
+
+			<h4>SMS </h4>
+
+			<div class="panel blue">
+				<div class="panel-heading built">Admin Mobile Number</div>
+
+				<div class="panel-body form-horizontal">
+
+					<div class="form-group">
+						<div class="col-sm-12">
+							<input type="text" name="mobile_number" class="form-control" id="mobile_number" placeholder="ie: 0831234567" value="<% if(this.settings.mobile_number){ %><%= this.settings.mobile_number %><% } %>">
+						</div>
+					</div>
+
+
+				</div>
+
+			</div>
+
+
+
+
+			<div class="panel green">
+				<div class="panel-heading built">Client SMS Record Created FRONT</div>
+				<div class="panel-body form-horizontal" style="padding:0;">
+					<textarea name="not_1|add_2"  id="not_1|add_2"  class="form-control"  style="width:100%; height:150px;" placeholder="Template">
+						<%= this.settings['not_1|add_2']||'' %>
+					</textarea>
+
+
+
+				</div>
+
+			</div>
+
+			<div class="panel blue">
+				<div class="panel-heading built">ADMIN SMS Record Created FRONT</div>
+
+				<div class="panel-body form-horizontal" style="padding:0;">
+					<textarea name="not_3|add_2"  id="not_3|add_2"  class="form-control"  style="width:100%; height:150px;" placeholder="Template">
+						<%= this.settings['not_3|add_2']||'' %>
+					</textarea>
+
+
+
+				</div>
+
+			</div>
+			<div class="panel green">
+				<div class="panel-heading built">Client SMS Record Created ADMIN</div>
+
+				<div class="panel-body form-horizontal" style="padding:0;">
+					<textarea name="not_1|add_1"  id="not_1|add_1"  class="form-control"  style="width:100%; height:150px;" placeholder="Template">
+						<%= this.settings['not_1|add_1']||'' %>
+					</textarea>
+
+
+
+				</div>
+
+			</div>
+			<div class="panel blue">
+				<div class="panel-heading built">ADMIN SMS Record Created ADMIN</div>
+
+				<div class="panel-body form-horizontal" style="padding:0;">
+					<textarea name="not_3|add_1"  id="not_3|add_1"  class="form-control"  style="width:100%; height:150px;" placeholder="Template">
+						<%= this.settings['not_3|add_1']||'' %>
+					</textarea>
+
+
+
+				</div>
+
+			</div>
+
+			<div class="panel green">
+				<div class="panel-heading built">Client SMS Record Changed ADMIN</div>
+
+				<div class="panel-body form-horizontal" style="padding:0;">
+					<textarea name="not_1|edi_1"  id="not_1|edi_1"  class="form-control"  style="width:100%; height:150px;" placeholder="Template">
+						<%= this.settings['not_1|edi_1']||'' %>
+					</textarea>
+
+
+
+				</div>
+
+			</div>
+			<div class="panel blue">
+				<div class="panel-heading built">ADMIN SMS Record Changed ADMIN</div>
+
+				<div class="panel-body form-horizontal" style="padding:0;">
+					<textarea name="not_3|edi_1"  id="not_1|edi_1"  class="form-control"  style="width:100%; height:150px;" placeholder="Template">
+						<%= this.settings['not_3|edi_1']||'' %>
+					</textarea>
+
+
+
+				</div>
+
+			</div>
+
+
+
+
+
+		</div>
+
+		<div class="col-sm-6">
+			<h4>Email</h4>
+			<div class="panel blue">
+				<div class="panel-heading built">Admin Email</div>
+
+				<div class="panel-body form-horizontal">
+
+					<div class="form-group">
+						<div class="col-sm-12">
+							<input type="text" name="email" class="form-control" id="email" placeholder="ie: email@domain.com" value="<% if(this.settings.email){ %><%= this.settings.email %><% } %>">
+						</div>
+					</div>
+
+
+				</div>
+
+			</div>
+
+
+			<div class="panel green">
+				<div class="panel-heading built">Client EMAIL Record Created FRONT</div>
+				<div class="panel-body form-horizontal" style="padding:0;">
+					<textarea name="not_2|add_2"  id="not_2|add_2"  class="form-control"  style="width:100%; height:150px;" placeholder="Template">
+						<%= this.settings['not_2|add_2']||'' %>
+					</textarea>
+
+
+
+				</div>
+
+			</div>
+
+			<div class="panel blue">
+				<div class="panel-heading built">ADMIN EMAIL Record Created FRONT</div>
+
+				<div class="panel-body form-horizontal" style="padding:0;">
+					<textarea name="not_4|add_2"  id="not_4|add_2"  class="form-control"  style="width:100%; height:150px;" placeholder="Template">
+						<%= this.settings['not_4|add_2']||'' %>
+					</textarea>
+
+
+
+				</div>
+
+			</div>
+			<div class="panel green">
+				<div class="panel-heading built">Client EMAIL Record Created ADMIN</div>
+
+				<div class="panel-body form-horizontal" style="padding:0;">
+					<textarea name="not_2|add_1"  id="not_2|add_1"  class="form-control"  style="width:100%; height:150px;" placeholder="Template">
+						<%= this.settings['not_2|add_1']||'' %>
+					</textarea>
+
+
+
+				</div>
+
+			</div>
+			<div class="panel blue">
+				<div class="panel-heading built">ADMIN EMAIL Record Created ADMIN</div>
+
+				<div class="panel-body form-horizontal" style="padding:0;">
+					<textarea name="not_4|add_1"  id="not_3|add_1"  class="form-control"  style="width:100%; height:150px;" placeholder="Template">
+						<%= this.settings['not_4|add_1']||'' %>
+					</textarea>
+
+
+
+				</div>
+
+			</div>
+
+			<div class="panel green">
+				<div class="panel-heading built">Client EMAIL Record Changed ADMIN</div>
+
+				<div class="panel-body form-horizontal" style="padding:0;">
+					<textarea name="not_2|edi_1"  id="not_2|edi_1"  class="form-control"  style="width:100%; height:150px;" placeholder="Template">
+						<%= this.settings['not_2|edi_1']||'' %>
+					</textarea>
+
+
+
+				</div>
+
+			</div>
+			<div class="panel blue">
+				<div class="panel-heading built">Admin EMAIL Record Changed ADMIN</div>
+
+				<div class="panel-body form-horizontal" style="padding:0;">
+					<textarea name="not_4|edi_1"  id="not_4|edi_1"  class="form-control"  style="width:100%; height:150px;" placeholder="Template">
+						<%= this.settings['not_4|edi_1']||'' %>
+					</textarea>
+
+
+
+				</div>
+
+			</div>
+		</div>
+	</div>
+	<div class="alert alert-info">
+		<p>Removing any template disables that notification</p>
+	</div>
+
+	<div class="panel">
+
+		<div class="panel-footer">
+
+			<div class="pull-right">
+
+				<button class="btn btn-primary" type="submit">Save</button>
+			</div>
+			<div class="clearfix"></div>
+		</div>
+	</div>
+
+	]]>
+</script>

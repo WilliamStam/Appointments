@@ -200,8 +200,10 @@ class template {
 	}
 
 	public function render_string() {
+		$this->default_vars();
 		$loader = new Twig_Loader_String();
 		$twig = new Twig_Environment($loader);
+		//test_array($this->vars);
 
 		return $twig->render($this->vars['template'], $this->vars);
 	}

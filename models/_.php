@@ -8,7 +8,8 @@ class _ {
 		$this->f3 = \Base::instance();
 		$this->user = $this->f3->get("user");
 		$this->cfg = $this->f3->get("cfg");
-		
+		$this->settings = $this->f3->get("settings");
+
 		//test_array($this->cfg);
 	}
 

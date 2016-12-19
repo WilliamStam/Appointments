@@ -106,7 +106,7 @@ class products extends _ {
 		$f3 = \Base::instance();
 		$return = array();
 
-		
+
 
 		if (isset($values['data']))$values['data'] = json_encode($values['data']);
 
@@ -122,8 +122,8 @@ class products extends _ {
 
 		$a->save();
 		$ID = ($a->ID) ? $a->ID : $a->_id;
-		
-		
+
+
 		$timer->_stop(__NAMESPACE__, __CLASS__, __FUNCTION__, func_get_args());
 		return $ID;
 	}

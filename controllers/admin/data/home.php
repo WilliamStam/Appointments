@@ -118,8 +118,87 @@ class home extends _ {
 
 
 
+		$logs = models\logs::getInstance()->getAll("appointmentID='{$return['ID']}'","datein DESC","",array("format"=>true));
+		$notifications = models\notifications::getInstance()->getAll("appointmentID='{$return['ID']}'","datein DESC","",array("format"=>true));
+
+		$events = array(
+			"add_1"=>"",
+			"add_2"=>" - Front End",
+			"edi_1"=>"",
+			"edi_2"=>" - Front End",
+		);
 
 
+		$log_array = array();
+
+		foreach ($logs as $item){
+			$records = array();
+			foreach ($item['data'] as $v){
+				$val = "";
+				if ($v['o']){
+					$val = "[".$v['o']. "] => [" . $v['n']."]";
+				} else {
+					$val = $v['n'];
+				}
+				if ($v['l']){
+					$val = $v['l'];
+				}
+				$records[] = array(
+					"label"=>$v['k'],
+					"value"=>$val
+				);
+			}
+
+
+			$log_array[] = array(
+				"type"=>"log",
+				"datein"=>$item['datein'],
+				"sort"=>date("YmdHis",strtotime($item['datein']))."1",
+				"label"=> isset($events[$item['eventID']])?$item['label'] . $events[$item['eventID']]:$item['label'],
+				"records"=>$records
+			);
+
+		}
+
+		foreach ($notifications as $item){
+			$records = array();
+			if ($item['subject']){
+				$records[] = array(
+					"label"=>"Subject",
+					"value"=>$item['subject']
+				);
+			}
+			if ($item['body']){
+				$records[] = array(
+					"label"=>"Body",
+					"value"=>$item['body']
+				);
+			}
+
+
+
+			$log_array[] = array(
+				"type"=>"notification",
+				"datein"=>$item['datein'],
+				"sort"=>date("YmdHis",strtotime($item['datein']))."2",
+				"label"=>$item['log_label'],
+				"status"=>$item['status'],
+				"records"=>$records
+			);
+
+		}
+
+
+		usort($log_array, function($a, $b) {
+			return $a['sort'] - $b['sort'];
+		});
+
+
+
+		//test_array($notifications);
+		//test_array($logs);
+
+		$return['logs'] = $log_array;
 
 
 
