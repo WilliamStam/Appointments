@@ -68,6 +68,32 @@
 				</div>
 			</div>
 
+			<div class="panel">
+				<div class="panel-heading built">Customize the space under  the number form field</div>
+				<div class="alert alert-info">
+					<p>
+						Place normal html in this block
+					</p>
+				</div>
+
+				<div class="panel-body form-horizontal" style="padding:0;">
+
+
+						<textarea name="client_form_branding" id="client_form_branding" class="form-control" style="min-height:300px;"><% if(this.settings.client_form_branding){ %><%= this.settings.client_form_branding %><% } %></textarea>
+
+				</div>
+				<div class="alert alert-info">
+					<p>
+						for images upload them to an image hosting site and link them here
+					</p>
+				</div>
+			</div>
+
+
+
+
+
+
 
 
 		</div>

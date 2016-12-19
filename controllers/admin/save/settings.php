@@ -27,6 +27,9 @@ class settings extends _ {
 		if (isset($_POST['timeslots'])){
 			$values['timeslots']=$_POST['timeslots'];
 		}
+		if (isset($_POST['client_form_branding'])){
+			$values['client_form_branding']=$_POST['client_form_branding'];
+		}
 
 		//test_array($_POST);
 
