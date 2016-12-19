@@ -190,8 +190,7 @@ class notifications extends _ {
 							$result = notifications::getInstance()->_send_sms($notification_settings['to'], $log['body'], $extra);
 							if ($result) {
 								$log_label = "{$notification_settings['log_label_prefix']} Notification: " . $notification_settings['to'];
-							}
-							else {
+							} else {
 								$log_label = "{$notification_settings['log_label_prefix']} Notification FAILED: " . $notification_settings['to'];
 							}
 
@@ -204,8 +203,7 @@ class notifications extends _ {
 							$result = notifications::getInstance()->_send_email($notification_settings['to'], $log['body'], $log['subject'], $extra);
 							if ($result) {
 								$log_label = "{$notification_settings['log_label_prefix']} Notification: " . $notification_settings['to'];
-							}
-							else {
+							} else {
 								$log_label = "{$notification_settings['log_label_prefix']} Notification FAILED: " . $notification_settings['to'];
 							}
 						}
@@ -246,13 +244,13 @@ class notifications extends _ {
 
 	function _send_sms($to,$body,$extra=array()){
 
+		$result = _sms::getInstance()->sendSms($to,$body);
+		$return = true;
+		if (!$result){
+			$return = false;
+		}
 
-		//test_array(array("to"=>$to,"body"=>$body,"extra"=>$extra));
-
-
-
-
-
+		return $return;
 
 	}
 	

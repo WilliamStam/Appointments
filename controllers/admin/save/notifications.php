@@ -15,12 +15,16 @@ class notifications extends _ {
 
 		$values = array();
 
-		$exclude = array("submit");
+		$exclude = array("submit","smsportal_password");
 		foreach ($_POST as $key=>$value){
 			if (!in_array($key,$exclude)){
 				$values[$key] = $value;
 			}
 
+		}
+
+		if (isset($_POST['smsportal_password'])&&$_POST['smsportal_password']!=""){
+			$values["smsportal_password"] = $_POST['smsportal_password'];
 		}
 
 

@@ -22,6 +22,37 @@
 				</div>
 
 			</div>
+			<div class="panel blue">
+				<div class="panel-heading built">SMSportal</div>
+
+				<div class="alert alert-info">
+					<p class="text-center">
+						http://www.smsportal.co.za/
+					</p>
+				</div>
+				<div class="panel-body form-horizontal">
+
+					<div class="form-group">
+						<div class="col-sm-12">
+							<input type="text" name="smsportal_username" class="form-control" id="smsportal_username" placeholder="SMSportal Username" value="<% if(this.settings.smsportal_username){ %><%= this.settings.smsportal_username %><% } %>">
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-sm-12">
+							<input type="text" name="smsportal_password" class="form-control" id="smsportal_password" placeholder="SMSportal Password" value="<% if(this.settings.smsportal_password){ %><%= this.settings.smsportal_password %><% } %>">
+						</div>
+					</div>
+
+
+
+				</div>
+				<div class="alert alert-info">
+					<p>
+						Remove the Username field to disable sms'ing. the password will remain blank. to change the password place a new value in
+					</p>
+				</div>
+
+			</div>
 
 
 

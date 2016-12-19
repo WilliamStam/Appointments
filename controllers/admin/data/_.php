@@ -11,7 +11,7 @@ class _ extends \controllers\_ {
 		if ($this->user['ID']==""){
 			$this->f3->error(403);
 		}
-		
+		$this->settings = $this->f3->get("settings");
 		$this->f3->set("__runJSON", true);
 		
 		

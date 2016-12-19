@@ -9,8 +9,8 @@ class _sms extends _ {
 		parent::__construct();
 
 		$this->url = 'http://www.mymobileapi.com/api5/http5.aspx';
-		$this->username = 'MarkK'; //your login username
-		$this->password = 'Barkston01!'; //your login password
+		$this->username = $this->settings['smsportal_username']; //your login username
+		$this->password = $this->settings['smsportal_password'];; //your login password
 	}
 	public static function getInstance(){
 		if ( is_null( self::$instance ) ) {
