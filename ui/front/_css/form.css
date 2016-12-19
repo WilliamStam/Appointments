@@ -76,7 +76,9 @@ body {
   .pagination li.disabled {
     color: #ccc !important; }
     .pagination li.disabled label {
-      cursor: default; }
+      cursor: default;
+      border-color: white;
+      background-color: #f2f2f2; }
       .pagination li.disabled label .dayName, .pagination li.disabled label .day, .pagination li.disabled label .month {
         color: #ccc;
         text-decoration: line-through; }
