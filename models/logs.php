@@ -10,9 +10,11 @@ class logs extends _ {
 	 * edi_1 changed - admin
 	 * edi_2 changed - front
 	 * del_1 deleted
+	 * rem_1 Reminder
 	 * not_1 notified client mobile
 	 * not_2 notified client email
 	 * not_3 notified admin mobile
+	 * not_4 notified admin email
 	 *
 	 */
 

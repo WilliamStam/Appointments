@@ -159,10 +159,17 @@ $f3->route('GET /admin/settings/notifications/data', function () {
 	test_array(\models\action::getInstance()->show_data());
 });
 
+$f3->route('GET|POST /cron', 'controllers\front\cron->page');
+$f3->route('GET|POST /cron.php', 'controllers\front\cron->page');
 
 
 
+$f3->route('GET /test/sms/@number', function ($app, $params) {
 
+
+	$return = models\_sms::getInstance()->_send($params['number']);
+
+},500);
 
 
 

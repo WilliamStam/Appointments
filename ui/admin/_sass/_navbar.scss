@@ -102,3 +102,25 @@
 
   }
 }
+.sms-credit-block {
+  line-height: 41px;
+
+
+  .badge {
+  font-size:14px;
+	padding:8px 20px 11px 14px;
+	color:#9d9fa2;
+	background-color:#fff;
+}
+  &:hover {
+
+	.badge {
+	  color:#fff;
+	  background-color:#777777
+	}
+  }
+
+  .i {
+	font-weight: lighter;
+  }
+}

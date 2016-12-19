@@ -127,13 +127,16 @@ class notifications extends _ {
 			case "edi_2":
 				$return = "Client changed Appointment";
 				break;
+			case "rem_2":
+				$return = "Booking Reminder";
+				break;
 		}
 
 
 		return $return;
 
 	}
-	function notify($appointment,$eventID,$extra){
+	function notify($appointment,$eventID,$extra,$forceEnd=false){
 
 		$notifications = array(
 			"not_1"=>array(
@@ -158,8 +161,12 @@ class notifications extends _ {
 			)
 		);
 
+		if ($forceEnd){
+			$notifications = array($forceEnd=>$notifications[$forceEnd]);
+		}
 
 
+		//test_array($notifications);
 
 		foreach ($notifications as $notif=>$notification_settings){
 			$template = isset($this->settings[$notif."|".$eventID])?$this->settings[$notif."|".$eventID]:false;

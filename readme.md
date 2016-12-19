@@ -7,20 +7,16 @@
 - [ ] Calendar view
 
 
-**Agenda line**
+*Agenda line*
 - [ ] Reserved times to the bar
 
  
 
 
-*Notifications*
-- [ ] Client side booking
-    - Client
-    - Admin
-- [ ] Admin side booking
-    - Client
-- [ ] Admin changed booking
-    - Client
+*Notification Action*
+- [ ] sms
+- [ ] email
+
     
 *Settings*
 - Notifications
