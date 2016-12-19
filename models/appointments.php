@@ -153,6 +153,10 @@ class appointments extends _ {
 			$services = array();
 
 			foreach ($services_data as $item){
+				$item['log_label'] = $item['label'];
+				if ($item['category']){
+					$item['log_label'] = $item['label'] ." (".$item['category'].")";
+				}
 				$services[$item['ID']] = $item;
 			}
 
@@ -167,7 +171,7 @@ class appointments extends _ {
 							"k"=>"services-removed",
 							"o"=>$b->serviceID,
 							"n"=>"",
-							"l"=>"Service Removed - [".$services[$b->serviceID]['label']."]"
+							"l"=>"Service Removed - [".$services[$b->serviceID]['log_label']."]"
 						);
 						$b->erase();
 					}
@@ -177,7 +181,7 @@ class appointments extends _ {
 							"k"=>"services-added",
 							"o"=>"",
 							"n"=>$val['serviceID'],
-							"l"=>"Service Added - [".$services[$val['serviceID']]['label']."]"
+							"l"=>"Service Added - [".$services[$val['serviceID']]['log_label']."]"
 						);
 					} else {
 						if ($b->serviceID != $val['serviceID']){
@@ -185,7 +189,7 @@ class appointments extends _ {
 								"k"=>"services-changed",
 								"o"=>$b->serviceID,
 								"n"=>$val['serviceID'],
-								"l"=>"Service Changed - [".$services[$b->serviceID]['label']."] to [" .$services[$val['serviceID']]['label']."]"
+								"l"=>"Service Changed - [".$services[$b->serviceID]['log_label']."] => [" .$services[$val['serviceID']]['log_label']."]"
 							);
 						}
 					}
