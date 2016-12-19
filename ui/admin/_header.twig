@@ -25,7 +25,7 @@
 				<li class="{% if page.sub_section=="form" %}active{% endif %} ">
 					<a class="form-appointment-btn" href="#" data-id="">
 						<i class="fa fa-plus "></i>
-						Appointment
+						<span class="hidden-sm">Appointment</span>
 					</a>
 
 				</li>
@@ -34,7 +34,7 @@
 				<li>
 					<a href="/admin/services" {% if page.section =='services' %}class="active"{% endif %}>
 						<i class="fa fa-shopping-basket"></i>
-						Services
+						<span class="hidden-sm">Services</span>
 					</a>
 				</li>
 				<!--
@@ -48,20 +48,31 @@
 				<li>
 					<a href="/admin/clients" {% if page.section =='clients' %}class="active"{% endif %}>
 						<i class="fa fa-users"></i>
-						Clients
+						<span class="hidden-sm">Clients</span>
 					</a>
+				</li>
+
+				<li class="visible-xs" ><a href="/admin/staff" {% if page.section =='staff' %}class="active"{% endif %}><i class="fa fa-user-circle "></i>
+						<span class="hidden-sm">Staff</span>	</a>
 				</li>
 
 
 				<li class="visible-xs {% if page.sub_section =='settings' %}active{% endif %}"><a href="/admin/settings">
-						<i class="fa fa-cogs "></i> Settings</a></li>
-				<li class="visible-xs {% if page.sub_section =='users' %}active{% endif %}"><a href="/admin/settings/users"> <i class="fa fa-cogs "></i>  Users</a></li>
-				<li class="visible-xs {% if page.sub_section =='notifications' %}active{% endif %}"><a href="/admin/settings/notifications"> <i class="fa fa-cogs "></i>  Notifications</a></li>
+						<i class="fa fa-cogs "></i> Settings</a>
+				</li>
+				<li class="visible-xs {% if page.sub_section =='users' %}active{% endif %}">
+					<a href="/admin/settings/users"> <i class="fa fa-cogs "></i>  Users</a>
+				</li>
+				<li class="visible-xs {% if page.sub_section =='notifications' %}active{% endif %}">
+					<a href="/admin/settings/notifications"> <i class="fa fa-cogs "></i>  Notifications</a>
+				</li>
 
 
 				<li class="visible-xs" ><a href="/logout" style="padding-right:15px;" ><i class="fa fa-sign-out"></i><span class="visible-xs-inline"> Logout</span></a>
-				
-				
+				</li>
+
+				<li class="visible-xs sms-credit-block" ></li>
+
 				
 				
 				
@@ -72,7 +83,9 @@
 			
 			
 			<ul class="nav navbar-nav navbar-right">
+				<li class="sms-credit-block">
 
+				</li>
 				
 				<li>
 					<a href="/admin/staff" {% if page.section =='staff' %}class="active"{% endif %}><i class="fa fa-user-circle "></i>
