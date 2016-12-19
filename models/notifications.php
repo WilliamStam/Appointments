@@ -254,7 +254,7 @@ class notifications extends _ {
 
 	}
 	
-	function _send_email($to,$subject,$body,$extra=array()){
+	function _send_email($to,$body,$subject,$extra=array()){
 
 		$this->settings['email_smtp_host'] = $this->settings['email_smtp_host']?$this->settings['email_smtp_host']:"127.0.0.1";
 		$this->settings['email_smtp_port'] = $this->settings['email_smtp_port']?$this->settings['email_smtp_port']:"25";
