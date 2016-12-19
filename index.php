@@ -172,6 +172,14 @@ $f3->route('GET /test/sms/@number', function ($app, $params) {
 
 },500);
 
+$f3->route('GET /test/email/@email', function ($app, $params) {
+
+
+	$return = models\notifications::getInstance()->_send_email($params['email'],"test message subject","test message body",array());
+	test_array($return);
+
+},500);
+
 
 
 

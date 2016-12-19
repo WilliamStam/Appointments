@@ -14,14 +14,14 @@
 
 
 *Notification Action*
-- [ ] sms
+- [x] sms
 - [ ] email
 
     
 *Settings*
 - Notifications
     - Templates
-        - [ ] Appointment Reminder  
+        - [x] Appointment Reminder  
 
 	
 

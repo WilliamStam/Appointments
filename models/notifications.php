@@ -244,7 +244,7 @@ class notifications extends _ {
 
 	function _send_sms($to,$body,$extra=array()){
 
-		$result = _sms::getInstance()->sendSms($to,$body);
+		$result = false; //_sms::getInstance()->sendSms($to,$body);
 		$return = true;
 		if (!$result){
 			$return = false;
@@ -256,9 +256,26 @@ class notifications extends _ {
 	
 	function _send_email($to,$subject,$body,$extra=array()){
 
+		$this->settings['email_smtp_host'] = $this->settings['email_smtp_host']?$this->settings['email_smtp_host']:"127.0.0.1";
+		$this->settings['email_smtp_port'] = $this->settings['email_smtp_port']?$this->settings['email_smtp_port']:"25";
+		$this->settings['email_smtp_scheme'] = $this->settings['email_smtp_scheme']?$this->settings['email_smtp_scheme']:"";
+		$this->settings['email_smtp_user'] = $this->settings['email_smtp_user']?$this->settings['email_smtp_user']:"";
+		$this->settings['email_smtp_password'] = $this->settings['email_smtp_password']?$this->settings['email_smtp_password']:"";
 
-		//test_array(array("to"=>$to,"subject"=>$subject,"body"=>$body,"extra"=>$extra));
+		$this->settings['email_smtp_host'] = "197.242.157.56";
+		$this->settings['email_smtp_user'] = "Administrator";
+		$this->settings['email_smtp_password'] = "fdW78yFU";
 
+
+
+		$smtp = new \SMTP (  $this->settings['email_smtp_host'], $this->settings['email_smtp_port'], $this->settings['email_smtp_scheme'], $this->settings['email_smtp_user'], $this->settings['email_smtp_password'] );
+		$smtp->set('To', $to);
+		$smtp->set('Subject', $subject);
+		$smtp->set('From', $this->settings['email_from']);
+
+
+
+		return $smtp->send($body);
 
 
 
