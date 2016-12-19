@@ -78,7 +78,7 @@ class action extends _ {
 		if ($do==false){
 			$extra['log'] = logs::getInstance()->getAll("appointmentID='{$extra['appointment']['ID']}'");
 			$extra['log'] =$extra['log'][0]['data'];
-			test_array($extra);
+				test_array($extra);
 		}
 
 
