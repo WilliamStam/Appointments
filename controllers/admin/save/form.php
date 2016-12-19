@@ -107,6 +107,23 @@ class form extends _ {
 
 		return $GLOBALS["output"]['data'] = $return;
 	}
+	function delete_appointment(){
+		$result = array();
+		$ID = isset($_REQUEST['ID'])?$_REQUEST['ID']:"";
+
+
+
+		if (count($this->errors)==0){
+
+			$result = models\appointments::_delete($ID);
+		}
+		$return = array(
+			"result" => $result,
+			"errors" => $this->errors
+		);
+
+		return $GLOBALS["output"]['data'] = $return;
+	}
 
 
 	

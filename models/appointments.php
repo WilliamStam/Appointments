@@ -238,6 +238,10 @@ class appointments extends _ {
 		$a->erase();
 
 		$a->save();
+		$f3->get("DB")->exec("DELETE FROM appointments_services WHERE appointmentID ='$ID'");
+		$f3->get("DB")->exec("DELETE FROM logs WHERE appointmentID ='$ID'");
+		$f3->get("DB")->exec("DELETE FROM notifications WHERE appointmentID ='$ID'");
+
 
 
 		$timer->_stop(__NAMESPACE__, __CLASS__, __FUNCTION__, func_get_args());

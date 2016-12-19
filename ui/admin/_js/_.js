@@ -359,6 +359,27 @@ $(document).ready(function () {
 
 
 	})
+	$(document).on("click", "#form-appointment #btn-delete-record", function (e) {
+		e.preventDefault();
+		var ID = $.bbq.getState("appID");
+		if (confirm("Are you sure you want to delete this record?")){
+			$.post("/admin/save/form/delete_appointment?ID=" + ID, {}, function (result) {
+				result = result.data;
+
+				if (!result.errors) {
+					toastr["success"]("Record Deleted", "Success");
+					//getData();
+					$.bbq.removeState("appID");
+					$.bbq.removeState("form");
+					$("#modal-window").modal("hide");
+				} else {
+					toastr["error"]("There was an error deleting this record", "Error");
+				}
+			})
+		}
+
+
+	});
 
 	$(document).on("keyup", "#client-search", function (e) {
 		e.preventDefault();
