@@ -105,6 +105,32 @@
 				</div>
 
 			</div>
+			<div class="panel green">
+				<div class="panel-heading built">Client SMS Reminder</div>
+
+				<div class="panel-body form-horizontal" style="padding:0;">
+					<textarea name="not_1|rem_1"  id="not_1|rem_1"  class="form-control"  style="width:100%; height:150px;" placeholder="Template">
+						<%= this.settings['not_1|rem_1']||'' %>
+					</textarea>
+
+
+
+				</div>
+
+			</div>
+			<div class="panel blue">
+				<div class="panel-heading built">ADMIN SMS Reminder</div>
+
+				<div class="panel-body form-horizontal" style="padding:0;">
+					<textarea name="not_3|rem_1"  id="not_1|rem_1"  class="form-control"  style="width:100%; height:150px;" placeholder="Template">
+						<%= this.settings['not_3|rem_1']||'' %>
+					</textarea>
+
+
+
+				</div>
+
+			</div>
 
 
 
