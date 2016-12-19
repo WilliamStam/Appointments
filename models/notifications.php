@@ -138,21 +138,28 @@ class notifications extends _ {
 		$notifications = array(
 			"not_1"=>array(
 				"type"=>"sms",
-				"to"=>$appointment["client"]['mobile_number']
+				"to"=>$appointment["client"]['mobile_number'],
+				"log_label_prefix"=>"Client"
 			),
 			"not_2"=>array(
 				"type"=>"email",
-				"to"=>$appointment["client"]['email']
+				"to"=>$appointment["client"]['email'],
+				"log_label_prefix"=>"Client"
 			),
 			"not_3"=>array(
 				"type"=>"sms",
-				"to"=>$this->settings['mobile_number']
+				"to"=>$this->settings['mobile_number'],
+				"log_label_prefix"=>"Admin"
 			),
 			"not_4"=>array(
 				"type"=>"email",
-				"to"=>$this->settings['email']
+				"to"=>$this->settings['email'],
+				"log_label_prefix"=>"Admin"
 			)
 		);
+
+
+
 
 		foreach ($notifications as $notif=>$notification_settings){
 			$template = isset($this->settings[$notif."|".$eventID])?$this->settings[$notif."|".$eventID]:false;
@@ -175,10 +182,10 @@ class notifications extends _ {
 							$log['body'] = $this->notify_body($notif,$eventID,$extra);
 							$result = notifications::getInstance()->_send_sms($notification_settings['to'], $log['body'], $extra);
 							if ($result) {
-								$log_label = "Notification: " . $notification_settings['to'];
+								$log_label = "{$notification_settings['log_label_prefix']} Notification: " . $notification_settings['to'];
 							}
 							else {
-								$log_label = "Notification FAILED: " . $notification_settings['to'];
+								$log_label = "{$notification_settings['log_label_prefix']} Notification FAILED: " . $notification_settings['to'];
 							}
 
 						}
@@ -189,10 +196,10 @@ class notifications extends _ {
 							$log['body'] = $this->notify_body($notif,$eventID,$extra);
 							$result = notifications::getInstance()->_send_email($notification_settings['to'], $log['body'], $log['subject'], $extra);
 							if ($result) {
-								$log_label = "Notification: " . $notification_settings['to'];
+								$log_label = "{$notification_settings['log_label_prefix']} Notification: " . $notification_settings['to'];
 							}
 							else {
-								$log_label = "Notification FAILED: " . $notification_settings['to'];
+								$log_label = "{$notification_settings['log_label_prefix']} Notification FAILED: " . $notification_settings['to'];
 							}
 						}
 						break;

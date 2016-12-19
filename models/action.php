@@ -76,6 +76,8 @@ class action extends _ {
 		}
 
 		if ($do==false){
+			$extra['log'] = logs::getInstance()->getAll("appointmentID='{$extra['appointment']['ID']}'");
+			$extra['log'] =$extra['log'][0]['data'];
 			test_array($extra);
 		}
 
@@ -87,8 +89,9 @@ class action extends _ {
 	}
 	function show_data(){
 		$data = appointments::getInstance()->getAll("","ID DESC","0,1",array("format" => TRUE, "client" => TRUE, "services" => TRUE));
+		$data = $data[0];
 
-		$this->call($data[0],"",array(),true);
+		$this->call($data,"",array(),false);
 	}
 
 

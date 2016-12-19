@@ -165,13 +165,13 @@ class home extends _ {
 			if ($item['subject']){
 				$records[] = array(
 					"label"=>"Subject",
-					"value"=>$item['subject']
+					"value"=>nl2br($item['subject'])
 				);
 			}
 			if ($item['body']){
 				$records[] = array(
 					"label"=>"Body",
-					"value"=>$item['body']
+					"value"=>nl2br($item['body'])
 				);
 			}
 

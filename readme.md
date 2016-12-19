@@ -14,8 +14,6 @@
  
 *Logs*
 - Logs created for appointments (log event ID to be added)
-    - [ ] Record added
-    - [ ] Record edited
     - [ ] Notifications
 
 
@@ -32,8 +30,6 @@
 *Settings*
 - Notifications
     - Templates
-        - [ ] New Record
-        - [ ] Edited Record
         - [ ] Appointment Reminder  
 
 	

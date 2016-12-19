@@ -1,6 +1,78 @@
-Your appointment has been changed.
-{% for row in data['log'] %}{% if row['l'] %}
-	- {{ row['l'] }}{% else %}
-	- {{ row['k'] }} - {{ row['n'] }}{% endif %}{% endfor %}
+<!-- Client SMS Record Created FRONT -->
+Thank you {{ data['appointment']['client']['first_name'] }} for your booking:
+{{ data['appointment']['time']['day_view'] }} {{ data['appointment']['time']['start_view_short'] }}
+{% for row in data['appointment']['services'] %}
+ - {{ row['label'] }}{% if row['category'] %} ({{ row['category'] }}){% endif %}
+{% endfor %}
+Regards
 
-Regards, us
+
+
+
+<!-- ADMIN SMS Record Created FRONT -->
+New client booking:
+{{ data['appointment']['client']['first_name'] }} {{ data['appointment']['client']['last_name'] }}
+{{ data['appointment']['time']['day_view'] }} {{ data['appointment']['time']['start_view_short'] }}
+{% for row in data['appointment']['services'] %}
+ - {{ row['label'] }}{% if row['category'] %} ({{ row['category'] }}){% endif %}
+{% endfor %}
+
+
+
+
+
+<!-- Client SMS Record Created ADMIN -->
+{{ data['appointment']['client']['first_name'] }}, a booking was made for you:
+{{ data['appointment']['time']['day_view'] }} {{ data['appointment']['time']['start_view_short'] }}
+for the following:
+{% for row in data['appointment']['services'] %}
+ - {{ row['label'] }}{% if row['category'] %} ({{ row['category'] }}){% endif %}
+{% endfor %}
+Regards
+
+
+
+
+<!-- ADMIN SMS Record Created ADMIN -->
+Booking made:
+{{ data['appointment']['client']['first_name'] }} {{ data['appointment']['client']['last_name'] }}
+{{ data['appointment']['time']['day_view'] }} {{ data['appointment']['time']['start_view_short'] }}
+for the following:
+{% for row in data['appointment']['services'] %}
+ - {{ row['label'] }}{% if row['category'] %} ({{ row['category'] }}){% endif %}
+{% endfor %}
+
+
+
+
+
+
+
+<!-- Client SMS Record Changed ADMIN -->
+{{ data['appointment']['client']['first_name'] }}, your booking was changed
+{% for row in data['log'] %}
+{% if row['l'] %} {{ row['l'] }}{% else %} {{ row['k'] }} => {{ row['n'] }}{% endif %}
+
+	{% endfor %}
+
+
+
+
+
+
+
+
+<!-- ADMIN SMS Record Changed ADMIN -->
+Booking was changed for {{ data['appointment']['client']['first_name'] }} {{ data['appointment']['client']['last_name'] }}:
+{% for row in data['log'] %}
+	{% if row['l'] %} {{ row['l'] }}{% else %} {{ row['k'] }} => {{ row['n'] }}{% endif %}
+
+{% endfor %}
+
+
+
+
+
+
+
+

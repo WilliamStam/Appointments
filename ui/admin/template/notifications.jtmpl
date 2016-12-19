@@ -215,6 +215,10 @@
 	<div class="alert alert-info">
 		<p>Removing any template disables that notification</p>
 	</div>
+	<div class="alert alert-warning">
+		<p>To find out what data is available visit this page
+			<a href="/admin/settings/notifications/data" target="_blank"> [click here] </a> make sure you have a JSONview extension installed for your browser. use twig language for the templates. start with {<span style="width:0px;"></span>{ data[&lt;keys&gt;] }<span style="width:0px;"></span>}</p>
+	</div>
 
 	<div class="panel">
 
