@@ -130,15 +130,22 @@ function getData() {
 			$('#calendar-area').fullCalendar({
 				header:false,
 				eventLimit: true,
+				defaultDate: data.list.settings.start+" 00:00:00",
 				eventSources: [
 					{events: data.list.items},
 
 				],
 				dayRender: function (date, cell) {
 					//console.log(date.format("Y-MM-DD"))
-					if (data.list.closed.indexOf(date.format("Y-MM-DD"))!=-1){
+
+					var dateKey = date.format("Y-MM-DD");
+
+					console.log(dateKey+" | "+data.list.closed.indexOf(dateKey))
+
+					if (data.list.closed.indexOf(dateKey)!=-1){
 						cell.addClass("disabled");
 					}
+
 
 				},
 				eventClick: function(event) {
@@ -156,8 +163,8 @@ function getData() {
 				}
 			});
 
-			///console.log(data.list.settings.current)
-			$('#calendar-area').fullCalendar('gotoDate', data.list.settings.start);
+			//console.log(data.list.settings.start)
+			//$('#calendar-area').fullCalendar('gotoDate', data.list.settings.start+" 00:00:00");
 
 		}
 

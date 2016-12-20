@@ -224,7 +224,7 @@ class home extends _ {
 		if ($week_value == "") {
 			$week_value = date("W-Y");
 		}
-		if ($week_value == "") {
+		if ($month_value == "") {
 			$month_value = date("m-Y");
 		}
 
@@ -685,8 +685,8 @@ class home extends _ {
 
 		$month_ = explode("-",$return['settings']['month_value']);
 
-		$startTime = (date("{$month_[1]}-{$month_[0]}-01 "));
-		$endTime = (date("{$month_[1]}-{$month_[0]}-t "));
+		$startTime = (date("{$month_[1]}-{$month_[0]}-01"));
+		$endTime = (date("Y-m-t",strtotime($startTime)));
 
 
 
