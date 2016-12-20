@@ -189,3 +189,17 @@
       text-shadow: 1px 1px 10px #ccc;
       color: #f1f1f1;
       font-weight: bold; }
+
+.fc-event, .fc-event-dot {
+  background-color: #34495e;
+  padding: 3px; }
+  .fc-event:hover, .fc-event-dot:hover {
+    background-color: #46637f; }
+
+#calendar-area .disabled {
+  background: repeating-linear-gradient(45deg, transparent, transparent 5px, #f1f1f1 5px, #f1f1f1 10px), linear-gradient(to bottom, #e1e1e1, #e1e1e1); }
+  #calendar-area .disabled .fc-day-top {
+    color: #ccc; }
+
+#calendar-area .fc-other-month {
+  opacity: 0.3; }

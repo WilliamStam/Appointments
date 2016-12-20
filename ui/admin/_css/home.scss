@@ -327,3 +327,42 @@
   }
 
 }
+
+.fc-event, .fc-event-dot {
+  background-color: $color-navy-blue;
+  padding:3px;
+  &:hover {
+	background-color: lighten($color-navy-blue,10%);
+  }
+}
+
+
+#calendar-area {
+
+  td.fc-day {
+
+  }
+
+  .disabled {
+	.fc-day-top {
+	  color:#ccc;
+	}
+	background: /* On "top" */
+			repeating-linear-gradient(
+							45deg,
+							transparent,
+							transparent 5px,
+							#f1f1f1 5px,
+							#f1f1f1 10px
+			),
+			  /* on "bottom" */
+			linear-gradient(
+							to bottom,
+							#e1e1e1,
+							#e1e1e1
+			);
+  }
+  .fc-other-month {
+	opacity:0.3;
+  }
+}

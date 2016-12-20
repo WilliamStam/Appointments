@@ -662,9 +662,70 @@ class home extends _ {
 	}
 
 	function calendar_view($return, $records) {
+		$return_view = array();
+		$return_view['items'] = array();
+		$settings = $this->settings;
 
-		$return['list'] = $records;
+		foreach ($records as $item){
 
+			$label = $item['client']['ID']?$item['client']['first_name'] . " ".  $item['client']['lastt_name']:"Walk-In";
+
+
+			$return_view['items'][] = array(
+				"ID"  => $item['ID'],
+				"title"  => $label,
+				"start" => $item['time']['start'],
+				"end" => $item['time']['end']
+			);
+		};
+
+
+		$return_view['closed'] = array();
+
+
+		$month_ = explode("-",$return['settings']['month_value']);
+
+		$startTime = (date("{$month_[1]}-{$month_[0]}-01 "));
+		$endTime = (date("{$month_[1]}-{$month_[0]}-t "));
+
+
+
+		//test_array(array($startTime,$endTime,$first_item,$last_item));
+// Loop between timestamps, 24 hours at a time
+
+
+		for ($i = strtotime("-7 days",strtotime($startTime)); $i <= strtotime("+7 days",strtotime($endTime)); $i = $i + (60 * 60)*24) {
+			$d = date('Y-m-d', $i);
+			$dayofweek = strtolower(date('l', strtotime($d)));
+
+			//test_array($currentDay);
+
+			$business_hours = FALSE;
+			if (isset($settings['open'][$dayofweek])) {
+				if (($settings['open'][$dayofweek]['start'] && $settings['open'][$dayofweek]['end']) && !in_array(date('d-m', strtotime($d)), $settings['closed'])) {
+					$business_hours = true;
+				}
+
+			}
+
+			if (!$business_hours){
+				$return_view['closed'][] = $d;
+			}
+
+
+		}
+
+		//test_array(array($startTime,$endTime,$return_view['closed']));
+
+
+
+
+
+		$return_view['settings']['current'] = $return['settings']['month_value'];
+		$return_view['settings']['start'] = $startTime;
+		$return_view['settings']['end'] = $endTime;
+
+		$return['list'] = $return_view;
 		return $return;
 	}
 

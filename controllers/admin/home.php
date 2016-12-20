@@ -18,6 +18,8 @@ class home extends _ {
 			"meta"       => array(
 				"title"=> "Admin | Dashboard",
 			),
+			"js"=>array("/ui/_plugins/fullcalendar/fullcalendar.min.js"),
+			"css"=>array("/ui/_plugins/fullcalendar/fullcalendar.min.css"),
 		);
 		$tmpl->output();
 	}

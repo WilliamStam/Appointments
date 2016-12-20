@@ -126,6 +126,41 @@ function getData() {
 			$("#search-form button[type='reset']").hide();
 		}
 
+		if (section=="calendar"){
+			$('#calendar-area').fullCalendar({
+				header:false,
+				eventLimit: true,
+				eventSources: [
+					{events: data.list.items},
+
+				],
+				dayRender: function (date, cell) {
+					//console.log(date.format("Y-MM-DD"))
+					if (data.list.closed.indexOf(date.format("Y-MM-DD"))!=-1){
+						cell.addClass("disabled");
+					}
+
+				},
+				eventClick: function(event) {
+					if (event.ID) {
+
+						var ID = event.ID;
+						if (ID){
+							$.bbq.pushState({"appID":ID});
+							getAppointmentView()
+						}
+
+
+						return false;
+					}
+				}
+			});
+
+			///console.log(data.list.settings.current)
+			$('#calendar-area').fullCalendar('gotoDate', data.list.settings.start);
+
+		}
+
 
 		$('*[data-toggle="popover"]').popover()
 		$('*[data-toggle="tooltip"]').tooltip()
