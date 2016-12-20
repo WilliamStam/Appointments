@@ -1,35 +1,42 @@
 <?php
 namespace models;
+
 use \timer as timer;
 
 class notifications extends _ {
 
 	private static $instance;
+
 	function __construct() {
 		parent::__construct();
 
 
 	}
-	public static function getInstance(){
-		if ( is_null( self::$instance ) ) {
+
+	public static function getInstance() {
+		if (is_null(self::$instance)) {
 			self::$instance = new self();
 		}
+
 		return self::$instance;
 	}
 
 	public function getAll($where = "", $orderby = "", $limit = "", $options = array()) {
-		$result = $this->getData($where,$orderby,$limit,$options);
-		$result = $this->format($result,$options);
+		$result = $this->getData($where, $orderby, $limit, $options);
+		$result = $this->format($result, $options);
+
 		return $result;
 
 	}
+
 	public function getData($where = "", $orderby = "", $limit = "", $options = array()) {
 		$timer = new timer();
 		$f3 = \Base::instance();
 
 		if ($where) {
 			$where = "WHERE " . $where . "";
-		} else {
+		}
+		else {
 			$where = " ";
 		}
 
@@ -41,12 +48,14 @@ class notifications extends _ {
 		}
 
 		$args = "";
-		if (isset($options['args'])) $args = $options['args'];
+		if (isset($options['args'])) {
+			$args = $options['args'];
+		}
 
 		$ttl = "";
-		if (isset($options['ttl'])) $ttl = $options['ttl'];
-
-
+		if (isset($options['ttl'])) {
+			$ttl = $options['ttl'];
+		}
 
 
 		$result = $f3->get("DB")->exec("
@@ -56,24 +65,24 @@ class notifications extends _ {
 			GROUP BY ID
 			$orderby
 			$limit;
-		", $args, $ttl
-		);
+		", $args, $ttl);
 
 		$return = $result;
 		$timer->_stop(__NAMESPACE__, __CLASS__, __FUNCTION__, func_get_args());
+
 		return $return;
 	}
-	static function format($data,$options) {
+
+	static function format($data, $options) {
 		$timer = new timer();
-		$single = false;
+		$single = FALSE;
 		$f3 = \Base::instance();
 		//	test_array($items);
 		if (isset($data['ID'])) {
-			$single = true;
+			$single = TRUE;
 			$data = array($data);
 		}
 		//test_array($items);
-
 
 
 		$recordIDs = array();
@@ -86,35 +95,35 @@ class notifications extends _ {
 			$n[] = $item;
 		}
 
-		if ($single) $n = $n[0];
+		if ($single) {
+			$n = $n[0];
+		}
 		$records = $n;
 
 
 		$timer->_stop(__NAMESPACE__, __CLASS__, __FUNCTION__, func_get_args());
+
 		return $records;
 	}
 
 
-
-	function notify_body($notif,$eventID,$extra){
-
+	function notify_body($notif, $eventID, $extra) {
 
 
-		$template = $this->settings[$notif."|".$eventID];
+		$template = $this->settings[$notif . "|" . $eventID];
 		$tmpl = new \template($template);
 		$tmpl->data = $extra;
+
 		return $tmpl->render_string();
 
 
-
-
-
 	}
-	function notify_subject($notif,$eventID){
+
+	function notify_subject($notif, $eventID) {
 
 
 		$return = "";
-		switch($eventID) {
+		switch ($eventID) {
 			case "add_1":
 				$return = "Admin added an Appointment";
 				break;
@@ -136,150 +145,112 @@ class notifications extends _ {
 		return $return;
 
 	}
-	function notify($appointment,$eventID,$extra,$forceEnd=false){
 
-		$notifications = array(
-			"not_1"=>array(
-				"type"=>"sms",
-				"to"=>$appointment["client"]['mobile_number'],
-				"log_label_prefix"=>"Client"
-			),
-			"not_2"=>array(
-				"type"=>"email",
-				"to"=>$appointment["client"]['email'],
-				"log_label_prefix"=>"Client"
-			),
-			"not_3"=>array(
-				"type"=>"sms",
-				"to"=>$this->settings['mobile_number'],
-				"log_label_prefix"=>"Admin"
-			),
-			"not_4"=>array(
-				"type"=>"email",
-				"to"=>$this->settings['email'],
-				"log_label_prefix"=>"Admin"
-			)
-		);
+	function notify($appointment, $eventID, $extra, $forceEnd = FALSE) {
 
-		if ($forceEnd){
-			$notifications = array($forceEnd=>$notifications[$forceEnd]);
+		$notifications = array("not_1" => array("type" => "sms", "to" => $appointment["client"]['mobile_number'], "log_label_prefix" => "Client"), "not_2" => array("type" => "email", "to" => $appointment["client"]['email'], "log_label_prefix" => "Client"), "not_3" => array("type" => "sms", "to" => $this->settings['mobile_number'], "log_label_prefix" => "Admin"), "not_4" => array("type" => "email", "to" => $this->settings['email'], "log_label_prefix" => "Admin"));
+
+		if ($forceEnd) {
+			$notifications = array($forceEnd => $notifications[$forceEnd]);
 		}
 
 
 		//test_array($notifications);
 
-		foreach ($notifications as $notif=>$notification_settings){
-			$template = isset($this->settings[$notif."|".$eventID])?$this->settings[$notif."|".$eventID]:false;
-			if ($template=="") $template = false;
-			if ($template){
+		foreach ($notifications as $notif => $notification_settings) {
+			$template = isset($this->settings[$notif . "|" . $eventID]) ? $this->settings[$notif . "|" . $eventID] : FALSE;
+			if ($template == "") {
+				$template = FALSE;
+			}
+			if ($template) {
 				$log_label = "";
-				$log = array(
-					"label" => $extra['log_label'],
-					"type" => $notification_settings['type']
-				);
-				$result = false;
+				$log = array("label" => $extra['log_label'], "type" => $notification_settings['type']);
+				$result = FALSE;
 
 				if ($notification_settings)
 
 
+					switch ($notification_settings['type']) {
+						case "sms":
+							if ($notification_settings['to']) {
+								$log['body'] = $this->notify_body($notif, $eventID, $extra);
+								$result = notifications::getInstance()->_send_sms($notification_settings['to'], $log['body'], $extra);
+								if ($result) {
+									$log_label = "{$notification_settings['log_label_prefix']} Notification: " . $notification_settings['to'];
+								}
+								else {
+									$log_label = "{$notification_settings['log_label_prefix']} Notification FAILED: " . $notification_settings['to'];
+								}
 
-				switch($notification_settings['type']){
-					case "sms":
-						if ($notification_settings['to']) {
-							$log['body'] = $this->notify_body($notif,$eventID,$extra);
-							$result = notifications::getInstance()->_send_sms($notification_settings['to'], $log['body'], $extra);
-							if ($result) {
-								$log_label = "{$notification_settings['log_label_prefix']} Notification: " . $notification_settings['to'];
-							} else {
-								$log_label = "{$notification_settings['log_label_prefix']} Notification FAILED: " . $notification_settings['to'];
 							}
-
-						}
-						break;
-					case "email":
-						if ($notification_settings['to']) {
-							$log['subject']= $this->notify_subject($notif,$eventID);
-							$log['body'] = $this->notify_body($notif,$eventID,$extra);
-							$result = notifications::getInstance()->_send_email($notification_settings['to'], $log['body'], $log['subject'], $extra);
-							if ($result) {
-								$log_label = "{$notification_settings['log_label_prefix']} Notification: " . $notification_settings['to'];
-							} else {
-								$log_label = "{$notification_settings['log_label_prefix']} Notification FAILED: " . $notification_settings['to'];
+							break;
+						case "email":
+							if ($notification_settings['to']) {
+								$log['subject'] = $this->notify_subject($notif, $eventID);
+								$log['body'] = $this->notify_body($notif, $eventID, $extra);
+								$result = notifications::getInstance()->_send_email($notification_settings['to'], $log['body'], $log['subject'], $extra);
+								if ($result) {
+									$log_label = "{$notification_settings['log_label_prefix']} Notification: " . $notification_settings['to'];
+								}
+								else {
+									$log_label = "{$notification_settings['log_label_prefix']} Notification FAILED: " . $notification_settings['to'];
+								}
 							}
-						}
-						break;
+							break;
 
-				}
-				if ($log_label){
+					}
+				if ($log_label) {
 					$log['log_label'] = $log_label;
 					//logs::getInstance()->_log($appointment['ID'], $log_label, $notif."|".$eventID, $log);
-					logs::getInstance()->_notify($appointment['ID'], $notif."|".$eventID, $log, $result);
+					logs::getInstance()->_notify($appointment['ID'], $notif . "|" . $eventID, $log, $result);
 				}
 
 
 			}
 
 
-
-
-
 		}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 	}
 
-	function _send_sms($to,$body,$extra=array()){
+	function _send_sms($to, $body, $extra = array()) {
+		$result = FALSE;
+		if (!islocal()) {
+			$result = _sms::getInstance()->sendSms($to, $body);
+		}
 
-		$result = _sms::getInstance()->sendSms($to,$body);
-		$return = true;
-		if (!$result){
-			$return = false;
+		$return = TRUE;
+		if (!$result) {
+			$return = FALSE;
 		}
 
 		return $return;
 
 	}
-	
-	function _send_email($to,$body,$subject,$extra=array()){
 
-		$this->settings['email_smtp_host'] = $this->settings['email_smtp_host']?$this->settings['email_smtp_host']:"127.0.0.1";
-		$this->settings['email_smtp_port'] = $this->settings['email_smtp_port']?$this->settings['email_smtp_port']:"25";
-		$this->settings['email_smtp_scheme'] = $this->settings['email_smtp_scheme']?$this->settings['email_smtp_scheme']:"";
-		$this->settings['email_smtp_user'] = $this->settings['email_smtp_user']?$this->settings['email_smtp_user']:"";
-		$this->settings['email_smtp_password'] = $this->settings['email_smtp_password']?$this->settings['email_smtp_password']:"";
-
-
-
-
-		$smtp = new \SMTP (  $this->settings['email_smtp_host'], $this->settings['email_smtp_port'], $this->settings['email_smtp_scheme'], $this->settings['email_smtp_user'], $this->settings['email_smtp_password'] );
-		$smtp->set('To', $to);
-		$smtp->set('Subject', $subject);
-		$smtp->set('From', $this->settings['email_from']);
+	function _send_email($to, $body, $subject, $extra = array()) {
+		$result = FALSE;
+		if (!islocal()) {
+			$this->settings['email_smtp_host'] = $this->settings['email_smtp_host'] ? $this->settings['email_smtp_host'] : "127.0.0.1";
+			$this->settings['email_smtp_port'] = $this->settings['email_smtp_port'] ? $this->settings['email_smtp_port'] : "25";
+			$this->settings['email_smtp_scheme'] = $this->settings['email_smtp_scheme'] ? $this->settings['email_smtp_scheme'] : "";
+			$this->settings['email_smtp_user'] = $this->settings['email_smtp_user'] ? $this->settings['email_smtp_user'] : "";
+			$this->settings['email_smtp_password'] = $this->settings['email_smtp_password'] ? $this->settings['email_smtp_password'] : "";
 
 
+			$smtp = new \SMTP ($this->settings['email_smtp_host'], $this->settings['email_smtp_port'], $this->settings['email_smtp_scheme'], $this->settings['email_smtp_user'], $this->settings['email_smtp_password']);
+			$smtp->set('To', $to);
+			$smtp->set('Subject', $subject);
+			$smtp->set('From', $this->settings['email_from']);
+			$result = $smtp->send($body);
+		}
 
-		return $smtp->send($body);
 
-
-
+		return $result;
 
 
 	}
 
 
-	
 }

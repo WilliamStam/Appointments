@@ -238,11 +238,14 @@ class users extends _ {
 		$settings = $user['settings'];
 
 
+
 		if ($new_value){
 			$settings[$property] = $new_value;
 			if ($user['ID']){
 				self::_save($user['ID'],array("settings"=>$settings));
 			}
+			$user['settings'] = $settings;
+			$f3->set("user",$user);
 		}
 
 

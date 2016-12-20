@@ -519,7 +519,7 @@ class appointments extends _ {
 
 		//test_array($records);
 
-		$business_hours['start_l'] = "23:59:00";
+		$business_hours['start_l'] = "23:59:59";
 		$business_hours['end_r'] = "00:00:00";
 		if ($bussiness_hours_active){
 			$business_hours['start_l'] = date("H:i:s",strtotime($business_hours['start']));

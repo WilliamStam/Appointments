@@ -29,8 +29,8 @@ $(document).ready(function () {
 
 		var pushy = {};
 
-		pushy["list_value_"+$this.attr("data-section")] = $this.attr("data-value");
-		pushy["list_filter"] = $this.attr("data-section");
+		pushy[$this.attr("data-section")+"_value"] = $this.attr("data-value");
+		pushy["list_view"] = $this.attr("data-section");
 		$.bbq.pushState(pushy);
 
 		getData();
@@ -41,7 +41,7 @@ $(document).ready(function () {
 		var $this = $(this);
 
 		var pushy = {};
-		pushy["list_filter"] = $("#filter-bar input[name='filter']:checked").val();
+		pushy["list_view"] = $("#filter-bar input[name='filter']:checked").val();
 		$.bbq.pushState(pushy);
 
 		getData();
@@ -61,19 +61,36 @@ function getData() {
 	var section = $("#toolbar input[name='view']:checked").val();
 	if (!section || !section.indexOf("list", "day", "calendar")) section = "list";
 
-	var params =  {"section": section, "search": search, "list_filter":$.bbq.getState("list_filter")};
+	var list_view = $.bbq.getState("list_view");
+
+	var params =  {"section": section, "search": search, "list_view":list_view};
 	switch(section){
 		case "list":
 
-			switch(params['list_filter']){
+			switch(params['list_view']){
 				case "day":
-					params["list_value"] = $.bbq.getState("list_value_day");
+					params["day_value"] = $.bbq.getState("day_value");
 					break
 				case "week":
-					params["list_value"] = $.bbq.getState("list_value_week");
+					params["week_value"] = $.bbq.getState("week_value");
 					break;
 				case "month":
-					params["list_value"] = $.bbq.getState("list_value_month");
+					params["month_value"] = $.bbq.getState("month_value");
+					break;
+				default:
+					params["day_value"] = "";
+					break;
+
+			}
+			break;
+		case "day":
+
+			switch(params['list_view']){
+				case "day":
+					params["day_value"] = $.bbq.getState("day_value");
+					break
+				default:
+					params["day_value"] = "";
 					break;
 
 			}
@@ -81,11 +98,22 @@ function getData() {
 
 
 			break;
+		case "calendar":
+
+		switch(params['list_view']){
+			case "month":
+				params["month_value"] = $.bbq.getState("month_value");
+				break;
+			default:
+				params["month_value"] = "";
+				break;
+		}
+		break;
 
 	}
 
 
-	$.getData("/admin/data/home/view_" + section,params, function (data) {
+	$.getData("/admin/data/home/data",params, function (data) {
 
 
 		$("#content-area").jqotesub($("#template-view-" + section), data);

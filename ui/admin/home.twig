@@ -9,31 +9,27 @@
 
 
 				<div class="col-sm-2">
-					<div class="btn-group btn-group-justified" role="group">
+					<div class="btn-group " role="group">
 						<a class="form-appointment-btn btn btn-primary" href="#" data-id="" title="Add an appointment">
 							<i class="fa fa-plus "></i>
 
 						</a>
-						<a class="form-appointment-btn btn btn-primary disabled" href="#" data-id="" title="Reserve Time Slot">
-							<i class="fa fa-clock-o "></i>
 
-						</a>
 
 					</div>
 				</div>
 				<div class="col-sm-6">
-
 					<div class="btn-group btn-group-justified" data-toggle="buttons">
-						<label class="btn btn-default {% if _user['settings']['section']|default('list')=='list' %}active{% endif %}">
-							<input type="radio" name="view" id="view-list" autocomplete="off" value="list" {% if _user['settings']['section']|default("list")=="list" %}checked="checked"{% endif %}>
+						<label class="btn btn-default {% if _user['settings']['home_list_section']|default('list')=='list' %}active{% endif %}">
+							<input type="radio" name="view" id="view-list" autocomplete="off" value="list" {% if _user['settings']['home_list_section']|default("list")=="list" %}checked="checked"{% endif %}>
 							<i class="fa fa-list"></i> List
 						</label>
-						<label class="btn btn-default disabled {% if _user['settings']['section'] =='day' %}active{% endif %}">
-							<input type="radio" name="view" id="view-day" value="day" autocomplete="off" {% if _user['settings']['section']=="day" %}checked="checked"{% endif %}>
+						<label class="btn btn-default {% if _user['settings']['home_list_section'] =='day' %}active{% endif %}">
+							<input type="radio" name="view" id="view-day" value="day" autocomplete="off" {% if _user['settings']['home_list_section']=="day" %}checked="checked"{% endif %}>
 							<i class="fa fa-calendar-o"></i> Day View
 						</label>
-						<label class="btn btn-default disabled {% if _user['settings']['section']=='calendar' %}active{% endif %}">
-							<input type="radio" name="view" id="view-calendar" value="calendar" autocomplete="off"  {% if _user['settings']['section']=="calendar" %}checked="checked"{% endif %}>
+						<label class="btn btn-default  {% if _user['settings']['home_list_section']=='calendar' %}active{% endif %}">
+							<input type="radio" name="view" id="view-calendar" value="calendar" autocomplete="off"  {% if _user['settings']['home_list_section']=="calendar" %}checked="checked"{% endif %}>
 							<i class="fa fa-calendar"></i> Calendar
 						</label>
 					</div>

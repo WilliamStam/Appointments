@@ -82,10 +82,10 @@
 	  border-right: none;
 	  margin-right: -25px;
 	  .col-sm-7 {
-		text-align:right;
+		text-align: right;
 	  }
 	  .col-sm-5 {
-		padding-top:10px;
+		padding-top: 10px;
 	  }
 
 	}
@@ -122,6 +122,208 @@
 
 #search-form {
   button[type='reset'] {
-	display:none;
+	display: none;
   }
+}
+
+#agenda-wrapper {
+
+  position: relative;
+
+
+
+  #agenda-view-area {
+
+
+	#agenda-view-table {
+	  position: relative;
+	  z-index: 5;
+	  margin: 0;
+
+	  padding: 0;
+
+	  .tr {
+		position: relative;
+
+		.th {
+		  position:absolute;
+		  left:0;
+		  bottom:0;
+		  top:0;
+
+		  text-align:center;
+		  font-weight:bold;
+
+		  padding:0;
+		  width: 50px;
+		  border-right: 1px solid #ccc;
+		  vertical-align: middle;
+
+		  .item-label-inner {
+			position: relative;
+			top: 50%;
+			transform: translateY(-50%);
+		  }
+
+		}
+		.td {
+			padding:0;
+			margin:0;
+		  height: 20px;
+		  &.hour-0 {
+			border-top: 1px solid #ccc;
+			//background-color: #ccc;
+
+		  }
+		  &.hour-15 {
+			  border-top: 1px dotted rgba(221, 221, 221, 0.5);
+
+		  }
+		  &.hour-30 {
+			  border-top: 1px dotted #cccccc;
+
+		  }
+		  &.hour-45 {
+			  border-top: 1px dotted rgba(221, 221, 221, 0.5);
+
+		  }
+
+		}
+
+
+	  }
+
+	}
+	.agenda-items {
+	  .agenda-item {
+		position: absolute;
+		left: 50px;
+
+		right: 0;
+		vertical-align: middle;
+
+		background-color: lighten($color-navy-blue, 54%);
+		background: linear-gradient(to left, lighten($color-navy-blue, 58%), lighten($color-navy-blue, 50%));
+		.item-label {
+		  border: 1px solid #ccc;
+		  position: absolute;
+		  top: 0;
+		  left: 0;
+		  right: 0;
+		  bottom: 0;
+		  z-index: 10;
+		  .item-label-inner {
+			position: relative;
+			top: 50%;
+			transform: translateY(-50%);
+		  }
+
+		  &.appointment-row {
+			cursor: pointer;
+			&:hover {
+			  position: absolute;
+			  top: 0;
+			  left: 0;
+			  right: 0;
+			  bottom: 0;
+			  z-index: 30;
+			  border: 1px solid $color-navy-blue;
+			  background-color: lighten($color-navy-blue, 54%);
+			  background: linear-gradient(to left, lighten($color-navy-blue, 58%), lighten($color-navy-blue, 50%));
+			}
+
+		  }
+
+
+		}
+
+		&.current {
+
+		  background-color: lighten($color-navy-blue, 4%);
+		  background: linear-gradient(to bottom, lighten($color-navy-blue, 20%), lighten($color-navy-blue, 5%));
+
+		  .item-label {
+			color: #fff;
+			z-index: 20;
+			&.appointment-row {
+			  &:hover {
+				z-index: 30;
+				border: 1px solid $color-navy-blue;
+				background-color: lighten($color-navy-blue, 4%);
+				background: linear-gradient(to bottom, lighten($color-navy-blue, 20%), lighten($color-navy-blue, 5%));
+			  }
+
+			}
+		  }
+
+		}
+	  }
+	}
+	.agenda-now {
+	  height:5px;
+	  background-color: red;
+	  position: absolute;
+	  left:40px;
+	  right:0;
+	  z-index: 41;
+	  opacity:0.3;
+	}
+	.closed-items-lines {
+	  .closed-item {
+
+
+
+		height:3px;
+		background-color: #ababab;
+		position: absolute;
+		left:45px;
+		right:-3px;
+		z-index: 40;
+
+		opacity:0.5;
+		border-radius:2px;
+
+
+
+	  }
+	}
+	.closed-items {
+	  .closed-item {
+		position: absolute;
+		left: 51px;
+		right: 0;
+		vertical-align: middle;
+		background: /* On "top" */
+				repeating-linear-gradient(
+								45deg,
+								transparent,
+								transparent 5px,
+								#f1f1f1 5px,
+								#f1f1f1 10px
+				),
+				  /* on "bottom" */
+				linear-gradient(
+								to bottom,
+								#e1e1e1,
+								#e1e1e1
+				);
+		.item-label {
+
+		  position: relative;
+		  top: 50%;
+		  transform: translateY(-50%);
+
+		  text-align: center;
+		  font-size: 50px;
+		  text-shadow: 1px 1px 10px #ccc;
+		  color: #f1f1f1;
+		  font-weight: bold;
+		}
+
+	  }
+
+	}
+
+  }
+
 }

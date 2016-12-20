@@ -10,30 +10,36 @@
 				<div class="row" style="margin:0;">
 					<div class="col-sm-3 text-center">
 						<div class="btn-group btn-group-justified">
-							<a href="#" class="btn btn-default <% if (this.settings.nav.prev){ %>section-list-jump <% } else { %>disabled<% } %>" data-value="<%= this.settings.nav.prev %>" data-section="<%= this.settings.list_filter %>"><i class="fa fa-arrow-left"></i></a>
+							<a href="#" class="btn btn-default <% if (this.settings.nav.prev){ %>section-list-jump <% } else { %>disabled<% } %>" data-value="<%= this.settings.nav.prev %>" data-section="<%= this.settings.list_view %>">
+								<i class="fa fa-arrow-left"></i></a>
 
 
+							<a href="#" class="btn  section-list-jump  <% if(this.settings.nav.current==this.settings.nav.now){ %>disabled btn-default<% } else { %>btn-info<% } %>" data-value="<%= this.settings.nav.now %>" data-section="<%= this.settings.list_view %>">
+								Current
+							</a>
 
-							<a href="#" class="btn  section-list-jump  <% if(this.settings.nav.current==this.settings.nav.now){ %>disabled btn-default<% } else { %>btn-info<% } %>" data-value="<%= this.settings.nav.now %>" data-section="<%= this.settings.list_filter %>">Current</a>
 
-
-
-							<a href="#" class="btn btn-default  <% if (this.settings.nav.next){ %>section-list-jump <% } else { %>disabled<% } %>" data-value="<%= this.settings.nav.next %>" data-section="<%= this.settings.list_filter %>"><i class="fa fa-arrow-right"></i></a>
+							<a href="#" class="btn btn-default  <% if (this.settings.nav.next){ %>section-list-jump <% } else { %>disabled<% } %>" data-value="<%= this.settings.nav.next %>" data-section="<%= this.settings.list_view %>">
+								<i class="fa fa-arrow-right"></i></a>
 						</div>
 					</div>
 					<div class="col-sm-4">
 						<div class="btn-group btn-group-justified" data-toggle="buttons">
-							<label class="btn btn-default <% if (this.settings.list_filter=='day' || this.settings.list_filter==''){ %>active<% } %>">
-								<input type="radio" name="filter" id="filter-day" autocomplete="off" value="day"  <% if (this.settings.list_filter=='day' || this.settings.list_filter==''){ %>checked="checked"<% } %>>
-								 Day
+							<label class="btn btn-default <% if (this.settings.list_view=='day' || this.settings.list_view==''){ %>active<% } %>">
+								<input type="radio" name="filter" id="filter-day" autocomplete="off" value="day" <% if
+								(this.settings.list_view=='day' || this.settings.list_view==''){ %>checked="checked"<% }
+								%>>
+								Day
 							</label>
-							<label class="btn btn-default  <% if (this.settings.list_filter=='week'){ %>active<% } %>">
-								<input type="radio" name="filter" id="view-week" value="week" autocomplete="off"  <% if (this.settings.list_filter=='week'){ %>checked="checked"<% } %>>
+							<label class="btn btn-default  <% if (this.settings.list_view=='week'){ %>active<% } %>">
+								<input type="radio" name="filter" id="view-week" value="week" autocomplete="off" <% if
+								(this.settings.list_view=='week'){ %>checked="checked"<% } %>>
 								Week
 							</label>
-							<label class="btn btn-default  <% if (this.settings.list_filter=='month'){ %>active<% } %>">
-								<input type="radio" name="filter" id="view-month" value="month" autocomplete="off" <% if (this.settings.list_filter=='month'){ %>checked="checked"<% } %>>
-								 Month
+							<label class="btn btn-default  <% if (this.settings.list_view=='month'){ %>active<% } %>">
+								<input type="radio" name="filter" id="view-month" value="month" autocomplete="off" <% if
+								(this.settings.list_view=='month'){ %>checked="checked"<% } %>>
+								Month
 							</label>
 						</div>
 					</div>
@@ -43,8 +49,6 @@
 
 
 				</div>
-
-
 
 
 			</div>
@@ -115,7 +119,7 @@
 		</div>
 		<% } %>
 		<% if (!this.list.length){ %>
-<div class="no-records">No Records Found</div>
+		<div class="no-records">No Records Found</div>
 		<% } %>
 	</section>
 
@@ -125,8 +129,104 @@
 <script type="text/x-jqote-template" id="template-view-day">
 	<![CDATA[
 
-	<h3>day view</h3>
-	<div id="calendar"></div>
+	<section id="view-list-area">
+		<div class="panel" id="filter-bar">
+
+			<div class="panel-body" style="padding:5px;">
+
+				<div class="row" style="margin:0;">
+					<div class="col-sm-3 text-center">
+						<div class="btn-group btn-group-justified">
+							<a href="#" class="btn btn-default <% if (this.settings.nav.prev){ %>section-list-jump <% } else { %>disabled<% } %>" data-value="<%= this.settings.nav.prev %>" data-section="<%= this.settings.list_view %>">
+								<i class="fa fa-arrow-left"></i></a>
+
+
+							<a href="#" class="btn  section-list-jump  <% if(this.settings.nav.current==this.settings.nav.now){ %>disabled btn-default<% } else { %>btn-info<% } %>" data-value="<%= this.settings.nav.now %>" data-section="<%= this.settings.list_view %>">
+								Current
+							</a>
+
+
+							<a href="#" class="btn btn-default  <% if (this.settings.nav.next){ %>section-list-jump <% } else { %>disabled<% } %>" data-value="<%= this.settings.nav.next %>" data-section="<%= this.settings.list_view %>">
+								<i class="fa fa-arrow-right"></i></a>
+						</div>
+					</div>
+					<div class="col-sm-4">
+						<h3 class="text-center" style="margin:0; padding:5px 10px 0 0;">
+							<%= this.list.items.length %> Records
+							<small style="margin-left:40px;"><%= this.list.closed_hours.start_view %> - <%= this.list.closed_hours.end_view %></small></h3>
+
+
+					</div>
+					<div class="col-sm-5">
+						<h3 class="text-right" style="margin:0; padding:5px 10px 0 0;"><%= this.settings.label %></h3>
+					</div>
+
+
+				</div>
+
+
+			</div>
+		</div>
+
+		<div id="agenda-wrapper" >
+			<section id="agenda-view-area">
+				<div class="closed-items">
+					<div class="closed-item" style="top:0; bottom:<%= this.list.closed_hours.morning_till %>%">
+					</div>
+					<div class="closed-item" style="bottom:0; top:<%= this.list.closed_hours.night_start %>%"></div>
+				</div>
+				<div class="agenda-items">
+					<% for (var i in this.list.items) { %>
+					<div class="agenda-item <% if(this.list.items[i].active==1){ %>current<% } %>" style="top:<%= this.list.items[i].agenda.top %>%;bottom:<%= this.list.items[i].agenda.bottom %>%">
+						<div class="item-label appointment-row" data-id="<%= this.list.items[i].ID %>">
+							<div class="item-label-inner">
+								<strong><%= this.list.items[i].client.first_name||'Walk-In' %> <%= this.list.items[i].client.last_name||'' %></strong>
+							&nbsp; <%= this.list.items[i].time.start_view_short %> to <%= this.list.items[i].time.end_view_short %>
+							</div>
+
+						</div>
+
+					</div>
+					<% } %>
+				</div>
+
+				<div id="agenda-view-table">
+					<% for (var i in this.list.table){ %>
+						<div class="tr">
+							<div class="th">
+								<div class="item-label-inner">
+									<%= this.list.table[i] %>
+								</div>
+
+							</div>
+							<div class="td hour-0"></div>
+							<div class="td hour-15"></div>
+							<div class="td hour-30"></div>
+							<div class="td hour-45"></div>
+
+						</div>
+
+					<% } %>
+				</div>
+				<div class="closed-items-lines">
+					<div class="closed-item" style="bottom:<%= this.list.closed_hours.morning_till %>%">
+					</div>
+					<div class="closed-item" style="top:<%= this.list.closed_hours.night_start %>%"></div>
+				</div>
+				<% if(this.list.settings.now){ %>
+				<div class="agenda-now" style="top:<%= this.list.settings.now %>%"></div>
+				<% } %>
+
+
+
+
+			</section>
+		</div>
+
+
+
+
+	</section>
 
 
 	]]>
@@ -134,8 +234,43 @@
 <script type="text/x-jqote-template" id="template-view-calendar">
 	<![CDATA[
 
-	<h3>calendar view</h3>
-	<div id="calendar"></div>
+	<section id="view-list-area">
+		<div class="panel" id="filter-bar">
+
+			<div class="panel-body" style="padding:5px;">
+
+				<div class="row" style="margin:0;">
+					<div class="col-sm-3 text-center">
+						<div class="btn-group btn-group-justified">
+							<a href="#" class="btn btn-default <% if (this.settings.nav.prev){ %>section-list-jump <% } else { %>disabled<% } %>" data-value="<%= this.settings.nav.prev %>" data-section="<%= this.settings.list_view %>">
+								<i class="fa fa-arrow-left"></i></a>
+
+
+							<a href="#" class="btn  section-list-jump  <% if(this.settings.nav.current==this.settings.nav.now){ %>disabled btn-default<% } else { %>btn-info<% } %>" data-value="<%= this.settings.nav.now %>" data-section="<%= this.settings.list_view %>">
+								Current
+							</a>
+
+
+							<a href="#" class="btn btn-default  <% if (this.settings.nav.next){ %>section-list-jump <% } else { %>disabled<% } %>" data-value="<%= this.settings.nav.next %>" data-section="<%= this.settings.list_view %>">
+								<i class="fa fa-arrow-right"></i></a>
+						</div>
+					</div>
+					<div class="col-sm-4">
+
+					</div>
+					<div class="col-sm-5">
+						<h3 class="text-right" style="margin:0; padding:5px 10px 0 0;"><%= this.settings.label %></h3>
+					</div>
+
+
+				</div>
+
+
+			</div>
+		</div>
+
+
+	</section>
 
 
 	]]>
@@ -150,11 +285,11 @@
 	<![CDATA[
 	<ul class='list-group popover-list'>
 		<% for(var i in this.services){ %>
-		<li class='list-group-item heading text-right'><%= this.services[i].label %></li>
+		<li class='list-group-item heading text-right'><%= this.services[i].label||'' %></li>
 		<% for(var g in this.services[i].records){ %>
 		<li class='list-group-item'>
 			<span class='badge'><%= this.services[i].records[g].duration_view %></span>
-			<%= this.services[i].records[g].label %>
+			<%= this.services[i].records[g].label||'' %>
 
 			<% if(this.services[i].records[g].staff){ %>
 			<div style='font-size: smaller'>
@@ -337,6 +472,10 @@
 			<div class="agenda-now" style="left:<%= this.agenda.today %>%"></div>
 			<% } %>
 		</div>
+	</div>
+
+	<div id="calendar">
+
 	</div>
 
 

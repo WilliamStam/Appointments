@@ -45,13 +45,13 @@
 	bottom:0;
 
 	.agenda-closed-line {
-	  width:4px;
+	  width:3px;
 	  background-color: #ababab;
 	  position: absolute;
 	  top:-3px;
 	  bottom:-3px;
 	  z-index: 6;
-	  margin-left:-2px;
+
 	  opacity:0.5;
 	  border-radius:2px;
 	}

@@ -3,7 +3,7 @@
  *Dashboard*
 - [ ] Reserved time popup
 
-- [ ] Day view
+
 - [ ] Calendar view
 
 
