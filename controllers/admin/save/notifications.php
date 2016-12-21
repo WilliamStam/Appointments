@@ -16,6 +16,17 @@ class notifications extends _ {
 		$values = array();
 
 		$exclude = array("submit","smsportal_password");
+		$notifications = models\notifications::getInstance()->defaultNotifications();
+
+		foreach ($notifications['events'] as $eventID=>$events){
+			foreach ($notifications['notifications'] as $notiID=>$itemN){
+				$values[$notiID."|".$eventID]=0;
+			}
+		}
+
+
+
+
 		foreach ($_POST as $key=>$value){
 			if (!in_array($key,$exclude)){
 				$values[$key] = $value;
@@ -28,6 +39,11 @@ class notifications extends _ {
 		}
 
 
+
+
+
+
+//test_array($values);
 
 
 		$response = "";
