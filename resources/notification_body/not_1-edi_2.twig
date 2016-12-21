@@ -1,0 +1,5 @@
+Booking was changed for {{ data['appointment']['client']['first_name']|default("Walk-In") }} {{ data['appointment']['client']['last_name'] }}:|
+{% for row in data['log'] %}
+	{% if row['l'] %} {{ row['l'] }}{% else %} {{ row['k'] }} => {{ row['n'] }}{% endif %}|
+
+{% endfor %}

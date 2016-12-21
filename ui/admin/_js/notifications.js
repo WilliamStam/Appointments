@@ -43,9 +43,23 @@ function getForm() {
 
 
 
-
+		intitCheckboxes();
 
 		$(window).trigger("resize");
 	},"form-data")
 	
+}
+
+function intitCheckboxes(){
+
+	$("#notification-table input[type='checkbox']").each(function(){
+		var $this = $(this);
+		if ($this.is(":checked")){
+			$this.closest("td").addClass("active")
+		} else {
+			$this.closest("td").removeClass("active")
+		}
+	}).on("change",function(){
+		intitCheckboxes()
+	})
 }

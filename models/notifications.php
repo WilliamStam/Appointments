@@ -106,49 +106,156 @@ class notifications extends _ {
 		return $records;
 	}
 
+	function defaultTemplates(){
 
-	function notify_body($notif, $eventID, $extra) {
 
 
-		$template = $this->settings[$notif . "|" . $eventID];
-		$tmpl = new \template($template);
-		$tmpl->data = $extra;
 
-		return $tmpl->render_string();
 
 
 	}
 
-	function notify_subject($notif, $eventID) {
+
+	function notify_body($notif, $eventID, $extra,$check_if_exists=false) {
+		$return = false;
+		$body_exists = false;
+		if ($this->settings[$notif . "|" . $eventID . "_body_template"] || file_exists("./resources/notification_body/{$notif}-{$eventID}.twig")){
+			$body_exists = $this->settings[$notif . "|" . $eventID . "_body_template"]?$this->settings[$notif . "|" . $eventID . "_body_template"]:file_get_contents("./resources/notification_body/{$notif}-{$eventID}.twig");
+		};
 
 
-		$return = "";
-		switch ($eventID) {
-			case "add_1":
-				$return = "Admin added an Appointment";
-				break;
-			case "add_2":
-				$return = "Client added an Appointment";
-				break;
-			case "edi_1":
-				$return = "Admin changed Appointment";
-				break;
-			case "edi_2":
-				$return = "Client changed Appointment";
-				break;
-			case "rem_2":
-				$return = "Booking Reminder";
-				break;
+
+		if ($check_if_exists){
+			$return = $body_exists?true:false;
+		} else {
+			if ($body_exists){
+				$template = $body_exists;
+				$tmpl = new \template($template);
+				$tmpl->data = $extra;
+				$return = $tmpl->render_string();
+			}
+		}
+
+
+
+		return $return;
+
+
+	}
+
+	function notify_subject($notif, $eventID, $extra,$check_if_exists=false) {
+		$return = false;
+		$body_exists = false;
+		if ($this->settings[$notif . "|" . $eventID . "_body_template"] || file_exists("./resources/notification_subject/{$notif}-{$eventID}.twig")){
+			$body_exists = $this->settings[$notif . "|" . $eventID . "_subject_template"]?$this->settings[$notif . "|" . $eventID . "_subject_template"]:file_get_contents("./resources/notification_subject/{$notif}-{$eventID}.twig");
+		};
+
+
+
+		if ($check_if_exists){
+			$return = $body_exists?true:false;
+		} else {
+			if ($body_exists){
+				$template = $body_exists;
+				$tmpl = new \template($template);
+				$tmpl->data = $extra;
+				$return = $tmpl->render_string();
+			}
 		}
 
 
 		return $return;
 
+
+	}
+	function defaultNotifications($section=""){
+
+		$notifications = array(
+			"not_1" => array(
+				"label"=>"Notify client by SMS",
+				"short"=>"Client SMS",
+				"type" => "sms",
+				"log_label_prefix" => "Client"
+			),
+			"not_2" => array(
+				"label"=>"Notify client by EMAIL",
+				"short" => "Client EMAIL",
+				"type" => "email",
+				"log_label_prefix" => "Client"),
+			"not_3" => array(
+				"label"=>"Notify admin by SMS",
+				"short"=>"Admin SMS",
+				"type" => "sms",
+				"log_label_prefix" => "Admin"),
+			"not_4" => array(
+				"label"=>"Notify admin by EMAIL",
+				"short" => "Admin EMAIL",
+				"type" => "email",
+				"log_label_prefix" => "Admin"
+			)
+		);
+
+		$events = array(
+			"add_1" =>array(
+				"label"=>"Record Created FRONT END",
+				"description"=>"When a client fills in the form from the book now part"
+			),
+			"add_2"=>array(
+				"label"=>"Record Created by an Admin",
+				"description"=>"When an admin places a booking in the backend"
+			),
+			"edi_1"=>array(
+				"label"=>"Record Changed FRONT END",
+				"description"=>"When a client changes a booking"
+			),
+			"edi_2"=>array(
+				"label"=>"Record Changed by an Admin",
+				"description"=>"When an Admin changes the booking"
+			),
+			"del_1"=>array(
+				"label"=>"Record Deleted FRONT END",
+				"description"=>"When a client deletes a record"
+			),
+			"del_2"=>array(
+				"label"=>"Record Deleted by an Admin",
+				"description"=>"When an admin deletes a record"
+			),
+			"rem_1"=>array(
+				"label"=>"24 hour prior to appointment start REMINDER",
+				"description"=>"A reminder notification about an upcoming appointment"
+			)
+		);
+
+		$return= array(
+			"notifications"=>$notifications,
+			"events"=>$events
+		);
+
+		if ($section){
+			$return = $return[$section];
+		}
+
+
+
+
+
+
+		return $return;
 	}
 
 	function notify($appointment, $eventID, $extra, $forceEnd = FALSE) {
 
-		$notifications = array("not_1" => array("type" => "sms", "to" => $appointment["client"]['mobile_number'], "log_label_prefix" => "Client"), "not_2" => array("type" => "email", "to" => $appointment["client"]['email'], "log_label_prefix" => "Client"), "not_3" => array("type" => "sms", "to" => $this->settings['mobile_number'], "log_label_prefix" => "Admin"), "not_4" => array("type" => "email", "to" => $this->settings['email'], "log_label_prefix" => "Admin"));
+		$notifications = $this->defaultNotifications("notifications");
+		$events = $this->defaultNotifications("events");
+
+		$notifications["not_1"]['to'] = $appointment["client"]['mobile_number'];
+		$notifications["not_2"]['to'] = $appointment["client"]['email'];
+		$notifications["not_3"]['to'] = $this->settings['mobile_number'];
+		$notifications["not_4"]['to'] = $this->settings['email'];
+
+
+
+		//test_array(array($eventID,$forceEnd));
 
 		if ($forceEnd) {
 			$notifications = array($forceEnd => $notifications[$forceEnd]);
@@ -158,22 +265,39 @@ class notifications extends _ {
 		//test_array($notifications);
 
 		foreach ($notifications as $notif => $notification_settings) {
-			$template = isset($this->settings[$notif . "|" . $eventID]) ? $this->settings[$notif . "|" . $eventID] : FALSE;
-			if ($template == "") {
-				$template = FALSE;
+			$enable_notification = isset($this->settings[$notif . "|" . $eventID]) && $this->settings[$notif . "|" . $eventID]=='1' ? TRUE : FALSE;
+
+
+
+			if ($notif=="not_3"){
+			//	test_array(array($this->settings[$notif . "|" . $eventID],$notif . "|" . $eventID));
 			}
-			if ($template) {
+
+			if ($enable_notification) {
+
+
+
 				$log_label = "";
-				$log = array("label" => $extra['log_label'], "type" => $notification_settings['type']);
+				$log = array(
+					"label" => $extra['log_label'],
+					"type" => $notification_settings['type']
+				);
 				$result = FALSE;
 
-				if ($notification_settings)
+				if ($notification_settings['type'])
+
+
+
+
 
 
 					switch ($notification_settings['type']) {
 						case "sms":
-							if ($notification_settings['to']) {
-								$log['body'] = $this->notify_body($notif, $eventID, $extra);
+							$log['body'] = $this->notify_body($notif, $eventID, $extra);
+
+
+							if ($notification_settings['to'] && $this->settings['enable_sms'] && $log['body']) {
+
 								$result = notifications::getInstance()->_send_sms($notification_settings['to'], $log['body'], $extra);
 								if ($result) {
 									$log_label = "{$notification_settings['log_label_prefix']} Notification: " . $notification_settings['to'];
@@ -185,9 +309,13 @@ class notifications extends _ {
 							}
 							break;
 						case "email":
-							if ($notification_settings['to']) {
-								$log['subject'] = $this->notify_subject($notif, $eventID);
-								$log['body'] = $this->notify_body($notif, $eventID, $extra);
+							$log['subject'] = $this->notify_subject($notif, $eventID, $extra);
+							if (!$log['subject']){
+								$log['subject'] =$events[$eventID]['label'];
+							}
+							$log['body'] = $this->notify_body($notif, $eventID, $extra);
+							if ($notification_settings['to'] && $this->settings['enable_email'] && $log['body']) {
+
 								$result = notifications::getInstance()->_send_email($notification_settings['to'], $log['body'], $log['subject'], $extra);
 								if ($result) {
 									$log_label = "{$notification_settings['log_label_prefix']} Notification: " . $notification_settings['to'];
@@ -215,10 +343,7 @@ class notifications extends _ {
 	}
 
 	function _send_sms($to, $body, $extra = array()) {
-		$result = FALSE;
-		if (!islocal()) {
-			$result = _sms::getInstance()->sendSms($to, $body);
-		}
+		$result = _sms::getInstance()->sendSms($to, $body);
 
 		$return = TRUE;
 		if (!$result) {
@@ -230,8 +355,6 @@ class notifications extends _ {
 	}
 
 	function _send_email($to, $body, $subject, $extra = array()) {
-		$result = FALSE;
-		if (!islocal()) {
 			$this->settings['email_smtp_host'] = $this->settings['email_smtp_host'] ? $this->settings['email_smtp_host'] : "127.0.0.1";
 			$this->settings['email_smtp_port'] = $this->settings['email_smtp_port'] ? $this->settings['email_smtp_port'] : "25";
 			$this->settings['email_smtp_scheme'] = $this->settings['email_smtp_scheme'] ? $this->settings['email_smtp_scheme'] : "";
@@ -244,7 +367,7 @@ class notifications extends _ {
 			$smtp->set('Subject', $subject);
 			$smtp->set('From', $this->settings['email_from']);
 			$result = $smtp->send($body);
-		}
+
 
 
 		return $result;

@@ -47,19 +47,19 @@ class action extends _ {
 		switch ($action) {
 			case "edit":
 				$log_label = "Record Edited";
-				$eventID = "edi_1";
+				$eventID = "edi_2";
 				break;
 			case "edit-front":
 				$log_label = "Record Edited - Front End";
-				$eventID = "edi_2";
+				$eventID = "edi_1";
 				break;
 			case "added":
 				$log_label = "Record Added";
-				$eventID = "add_1";
+				$eventID = "add_2";
 				break;
 			case "added-front":
 				$log_label = "Record Added - Front End";
-				$eventID = "add_2";
+				$eventID = "add_1";
 				break;
 			default:
 				$log_label = "showing only";

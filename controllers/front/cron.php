@@ -7,7 +7,12 @@ class cron extends _ {
 		parent::__construct();
 	}
 	function page(){
+
+		$f3 = \Base::instance();
+
 		$records = models\appointments::getInstance()->getAll("appointmentStart BETWEEN NOW() AND NOW() + INTERVAL 25 HOUR","","",array("format"=>true,"services"=>true,"client"=>true));
+
+		$settings = $f3->get("settings");
 
 
 		$recordsIDs = array();
@@ -27,26 +32,37 @@ class cron extends _ {
 			}
 		}
 
-		$notification_array = array("not_1","not_2","not_3","not_4");
+		$notification_array = models\notifications::getInstance()->defaultNotifications("notifications");
 
+		$counting = 0;
 		$r = array();
 		foreach ($records as $item){
 			$item_notifications = isset($noti[$item['ID']])?$noti[$item['ID']]:array();
 			$item['notify'] = array();
-			foreach ($notification_array as $n){
+			$sending_notification = false;
+			foreach ($notification_array as $n=>$value){
 				$v = true;
+				//test_array($n);
 				if (isset($item_notifications[$n.'|rem_1'])){
 					$v = false;
 				}
 				$item['notify'][$n.'|rem_1'] = $v;
 				if ($v){
-					$extra = array("appointment" => $item);
-					$extra['log_label'] = "Booking Reminder";
-					models\notifications::getInstance()->notify($item,'rem_1',$extra,$n);
+
+
+					$enable_notification = isset($settings[$n . "|rem_1"]) && $settings[$n. "|rem_1"]=='1' ? TRUE : FALSE;
+					//test_array(array($enable_notification,$n . "|rem_1",$settings[$n . "|rem_1"]));
+
+					if ($enable_notification){
+						$sending_notification = true;
+						$extra = array("appointment" => $item);
+						$extra['log_label'] = "Booking Reminder";
+						models\notifications::getInstance()->notify($item,'rem_1',$extra,$n);
+					}
+
 				}
-
-
 			}
+			if ($sending_notification)$counting = $counting + 1;
 
 			$r[] = $item;
 		}
@@ -63,7 +79,7 @@ class cron extends _ {
 
 
 
-		echo "found <strong>".count($records). "</strong> records sent off notifications";
+		echo "found <strong>".count($records). "</strong> records sent off notifications to <strong>{$counting}</strong>";
 
 
 		

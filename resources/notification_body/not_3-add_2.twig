@@ -1,0 +1,7 @@
+Booking made:|
+{{ data['appointment']['client']['first_name'] }} {{ data['appointment']['client']['last_name'] }}|
+{{ data['appointment']['time']['day_view'] }} {{ data['appointment']['time']['start_view_short'] }}|
+for the following:|
+{% for row in data['appointment']['services'] %}
+	- {{ row['label'] }}{% if row['category'] %} ({{ row['category'] }}){% endif %}|
+{% endfor %}

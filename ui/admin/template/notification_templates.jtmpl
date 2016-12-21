@@ -1,0 +1,204 @@
+<script type="text/x-jqote-template" id="template-form">
+	<![CDATA[
+
+	<% for(var i in this.events){ %>
+	<div class="panel">
+		<div class="panel-heading built">
+			<%= this.events[i].label %>
+			<div>
+				<small><%= this.events[i].description %></small>
+			</div>
+		</div>
+		<div class="panel-body no-border" style="padding:0;">
+			<table style="width:100%; padding:0; margin:0;">
+				<tr>
+					<% var width = (100/this.events[i].noti_count); %>
+					<% for (var g in this.events[i].notifications){ %>
+					<td style="width:<%= width %>%;">
+						<% if(this.events[i].notifications[g].show){ %>
+						<a href="#" class="btn btn-default btn-block edit-notification-template" data-id="<%= g %>|<%= i %>" data-type="<%= this.events[i].notifications[g].type %>" type="button">
+							<div>
+								<% if(this.events[i].notifications[g].type=="sms"){ %>
+								<i class="fa fa-mobile-phone"></i>
+								<% } else if(this.events[i].notifications[g].type=="email") { %>
+								<i class="fa fa-envelope"></i>
+								<% } %>
+							</div>
+							<%= this.events[i].notifications[g].short %>
+						</a>
+						<% } else { %>
+
+						<% } %>
+					</td>
+					<% } %>
+
+				</tr>
+			</table>
+
+
+		</div>
+	</div>
+
+
+	<% } %>
+
+
+
+
+	<div class="panel">
+
+		<div class="panel-footer">
+
+			<div class="pull-right">
+
+				<button class="btn btn-primary" type="submit">Save</button>
+			</div>
+			<div class="clearfix"></div>
+		</div>
+	</div>
+
+	]]>
+</script>
+
+<script type="text/x-jqote-template" id="template-form-sms">
+	<![CDATA[
+	<form  id="form-notification-area">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+
+
+				<div class="btn-group pull-right" style="margin-right:-20px;">
+
+					<a class="btn btn-default" href="#" data-dismiss="modal" aria-label="Close">
+						<i class="fa fa-close "></i>
+					</a>
+
+
+				</div>
+
+				<h4 class="modal-title">SMS
+					<small style="margin-left:30px;"><%= this.notification.label %></small>
+				</h4>
+
+			</div>
+			<div class="modal-body">
+
+
+				<div class="panel <% if (this.notification.type=='sms'){ %>green<% } %> <% if (this.notification.type=='email'){ %>blue<% } %>">
+					<div class="panel-heading">
+						<%= this.event.label %>
+					</div>
+					<div class="panel-body form-horizontal" style="padding:0;">
+					<textarea name="<%= this.ID %>_body_template" id="<%= this.ID %>_body_template" class="form-control" style="width:100%; height:250px;" placeholder="Template">
+						<%= this.notification.body||this.notification.body_default||'' %>
+					</textarea>
+
+
+					</div>
+					<div class="alert alert-info">
+						<p>To find out what data is available visit this page
+							<a href="/admin/settings/notifications/data" target="_blank"> [click here]</a>
+							make sure you have a JSONview extension installed for your browser. use twig language for the templates.
+							start with {<span style="width:0px;"></span>{ data[&lt;keys&gt;] }<span style="width:0px;"></span>}
+						</p>
+					</div>
+					<div class="alert alert-warning">
+						<p>
+							Default Template
+						</p>
+						<pre style="margin-left:-15px;margin-right:-15px; margin-bottom:-15px;">
+							<%= this.notification.body_default %>
+						</pre>
+					</div>
+
+
+				</div>
+
+
+			</div>
+			<div class="modal-footer">
+				<div class="text-right">
+					<button class="btn-link btn" type="button" data-dismiss="modal">Cancel</button>
+					<button class="btn-primary btn" type="submit" >Save</button>
+				</div>
+			</div>
+
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</form>
+	]]>
+</script>
+<script type="text/x-jqote-template" id="template-form-email">
+	<![CDATA[
+	<form  id="form-notification-area">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+
+
+				<div class="btn-group pull-right" style="margin-right:-20px;">
+
+					<a class="btn btn-default" href="#" data-dismiss="modal" aria-label="Close">
+						<i class="fa fa-close "></i>
+					</a>
+
+
+				</div>
+
+				<h4 class="modal-title">EMAIL
+					<small style="margin-left:30px;"><%= this.notification.label %></small>
+				</h4>
+
+			</div>
+			<div class="modal-body">
+
+
+				<div class="panel <% if (this.notification.type=='sms'){ %>green<% } %> <% if (this.notification.type=='email'){ %>blue<% } %>">
+					<div class="panel-heading">
+						<%= this.event.label %>
+					</div>
+					<div class="panel-body form-horizontal" style="padding:0;">
+						<input type="text" class="form-control" name="<%= this.ID %>_subject_template" id="<%= this.ID %>_subject_template" style="width:100%; " placeholder="Subject" <%= this.notification.subject||this.notification.subject_default||'' %>>
+					<textarea name="<%= this.ID %>_body_template" id="<%= this.ID %>_body_template" class="form-control" style="width:100%; height:250px;" placeholder="Template">
+						<%= this.notification.body||this.notification.body_default||'' %>
+					</textarea>
+
+
+					</div>
+					<div class="alert alert-info">
+						<p>To find out what data is available visit this page
+							<a href="/admin/settings/notifications/data" target="_blank"> [click here]</a>
+							make sure you have a JSONview extension installed for your browser. use twig language for the templates.
+							start with {<span style="width:0px;"></span>{ data[&lt;keys&gt;] }<span style="width:0px;"></span>}
+						</p>
+					</div>
+					<div class="alert alert-warning">
+						<p>
+							Default Template
+						</p>
+						<pre style="margin-left:-15px;margin-right:-15px;">
+							<%= this.notification.subject_default %>
+						</pre>
+						<pre style="margin-left:-15px;margin-right:-15px; margin-bottom:-15px;">
+							<%= this.notification.body_default %>
+						</pre>
+					</div>
+
+
+				</div>
+
+
+			</div>
+			<div class="modal-footer">
+				<div class="text-right">
+					<button class="btn-link btn" type="button" data-dismiss="modal">Cancel</button>
+					<button class="btn-primary btn" type="submit" >Save</button>
+				</div>
+			</div>
+
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</form>
+	]]>
+</script>

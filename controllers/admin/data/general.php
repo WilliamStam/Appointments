@@ -14,7 +14,7 @@ class general extends _ {
 	function sms_credit() {
 		$return = array();
 
-		if ($this->settings['smsportal_username']&&$this->settings['smsportal_password']){
+		if ($this->settings['enable_sms']){
 			$return['credits'] = models\_sms::getInstance()->checkCredits();
 		}
 

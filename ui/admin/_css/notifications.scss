@@ -1,0 +1,73 @@
+@import "../../../vendor/twbs/bootstrap-sass/assets/stylesheets/bootstrap/_variables.scss";
+@import "../../../vendor/twbs/bootstrap-sass/assets/stylesheets/bootstrap/_mixins.scss";
+@import "../../_sass/_variables";
+
+#notification-table {
+  border: 1px solid $border-color;
+  thead {
+	th, td {
+	  background-color: #fff;
+	  text-align: center;
+	}
+	th {
+	  font-weight: 600;
+	}
+  }
+  tbody {
+	th {
+	  text-align: center;
+	  vertical-align: middle;
+	  small {
+		display: block;
+		font-weight: normal;
+	  }
+	}
+	tr {
+
+	  th {
+		background-color: #fff;
+		color:lighten($color-text,20%);
+	  }
+	  td {
+		width:80px;
+
+		border: 1px solid $border-color;
+		padding: 0;
+		&.active {
+		  background-color: $color-navy-blue;
+		  color: #fff;
+		  &:hover {
+			background-color: lighten($color-navy-blue, 20%);
+		  }
+		}
+
+		label {
+		  padding: 10px;
+		  margin: 0;
+		  display: block;
+		  cursor: pointer;
+		  width:100%;
+		  height:100%;
+
+		  i {
+
+		  }
+		  input {
+			display: none;
+		  }
+
+		}
+	  }
+	  &:hover {
+		td:not(.active), th {
+		  background-color: lighten($border-color, 8%);
+		}
+		th {
+		  color:$color-text;
+		}
+	  }
+
+	}
+  }
+
+}

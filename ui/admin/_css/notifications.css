@@ -1,0 +1,38 @@
+#notification-table {
+  border: 1px solid #e4e5e7; }
+  #notification-table thead th, #notification-table thead td {
+    background-color: #fff;
+    text-align: center; }
+  #notification-table thead th {
+    font-weight: 600; }
+  #notification-table tbody th {
+    text-align: center;
+    vertical-align: middle; }
+    #notification-table tbody th small {
+      display: block;
+      font-weight: normal; }
+  #notification-table tbody tr th {
+    background-color: #fff;
+    color: #9d9fa2; }
+  #notification-table tbody tr td {
+    width: 80px;
+    border: 1px solid #e4e5e7;
+    padding: 0; }
+    #notification-table tbody tr td.active {
+      background-color: #34495e;
+      color: #fff; }
+      #notification-table tbody tr td.active:hover {
+        background-color: #587ca0; }
+    #notification-table tbody tr td label {
+      padding: 10px;
+      margin: 0;
+      display: block;
+      cursor: pointer;
+      width: 100%;
+      height: 100%; }
+      #notification-table tbody tr td label input {
+        display: none; }
+  #notification-table tbody tr:hover td:not(.active), #notification-table tbody tr:hover th {
+    background-color: #fafafa; }
+  #notification-table tbody tr:hover th {
+    color: #6a6c6f; }

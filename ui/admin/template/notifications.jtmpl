@@ -1,14 +1,79 @@
 <script type="text/x-jqote-template" id="template-form">
 	<![CDATA[
+
+
+	<div class="row">
+		<div class="col-sm-12">
+			<table class="table" id="notification-table">
+				<thead>
+				<tr>
+					<td colspan="2">Client</td>
+					<th>Notification</th>
+					<td colspan="2">Admin</td>
+				</tr>
+				</thead>
+				<tbody>
+				{% for eventID,row in events %}
+					<tr class="text-center">
+						<td><% if(this.settings.enable_sms){ %>{% if row['notifications']['not_1'] %}<label>
+								<div><i class="fa fa-mobile-phone"></i></div>
+								<input type="checkbox" name="not_1|{{ eventID }}" id="not_1|{{ eventID }}" value="1" <%
+								if(this.settings['not_1|{{ eventID }}'] =='1'){ %>checked="checked"<% }
+								%>><span>SMS</span></label>{% endif %}<% } %>
+						</td>
+						<td><% if(this.settings.enable_email){ %>{% if row['notifications']['not_2'] %}<label>
+								<div><i class="fa fa-envelope"></i></div>
+								<input type="checkbox" name="not_2|{{ eventID }}" id="not_2|{{ eventID }}" value="1" <%
+								if(this.settings['not_2|{{ eventID }}'] =='1'){ %>checked="checked"<% }
+								%>><span>Email</span></label>{% endif %}<% } %>
+						</td>
+						<th>
+							{{ row['label'] }}
+							<small>{{ row['description'] }}</small>
+						</th>
+						<td><% if(this.settings.enable_sms){ %>{% if row['notifications']['not_3'] %}<label>
+								<div><i class="fa fa-mobile-phone"></i></div>
+								<input type="checkbox" name="not_3|{{ eventID }}" id="not_3|{{ eventID }}" value="1" <%
+								if(this.settings['not_3|{{ eventID }}'] =='1'){ %>checked="checked"<% }
+								%>><span>SMS</span></label>{% endif %}<% } %>
+						</td>
+						<td><% if(this.settings.enable_email){ %>{% if row['notifications']['not_4'] %}<label>
+								<div><i class="fa fa-envelope"></i></div>
+								<input type="checkbox" name="not_4|{{ eventID }}" id="not_4|{{ eventID }}" value="1" <%
+								if(this.settings['not_4|{{ eventID }}'] =='1'){ %>checked="checked"<% }
+								%>><span>Email</span></label>{% endif %}<% } %>
+						</td>
+
+					</tr>
+				{% endfor %}
+
+				</tbody>
+
+			</table>
+
+			<% if(!this.settings.enable_sms){ %>
+			<div class="alert alert-danger">
+				<p>
+					Please enter the SMS portal details below to enable sms notifications
+				</p>
+			</div>
+			<% } %>
+			<% if(!this.settings.enable_email){ %>
+			<div class="alert alert-danger">
+				<p>
+					Please enter the EMAIL settings below to enable email notifications
+				</p>
+			</div>
+			<% } %>
+
+		</div>
+	</div>
+	<hr>
 	<div class="row">
 		<div class="col-sm-6">
-
-
-
 			<h4>SMS </h4>
-
 			<div class="panel blue">
-				<div class="panel-heading built">Admin Mobile Number</div>
+				<div class="panel-heading built">Admin Mobile Number (SMS notifications)</div>
 
 				<div class="panel-body form-horizontal">
 
@@ -22,6 +87,33 @@
 				</div>
 
 			</div>
+		</div>
+		<div class="col-sm-6">
+			<h4>Email</h4>
+			<div class="panel blue">
+				<div class="panel-heading built">Admin Email (EMAIL notifications)</div>
+
+				<div class="panel-body form-horizontal">
+
+					<div class="form-group">
+						<div class="col-sm-12">
+							<input type="text" name="email" class="form-control" id="email" placeholder="ie: email@domain.com" value="<% if(this.settings.email){ %><%= this.settings.email %><% } %>">
+						</div>
+					</div>
+
+
+				</div>
+
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-6">
+
+
+
+
+
 			<div class="panel blue">
 				<div class="panel-heading built">SMSportal</div>
 
@@ -44,151 +136,25 @@
 					</div>
 
 
-
 				</div>
 				<div class="alert alert-info">
 					<p>
-						Remove the Username field to disable sms'ing. the password will remain blank. to change the password place a new value in
+						Remove the Username field to disable sms'ing. the password will remain blank. to change the
+						password place a new value in
 					</p>
 				</div>
 
 			</div>
 
 
-
-
-			<div class="panel green">
-				<div class="panel-heading built">Client SMS Record Created FRONT</div>
-				<div class="panel-body form-horizontal" style="padding:0;">
-					<textarea name="not_1|add_2"  id="not_1|add_2"  class="form-control"  style="width:100%; height:150px;" placeholder="Template">
-						<%= this.settings['not_1|add_2']||'' %>
-					</textarea>
-
-
-
-				</div>
-
-			</div>
-
-			<div class="panel blue">
-				<div class="panel-heading built">ADMIN SMS Record Created FRONT</div>
-
-				<div class="panel-body form-horizontal" style="padding:0;">
-					<textarea name="not_3|add_2"  id="not_3|add_2"  class="form-control"  style="width:100%; height:150px;" placeholder="Template">
-						<%= this.settings['not_3|add_2']||'' %>
-					</textarea>
-
-
-
-				</div>
-
-			</div>
-			<div class="panel green">
-				<div class="panel-heading built">Client SMS Record Created ADMIN</div>
-
-				<div class="panel-body form-horizontal" style="padding:0;">
-					<textarea name="not_1|add_1"  id="not_1|add_1"  class="form-control"  style="width:100%; height:150px;" placeholder="Template">
-						<%= this.settings['not_1|add_1']||'' %>
-					</textarea>
-
-
-
-				</div>
-
-			</div>
-			<div class="panel blue">
-				<div class="panel-heading built">ADMIN SMS Record Created ADMIN</div>
-
-				<div class="panel-body form-horizontal" style="padding:0;">
-					<textarea name="not_3|add_1"  id="not_3|add_1"  class="form-control"  style="width:100%; height:150px;" placeholder="Template">
-						<%= this.settings['not_3|add_1']||'' %>
-					</textarea>
-
-
-
-				</div>
-
-			</div>
-
-			<div class="panel green">
-				<div class="panel-heading built">Client SMS Record Changed ADMIN</div>
-
-				<div class="panel-body form-horizontal" style="padding:0;">
-					<textarea name="not_1|edi_1"  id="not_1|edi_1"  class="form-control"  style="width:100%; height:150px;" placeholder="Template">
-						<%= this.settings['not_1|edi_1']||'' %>
-					</textarea>
-
-
-
-				</div>
-
-			</div>
-			<div class="panel blue">
-				<div class="panel-heading built">ADMIN SMS Record Changed ADMIN</div>
-
-				<div class="panel-body form-horizontal" style="padding:0;">
-					<textarea name="not_3|edi_1"  id="not_1|edi_1"  class="form-control"  style="width:100%; height:150px;" placeholder="Template">
-						<%= this.settings['not_3|edi_1']||'' %>
-					</textarea>
-
-
-
-				</div>
-
-			</div>
-			<div class="panel green">
-				<div class="panel-heading built">Client SMS Reminder</div>
-
-				<div class="panel-body form-horizontal" style="padding:0;">
-					<textarea name="not_1|rem_1"  id="not_1|rem_1"  class="form-control"  style="width:100%; height:150px;" placeholder="Template">
-						<%= this.settings['not_1|rem_1']||'' %>
-					</textarea>
-
-
-
-				</div>
-
-			</div>
-			<div class="panel blue">
-				<div class="panel-heading built">ADMIN SMS Reminder</div>
-
-				<div class="panel-body form-horizontal" style="padding:0;">
-					<textarea name="not_3|rem_1"  id="not_1|rem_1"  class="form-control"  style="width:100%; height:150px;" placeholder="Template">
-						<%= this.settings['not_3|rem_1']||'' %>
-					</textarea>
-
-
-
-				</div>
-
-			</div>
-
-
-
-
-
 		</div>
 
 		<div class="col-sm-6">
-			<h4>Email</h4>
-			<div class="panel blue">
-				<div class="panel-heading built">Admin Email</div>
-
-				<div class="panel-body form-horizontal">
-
-					<div class="form-group">
-						<div class="col-sm-12">
-							<input type="text" name="email" class="form-control" id="email" placeholder="ie: email@domain.com" value="<% if(this.settings.email){ %><%= this.settings.email %><% } %>">
-						</div>
-					</div>
 
 
-				</div>
-
-			</div>
 
 			<div class="panel blue">
-				<div class="panel-heading built">Email Settings</div>
+				<div class="panel-heading built">From email address (the system)</div>
 
 
 				<div class="panel-body form-horizontal">
@@ -209,7 +175,6 @@
 
 
 				<div class="panel-body form-horizontal">
-
 
 
 					<div class="form-group">
@@ -241,106 +206,15 @@
 					</div>
 
 
-
-
 				</div>
-				<div class="alert alert-info">
-					<p>
-						Remove the Username field to disable sms'ing. the password will remain blank. to change the password place a new value in
-					</p>
-				</div>
+
 
 			</div>
 
 
-			<div class="panel green">
-				<div class="panel-heading built">Client EMAIL Record Created FRONT</div>
-				<div class="panel-body form-horizontal" style="padding:0;">
-					<textarea name="not_2|add_2"  id="not_2|add_2"  class="form-control"  style="width:100%; height:150px;" placeholder="Template">
-						<%= this.settings['not_2|add_2']||'' %>
-					</textarea>
-
-
-
-				</div>
-
-			</div>
-
-			<div class="panel blue">
-				<div class="panel-heading built">ADMIN EMAIL Record Created FRONT</div>
-
-				<div class="panel-body form-horizontal" style="padding:0;">
-					<textarea name="not_4|add_2"  id="not_4|add_2"  class="form-control"  style="width:100%; height:150px;" placeholder="Template">
-						<%= this.settings['not_4|add_2']||'' %>
-					</textarea>
-
-
-
-				</div>
-
-			</div>
-			<div class="panel green">
-				<div class="panel-heading built">Client EMAIL Record Created ADMIN</div>
-
-				<div class="panel-body form-horizontal" style="padding:0;">
-					<textarea name="not_2|add_1"  id="not_2|add_1"  class="form-control"  style="width:100%; height:150px;" placeholder="Template">
-						<%= this.settings['not_2|add_1']||'' %>
-					</textarea>
-
-
-
-				</div>
-
-			</div>
-			<div class="panel blue">
-				<div class="panel-heading built">ADMIN EMAIL Record Created ADMIN</div>
-
-				<div class="panel-body form-horizontal" style="padding:0;">
-					<textarea name="not_4|add_1"  id="not_3|add_1"  class="form-control"  style="width:100%; height:150px;" placeholder="Template">
-						<%= this.settings['not_4|add_1']||'' %>
-					</textarea>
-
-
-
-				</div>
-
-			</div>
-
-			<div class="panel green">
-				<div class="panel-heading built">Client EMAIL Record Changed ADMIN</div>
-
-				<div class="panel-body form-horizontal" style="padding:0;">
-					<textarea name="not_2|edi_1"  id="not_2|edi_1"  class="form-control"  style="width:100%; height:150px;" placeholder="Template">
-						<%= this.settings['not_2|edi_1']||'' %>
-					</textarea>
-
-
-
-				</div>
-
-			</div>
-			<div class="panel blue">
-				<div class="panel-heading built">Admin EMAIL Record Changed ADMIN</div>
-
-				<div class="panel-body form-horizontal" style="padding:0;">
-					<textarea name="not_4|edi_1"  id="not_4|edi_1"  class="form-control"  style="width:100%; height:150px;" placeholder="Template">
-						<%= this.settings['not_4|edi_1']||'' %>
-					</textarea>
-
-
-
-				</div>
-
-			</div>
 		</div>
 	</div>
-	<div class="alert alert-info">
-		<p>Removing any template disables that notification</p>
-	</div>
-	<div class="alert alert-warning">
-		<p>To find out what data is available visit this page
-			<a href="/admin/settings/notifications/data" target="_blank"> [click here] </a> make sure you have a JSONview extension installed for your browser. use twig language for the templates. start with {<span style="width:0px;"></span>{ data[&lt;keys&gt;] }<span style="width:0px;"></span>}</p>
-	</div>
+
 
 	<div class="panel">
 

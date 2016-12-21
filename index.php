@@ -106,7 +106,13 @@ if (isset($_GET['auID']) && $user['su'] == '1') {
 }
 //test_array($user);
 
-$f3->set('settings', models\settings::getInstance()->getAll("",array("format"=>true)));
+$settings = models\settings::getInstance()->getAll("",array("format"=>true));
+$settings['enable_email'] = true;
+$settings['enable_sms'] = false;
+if($settings["smsportal_username"] && $settings["smsportal_password"]){
+	$settings['enable_sms'] = true;
+};
+$f3->set('settings', $settings);
 $f3->set('user', $user);
 
 if ($user['ID']) {
@@ -133,6 +139,7 @@ $f3->route('GET|POST /admin/staff', 'controllers\admin\staff->page');
 $f3->route('GET|POST /admin/settings', 'controllers\admin\settings->page');
 $f3->route('GET|POST /admin/settings/users', 'controllers\admin\users->page');
 $f3->route('GET|POST /admin/settings/notifications', 'controllers\admin\notifications->page');
+$f3->route('GET|POST /admin/settings/notification_templates', 'controllers\admin\notification_templates->page');
 
 
 

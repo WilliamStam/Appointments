@@ -1,0 +1,5 @@
+{{ data['appointment']['client']['first_name'] }}, your booking was changed|
+{% for row in data['log'] %}
+	{% if row['l'] %} {{ row['l'] }}{% else %} {{ row['k'] }} => {{ row['n'] }}{% endif %}|
+
+{% endfor %}

@@ -146,8 +146,6 @@ function validationErrors(data, $form) {
             if ($block.hasClass("has-feedback")) {
                 $field.after('<span class="fa fa-times form-control-feedback form-validation" aria-hidden="true"></span>')
             }
-
-
         });
 
 
