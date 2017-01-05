@@ -7,42 +7,55 @@
 			<table class="table" id="notification-table">
 				<thead>
 				<tr>
-					<td colspan="2">Client</td>
+
+					{% if notificationTypes['not_1'] or notificationTypes['not_2'] %}
+					<td {% if notificationTypes['not_1'] and notificationTypes['not_2'] %}colspan="2"{% endif %}>Client</td>
+					{% endif %}
 					<th>Notification</th>
-					<td colspan="2">Admin</td>
+					{% if notificationTypes['not_3'] or notificationTypes['not_4'] %}
+					<td {% if notificationTypes['not_3'] and notificationTypes['not_4'] %}colspan="2"{% endif %}>Admin</td>
+					{% endif %}
 				</tr>
 				</thead>
 				<tbody>
 				{% for eventID,row in events %}
 					<tr class="text-center">
+						{% if notificationTypes['not_1'] %}
 						<td><% if(this.settings.enable_sms){ %>{% if row['notifications']['not_1'] %}<label>
 								<div><i class="fa fa-mobile-phone"></i></div>
 								<input type="checkbox" name="not_1|{{ eventID }}" id="not_1|{{ eventID }}" value="1" <%
 								if(this.settings['not_1|{{ eventID }}'] =='1'){ %>checked="checked"<% }
 								%>><span>SMS</span></label>{% endif %}<% } %>
 						</td>
+						{% endif %}
+						{% if notificationTypes['not_2'] %}
 						<td><% if(this.settings.enable_email){ %>{% if row['notifications']['not_2'] %}<label>
 								<div><i class="fa fa-envelope"></i></div>
 								<input type="checkbox" name="not_2|{{ eventID }}" id="not_2|{{ eventID }}" value="1" <%
 								if(this.settings['not_2|{{ eventID }}'] =='1'){ %>checked="checked"<% }
 								%>><span>Email</span></label>{% endif %}<% } %>
 						</td>
+						{% endif %}
 						<th>
 							{{ row['label'] }}
 							<small>{{ row['description'] }}</small>
 						</th>
+						{% if notificationTypes['not_3'] %}
 						<td><% if(this.settings.enable_sms){ %>{% if row['notifications']['not_3'] %}<label>
 								<div><i class="fa fa-mobile-phone"></i></div>
 								<input type="checkbox" name="not_3|{{ eventID }}" id="not_3|{{ eventID }}" value="1" <%
 								if(this.settings['not_3|{{ eventID }}'] =='1'){ %>checked="checked"<% }
 								%>><span>SMS</span></label>{% endif %}<% } %>
 						</td>
+						{% endif %}
+						{% if notificationTypes['not_4'] %}
 						<td><% if(this.settings.enable_email){ %>{% if row['notifications']['not_4'] %}<label>
 								<div><i class="fa fa-envelope"></i></div>
 								<input type="checkbox" name="not_4|{{ eventID }}" id="not_4|{{ eventID }}" value="1" <%
 								if(this.settings['not_4|{{ eventID }}'] =='1'){ %>checked="checked"<% }
 								%>><span>Email</span></label>{% endif %}<% } %>
 						</td>
+						{% endif %}
 
 					</tr>
 				{% endfor %}

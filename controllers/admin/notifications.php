@@ -10,12 +10,16 @@ class notifications extends _ {
 		//if ($this->user['ID']=="")$this->f3->reroute("/login");
 		$notifications = models\notifications::getInstance()->defaultNotifications();
 		$new = array();
+		$notificationTypes = array();
 		foreach ($notifications['notifications'] as $noti=>$noti_val){
 
+			$notificationTypes[$noti] = false;
 
 
 
 		}
+
+
 
 		foreach ($notifications['events'] as $eventID=>$event){
 
@@ -39,13 +43,20 @@ class notifications extends _ {
 			}
 
 			if ($eventshow){
+				foreach ($event['notifications'] as $notifi=>$no){
+					if ($no){
+						$notificationTypes[$notifi] = true;
+					}
+					//test_array($notifi);
+				}
+
 				$new[$eventID] = $event;
 			}
 
 
 		}
 
-		//test_array($new);
+		//test_array($notificationTypes);
 
 		
 		$tmpl = new \template("template.twig","ui/admin");
@@ -59,6 +70,7 @@ class notifications extends _ {
 		);
 		$tmpl->events = $new;
 		$tmpl->notifications = $notifications;
+		$tmpl->notificationTypes = $notificationTypes;
 		$tmpl->output();
 	}
 	
