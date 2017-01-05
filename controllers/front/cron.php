@@ -14,6 +14,7 @@ class cron extends _ {
 
 		$settings = $f3->get("settings");
 
+		//test_array($settings);
 
 		$recordsIDs = array();
 		foreach ($records as $item){
@@ -34,6 +35,9 @@ class cron extends _ {
 
 		$notification_array = models\notifications::getInstance()->defaultNotifications("notifications");
 
+	//	test_array($notification_array);
+
+		$notificationRecord = array();
 		$counting = 0;
 		$r = array();
 		foreach ($records as $item){
@@ -62,7 +66,10 @@ class cron extends _ {
 
 				}
 			}
-			if ($sending_notification)$counting = $counting + 1;
+			if ($sending_notification){
+				$counting = $counting + 1;
+				$notificationRecord[] = $item;
+			}
 
 			$r[] = $item;
 		}
@@ -76,10 +83,18 @@ class cron extends _ {
 
 
 
+		$result = "found <strong>".count($records). "</strong> records sent off notifications to <strong>{$counting}</strong>";
+		$log = array(
+			"found"=>count($records),
+			"sent"=>$counting,
+			"records"=>$notificationRecord
+		);
+
+		models\logs::getInstance()->_log(null,"Cron task (".count($records)." notified ".$counting.")","cron",$log);
 
 
 
-		echo "found <strong>".count($records). "</strong> records sent off notifications to <strong>{$counting}</strong>";
+		echo $result;
 
 
 		

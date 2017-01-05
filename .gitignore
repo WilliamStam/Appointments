@@ -44,3 +44,4 @@ vendor/*
 Thumbs.db
 
 config.inc.php
+windows_task.*

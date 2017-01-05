@@ -1,0 +1,1 @@
+cscript.exe "C:\Web\Appointments\windows_task.VBS"
