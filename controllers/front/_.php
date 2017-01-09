@@ -11,6 +11,7 @@ class _ extends \controllers\_ {
 		$this->cfg = $this->f3->get("cfg");
 		$this->settings = $this->f3->get("settings");
 
+		header_remove( 'X-Frame-Options' );
 		header( 'X-Frame-Options: ALLOW' );
 
 	}
