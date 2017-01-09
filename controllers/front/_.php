@@ -12,8 +12,7 @@ class _ extends \controllers\_ {
 		$this->settings = $this->f3->get("settings");
 
 		header( 'X-Frame-Options: ALLOW' );
-		header('Content-Type:application/x-javascript');
-		
+
 	}
 
 	function templatefile($class){
