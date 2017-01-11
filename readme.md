@@ -117,14 +117,19 @@
  
  
 ##Admin
+
 ###Staff
 - [ ] Staff notification settings
+
 ###Settings
+
 #####Company Page
 - [ ] Template for the company page
 - [ ] Contact Details
+
 #####Front form
 - [ ] Template for the front form (welcome to etc)
+
 #####Users
 - [ ] Make sure the username is unique
 - [ ] Permissions
