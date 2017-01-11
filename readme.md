@@ -37,6 +37,18 @@
     - [ ] not_2 - client email
     - [ ] not_3 - admin sms
     - [ ] not_4 - admin email
+- [ ] Notify when an admin confirms changes to an appointment
+  - Notification templates
+    - [ ] not_1 - client sms
+    - [ ] not_2 - client email
+    - [ ] not_3 - admin sms
+    - [ ] not_4 - admin email
+- [ ] Notify when an admin confirms a cancellation of an appointment
+  - Notification templates
+    - [ ] not_1 - client sms
+    - [ ] not_2 - client email
+    - [ ] not_3 - admin sms
+    - [ ] not_4 - admin email
 - [ ] Notify when an admin deletes an appointment
   - Notification templates
     - [ ] not_1 - client sms
@@ -56,10 +68,18 @@
 - [ ] Show timeslots used
 - [ ] Warn user if timeslots clash
 - [ ] Warn user if timeslot goes out of "open hours"
-- [ ] Capture who captured the record (log etc)    
+- [ ] Capture who created/edited/deleted the record (log etc)    
 
 ##Capture form Front side
-- [ ] Capture who captured the record, IP etc
+- [ ] Capture who created/edited/deleted the record, IP etc
+- [ ] Allow editing / canceling of records (subject to admin confirming the action)
+
+##Client History
+- [ ] Show a client history under "clients"
+  - [ ] Appointments
+  - [ ] SMS Replys
+  - [ ] Canceled Appointments
+  
     
 ##Misc  
 - [ ] Include the pipe character in the info block (description) for sms portal new line
@@ -72,6 +92,10 @@
 ##System
 - [ ] Multiple Companies on same install base 
 - [ ] Allow a user to be a part of multiple companies
+- [ ] Capture form for capturing a new company (front end)
+- [ ] Super Admin section for companies (mark them as not paying and boot them etc)
+- [ ] Companies can use custom domains instead of unique urls
+- [ ] SSL on whole project (security)
 
   ###Staff members
   - [ ] Timeslots dependent on staff member chosen
