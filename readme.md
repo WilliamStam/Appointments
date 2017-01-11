@@ -31,13 +31,13 @@
     - [ ] not_2 - client email
     - [ ] not_3 - admin sms
     - [ ] not_4 - admin email
--[ ] Notify when admin has canceled the appointment
+- [ ] Notify when admin has canceled the appointment
   - Notification templates
     - [ ] not_1 - client sms
     - [ ] not_2 - client email
     - [ ] not_3 - admin sms
     - [ ] not_4 - admin email
--[ ] Notify when an admin deletes an appointment
+- [ ] Notify when an admin deletes an appointment
   - Notification templates
     - [ ] not_1 - client sms
     - [ ] not_2 - client email
