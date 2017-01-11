@@ -1,18 +1,18 @@
 #TODO
 
 ##Reserved Timeslots
--[ ] Reserved timeslot form on dashboard (+ button)
-  -[ ] Once off
-  -[ ] Daily at this time
--[ ] Agenda views to include reserved timeslots
--[ ] Show reserved timeslots in the list
--[ ] Show reserved timeslots in the day view
--[ ] Reserved timeslots are click-able to bring up the form to edit them
+- [ ] Reserved timeslot form on dashboard (+ button)
+  - [ ] Once off
+  - [ ] Daily at this time
+- [ ] Agenda views to include reserved timeslots
+- [ ] Show reserved timeslots in the list
+- [ ] Show reserved timeslots in the day view
+- [ ] Reserved timeslots are click-able to bring up the form to edit them
 
 ##Appointment Actions *(on details pane)*
 
--[ ] Admin confirmation of appointment when created on front end
--[ ] Admin confirmation of appointment when changed on front end
+- [ ] Admin confirmation of appointment when created on front end
+- [ ] Admin confirmation of appointment when changed on front end
 
   ####Appointment Confirmed
   - [ ] Mark confirmed/unconfirmed bookings differently in the lists
@@ -25,7 +25,7 @@
 
 
  ##Notifications
--[ ] Notify when admin has confirmed appointment (client notifications should be on this)
+- [ ] Notify when admin has confirmed appointment (client notifications should be on this)
   - Notification templates
     - [ ] not_1 - client sms
     - [ ] not_2 - client email
@@ -45,25 +45,25 @@
     - [ ] not_4 - admin email
 
 ##Recieved / replyed to sms's
--[ ] Add messages recieved to the top menu bar
--[ ] Add messages to client log
--[ ] Notify admin of sms replys
+- [ ] Add messages recieved to the top menu bar
+- [ ] Add messages to client log
+- [ ] Notify admin of sms replys
   - Notification templates
     - [ ] not_3 - admin sms
     - [ ] not_4 - admin email
     
 ##Capture form Admin side
--[ ] Show timeslots used
--[ ] Warn user if timeslots clash
--[ ] Warn user if timeslot goes out of "open hours"
--[ ] Capture who captured the record (log etc)    
+- [ ] Show timeslots used
+- [ ] Warn user if timeslots clash
+- [ ] Warn user if timeslot goes out of "open hours"
+- [ ] Capture who captured the record (log etc)    
 
 ##Capture form Front side
--[ ] Capture who captured the record, IP etc
+- [ ] Capture who captured the record, IP etc
     
 ##Misc  
--[ ] Include the pipe character in the info block (description) for sms portal new line
--[ ] Agenda lines (details pane, dashboard, agenda view) need to change colours for confirmed / unconfirmed
+- [ ] Include the pipe character in the info block (description) for sms portal new line
+- [ ] Agenda lines (details pane, dashboard, agenda view) need to change colours for confirmed / unconfirmed
 
  
 ---
@@ -81,10 +81,10 @@
 
  ##Front 
  ###Company page
- -[ ] Single page profile/website for company (unique url)
-   -[ ] Contact Details
-   -[ ] Services
-   -[ ] Bio
+ - [ ] Single page profile/website for company (unique url)
+   - [ ] Contact Details
+   - [ ] Services
+   - [ ] Bio
    
    
  ###Form
@@ -94,13 +94,13 @@
  
 ##Admin
 ###Staff
--[ ] Staff notification settings
+- [ ] Staff notification settings
 ###Settings
 #####Company Page
--[ ] Template for the company page
--[ ] Contact Details
+- [ ] Template for the company page
+- [ ] Contact Details
 #####Front form
--[ ] Template for the front form (welcome to etc)
+- [ ] Template for the front form (welcome to etc)
 #####Users
 - [ ] Make sure the username is unique
 - [ ] Permissions
