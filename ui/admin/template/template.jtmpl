@@ -321,7 +321,7 @@
 			</div>
 
 		{% endif %}
-		<div class="col-xs-{% if _staff|length > 1 %}5{% else %}10{% endif %} group-item">
+		<div class="col-xs-{% if _staff|length > 0 %}5{% else %}10{% endif %} group-item">
 			<select name="services[<%= co %>][serviceID]" id="serviceID-<%= co %>" class="form-control services-select" style="width:100%">
 				<option value="" data-duration-view="">
 					Service

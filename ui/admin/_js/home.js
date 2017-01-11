@@ -140,7 +140,7 @@ function getData() {
 
 					var dateKey = date.format("Y-MM-DD");
 
-					console.log(dateKey+" | "+data.list.closed.indexOf(dateKey))
+					//console.log(dateKey+" | "+data.list.closed.indexOf(dateKey))
 
 					if (data.list.closed.indexOf(dateKey)!=-1){
 						cell.addClass("disabled");
