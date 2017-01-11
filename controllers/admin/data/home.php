@@ -668,7 +668,7 @@ class home extends _ {
 
 		foreach ($records as $item){
 
-			$label = $item['client']['ID']?$item['client']['first_name'] . " ".  $item['client']['lastt_name']:"Walk-In";
+			$label = $item['client']['ID']?$item['client']['first_name'] . " ".  $item['client']['last_name']:"Walk-In";
 
 
 			$return_view['items'][] = array(
