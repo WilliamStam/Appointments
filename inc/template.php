@@ -1,5 +1,4 @@
 <?php
-Twig_Autoloader::register();
 
 class template {
 	private $config = array(), $vars = array();
