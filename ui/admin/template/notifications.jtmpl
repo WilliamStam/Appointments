@@ -64,13 +64,7 @@
 
 			</table>
 
-			<% if(!this.settings.enable_sms){ %>
-			<div class="alert alert-danger">
-				<p>
-					Please enter the SMS portal details below to enable sms notifications
-				</p>
-			</div>
-			<% } %>
+
 			<% if(!this.settings.enable_email){ %>
 			<div class="alert alert-danger">
 				<p>
@@ -150,6 +144,13 @@
 
 
 				</div>
+				<% if(!this.settings.enable_sms){ %>
+				<div class="alert alert-danger">
+					<p>
+						Please enter the SMS portal details below to enable sms notifications
+					</p>
+				</div>
+				<% } %>
 				<div class="alert alert-info">
 					<p>
 						Remove the Username field to disable sms'ing. the password will remain blank. to change the
