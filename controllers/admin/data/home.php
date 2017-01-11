@@ -111,7 +111,9 @@ class home extends _ {
 		$logs = models\logs::getInstance()->getAll("appointmentID='{$return['ID']}'", "datein DESC", "", array("format" => TRUE));
 		$notifications = models\notifications::getInstance()->getAll("appointmentID='{$return['ID']}'", "datein DESC", "", array("format" => TRUE));
 
-		$events = array("add_1" => "", "add_2" => " - Front End", "edi_1" => "", "edi_2" => " - Front End",);
+		$events = array(
+
+			);
 
 
 		$log_array = array();
