@@ -96,6 +96,7 @@
 - [ ] Super Admin section for companies (mark them as not paying and boot them etc)
 - [ ] Companies can use custom domains instead of unique urls
 - [ ] SSL on whole project (security)
+- [ ] SMS administration
 
   ###Staff members
   - [ ] Timeslots dependent on staff member chosen
