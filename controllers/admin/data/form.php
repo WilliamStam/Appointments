@@ -36,7 +36,7 @@ class form extends _ {
 		$ID = isset($_GET['ID']) ? $_GET['ID'] : "";
 		$search = isset($_GET['search']) ? $_GET['search'] : "";
 
-		if ($ID == 0){
+		if ($ID == "walkin"||$ID==="0"){
 			$return['details'] = array(
 				"ID"=>"walkin",
 				"first_name"=>"Walk-In",
