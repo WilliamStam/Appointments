@@ -396,12 +396,9 @@
 								<abbr title="required">*</abbr> Mobile Number
 							</label>
 
-							<div class="input-group">
-									<span class="input-group-addon" title="Send notifications here">
-										<input type="checkbox" name="mobile_number_notification" id="mobile_number_notification" value="1">
-									</span>
+
 								<input class="form-control" placeholder="072 123 4567" type="text" name="mobile_number" id="mobile_number" style="" value="<%= this.details.mobile_number||'' %>">
-							</div>
+
 
 
 						</div>
@@ -411,12 +408,9 @@
 							<label class="control-label" for="email">
 								E-mail
 							</label>
-							<div class="input-group">
-								<span class="input-group-addon" title="Send notifications here">
-									<input type="checkbox" name="email_notification" id="email_notification" value="1">
-								</span>
+
 								<input class="form-control" placeholder="mail@example.com" type="text" name="email" id="email" value="<%= this.details.email||'' %>">
-							</div>
+
 
 						</div>
 					</div>
