@@ -218,9 +218,18 @@ $f3->route('GET /test/email/@email', function ($app, $params) {
 $f3->route('GET /importSettings', function ($app, $params) {
 
 	$companyID = '1';
-	$settings = models\settings::getInstance()->getAll();
 
-	$values = array("settings"=>json_encode($settings));
+	$settings_data = $app->get("DB")->exec("SELECT * FROM settings;");
+	$settings = array();
+	foreach ($settings_data as $item){
+		$settings[$item['setting']] = json_decode($item['data'],true);
+	}
+
+
+
+	//test_array($settings);
+
+	$values = array("settings"=>($settings));
 	models\companies::_save($companyID,$values);
 
 	test_array("imported");
