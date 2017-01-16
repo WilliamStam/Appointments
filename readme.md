@@ -88,6 +88,8 @@
 ##Misc  
 - [ ] Include the pipe character in the info block (description) for sms portal new line
 - [ ] Agenda lines (details pane, dashboard, agenda view) need to change colours for confirmed / unconfirmed
+- [ ] SMS page for buying credits etc
+- [ ] Notification when credits are running low
 
  
 ---

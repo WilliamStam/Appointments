@@ -99,15 +99,21 @@
 			
 			<ul class="nav navbar-nav navbar-right">
 
-
-				<li class="dropdown" id="company-dropdown">
-					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{ _user['company']['company'] }} <span class="caret"></span></a>
-					<ul class="dropdown-menu">
-						{% for row in _user['companies'] %}
-						<li {% if row['ID'] == _user['company']['ID'] %}class="active"{% endif %}><a href="?cID={{ row['ID'] }}">{{ row['company'] }}</a></li>
-						{% endfor %}
-					</ul>
+				{% if _user['companies']|length>1 %}
+					<li class="dropdown" id="company-dropdown">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{ _user['company']['company'] }} <span class="caret"></span></a>
+						<ul class="dropdown-menu">
+							{% for row in _user['companies'] %}
+								<li {% if row['ID'] == _user['company']['ID'] %}class="active"{% endif %}><a href="?cID={{ row['ID'] }}">{{ row['company'] }}</a></li>
+							{% endfor %}
+						</ul>
+					</li>
+				{% else %}
+				<li id="company-dropdown">
+					<p class="navbar-text">{{ _user['company']['company'] }}</p>
 				</li>
+				{% endif %}
+
 
 
 				<li class="divider-vertical"></li>

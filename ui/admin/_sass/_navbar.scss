@@ -24,6 +24,7 @@
   .fa {
 	margin-right: 3px;
   }
+
   .dropdown-menu {
 	li.dropdown-header {
 	  color: #ccc;
@@ -81,7 +82,11 @@
   padding: 0 15px 2px 15px;
   margin-bottom: 0;
 }
-
+.navbar-text {
+  line-height: 42px;
+  padding: 0;
+  margin:0;
+}
 .navbar-nav > li, .navbar-nav > li > a, .navbar-nav > li > .btn-group > a {
   height: auto;
   min-height: 42px;
