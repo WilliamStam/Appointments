@@ -90,12 +90,12 @@
 *wip section - subject to change a lot*
 #v2 - *Resale system*
 ##System
-- [ ] Multiple Companies on same install base 
-- [ ] Allow a user to be a part of multiple companies
+- [x] Multiple Companies on same install base 
+- [x] Allow a user to be a part of multiple companies
 - [ ] Capture form for capturing a new company (front end)
 - [ ] Super Admin section for companies (mark them as not paying and boot them etc)
 - [ ] Companies can use custom domains instead of unique urls
-- [ ] SSL on whole project (security)
+- [x] SSL on whole project (security)
 - [ ] SMS administration
 
   ###Staff members

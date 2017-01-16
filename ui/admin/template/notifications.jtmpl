@@ -151,12 +151,7 @@
 					</p>
 				</div>
 				<% } %>
-				<div class="alert alert-info">
-					<p>
-						Remove the Username field to disable sms'ing. the password will remain blank. to change the
-						password place a new value in
-					</p>
-				</div>
+
 
 			</div>
 
@@ -185,7 +180,8 @@
 
 			</div>
 			<div class="panel blue">
-				<div class="panel-heading built">SMTP Settings</div>
+				<div class="panel-heading built">SMTP Settings (optional)</div>
+
 
 
 				<div class="panel-body form-horizontal">
@@ -221,7 +217,11 @@
 
 
 				</div>
-
+				<div class="alert alert-warning">
+					<p>
+						These settings are only needed if you want the email to come from your own server
+					</p>
+				</div>
 
 			</div>
 

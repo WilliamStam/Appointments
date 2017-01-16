@@ -143,7 +143,10 @@ class companies extends _ {
 		$return = array();
 
 
-		$return['woof'] = true;
+		$return['daysAhead'] = 30;
+		$return['timeslots'] = 30;
+		$return['closed'] = array();
+		$return['email_from'] = 'no-reply@appointed.co.za';
 
 
 
@@ -199,13 +202,12 @@ class companies extends _ {
 		foreach ($data as $item) {
 			$recordIDs[] = $item['ID'];
 			if (isset($item['data'])) $item['data'] = json_decode($item['data'],true);
-			if (isset($item['settings'])) {
+			if (isset($item['settings'])||$item['settings']===null) {
 				$settings = json_decode($item['settings'],true);
-				$settings = array_merge((array) $settings,self::_defaultSettings());
+				$settings = array_merge(self::_defaultSettings(), (array) $settings);
 				$item['settings'] = $settings;
 
 			}
-
 
 
 
@@ -215,7 +217,7 @@ class companies extends _ {
 
 		
 		
-		//test_array($options); 
+	//	test_array($n);
 		
 		
 		

@@ -128,7 +128,7 @@ $settings = $company['settings'];
 //test_array($settings);
 
 
-$settings['enable_email'] = false;
+$settings['enable_email'] = true;
 $settings['enable_sms'] = false;
 if($settings["smsportal_username"] && $settings["smsportal_password"]){
 	$settings['enable_sms'] = true;

@@ -488,11 +488,10 @@ class appointments extends _ {
 
 
 
-
 				if (isset($settings['open'][$dayofweek])){
-					//test_array($settings['open'][$dayofweek])
+					//test_array($settings['open'][$dayofweek]);
 
-					if (($settings['open'][$dayofweek]['start'] && $settings['open'][$dayofweek]['end']) && !in_array(date('d-m', strtotime($dateForNow[0])),$settings['closed'])){
+					if (($settings['open'][$dayofweek]['start'] && $settings['open'][$dayofweek]['end']) && !in_array(date('d-m', strtotime($dateForNow[0])),(array) $settings['closed'])){
 						$business_hours = array(
 							"start"=>date("Y-m-d H:i:s",strtotime($settings['open'][$dayofweek]['start'].":00")),
 							"end"=>date("Y-m-d H:i:s",strtotime($settings['open'][$dayofweek]['end'].":00"))

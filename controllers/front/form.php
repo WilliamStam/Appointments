@@ -12,6 +12,10 @@ class form extends _ {
 		$company = $this->f3->get("PARAMS['companyID']");
 		$company = models\companies::getInstance()->get($company,array("format"=>true));
 
+		if ($company['ID']==""){
+			$this->f3->error("404");
+		}
+
 		$services = models\services::getInstance()->getAll("companyID = '{$company['ID']}'","category ASC, label ASC","", array("format" => true,"group"=>"category"));
 		
 		$tmpl = new \template("template.twig","ui/front");
