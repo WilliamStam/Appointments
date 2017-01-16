@@ -22,6 +22,7 @@ class clients extends _ {
 				"email" => $this->post("email"),
 				"email_notification" => $this->post("email_notification"),
 				"notes" => $this->post("notes"),
+				"companyID" => $this->user['company']['ID'],
 
 				
 		);

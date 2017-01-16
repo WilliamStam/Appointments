@@ -13,6 +13,12 @@ class form extends _ {
 	function data(){
 		$return = array();
 		$return['errors'] = array();
+		$company = isset($_REQUEST['companyID'])?$_REQUEST['companyID']:"";
+		$company = models\companies::getInstance()->get($company,array("format"=>true));
+
+		$services = models\services::getInstance()->getAll("companyID = '{$company['ID']}'","category ASC, label ASC","", array("format" => true,"group"=>"category"));
+
+
 		$cookiedata = isset($_SESSION['data'])?json_decode($_SESSION['data'],true):array();
 		if (!is_array($cookiedata)){
 			$cookiedata = array();
@@ -64,7 +70,7 @@ class form extends _ {
 
 
 		if ($return['post']['mobile_number']){
-			$clientDetails = models\clients::getInstance()->getAll("mobile_number=?","","0,1",array("args"=>array($return['post']['mobile_number'])));
+			$clientDetails = models\clients::getInstance()->getAll("mobile_number=? AND companyID = '{$company['ID']}'","","0,1",array("args"=>array($return['post']['mobile_number'])));
 			$return['client'] = $clientDetails;
 
 			if (isset($clientDetails[0])){
@@ -103,7 +109,7 @@ class form extends _ {
 
 
 
-		$settings = $this->f3->get("settings");
+		$settings = $company['settings'];
 
 		$return['times'] = array();
 		$return['dates'] = array();
@@ -187,7 +193,7 @@ class form extends _ {
 
 
 
-			$agenda_items = models\appointments::getInstance()->getAll("DATE_FORMAT(appointmentStart,'%Y-%m-%d') = '{$currrentDate}'","appointmentStart ASC","",array("format"=>true,"services"=>true));
+			$agenda_items = models\appointments::getInstance()->getAll("DATE_FORMAT(appointmentStart,'%Y-%m-%d') = '{$currrentDate}' AND appointments.companyID ='{$company['ID']}'","appointmentStart ASC","",array("format"=>true,"services"=>true));
 
 
 			$timeslots = array();
@@ -328,7 +334,7 @@ class form extends _ {
 			$serviceids = is_array($return['post']['services'])?implode(",",$return['post']['services']):$return['post']['services'];
 
 			if ($serviceids){
-				$return['extra']['services'] = models\services::getInstance()->getAll("services.ID IN ({$serviceids})","category ASC, label ASC","",array("format"=>true));
+				$return['extra']['services'] = models\services::getInstance()->getAll("services.ID IN ({$serviceids}) AND companyID = '{$company['ID']}'","category ASC, label ASC","",array("format"=>true));
 
 				foreach ($return['extra']['services'] as $item){
 					$return['extra']['services_totals']['duration'] = $return['extra']['services_totals']['duration'] + $item['duration'];

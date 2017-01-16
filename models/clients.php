@@ -29,7 +29,7 @@ class clients extends _ {
 
 	function get($ID,$options=array()) {
 		$timer = new timer();
-		$where = "(ID = '$ID' OR MD5(ID) = '$ID')";
+		$where = "(clients.ID = '$ID' OR MD5(clients.ID) = '$ID')";
 		
 		
 		$result = $this->getData($where,"","0,1",$options);
@@ -85,8 +85,8 @@ class clients extends _ {
 
 
 		$result = $f3->get("DB")->exec("
-			 SELECT DISTINCT *
-			FROM clients 
+			 SELECT DISTINCT clients.*
+			FROM clients
 			$where
 			GROUP BY ID
 			$orderby

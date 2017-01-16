@@ -37,7 +37,7 @@ class settings extends _ {
 		$response = "";
 		if (count($this->errors)==0){
 			//test_array($values);
-			$response = models\settings::_save($values);
+			$response = models\companies::_save($this->user['company']['ID'],array("settings"=>$values));
 		}
 		$return = array(
 				"ID" => $response,
@@ -48,23 +48,7 @@ class settings extends _ {
 	}
 	
 	
-	function delete() {
-		$result = array();
-		$ID = isset($_REQUEST['ID'])?$_REQUEST['ID']:"";
-		
-		
-		
-		if (count($this->errors)==0){
-			
-			$result = models\settings::_delete($ID);
-		}
-		$return = array(
-				"result" => $result,
-				"errors" => $this->errors
-		);
-		
-		return $GLOBALS["output"]['data'] = $return;
-	}
+
 	
 	
 	

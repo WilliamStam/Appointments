@@ -100,6 +100,7 @@ $(document).ready(function () {
 	$(document).on("click","#form-footer-confirm .btn.btn-primary",function(){
 
 		var data = $("#confirm-form-area-form").serialize();
+		data = data+"&companyID="+$("#confirm-form-area-form").attr("data-company")
 		data = data + "&submit[notes]="+$("#notes").val();
 
 
@@ -206,6 +207,7 @@ function serviceshighlight(){
 function getSteps(){
 var $form = $("#rootwizard")
 	var data = $form.serialize();
+	data = data+"&companyID="+$("#confirm-form-area-form").attr("data-company")
 	var currenttab = $.bbq.getState("tab")||0;
 
 	$.post("/data/form/data?tab="+currenttab,data,function(data){

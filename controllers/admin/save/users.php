@@ -17,6 +17,7 @@ class users extends _ {
 				"fullname" => $this->post("fullname",true),
 				"username" => $this->post("username",true),
 				"password" => $this->post("password"),
+				"companyID" => $this->user['company']['ID'],
 
 				
 		);

@@ -15,7 +15,7 @@ class home extends _ {
 
 		$currrentDate = date("Ymd", strtotime("today"));
 
-		$agenda_items = models\appointments::getInstance()->getAll("DATE_FORMAT(appointmentStart,'%Y%m%d') = '{$currrentDate}'", "appointmentStart ASC", "", array("format" => TRUE, "client" => TRUE, "services" => TRUE));
+		$agenda_items = models\appointments::getInstance()->getAll("appointments.companyID = '{$this->user['company']['ID']}' AND DATE_FORMAT(appointmentStart,'%Y%m%d') = '{$currrentDate}'", "appointmentStart ASC", "", array("format" => TRUE, "client" => TRUE, "services" => TRUE));
 		$n = array();
 		$return["stats"] = array("count" => count($agenda_items), "duration" => 0);
 		$active = array();
@@ -51,7 +51,7 @@ class home extends _ {
 		$return['active'] = $active;
 
 
-		$return["next"] = models\appointments::getInstance()->getAll("appointmentStart > now()", "appointmentStart ASC", "0,1", array("format" => TRUE, "client" => TRUE, "services" => TRUE));
+		$return["next"] = models\appointments::getInstance()->getAll("appointments.companyID = '{$this->user['company']['ID']}' AND appointmentStart > now()", "appointmentStart ASC", "0,1", array("format" => TRUE, "client" => TRUE, "services" => TRUE));
 
 
 		if (isset($return["next"][0])) {
@@ -83,7 +83,7 @@ class home extends _ {
 
 		$currrentDate = date("Ymd", strtotime($return['appointmentStart']));
 
-		$agenda_items = models\appointments::getInstance()->getAll("DATE_FORMAT(appointmentStart,'%Y%m%d') = '{$currrentDate}'", "appointmentStart ASC", "", array("format" => TRUE, "client" => TRUE, "services" => TRUE));
+		$agenda_items = models\appointments::getInstance()->getAll("appointments.companyID = '{$this->user['company']['ID']}' AND DATE_FORMAT(appointmentStart,'%Y%m%d') = '{$currrentDate}'", "appointmentStart ASC", "", array("format" => TRUE, "client" => TRUE, "services" => TRUE));
 
 
 		//	test_array($agenda_items);
@@ -241,7 +241,7 @@ class home extends _ {
 		$prev = "";
 		$label = "";
 		$current = "";
-		$where = "1";
+		$where = "appointments.companyID = '{$this->user['company']['ID']}' ";
 
 		if ($search) {
 

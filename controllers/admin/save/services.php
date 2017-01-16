@@ -20,6 +20,7 @@ class services extends _ {
 				"duration" => $this->post("duration",true),
 				"price" => $this->post("price",true),
 				"category" => $this->post("category"),
+				"companyID" => $this->user['company']['ID'],
 
 				
 		);

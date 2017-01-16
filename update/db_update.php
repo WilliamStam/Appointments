@@ -14,6 +14,33 @@ $sql = array(
 	"ALTER TABLE `notifications`  MODIFY `ID` int(6) NOT NULL AUTO_INCREMENT;",
 
 
+	"ALTER TABLE `appointments` ADD `companyID` INT(6) NULL DEFAULT NULL AFTER `ID`, ADD INDEX (`companyID`);",
+	"ALTER TABLE `products` ADD `companyID` INT(6) NULL DEFAULT NULL AFTER `ID`, ADD INDEX (`companyID`);",
+	"ALTER TABLE `services` ADD `companyID` INT(6) NULL DEFAULT NULL AFTER `ID`, ADD INDEX (`companyID`);",
+	"ALTER TABLE `staff` ADD `companyID` INT(6) NULL DEFAULT NULL AFTER `ID`, ADD INDEX (`companyID`);",
+	"ALTER TABLE `users` ADD `lastCompanyID` INT(6) NULL DEFAULT NULL AFTER `settings`, ADD INDEX (`lastCompanyID`);",
+	"ALTER TABLE `clients` ADD `companyID` INT(6) NULL DEFAULT NULL AFTER `ID`, ADD INDEX (`companyID`);",
+
+	"CREATE TABLE `companies` (  `ID` int(6) NOT NULL,  `url` varchar(200) DEFAULT NULL,  `company` varchar(200) DEFAULT NULL,  `settings` text);",	"INSERT INTO `companies` (`ID`, `url`, `company`, `settings`) VALUES (1, 'barkstone', 'Barkston Beauty Salon', null), (2, 'impreshin', 'Impreshin', null);",
+	"ALTER TABLE `companies`  ADD PRIMARY KEY (`ID`);",
+	"ALTER TABLE `companies` MODIFY `ID` int(6) NOT NULL AUTO_INCREMENT;",
+
+
+	"CREATE TABLE `users_companies` (  `ID` int(6) NOT NULL,  `userID` int(6) DEFAULT NULL,  `companyID` int(6) DEFAULT NULL);",
+	"ALTER TABLE `users_companies`  ADD PRIMARY KEY (`ID`),  ADD KEY `userID` (`userID`),  ADD KEY `companyID` (`companyID`);",
+	"ALTER TABLE `users_companies`  MODIFY `ID` int(6) NOT NULL AUTO_INCREMENT;",
+
+	"INSERT INTO `users_companies`(`userID`, `companyID`) (SELECT `ID` AS `userID`, '1' as `companyID` FROM users);",
+
+	"UPDATE `services` SET `companyID`=1;",
+	"UPDATE `appointments` SET `companyID`=1;",
+	"UPDATE `staff` SET `companyID`=1;",
+	"UPDATE `clients` SET `companyID`=1"
+
+
+
+
+
 );
 
 ?>

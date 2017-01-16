@@ -8,7 +8,11 @@ class form extends _ {
 	}
 	function page(){
 		//if ($this->user['ID']=="")$this->f3->reroute("/login");
-		
+
+		$company = $this->f3->get("PARAMS['companyID']");
+		$company = models\companies::getInstance()->get($company,array("format"=>true));
+
+		$services = models\services::getInstance()->getAll("companyID = '{$company['ID']}'","category ASC, label ASC","", array("format" => true,"group"=>"category"));
 		
 		$tmpl = new \template("template.twig","ui/front");
 		$tmpl->page = array(
@@ -19,6 +23,9 @@ class form extends _ {
 				"title"=> "Booking Form",
 			),
 		);
+		$tmpl->company = $company;
+		$tmpl->settings = $company['settings'];
+		$tmpl->services = $services;
 		$tmpl->output();
 	}
 	

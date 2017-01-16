@@ -22,7 +22,7 @@ class form extends _ {
 				"email_notification" => $this->post("email_notification"),
 				"email" => $this->post("email"),
 				"notes" => $this->post("notes"),
-
+			"companyID" => $this->user['company']['ID'],
 		);
 
 
@@ -56,7 +56,7 @@ class form extends _ {
 				"appointmentStart" => $this->post("appointmentStart",true),
 				"notes" => $this->post("notes"),
 				"services" => $this->post("services"),
-
+			"companyID" => $this->user['company']['ID'],
 
 		);
 

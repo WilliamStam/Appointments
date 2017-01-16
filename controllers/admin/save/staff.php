@@ -17,7 +17,7 @@ class staff extends _ {
 		$values = array(
 				"first_name" => $this->post("first_name",true),
 				"last_name" => $this->post("last_name",true),
-
+			"companyID" => $this->user['company']['ID'],
 				
 		);
 	

@@ -410,7 +410,7 @@ class appointments extends _ {
 
 			if (count($clientIDs)){
 				$ids = implode(",", $clientIDs);
-				$clients = clients::getInstance()->getALL("ID IN ($ids)","");
+				$clients = clients::getInstance()->getALL("clients.ID IN ($ids)","");
 
 				$c = array();
 				foreach ($clients as $item){
