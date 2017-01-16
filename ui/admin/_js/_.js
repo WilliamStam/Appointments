@@ -276,7 +276,7 @@ $(document).ready(function () {
 			//console.log(data.credits);
 			if (data.credits){
 				$(".sms-credit-block").each(function(){
-					$(this).html('<span class="badge"  title="Credits Remaining"><i class="fa fa-send"></i><span> '+data.credits+'</span></span>')
+					$(this).html('SMS credits: <strong>'+data.credits+'</strong>')
 				});
 			}
 

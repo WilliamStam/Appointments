@@ -86,7 +86,7 @@
 				<li class="visible-xs" ><a href="/logout" style="padding-right:15px;" ><i class="fa fa-sign-out"></i><span class="visible-xs-inline"> Logout</span></a>
 				</li>
 
-				<li class="visible-xs sms-credit-block" ></li>
+
 
 				
 				
@@ -98,9 +98,7 @@
 			
 			
 			<ul class="nav navbar-nav navbar-right">
-				<li class="sms-credit-block">
 
-				</li>
 
 				<li class="dropdown" id="company-dropdown">
 					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{ _user['company']['company'] }} <span class="caret"></span></a>
@@ -125,6 +123,9 @@
 						<li {% if page.sub_section =='users' %}class="active"{% endif %}><a href="/admin/settings/users"> Users</a></li>
 						<li {% if page.sub_section =='notifications' %}class="active"{% endif %}><a href="/admin/settings/notifications"> Notifications</a></li>
 						<li {% if page.sub_section =='notification_templates' %}class="active"{% endif %}><a href="/admin/settings/notification_templates"> Notification Templates</a></li>
+						<li {% if page.sub_section =='sms' %}class="active"{% endif %}><a href="/admin/settings/sms"  class="sms-credit-block"> SMS credits</a></li>
+
+
 
 
 
