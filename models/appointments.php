@@ -613,6 +613,145 @@ class appointments extends _ {
 
 
 
+
+
+
+
+		$reserved_timeslots = array();
+
+
+		$reserved_data = \models\timeslots::getInstance()->getAll("companyID = '{$this->user['company']['ID']}'");
+
+		$day = $dateForNow[0];
+		foreach ($reserved_data as $item){
+
+			$include_item = false;
+			switch ($item['repeat_mode']){
+				case "0":
+					$item['start_date'] = date("Y-m-d H:i:s",strtotime($item['data']['onceoff'] . " " . $item['start'].":00"));
+					$item['end_date'] = date("Y-m-d H:i:s",strtotime($item['data']['onceoff'] . " " . $item['end'].":00"));
+
+					if ($item['data']['onceoff'] == $day){
+						$include_item = true;
+					}
+					break;
+				case "1":
+					$item['start_date'] = date("Y-m-d ".$item['start'].":00",strtotime($day));
+					$item['end_date'] = date("Y-m-d ".$item['end'].":00",strtotime($day));
+					$include_item = true;
+					break;
+
+				case "2":
+
+					$dow_numeric = date('w',strtotime($day));
+
+					$dayoftheweek = strtolower(date('l', strtotime("Sunday +{$dow_numeric} days")));
+					$days = explode(",",$item['data']['weekly']);
+
+					$item['start_date'] = date("Y-m-d ".$item['start'].":00",strtotime($day));
+					$item['end_date'] = date("Y-m-d ".$item['end'].":00",strtotime($day));
+
+
+					$item['dow'] = $dayoftheweek;
+					if (count($days)){
+
+						if (in_array($dayoftheweek,$days)){
+							$include_item = true;
+						}
+
+
+					}
+
+
+
+
+					break;
+
+				case "3":
+					$item['start_date'] = date("Y-m-d ".$item['start'].":00",strtotime($day));
+					$item['end_date'] = date("Y-m-d ".$item['end'].":00",strtotime($day));
+					$daytoday = date("d",strtotime($day));
+					$days = explode(",",$item['data']['monthly']);
+					if (count($days)){
+
+						if (in_array($daytoday,$days)){
+							$include_item = true;
+						}
+
+
+					}
+
+
+
+
+					break;
+
+
+			}
+
+
+
+			if ($include_item){
+
+				$item['time']['start_view_short'] = date("H:i",strtotime($item['start_date']));
+				$item['time']['end_view_short'] = date("H:i",strtotime($item['end_date']));
+
+				$day_s_item = strtotime(date("Y-m-d 00:00:00",strtotime($item['start_date'])));
+				$day_e_item = strtotime(date("Y-m-d 23:59:59",strtotime($item['end_date'])));
+				$day_item = $day_e_item - $day_s_item;
+
+				$s = strtotime($item['start_date']);
+				$e = strtotime($item['end_date']);
+
+
+				$l = $s - $day_s_item;
+
+
+				$l= ($l / $day_item)*100;
+
+				//test_array(date("Y-m-d H:i:s",$day_e_item));
+
+
+				$r = $day_e_item - $e;
+
+				if ($r < 0){
+					$r = 0;
+				} else {
+					$r = ($r / $day_item)*100;
+				}
+
+				//$r = 100 - $r;
+
+				if ($l < 0)$l = 0;
+				// if ($r < 0)$l = 0;
+
+				//test_array(array("day s"=>$day_s,"day e"=>$day_e, "day"=> $day,"s"=>$s,"e"=>$e,"l"=>$l ));
+
+
+
+				$item['agenda']['l'] = $l;
+				$item['agenda']['r'] = $r;
+
+
+				$reserved_timeslots[] = $item;
+			}
+		}
+
+
+
+
+
+
+
+
+
+		//test_array($reserved_data);
+		//test_array($reserved_timeslots);
+		$return['reserved'] = $reserved_timeslots;
+
+
+
+
 		$endh = strtotime($business_hours['end_r']);
 		$starth = strtotime($business_hours['start_l']);
 

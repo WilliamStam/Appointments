@@ -584,6 +584,18 @@
 							<div class="agenda-closed-item" style="right:0;left:<%= this.agenda.closed_hours.r %>%"></div>
 
 						</div>
+						<div class="timeslot-items">
+							<% for(var i in this.agenda.reserved){ %>
+							<div class="timeslot-item <%= this.agenda.reserved[i].status %>" style="left:<%= this.agenda.reserved[i].agenda.l %>%;right:<%= this.agenda.reserved[i].agenda.r %>%;">
+								<div class="item-label timeslot-row" title="<strong><%= this.agenda.reserved[i].label||'' %></strong><br><%= this.agenda.reserved[i].time.start_view_short %> - <%= this.agenda.reserved[i].time.end_view_short %>" data-id="<%= this.agenda.reserved[i].ID %>" data-toggle="tooltip" data-placement="bottom" data-content="<%= this.agenda.reserved[i].label||'' %>" data-html="true" data-trigger="hover" data-container="body">
+
+
+								</div>
+
+							</div>
+							<% } %>
+
+						</div>
 						<div class="agenda-view-hours">
 							{% for i in 0..23 %}
 								<div class="agenda-hour" style="width:<%= this.agenda.settings.width %>%">

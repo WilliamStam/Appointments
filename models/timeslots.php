@@ -202,8 +202,8 @@ class timeslots extends _ {
 
 			}
 
-			$item['start'] = substr($item['start'],0,6);
-			$item['end'] = substr($item['end'],0,6);
+			$item['start'] = substr($item['start'],0,5);
+			$item['end'] = substr($item['end'],0,5);
 
 
 

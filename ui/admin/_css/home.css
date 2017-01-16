@@ -189,6 +189,35 @@
       text-shadow: 1px 1px 10px #ccc;
       color: #f1f1f1;
       font-weight: bold; }
+  #agenda-wrapper #agenda-view-area .timeslot-items .timeslot-item {
+    position: absolute;
+    left: 51px;
+    right: 0;
+    vertical-align: middle;
+    background: repeating-linear-gradient(45deg, transparent, transparent 5px, #f1f1f1 5px, #f1f1f1 10px), linear-gradient(to bottom, #e1e1e1, #e1e1e1); }
+    #agenda-wrapper #agenda-view-area .timeslot-items .timeslot-item .item-label {
+      border: 1px solid #ccc;
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 8; }
+      #agenda-wrapper #agenda-view-area .timeslot-items .timeslot-item .item-label .item-label-inner {
+        position: relative;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 0; }
+      #agenda-wrapper #agenda-view-area .timeslot-items .timeslot-item .item-label.timeslot-row {
+        cursor: pointer; }
+        #agenda-wrapper #agenda-view-area .timeslot-items .timeslot-item .item-label.timeslot-row:hover {
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          z-index: 30;
+          border: 1px solid #34495e; }
 
 .fc-event, .fc-event-dot {
   background-color: #34495e;

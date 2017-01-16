@@ -405,7 +405,7 @@ $(document).ready(function () {
 	});
 	$(document).on("click", "#form-timeslot #btn-delete-record", function (e) {
 		e.preventDefault();
-		var ID = $.bbq.getState("appID");
+		var ID = $.bbq.getState("timeslotID");
 		if (confirm("Are you sure you want to delete this record?")){
 			$.post("/admin/save/form/delete_timeslot?ID=" + ID, {}, function (result) {
 				result = result.data;
@@ -491,9 +491,14 @@ $(document).ready(function () {
 	$(document).on("click", "#details-appointment .btn[data-dismiss='modal']", function (e) {
 		e.preventDefault();
 		$.bbq.pushState("appID","");
-
-
 	});
+
+	$(document).on("click", "#form-timeslot .btn[data-dismiss='modal']", function (e) {
+		e.preventDefault();
+		$.bbq.pushState("timeslotID","");
+	});
+
+
 	$(document).on("change", "#form-timeslot-capture input[name='repeat_mode']", function (e) {
 		getTimeslotFormRepeats();
 

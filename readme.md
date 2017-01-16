@@ -6,9 +6,9 @@
   - [x] Daily
   - [x] Weekly
   - [x] Monthly
-- [ ] Agenda views to include reserved timeslots
+- [x] Agenda views to include reserved timeslots
 - [x] Show reserved timeslots in the list
-- [ ] Show reserved timeslots in the day view
+- [x] Show reserved timeslots in the day view
 - [x] Reserved timeslots are click-able to bring up the form to edit them
 
 ##Appointment Actions *(on details pane)*
@@ -76,7 +76,7 @@
 ##Capture form Front side
 - [ ] Capture who created/edited/deleted the record, IP etc
 - [ ] Allow editing / canceling of records (subject to admin confirming the action)
-- [ ] Times to include reserved timeslots
+- [x] Times to include reserved timeslots
 
 ##Client History
 - [ ] Show a client history under "clients"

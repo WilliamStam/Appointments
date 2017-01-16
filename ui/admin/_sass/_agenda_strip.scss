@@ -112,7 +112,53 @@
 
 	}
   }
+  .timeslot-items {
+	position: absolute;
+	top:0;
+	left:0;
+	right:0;
+	bottom:0;
 
+	.timeslot-item {
+	  position:absolute;
+	  top:0;
+	  bottom:0;
+
+	  background:
+			  /* On "top" */
+			  repeating-linear-gradient(
+							  45deg,
+							  transparent,
+							  transparent 5px,
+							  #f1f1f1 5px,
+							  #f1f1f1 10px
+			  ),
+				/* on "bottom" */
+			  linear-gradient(
+							  to bottom,
+							  #e1e1e1,
+							  #e1e1e1
+			  );
+	  .item-label {
+		position: absolute;
+		top:0;
+		left:0;
+		right:0;
+		bottom:0;
+		z-index: 4;
+	  }
+
+	  &.current {
+
+
+
+		.item-label {
+		  z-index: 6;
+		}
+	  }
+
+	}
+  }
 
   .agenda-now {
 	width:4px;

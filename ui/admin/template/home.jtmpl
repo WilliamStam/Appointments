@@ -177,6 +177,22 @@
 					</div>
 					<div class="closed-item" style="bottom:0; top:<%= this.list.closed_hours.night_start %>%"></div>
 				</div>
+
+				<div class="timeslot-items">
+					<% for (var i in this.list.reserved) { %>
+					<div class="timeslot-item <% if(this.list.reserved[i].active==1){ %>current<% } %>" style="top:<%= this.list.reserved[i].agenda.top %>%;bottom:<%= this.list.reserved[i].agenda.bottom %>%">
+						<div class="item-label timeslot-row" data-id="<%= this.list.reserved[i].ID %>">
+							<div class="item-label-inner">
+								<strong><%= this.list.reserved[i].label %></strong>
+								&nbsp; <%= this.list.reserved[i].time.start_view_short %> to <%=
+								this.list.reserved[i].time.end_view_short %>
+							</div>
+
+						</div>
+
+					</div>
+					<% } %>
+				</div>
 				<div class="agenda-items">
 					<% for (var i in this.list.items) { %>
 					<div class="agenda-item <% if(this.list.items[i].active==1){ %>current<% } %>" style="top:<%= this.list.items[i].agenda.top %>%;bottom:<%= this.list.items[i].agenda.bottom %>%">
@@ -537,7 +553,18 @@
 				<div class="agenda-closed-item" style="right:0;left:<%= this.agenda.closed_hours.r %>%"></div>
 
 			</div>
+			<div class="timeslot-items">
+				<% for(var i in this.agenda.reserved){ %>
+				<div class="timeslot-item <%= this.agenda.reserved[i].status %>" style="left:<%= this.agenda.reserved[i].agenda.l %>%;right:<%= this.agenda.reserved[i].agenda.r %>%;">
+					<div class="item-label timeslot-row" title="<strong><%= this.agenda.reserved[i].label||'' %></strong><br><%= this.agenda.reserved[i].time.start_view_short %> - <%= this.agenda.reserved[i].time.end_view_short %>" data-id="<%= this.agenda.reserved[i].ID %>" data-toggle="tooltip" data-placement="bottom" data-content="<%= this.agenda.reserved[i].label||'' %>" data-html="true" data-trigger="hover" data-container="body">
 
+
+					</div>
+
+				</div>
+				<% } %>
+
+			</div>
 			<div class="agenda-view-hours">
 				{% for i in 0..23 %}
 					<div class="agenda-hour" style="width:<%= this.agenda.settings.width %>%">
