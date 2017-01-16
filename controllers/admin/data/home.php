@@ -178,6 +178,9 @@ class home extends _ {
 
 		$defaultSection = user::settings("home_list_section") ? user::settings("home_list_section") : "list";
 		$section = isset($_GET['section']) ? $_GET['section'] : $defaultSection;
+		$search = isset($_GET['search']) ? $_GET['search'] : "";
+
+
 
 		switch ($section) {
 			case "list":
@@ -192,6 +195,68 @@ class home extends _ {
 				$allowedViews = array("month");
 				$section_viewDefault = "month";
 				break;
+			case "timeslots":
+
+				user::settings("home_list_section", $section);
+
+
+				$return['settings'] = array(
+					"section" => $section,
+					"search" => $search,
+
+					"label" => "Active Reserved Timeslots",
+
+
+				);
+				$where = "companyID='{$this->user['company']['ID']}'";
+				if ($search){
+					$where = $where ." AND `label` LIKE '%$search%'";
+
+				}
+
+				$records = models\timeslots::getInstance()->getAll($where, "repeat_mode ASC, ID DESC", "", array("format" => TRUE));
+				$return['records'] = $records;
+
+				$repeat_mode_label = array(
+					"_0"=>"Once Off",
+					"_1"=>"Daily",
+					"_2"=>"Weekly",
+					"_3"=>"Monthly"
+				);
+
+				$r = array();
+
+				foreach ($records as $item){
+					if (!isset($r[$item['repeat_mode']])){
+						$r[$item['repeat_mode']] = array(
+							"label"=>$repeat_mode_label["_".$item['repeat_mode']],
+							"records"=>array(),
+						);
+					}
+					$r[$item['repeat_mode']]['records'][] = $item;
+
+				}
+				$records = array();
+				foreach ($r as $item){
+					$records[] = $item;
+
+				}
+
+				$return['list'] = $records;
+
+
+			//	test_array($r);
+
+
+				$return['head'] = $this->head;
+
+
+
+
+				return $GLOBALS["output"]['data'] = $return;
+
+
+				break;
 			default:
 				$allowedViews = array("day");
 				$section_viewDefault = "day";
@@ -205,6 +270,7 @@ class home extends _ {
 			$section_view = $section_viewDefault;
 		}
 
+		//test_array($defaultSection);
 
 		user::settings("home_list_section", $section);
 		user::settings("home_list_view", $section_view);
@@ -234,7 +300,7 @@ class home extends _ {
 		//test_array($array)
 
 
-		$search = isset($_GET['search']) ? $_GET['search'] : "";
+
 
 
 		$next = "";
@@ -254,7 +320,7 @@ class home extends _ {
 			$where .= " AND ($fields_str) ";
 		}
 
-		//test_array($where);
+		//test_array($section_view);
 
 		$list_value = "";
 
@@ -326,24 +392,40 @@ class home extends _ {
 				break;
 
 
+
 		}
 
 
-		$return['settings'] = array("section" => $section, "search" => $search, "day_value" => $day_value, "week_value" => $week_value, "month_value" => $month_value, "list_view" => $section_view, "label" => $label, "nav" => array("current" => $list_value, "now" => $current, "next" => $next, "prev" => $prev,)
 
-		);
+			$return['settings'] = array(
+				"section" => $section,
+				"search" => $search,
+				"day_value" => $day_value,
+				"week_value" => $week_value,
+				"month_value" => $month_value,
+				"list_view" => $section_view,
+				"label" => $label,
+				"nav" => array(
+					"current" => $list_value,
+					"now" => $current,
+					"next" => $next,
+					"prev" => $prev,
+				)
+
+			);
 
 
-		$records = models\appointments::getInstance()->getAll($where, "appointmentStart", "", array("services" => TRUE, "client" => TRUE));
+			$records = models\appointments::getInstance()->getAll($where, "appointmentStart", "", array("services" => TRUE, "client" => TRUE));
+			$return = $this->view($return, $records, $section);
 
 
-		$return = $this->view($return, $records, $section);
+			//test_array($list);
 
 
-		//test_array($list);
+			$return['head'] = $this->head;
 
 
-		$return['head'] = $this->head;
+
 
 		return $GLOBALS["output"]['data'] = $return;
 	}

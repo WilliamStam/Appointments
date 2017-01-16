@@ -107,6 +107,50 @@ class form extends _ {
 
 		return $GLOBALS["output"]['data'] = $return;
 	}
+	function timeslot() {
+		$result = array();
+		$ID = isset($_REQUEST['ID'])?$_REQUEST['ID']:"";
+
+
+
+
+		$values = array(
+				"label" => $this->post("label",true),
+				"start" => $this->post("start",true),
+				"end" => $this->post("end",true),
+				"repeat_mode" => $this->post("repeat_mode"),
+				"companyID" => $this->user['company']['ID'],
+
+		);
+
+
+		$repeat_onceoff = $this->post("repeat_onceoff");
+		$repeat_onceoff = $repeat_onceoff?$repeat_onceoff:date("Y-m-d");
+
+		$values['data'] = array(
+			"onceoff"=>$this->post("repeat_data_0"),
+			"daily"=>$this->post("repeat_data_1"),
+			"weekly"=>$this->post("repeat_data_2"),
+			"monthly"=>$this->post("repeat_data_3"),
+		);
+
+
+		//test_array($_POST);
+		//test_array($values);
+
+
+
+		if (count($this->errors)==0){
+
+			$ID = models\timeslots::_save($ID,$values);
+		}
+		$return = array(
+				"ID" => $ID,
+				"errors" => $this->errors
+		);
+
+		return $GLOBALS["output"]['data'] = $return;
+	}
 	function delete_appointment(){
 		$result = array();
 		$ID = isset($_REQUEST['ID'])?$_REQUEST['ID']:"";
@@ -116,6 +160,23 @@ class form extends _ {
 		if (count($this->errors)==0){
 
 			$result = models\appointments::_delete($ID);
+		}
+		$return = array(
+			"result" => $result,
+			"errors" => $this->errors
+		);
+
+		return $GLOBALS["output"]['data'] = $return;
+	}
+	function delete_timeslot(){
+		$result = array();
+		$ID = isset($_REQUEST['ID'])?$_REQUEST['ID']:"";
+
+
+
+		if (count($this->errors)==0){
+
+			$result = models\timeslots::_delete($ID);
 		}
 		$return = array(
 			"result" => $result,

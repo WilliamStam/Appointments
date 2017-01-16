@@ -26,20 +26,6 @@ $.fn.modal.Constructor.prototype.enforceFocus = function () {
 $(document).ready(function () {
 
 
-	$(document).on("submit","#form-capture",function(e){
-		e.preventDefault();
- 		var $this = $(this);
-		var data = $(this).serialize();
-		var ID = $.bbq.getState("advertID");
-		$.post("/admin/save/form/appointment?ID="+ID,data,function(result){
-			result = result.data;
-			validationErrors(result, $this);
-			if (!result.errors && typeof getData == 'function') {
-				getData();
-				$this.closest(".modal").modal("hide")
-			}
-		})
-	});
 
 
 
@@ -217,6 +203,20 @@ $(document).ready(function () {
         getAppointmentForm();
 
     });
+    $(document).on("click", ".form-timeslot-btn", function (e) {
+
+        e.preventDefault();
+        e.stopPropagation();
+        var $this = $(this);
+
+        var ID = $this.attr("data-id");
+
+        $.bbq.pushState({"timeslotID": ID,"form":true});
+
+
+        getTimeslotForm();
+
+    });
 
 
 
@@ -242,6 +242,17 @@ $(document).ready(function () {
 		if (ID){
 			$.bbq.pushState({"appID":ID});
 			getAppointmentView()
+		}
+
+
+	});
+	$(document).on("click",".timeslot-row",function(e){
+		e.preventDefault();
+		var $this = $(this);
+		var ID = $this.attr("data-id");
+		if (ID){
+			$.bbq.pushState({"timeslotID":ID});
+			getTimeslotForm()
 		}
 
 
@@ -353,10 +364,9 @@ $(document).ready(function () {
 				getAppointmentView();
 			}
 		})
+	});
 
 
-
-	})
 	$(document).on("click", "#form-appointment #btn-delete-record", function (e) {
 		e.preventDefault();
 		var ID = $.bbq.getState("appID");
@@ -368,6 +378,42 @@ $(document).ready(function () {
 					toastr["success"]("Record Deleted", "Success");
 					//getData();
 					$.bbq.removeState("appID");
+					$.bbq.removeState("form");
+					$("#modal-window").modal("hide");
+				} else {
+					toastr["error"]("There was an error deleting this record", "Error");
+				}
+			})
+		}
+
+
+	});
+	$(document).on("submit", "#form-timeslot-capture", function (e) {
+		e.preventDefault();
+
+		var $this = $(this);
+		var ID = $.bbq.getState("timeslotID");
+
+		$.post("/admin/save/form/timeslot?ID="+ID,$this.serialize(),function(result){
+			result = result.data;
+			validationErrors(result, $this);
+			if (!result.errors) {
+				$.bbq.pushState({"timeslotID":""});
+				$("#modal-window").modal("hide");
+			}
+		})
+	});
+	$(document).on("click", "#form-timeslot #btn-delete-record", function (e) {
+		e.preventDefault();
+		var ID = $.bbq.getState("appID");
+		if (confirm("Are you sure you want to delete this record?")){
+			$.post("/admin/save/form/delete_timeslot?ID=" + ID, {}, function (result) {
+				result = result.data;
+
+				if (!result.errors) {
+					toastr["success"]("Record Deleted", "Success");
+					//getData();
+					$.bbq.removeState("timeslotID");
 					$.bbq.removeState("form");
 					$("#modal-window").modal("hide");
 				} else {
@@ -433,9 +479,23 @@ $(document).ready(function () {
 
 
 	})
+	$(document).on("click", "#form-timeslot-capture button[type='reset']", function (e) {
+		e.preventDefault();
+		$.bbq.pushState("timeslotID","");
+
+		$("#modal-window").modal("hide")
+
+
+	})
+
 	$(document).on("click", "#details-appointment .btn[data-dismiss='modal']", function (e) {
 		e.preventDefault();
 		$.bbq.pushState("appID","");
+
+
+	});
+	$(document).on("change", "#form-timeslot-capture input[name='repeat_mode']", function (e) {
+		getTimeslotFormRepeats();
 
 
 	});
@@ -522,6 +582,12 @@ if ($.bbq.getState("appID")) {
 	} else {
 		getAppointmentView()
 	}
+}
+
+if ($.bbq.getState("timeslotID")) {
+
+		getTimeslotForm();
+
 }
 
 function getAppointmentView() {
@@ -667,6 +733,138 @@ function update_services_duration(){
 
 
 }
+
+
+
+function getTimeslotForm() {
+	var ID = $.bbq.getState("timeslotID");
+
+	$.getData("/admin/data/form/timeslot", {"ID": ID}, function (data) {
+		$("#modal-window").jqotesub($("#template-modal-form-timeslots"), data).modal("show").on("hide.bs.modal",function(){
+			$.bbq.removeState("form")
+		});
+
+		var dpOptions = datetimepickerOptions;
+		dpOptions.format = "HH:mm";
+		dpOptions.defaultDate = false;
+		if ($("#start").val()){
+			dpOptions.defaultDate = moment($("#start").val(),'HH:mm:00');
+		}
+
+
+		dpOptions.useCurrent = false;
+		$('#start-inline').datetimepicker(dpOptions);
+		$("#start-inline").on("dp.change", function (e) {
+			$("#start").val(moment(e.date).format('HH:mm:00')).trigger("change");
+			$('#end-inline').data("DateTimePicker").minDate(e.date);
+		});
+
+
+		if ($("#end").val()){
+			dpOptions.defaultDate = moment($("#end").val(),'HH:mm:00');
+		}
+
+
+		$('#end-inline').datetimepicker(dpOptions);
+		$("#end-inline").on("dp.change", function (e) {
+			$("#end").val(moment(e.date).format('HH:mm:00')).trigger("change");
+			$('#start-inline').data("DateTimePicker").maxDate(e.date);
+		});
+
+		if ($("#start").val()){
+			$('#end-inline').data("DateTimePicker").minDate(moment($("#start").val(),'HH:mm:00'))
+		}
+		if ($("#end").val()){
+			$('#start-inline').data("DateTimePicker").maxDate(moment($("#end").val(),'HH:mm:00'))
+		}
+
+
+		getTimeslotFormRepeats();
+
+
+
+
+
+	}, "form-data")
+
+};
+
+function getTimeslotFormRepeats(){
+	var repeatVal = $("#form-timeslot-capture input[name='repeat_mode']:checked").val();
+	$("#form-timeslot-capture input[name='repeat_mode']").closest(".btn").removeClass("btn-info").addClass("btn-default");
+
+	$("#form-timeslot-capture input[name='repeat_mode']:checked").closest(".btn").removeClass("btn-default").addClass("btn-info");
+
+
+
+	//console.log($("#form-timeslot-capture input[name='repeat']:checked"))
+	//$("#form-timeslot-capture #repeat-"+repeatVal).trigger("click");
+
+	var dpOptions = datetimepickerOptions;
+
+	$("#form-timeslot-capture .repeat-forms").hide();
+	$("#form-timeslot-capture #repeat-form-"+repeatVal).show();
+
+	dpOptions.format = "YYYY-MM-DD";
+	dpOptions.useCurrent = true;
+
+
+	if ($("#repeat_data_0").val()){
+		dpOptions.defaultDate = moment($("#repeat_data").val()).format('YYYY-MM-DD');
+	}
+
+
+	$('#repeat_onceoff-inline').datetimepicker(dpOptions);
+	$("#repeat_onceoff-inline").on("dp.change", function (e) {
+		$("#repeat_data_0").val(moment(e.date).format('YYYY-MM-DD'));
+	}).trigger("dp.change");
+
+
+
+	$("#repeat-weekly-buttons label.active").removeClass("active");
+
+
+	repeat_checkboxes($("#repeat-weekly-buttons"),$("#repeat_data_2"));
+
+	$("#repeat-weekly-buttons input").on("change",function(){
+
+		repeat_checkboxes($("#repeat-weekly-buttons"),$("#repeat_data_2"));
+	})
+
+
+	repeat_checkboxes($("#repeat-monthly-buttons"),$("#repeat_data_3"));
+	$("#repeat-monthly-buttons input").on("change",function(){
+		repeat_checkboxes($("#repeat-monthly-buttons"),$("#repeat_data_3"));
+	})
+
+
+}
+function repeat_checkboxes($area,$updatefield){
+	$("label.active",$area).removeClass("active");
+	var value = [];
+	$("input",$area).each(function(){
+		var $this = $(this);
+		var $label = $this.closest("label");
+
+		if ($this.is(":checked")){
+			$label.addClass("active");
+			value.push($this.val());
+		}
+
+	});
+
+	saveVal = value.join(",");
+
+if ($updatefield){
+	$updatefield.val(saveVal);
+}
+
+
+
+
+}
+
+
 function offcanvas(){
 	$(".offcanvas").each(function(){
 		var $this = $(this);

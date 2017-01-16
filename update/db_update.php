@@ -35,10 +35,18 @@ $sql = array(
 	"UPDATE `services` SET `companyID`=1;",
 	"UPDATE `appointments` SET `companyID`=1;",
 	"UPDATE `staff` SET `companyID`=1;",
-	"UPDATE `clients` SET `companyID`=1"
+	"UPDATE `clients` SET `companyID`=1",
+
+	"CREATE TABLE `timeslots` (  `ID` int(6) NOT NULL,  `companyID` int(6) DEFAULT NULL,  `label` varchar(200) DEFAULT NULL,  `start` datetime DEFAULT NULL,  `end` datetime DEFAULT NULL);",
+
+	"ALTER TABLE `timeslots` ADD `repeat_mode` TINYINT(1) NULL DEFAULT '0' AFTER `end`;",
+	"ALTER TABLE `timeslots` CHANGE `start` `start` TIME NULL DEFAULT NULL;",
+	"ALTER TABLE `timeslots` CHANGE `end` `end` TIME NULL DEFAULT NULL;",
 
 
+	"ALTER TABLE `timeslots` ADD `repeat_value` TEXT NULL DEFAULT NULL AFTER `repeat_mode`;",
 
+	"ALTER TABLE `timeslots` CHANGE `repeat_value` `data` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL;"
 
 
 );

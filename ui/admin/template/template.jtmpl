@@ -277,16 +277,14 @@
 									</textarea>
 
 
-
 			</div>
 		</div>
 
 
-
-
 		<div class="modal-footer" style="margin:-10px;">
 			<% if(this.details.ID){ %>
-			<button type="button" class="btn btn-danger pull-left" id="btn-delete-record"><i class="fa fa-trash"></i></button>
+			<button type="button" class="btn btn-danger pull-left" id="btn-delete-record"><i class="fa fa-trash"></i>
+			</button>
 			<% } %>
 
 
@@ -397,9 +395,7 @@
 							</label>
 
 
-
-								<input class="form-control" placeholder="072 123 4567" type="text" name="mobile_number" id="mobile_number" style="" value="<%= this.details.mobile_number||'' %>">
-
+							<input class="form-control" placeholder="072 123 4567" type="text" name="mobile_number" id="mobile_number" style="" value="<%= this.details.mobile_number||'' %>">
 
 
 						</div>
@@ -411,7 +407,7 @@
 							</label>
 
 
-								<input class="form-control" placeholder="mail@example.com" type="text" name="email" id="email" value="<%= this.details.email||'' %>">
+							<input class="form-control" placeholder="mail@example.com" type="text" name="email" id="email" value="<%= this.details.email||'' %>">
 
 
 						</div>
@@ -435,7 +431,6 @@
 									<textarea name="notes" id="notes" cols="30" rows="5" class="form-control" placeholder="Client Notes. Only visible to staff">
 										<%= this.details.notes||'' %>
 									</textarea>
-
 
 
 			</div>
@@ -569,7 +564,9 @@
 
 				<div class="modal-title">
 					<%= this.label.main %>
-					<small <% if(!this.agenda.settings.active){ %>style="margin-left:30px;" class="label label-danger" title="Closed"<% } else { %>style="margin-left:30px;"<% } %>><%= this.label.small %></small>
+					<small
+					<% if(!this.agenda.settings.active){ %>style="margin-left:30px;" class="label label-danger"
+					title="Closed"<% } else { %>style="margin-left:30px;"<% } %>><%= this.label.small %></small>
 				</div>
 
 
@@ -597,7 +594,7 @@
 						<div class="agenda-items">
 							<% for(var i in this.agenda.items){ %>
 							<div class="agenda-item <% if(this.agenda.items[i].ID == this.ID) { %>current<% } %>" style="left:<%= this.agenda.items[i].agenda.l %>%;right:<%= this.agenda.items[i].agenda.r %>%;">
-								<div class="item-label appointment-row"  title="<strong><%= this.agenda.items[i].client.first_name||'Walk-In' %> <%= this.agenda.items[i].client.last_name||'' %></strong><br><%= this.agenda.items[i].time.start_view %> - <%= this.agenda.items[i].time.end_view %>" data-id="<%= this.agenda.items[i].ID %>" data-toggle="tooltip" data-placement="bottom" data-content="<%= this.agenda.items[i].client.first_name||'Walk-In' %> <%= this.agenda.items[i].client.last_name||'' %>" data-html="true" data-trigger="hover" data-container="#details-appointment">
+								<div class="item-label appointment-row" title="<strong><%= this.agenda.items[i].client.first_name||'Walk-In' %> <%= this.agenda.items[i].client.last_name||'' %></strong><br><%= this.agenda.items[i].time.start_view %> - <%= this.agenda.items[i].time.end_view %>" data-id="<%= this.agenda.items[i].ID %>" data-toggle="tooltip" data-placement="bottom" data-content="<%= this.agenda.items[i].client.first_name||'Walk-In' %> <%= this.agenda.items[i].client.last_name||'' %>" data-html="true" data-trigger="hover" data-container="#details-appointment">
 
 
 								</div>
@@ -633,7 +630,8 @@
 							<% } %>
 
 							<% if (this.notes){ %>
-							<label style="margin-bottom:-10px; font-size:10px; margin-top:30px;">Appointment Note:</label>
+							<label style="margin-bottom:-10px; font-size:10px; margin-top:30px;">Appointment
+								Note:</label>
 							<div class="alert alert-info">
 								<p><%= this.notes %></p>
 							</div>
@@ -704,42 +702,42 @@
 
 				</div>
 				<div class="collapse" id="logs-area">
-				<div class="row">
-					<div class="col-sm-12">
-						<div style="padding:0 5px;">
-							<label style="margin-bottom:-10px; font-size:10px;">Logs:</label>
+					<div class="row">
+						<div class="col-sm-12">
+							<div style="padding:0 5px;">
+								<label style="margin-bottom:-10px; font-size:10px;">Logs:</label>
 
-							<table class="table table-condensed" style="font-size: 10px;">
-								<% for (var i in this.logs){ %>
-								<tr role="button" data-toggle="collapse" data-target="[data-logid='log-records-<%= i %>']" aria-expanded="false" aria-controls="log-records-<%= i %>">
-									<td style="width:40px">
-										<% if (this.logs[i].type=="notification"){ %>
+								<table class="table table-condensed" style="font-size: 10px;">
+									<% for (var i in this.logs){ %>
+									<tr role="button" data-toggle="collapse" data-target="[data-logid='log-records-<%= i %>']" aria-expanded="false" aria-controls="log-records-<%= i %>">
+										<td style="width:40px">
+											<% if (this.logs[i].type=="notification"){ %>
 											<% if (this.logs[i].status=='1'){ %>
-												<i class="fa fa-bell"></i>
+											<i class="fa fa-bell"></i>
 											<% } else { %>
-												<i class="fa fa-bell-slash-o"></i>
+											<i class="fa fa-bell-slash-o"></i>
 											<% } %>
 
-										<% } %>
+											<% } %>
 
-									</td>
-									<td style="width:130px;"><%= this.logs[i].datein %></td>
-									<td><%= this.logs[i].label %></td>
-								</tr>
-								<% for (var g in this.logs[i].records){ %>
-								<tr class="collapse" data-logid='log-records-<%= i %>' style="color:#9f9f9f;">
-									<td></td>
-									<td class="text-right"><%= this.logs[i].records[g].label %></td>
-									<td><%= this.logs[i].records[g].value %></td>
-								</tr>
-								<% } %>
-								<% } %>
-							</table>
+										</td>
+										<td style="width:130px;"><%= this.logs[i].datein %></td>
+										<td><%= this.logs[i].label %></td>
+									</tr>
+									<% for (var g in this.logs[i].records){ %>
+									<tr class="collapse" data-logid='log-records-<%= i %>' style="color:#9f9f9f;">
+										<td></td>
+										<td class="text-right"><%= this.logs[i].records[g].label %></td>
+										<td><%= this.logs[i].records[g].value %></td>
+									</tr>
+									<% } %>
+									<% } %>
+								</table>
 
+							</div>
 						</div>
-					</div>
 
-				</div>
+					</div>
 				</div>
 
 
@@ -773,5 +771,211 @@
 	</div>
 
 
+	]]>
+</script>
+
+
+<script type="text/x-jqote-template" id="template-modal-form-timeslots">
+	<![CDATA[
+
+	<form action="#" id="form-timeslot-capture">
+		<div class="modal-dialog" role="document" id="form-timeslot">
+			<div class="modal-content">
+				<div class="modal-header">
+
+
+					<div class="btn-group pull-right" style="margin-right:-20px;">
+
+						<a class="btn btn-default" href="#" data-dismiss="modal" aria-label="Close">
+							<i class="fa fa-close "></i>
+						</a>
+
+
+					</div>
+
+					<h4 class="modal-title"><% if(this.details.ID){ %>Edit <% } else { %>Add <% } %>
+						<small> - Timeslot</small>
+					</h4>
+				</div>
+				<div class="modal-body" style="padding:0 10px 10px 10px;">
+
+					<div class="panel blue">
+						<div class="panel-heading ">Timeslot Label</div>
+						<div class="panel-body no-border">
+							<div class="form-group has-feedback">
+								<input type="text" name="label" class="form-control" id="label" placeholder="Timeslot Label" value="<%= this.details.label %>">
+							</div>
+						</div>
+					</div>
+					<div class="panel blue">
+						<div class="panel-heading ">Timeslot</div>
+						<div class="panel-body no-border">
+							<div class="row time-row text-center">
+								<div class="col-xs-5">
+									<input type="hidden" class="form-control time-input time-start" id="start" name="start" value="<%= this.details.start||'' %>" placeholder="Start">
+									<div id="start-inline" class="time-picker"></div>
+								</div>
+								<div class="col-xs-2">
+									<div style="height:200px; line-height: 200px; text-align: center;">to</div>
+								</div>
+								<div class="col-xs-5">
+									<input type="hidden" class="form-control time-input time-end" id="end" name="end" value="<%= this.details.end||'' %>" placeholder="End">
+									<div id="end-inline"  class="time-picker"></div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="panel blue" style="margin-bottom:0;">
+						<div class="panel-heading ">Repeating</div>
+						<div class="panel-body no-border">
+
+
+							<div class="btn-group btn-group-justified" data-toggle="buttons">
+								<label class="btn btn-default">
+									<input type="radio" name="repeat_mode" id="repeat_mode-0" autocomplete="off" value="0" <%
+									if(this.details.repeat_mode=='0'||this.details.repeat_mode==''){ %>checked="checked"<% } %> >
+									Once Off
+								</label>
+								<label class="btn btn-default <% if(this.details.repeat_mode=='1'){ %>active<% } %>">
+									<input type="radio" name="repeat_mode" id="repeat_mode-1" autocomplete="off" value="1" <%
+									if(this.details.repeat_mode=='1'){ %>checked="checked"<% } %> >
+									Daily
+								</label>
+								<label class="btn btn-default <% if(this.details.repeat_mode=='2'){ %>active<% } %>">
+									<input type="radio" name="repeat_mode" id="repeat_mode-2" autocomplete="off" value="2" <%
+									if(this.details.repeat_mode=='2'){ %>checked="checked"<% } %> >
+									Weekly
+								</label>
+								<label class="btn btn-default <% if(this.details.repeat_mode=='3'){ %>active<% } %>">
+									<input type="radio" name="repeat_mode" id="repeat_mode-3" autocomplete="off" value="3" <%
+									if(this.details.repeat_mode=='3'){ %>checked="checked"<% } %> >
+									Monthly
+								</label>
+
+
+							</div>
+						</div>
+					</div>
+
+					<input type="hidden" value="<%= this.details.data.onceoff||'' %>" name="repeat_data_0" id="repeat_data_0">
+					<input type="hidden" value="<%= this.details.data.daily||'' %>" name="repeat_data_1" id="repeat_data_1">
+					<input type="hidden" value="<%= this.details.data.weekly||'' %>" name="repeat_data_2" id="repeat_data_2">
+					<input type="hidden" value="<%= this.details.data.monthly||'' %>" name="repeat_data_3" id="repeat_data_3">
+					<div class="panel repeat-forms" id="repeat-form-0">
+						<div class="panel-body no-border">
+
+						<div id="repeat_onceoff-inline">
+
+						</div>
+
+
+
+
+						</div>
+					</div>
+
+					<div class="panel repeat-forms" id="repeat-form-1">
+						<div class="panel-body no-border">
+
+
+						</div>
+					</div>
+					<div class="panel repeat-forms" id="repeat-form-2">
+						<div class="panel-body no-border" >
+
+							<div class="view-table">
+							<div class="view-row" id="repeat-weekly-buttons">
+
+							{% set weekdays = ['Sunday','Monday',"Tuesday",'Wednesday',"Thursday",'Friday','Saturday'] %}
+							{% for d in weekdays %}
+								<div class="view-cell">
+								<label>
+									{{ d|slice(0,3) }}
+
+									<input type="checkbox" name="repeat_weekly[]" id="repeat_weekly-{{ d|slice(0,3) }}" value="{{ d|lower }}"  <% if(this.details.data.weekly && this.details.data.weekly.split(",").indexOf("{{ d|lower }}")!=-1){ %>checked='checked'<% } %>>
+
+								</label>
+
+								</div>
+							{% endfor %}
+							</div>
+							</div>
+							<div class="clearfix"></div>
+
+
+						</div>
+					</div>
+					<div class="panel repeat-forms" id="repeat-form-3">
+						<div class="panel-body no-border" id="repeat-monthly-buttons">
+
+
+							<div class="view-table">
+								<div class="view-row" >
+									{% for d in 1..11 %}
+										<div class="view-cell">
+											<label>
+												{{ d }}
+
+												<input type="checkbox" name="repeat_monthly[]" id="repeat_monthly-{{ d }}" value="{{ d }}" <% if(this.details.data.monthly && this.details.data.monthly.split(",").indexOf("{{ d }}")!=-1){ %>checked='checked'<% } %>>
+
+											</label>
+
+										</div>
+									{% endfor %}
+								</div>
+
+								<div class="view-row" >
+									{% for d in 12..22 %}
+										<div class="view-cell">
+											<label>
+												{{ d }}
+
+												<input type="checkbox" name="repeat_monthly[]" id="repeat_monthly-{{ d }}" value="{{ d }}" <% if(this.details.data.monthly && this.details.data.monthly.split(",").indexOf("{{ d }}")!=-1){ %>checked='checked'<% } %>>
+
+											</label>
+
+										</div>
+									{% endfor %}
+								</div>
+								<div class="view-row" >
+									{% for d in 23..33 %}
+										<div class="view-cell">
+											{% if d <= 31 %}
+											<label>
+												{{ d }}
+
+												<input type="checkbox" name="repeat_monthly[]" id="repeat_monthly-{{ d }}" value="{{ d }}" <% if(this.details.data.monthly && this.details.data.monthly.split(",").indexOf("{{ d }}")!=-1){ %>checked='checked'<% } %>>
+
+											</label>
+											{% endif %}
+
+										</div>
+									{% endfor %}
+								</div>
+							</div>
+
+
+
+
+						</div>
+					</div>
+
+
+
+
+
+					<div class="modal-footer" style="margin:-10px;">
+						<button type="reset" class="btn btn-link">Cancel</button>
+						<button type="submit" class="btn btn-primary">Save changes</button>
+					</div>
+
+
+				</div>
+
+			</div><!-- /.modal-content -->
+		</div><!-- /.modal-dialog -->
+
+
+	</form>
 	]]>
 </script>

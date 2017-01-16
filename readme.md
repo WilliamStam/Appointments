@@ -1,13 +1,15 @@
 #TODO
 
 ##Reserved Timeslots
-- [ ] Reserved timeslot form on dashboard (+ button)
-  - [ ] Once off
-  - [ ] Daily at this time
+- [x] Reserved timeslot form on dashboard (+ button)
+  - [x] Once off
+  - [x] Daily
+  - [x] Weekly
+  - [x] Monthly
 - [ ] Agenda views to include reserved timeslots
-- [ ] Show reserved timeslots in the list
+- [x] Show reserved timeslots in the list
 - [ ] Show reserved timeslots in the day view
-- [ ] Reserved timeslots are click-able to bring up the form to edit them
+- [x] Reserved timeslots are click-able to bring up the form to edit them
 
 ##Appointment Actions *(on details pane)*
 
@@ -66,13 +68,15 @@
     
 ##Capture form Admin side
 - [ ] Show timeslots used
-- [ ] Warn user if timeslots clash
+- [ ] Warn user if timeslots clash - appointments
+- [ ] Warn user if timeslots clash - reserved timeslots
 - [ ] Warn user if timeslot goes out of "open hours"
 - [ ] Capture who created/edited/deleted the record (log etc)    
 
 ##Capture form Front side
 - [ ] Capture who created/edited/deleted the record, IP etc
 - [ ] Allow editing / canceling of records (subject to admin confirming the action)
+- [ ] Times to include reserved timeslots
 
 ##Client History
 - [ ] Show a client history under "clients"
@@ -113,7 +117,7 @@
    
    
  ###Form
- - [ ] Unique url for each companies form
+ - [x] Unique url for each companies form
  - [ ] Use template for front end form (from admin)
  
  

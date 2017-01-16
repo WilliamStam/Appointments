@@ -26,9 +26,7 @@
 					<div class="col-sm-4">
 						<div class="btn-group btn-group-justified" data-toggle="buttons">
 							<label class="btn btn-default <% if (this.settings.list_view=='day' || this.settings.list_view==''){ %>active<% } %>">
-								<input type="radio" name="filter" id="filter-day" autocomplete="off" value="day" <% if
-								(this.settings.list_view=='day' || this.settings.list_view==''){ %>checked="checked"<% }
-								%>>
+								<input type="radio" name="filter" id="filter-day" autocomplete="off" value="day" <% if (this.settings.list_view=='day' || this.settings.list_view==''){ %>checked="checked"<% } %>>
 								Day
 							</label>
 							<label class="btn btn-default  <% if (this.settings.list_view=='week'){ %>active<% } %>">
@@ -41,6 +39,7 @@
 								(this.settings.list_view=='month'){ %>checked="checked"<% } %>>
 								Month
 							</label>
+
 						</div>
 					</div>
 					<div class="col-sm-5">
@@ -153,7 +152,10 @@
 					<div class="col-sm-4">
 						<h3 class="text-center" style="margin:0; padding:5px 10px 0 0;">
 							<%= this.list.items.length %> Records
-							<small style="margin-left:40px;"><%= this.list.closed_hours.start_view %> - <%= this.list.closed_hours.end_view %></small></h3>
+							<small style="margin-left:40px;"><%= this.list.closed_hours.start_view %> - <%=
+								this.list.closed_hours.end_view %>
+							</small>
+						</h3>
 
 
 					</div>
@@ -168,7 +170,7 @@
 			</div>
 		</div>
 
-		<div id="agenda-wrapper" >
+		<div id="agenda-wrapper">
 			<section id="agenda-view-area">
 				<div class="closed-items">
 					<div class="closed-item" style="top:0; bottom:<%= this.list.closed_hours.morning_till %>%">
@@ -180,8 +182,10 @@
 					<div class="agenda-item <% if(this.list.items[i].active==1){ %>current<% } %>" style="top:<%= this.list.items[i].agenda.top %>%;bottom:<%= this.list.items[i].agenda.bottom %>%">
 						<div class="item-label appointment-row" data-id="<%= this.list.items[i].ID %>">
 							<div class="item-label-inner">
-								<strong><%= this.list.items[i].client.first_name||'Walk-In' %> <%= this.list.items[i].client.last_name||'' %></strong>
-							&nbsp; <%= this.list.items[i].time.start_view_short %> to <%= this.list.items[i].time.end_view_short %>
+								<strong><%= this.list.items[i].client.first_name||'Walk-In' %> <%=
+									this.list.items[i].client.last_name||'' %></strong>
+								&nbsp; <%= this.list.items[i].time.start_view_short %> to <%=
+								this.list.items[i].time.end_view_short %>
 							</div>
 
 						</div>
@@ -192,19 +196,19 @@
 
 				<div id="agenda-view-table">
 					<% for (var i in this.list.table){ %>
-						<div class="tr">
-							<div class="th">
-								<div class="item-label-inner">
-									<%= this.list.table[i] %>
-								</div>
-
+					<div class="tr">
+						<div class="th">
+							<div class="item-label-inner">
+								<%= this.list.table[i] %>
 							</div>
-							<div class="td hour-0"></div>
-							<div class="td hour-15"></div>
-							<div class="td hour-30"></div>
-							<div class="td hour-45"></div>
 
 						</div>
+						<div class="td hour-0"></div>
+						<div class="td hour-15"></div>
+						<div class="td hour-30"></div>
+						<div class="td hour-45"></div>
+
+					</div>
 
 					<% } %>
 				</div>
@@ -218,12 +222,8 @@
 				<% } %>
 
 
-
-
 			</section>
 		</div>
-
-
 
 
 	</section>
@@ -274,6 +274,91 @@
 
 		</div>
 
+
+	</section>
+
+
+	]]>
+</script>
+<script type="text/x-jqote-template" id="template-view-timeslots">
+	<![CDATA[
+
+	<section id="view-list-area">
+		<div class="panel" id="filter-bar">
+
+			<div class="panel-body" style="padding:5px;">
+
+				<div class="row" style="margin:0;">
+					<div class="col-sm-3 text-center">
+						<div class="btn-group btn-group-justified">
+
+						</div>
+					</div>
+					<div class="col-sm-4">
+
+					</div>
+					<div class="col-sm-5">
+						<h3 class="text-right" style="margin:0; padding:5px 10px 0 0;"><%= this.settings.label %></h3>
+					</div>
+
+
+				</div>
+
+
+			</div>
+		</div>
+
+		<div id="list">
+			<% for (var i in this.list){ %>
+			<div class="panel">
+
+				<div class="panel-heading built">
+					<%= this.list[i].label %>
+				</div>
+
+				<div class="panel-body">
+
+
+					<% for (var g in this.list[i].records){ %>
+
+					<div class="row record-row timeslot-row" data-id="<%= this.list[i].records[g].ID %>">
+						<div class="col-xs-12 col-sm-6">
+							<%= this.list[i].records[g].label %>
+
+						</div>
+						<div class="col-sm-1">
+							<%= this.list[i].records[g].start %>
+						</div>
+						<div class="col-sm-1">
+							<%= this.list[i].records[g].end %>
+						</div>
+						<div class="col-sm-4">
+							<%= this.list[i].records[g].repeat_data %>
+						</div>
+
+
+
+					</div>
+
+					<% } %>
+
+
+				</div>
+				<div class="panel-footer">
+
+
+					<div class="row text-center">
+						<div class="col-xs-6"><strong><%= this.list[i].records.length %></strong> <em>Timeslots</em>
+						</div>
+					</div>
+				</div>
+			</div>
+			<% } %>
+			<% if (!this.list.length){ %>
+			<div class="no-records">No Records Found</div>
+			<% } %>
+
+		</div>
 
 
 	</section>

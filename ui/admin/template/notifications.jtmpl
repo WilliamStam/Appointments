@@ -151,33 +151,19 @@
 					</p>
 				</div>
 				<% } %>
-
-
 			</div>
-
-
 		</div>
 
 		<div class="col-sm-6">
-
-
-
 			<div class="panel blue">
 				<div class="panel-heading built">From email address (the system)</div>
-
-
 				<div class="panel-body form-horizontal">
-
 					<div class="form-group">
 						<div class="col-sm-12">
 							<input type="text" name="email_from" class="form-control" id="email_from" placeholder="Email From" value="<% if(this.settings.email_from){ %><%= this.settings.email_from %><% } %>">
 						</div>
 					</div>
-
-
 				</div>
-
-
 			</div>
 			<div class="panel blue">
 				<div class="panel-heading built">SMTP Settings (optional)</div>

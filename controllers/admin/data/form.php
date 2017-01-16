@@ -31,6 +31,23 @@ class form extends _ {
 
 		return $GLOBALS["output"]['data'] = $return;
 	}
+	function timeslot() {
+		$return = array();
+		$ID = isset($_GET['ID']) ? $_GET['ID'] : "";
+
+		$return['details'] = models\timeslots::getInstance()->get($ID, array("format" => false));
+
+
+		if (isset($return['details']['data'])) {
+			$return['details']['data'] = (array) json_decode($return['details']['data'],true);
+		}
+
+
+
+
+
+		return $GLOBALS["output"]['data'] = $return;
+	}
 	function clients() {
 		$return = array();
 		$ID = isset($_GET['ID']) ? $_GET['ID'] : "";
