@@ -155,7 +155,7 @@ $f3->set('session', $SID);
 
 $f3->route('GET|POST /', 'controllers\front\home->page');
 $f3->route('GET|POST /@companyID', 'controllers\front\form->page');
-$f3->route('GET|POST /form/@companyID', 'controllers\front\form->page');
+$f3->route('GET|POST /@companyID/form', 'controllers\front\form->page');
 $f3->route('GET|POST /login', 'controllers\front\login->page');
 
 $f3->route('GET|POST /admin', 'controllers\admin\home->page');
