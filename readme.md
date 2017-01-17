@@ -77,6 +77,7 @@
 - [ ] Capture who created/edited/deleted the record, IP etc
 - [ ] Allow editing / canceling of records (subject to admin confirming the action)
 - [x] Times to include reserved timeslots
+- [ ] check available times every step of the way. dont allow double bookings
 
 ##Client History
 - [ ] Show a client history under "clients"
