@@ -91,6 +91,7 @@
 - [ ] Agenda lines (details pane, dashboard, agenda view) need to change colours for confirmed / unconfirmed
 - [ ] SMS page for buying credits etc
 - [ ] Notification when credits are running low
+- [ ] custom 404 page
 
  
 ---
