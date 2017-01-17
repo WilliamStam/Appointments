@@ -28,7 +28,11 @@ class form extends _ {
 		}
 		$values["services"] = $services;
 		$values["from"] = "front";
+		$values["companyID"] = isset($_POST['companyID'])?$_POST['companyID']:"";
 
+		if ($values["companyID"]==""){
+			$this->errors['company'] = "Company needed";
+		}
 
 
 		//$this->errors['error'] = true;

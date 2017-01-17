@@ -2,7 +2,7 @@
 namespace models;
 use \timer as timer;
 
-class clients extends _ {
+class timeslots extends _ {
 	/**
 	 *
 	 * OPTIONS
@@ -29,19 +29,21 @@ class clients extends _ {
 
 	function get($ID,$options=array()) {
 		$timer = new timer();
-		$where = "(clients.ID = '$ID' OR MD5(clients.ID) = '$ID')";
+		$where = "(timeslots.ID = '$ID' OR MD5(timeslots.ID) = '$ID')";
 		
 		
 		$result = $this->getData($where,"","0,1",$options);
-		
+
+		//test_array($options);
 
 		if (count($result)) {
 			$return = $result[0];
 			
 		} else {
-			$return = parent::dbStructure("clients");
+			$return = parent::dbStructure("timeslots");
 		}
 		
+
 		if ($options['format']){
 			$return = $this->format($return,$options);
 		}
@@ -83,16 +85,17 @@ class clients extends _ {
 		
 
 
-
-		$result = $f3->get("DB")->exec("
-			 SELECT DISTINCT clients.*
-			FROM clients
+		$sql = "
+			 SELECT DISTINCT timeslots.*
+			FROM timeslots
 			$where
-			GROUP BY ID
+			GROUP BY timeslots.ID
 			$orderby
 			$limit;
-		", $args, $ttl
-		);
+		";
+
+		//test_array($sql);
+		$result = $f3->get("DB")->exec($sql, $args, $ttl);
 
 		$return = $result;
 		$timer->_stop(__NAMESPACE__, __CLASS__, __FUNCTION__, func_get_args());
@@ -106,14 +109,16 @@ class clients extends _ {
 		$f3 = \Base::instance();
 		$return = array();
 
-		
+		//test_array($values);
 
 		if (isset($values['data']))$values['data'] = json_encode($values['data']);
 
 
-		$a = new \DB\SQL\Mapper($f3->get("DB"), "clients");
+		$a = new \DB\SQL\Mapper($f3->get("DB"), "timeslots");
 		$a->load("ID='$ID'");
 
+
+		$log = array();
 		foreach ($values as $key => $value) {
 			if (isset($a->$key)) {
 				$a->$key = $value;
@@ -122,7 +127,8 @@ class clients extends _ {
 
 		$a->save();
 		$ID = ($a->ID) ? $a->ID : $a->_id;
-		
+
+
 		
 		$timer->_stop(__NAMESPACE__, __CLASS__, __FUNCTION__, func_get_args());
 		return $ID;
@@ -136,7 +142,8 @@ class clients extends _ {
 		$user = $f3->get("user");
 
 
-		$a = new \DB\SQL\Mapper($f3->get("DB"),"clients");
+
+		$a = new \DB\SQL\Mapper($f3->get("DB"),"timeslots");
 		$a->load("ID='$ID'");
 
 		$a->erase();
@@ -144,11 +151,14 @@ class clients extends _ {
 		$a->save();
 
 
+
+
 		$timer->_stop(__NAMESPACE__, __CLASS__, __FUNCTION__, func_get_args());
 		return "done";
 
 	}
-	
+
+
 	
 	static function format($data,$options) {
 		$timer = new timer();
@@ -166,31 +176,47 @@ class clients extends _ {
 		$recordIDs = array();
 		
 		$i = 1;
-		$n = array();
+		$records = array();
 		foreach ($data as $item) {
 			$recordIDs[] = $item['ID'];
-			if (isset($item['data'])) $item['data'] = json_decode($item['data'],true);
+			if (isset($item['data'])) {
+				$item['data'] = (array) json_decode($item['data'],true);
+			} else {
+				$item['data'] = array();
+			}
+
+			$item['repeat_data'] = "";
+			switch($item['repeat_mode']){
+				case "0":
+					$item['repeat_data'] = $item['data']['onceoff'];
+					break;
+				case "1":
+					$item['repeat_data'] = $item['data']['daily'];
+					break;
+				case "2":
+					$item['repeat_data'] = $item['data']['weekly'];
+					break;
+				case "3":
+					$item['repeat_data'] = $item['data']['monthly'];
+					break;
+
+			}
+
+			$item['start'] = substr($item['start'],0,5);
+			$item['end'] = substr($item['end'],0,5);
 
 
 
 
-			$n[] = $item;
+			$records[] = $item;
 		}
-		
 
 		
 		
-		//test_array($options); 
+		if ($single) $records = $records[0];
 		
 		
-		
-		
-		
-		if ($single) $n = $n[0];
-		
-		
-		$records = $n;
-		
+
 		
 		
 		//test_array($records);
@@ -199,8 +225,6 @@ class clients extends _ {
 		$timer->_stop(__NAMESPACE__, __CLASS__, __FUNCTION__, func_get_args());
 		return $records;
 	}
-	
-	
-	
+
 	
 }

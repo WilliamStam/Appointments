@@ -31,6 +31,23 @@ class form extends _ {
 
 		return $GLOBALS["output"]['data'] = $return;
 	}
+	function timeslot() {
+		$return = array();
+		$ID = isset($_GET['ID']) ? $_GET['ID'] : "";
+
+		$return['details'] = models\timeslots::getInstance()->get($ID, array("format" => false));
+
+
+		if (isset($return['details']['data'])) {
+			$return['details']['data'] = (array) json_decode($return['details']['data'],true);
+		}
+
+
+
+
+
+		return $GLOBALS["output"]['data'] = $return;
+	}
 	function clients() {
 		$return = array();
 		$ID = isset($_GET['ID']) ? $_GET['ID'] : "";
@@ -49,10 +66,12 @@ class form extends _ {
 
 
 		$return['list'] = array();
-		if ($search){
-			$return['list'] = models\clients::getInstance()->getAll("(first_name LIKE '%$search%' OR last_name LIKE '%$search%' OR mobile_number LIKE '%$search%' OR email LIKE '%$search%' )", "first_name ASC","", array("format" => true));
-		}
+		$where = "companyID = '{$this->user['company']['ID']}'";
 
+		if ($search){
+			$where = $where . " AND (first_name LIKE '%$search%' OR last_name LIKE '%$search%' OR mobile_number LIKE '%$search%' OR email LIKE '%$search%' )";
+		}
+		$return['list'] = models\clients::getInstance()->getAll($where, "first_name ASC","", array("format" => true));
 
 
 

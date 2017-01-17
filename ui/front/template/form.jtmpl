@@ -1,21 +1,19 @@
 <script type="text/x-jqote-template" id="template-form-number">
 	<![CDATA[
-<h1>Please enter your phone number</h1>
+<h1>{{ company['company'] }}</h1>
 	<div class="form-group">
-		<label for="mobile_number" class="col-sm-2 control-label">Number</label>
+		<label for="mobile_number" class="col-sm-2 control-label">Phone Number</label>
 		<div class="col-sm-10">
 			<input type="text" name="mobile_number" class="form-control" id="mobile_number" placeholder="Please enter your mobile number here" value="<%= this.post.mobile_number||'' %>">
+			<div class="help-text">We use your phone number as a unique ID</div>
 		</div>
 	</div>
 
-	<div class="alert alert-info">
-		<p>
-			We use your mobile number as your unique ID
-		</p>
-	</div>
+
 
 <div>
-	{{ _settings['client_form_branding']|raw() }}
+
+	{{ settings['client_form_branding']|raw() }}
 </div>
 
 
@@ -27,7 +25,7 @@
 	<h1>Select a service</h1>
 
 	<div id="services">
-	{% for row in _services %}
+	{% for row in services %}
 		<div class="panel grey panel-service">
 			{% if row['label'] %}
 			<div class="panel-heading">{{ row['label'] }}</div>
@@ -293,6 +291,7 @@
 	<input type="text" name="submit[client][mobile_number]" value="<%= this.submit.client.mobile_number %>" id="submit[client][mobile_number]">
 	<input type="text" name="submit[client][email]" value="<%= this.submit.client.email %>" id="submit[client][email]">
 	<input type="text" name="submit[services]" value="<%= this.submit.services %>" id="submit[services]">
+	<input type="text" name="companyID" value="{{ company['ID'] }}" id="companyID">
 
 	<% } %>
 

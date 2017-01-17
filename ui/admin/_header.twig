@@ -1,4 +1,6 @@
 <nav class="navbar navbar-default navbar-fixed-top" role="navigation" style="margin-bottom: 0" id="main-nav-bar" >
+	{% if _cfg['git']['branch']=="WIP" %}<div style="position: absolute; padding:5px; top:0; left:0; width:40px; color:red">WIP</div>{% endif %}
+
 	<div class="container">
 		<div class="navbar-header" id="navbar-header" >
 			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#menu-bar">
@@ -7,7 +9,7 @@
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
 			</button>
-			<a class="navbar-brand" href="/"><i class="fa fa-home"></i> Appointments</a>
+			<a class="navbar-brand" href="/"><i class="fa fa-home"></i> Appointed </a>
 		</div>
 		<!-- /.navbar-header -->
 		
@@ -51,10 +53,20 @@
 						<span class="hidden-sm">Clients</span>
 					</a>
 				</li>
-
-				<li class="visible-xs" ><a href="/admin/staff" {% if page.section =='staff' %}class="active"{% endif %}><i class="fa fa-user-circle "></i>
-						<span class="hidden-sm">Staff</span>	</a>
+				<li>
+					<a href="/admin/staff" {% if page.section =='staff' %}class="active"{% endif %}>
+						<i class="fa fa-user-circle"></i>
+						<span class="hidden-sm">Staff</span>
+					</a>
 				</li>
+
+
+				<li class="visible-xs mobile-menu-header">Companies</li>
+				{% for row in _user['companies'] %}
+					<li class="visible-xs {% if row['ID'] == _user['company']['ID'] %}active{% endif %}"><a href="?cID={{ row['ID'] }}"> - {{ row['company'] }}</a></li>
+				{% endfor %}
+
+				<li class="visible-xs mobile-menu-header">Settings</li>
 
 
 				<li class="visible-xs {% if page.sub_section =='settings' %}active{% endif %}"><a href="/admin/settings">
@@ -74,7 +86,7 @@
 				<li class="visible-xs" ><a href="/logout" style="padding-right:15px;" ><i class="fa fa-sign-out"></i><span class="visible-xs-inline"> Logout</span></a>
 				</li>
 
-				<li class="visible-xs sms-credit-block" ></li>
+
 
 				
 				
@@ -86,16 +98,22 @@
 			
 			
 			<ul class="nav navbar-nav navbar-right">
-				<li class="sms-credit-block">
 
+				{% if _user['companies']|length>1 %}
+					<li class="dropdown" id="company-dropdown">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{ _user['company']['company'] }} <span class="caret"></span></a>
+						<ul class="dropdown-menu">
+							{% for row in _user['companies'] %}
+								<li {% if row['ID'] == _user['company']['ID'] %}class="active"{% endif %}><a href="?cID={{ row['ID'] }}">{{ row['company'] }}</a></li>
+							{% endfor %}
+						</ul>
+					</li>
+				{% else %}
+				<li id="company-dropdown">
+					<p class="navbar-text">{{ _user['company']['company'] }}</p>
 				</li>
-				
-				<li>
-					<a href="/admin/staff" {% if page.section =='staff' %}class="active"{% endif %}><i class="fa fa-user-circle "></i>
-						<span class="hidden-sm">Staff</span>	</a>
-				
-				
-				</li>
+				{% endif %}
+
 
 
 				<li class="divider-vertical"></li>
@@ -111,6 +129,9 @@
 						<li {% if page.sub_section =='users' %}class="active"{% endif %}><a href="/admin/settings/users"> Users</a></li>
 						<li {% if page.sub_section =='notifications' %}class="active"{% endif %}><a href="/admin/settings/notifications"> Notifications</a></li>
 						<li {% if page.sub_section =='notification_templates' %}class="active"{% endif %}><a href="/admin/settings/notification_templates"> Notification Templates</a></li>
+						<li {% if page.sub_section =='sms' %}class="active"{% endif %}><a href="/admin/settings/sms"  class="sms-credit-block"> SMS credits</a></li>
+
+
 
 
 

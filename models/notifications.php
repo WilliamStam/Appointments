@@ -361,11 +361,17 @@ class notifications extends _ {
 			$this->settings['email_smtp_user'] = $this->settings['email_smtp_user'] ? $this->settings['email_smtp_user'] : "";
 			$this->settings['email_smtp_password'] = $this->settings['email_smtp_password'] ? $this->settings['email_smtp_password'] : "";
 
+		$headers = "MIME-Version: 1.0\r\n";
+		$headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
+
+
 
 			$smtp = new \SMTP ($this->settings['email_smtp_host'], $this->settings['email_smtp_port'], $this->settings['email_smtp_scheme'], $this->settings['email_smtp_user'], $this->settings['email_smtp_password']);
 			$smtp->set('To', $to);
 			$smtp->set('Subject', $subject);
 			$smtp->set('From', $this->settings['email_from']);
+			$smtp->set('MIME-Version', '1.0');
+			$smtp->set('Content-Type', 'text/html; charset=ISO-8859-1');
 			$result = $smtp->send($body);
 
 

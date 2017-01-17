@@ -1,0 +1,8 @@
+<p>Booking was changed for {{ data['appointment']['client']['first_name'] }} {{ data['appointment']['client']['last_name'] }}:</p>
+<ul>
+	{% for row in data['log'] %}
+		<li>{% if row['l'] %}{{ row['l'] }}{% else %} {{ row['k'] }} => {{ row['n'] }}{% endif %}</li>
+
+	{% endfor %}
+</ul>
+

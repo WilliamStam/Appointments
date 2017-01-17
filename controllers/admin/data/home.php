@@ -15,7 +15,7 @@ class home extends _ {
 
 		$currrentDate = date("Ymd", strtotime("today"));
 
-		$agenda_items = models\appointments::getInstance()->getAll("DATE_FORMAT(appointmentStart,'%Y%m%d') = '{$currrentDate}'", "appointmentStart ASC", "", array("format" => TRUE, "client" => TRUE, "services" => TRUE));
+		$agenda_items = models\appointments::getInstance()->getAll("appointments.companyID = '{$this->user['company']['ID']}' AND DATE_FORMAT(appointmentStart,'%Y%m%d') = '{$currrentDate}'", "appointmentStart ASC", "", array("format" => TRUE, "client" => TRUE, "services" => TRUE));
 		$n = array();
 		$return["stats"] = array("count" => count($agenda_items), "duration" => 0);
 		$active = array();
@@ -51,7 +51,7 @@ class home extends _ {
 		$return['active'] = $active;
 
 
-		$return["next"] = models\appointments::getInstance()->getAll("appointmentStart > now()", "appointmentStart ASC", "0,1", array("format" => TRUE, "client" => TRUE, "services" => TRUE));
+		$return["next"] = models\appointments::getInstance()->getAll("appointments.companyID = '{$this->user['company']['ID']}' AND appointmentStart > now()", "appointmentStart ASC", "0,1", array("format" => TRUE, "client" => TRUE, "services" => TRUE));
 
 
 		if (isset($return["next"][0])) {
@@ -83,7 +83,7 @@ class home extends _ {
 
 		$currrentDate = date("Ymd", strtotime($return['appointmentStart']));
 
-		$agenda_items = models\appointments::getInstance()->getAll("DATE_FORMAT(appointmentStart,'%Y%m%d') = '{$currrentDate}'", "appointmentStart ASC", "", array("format" => TRUE, "client" => TRUE, "services" => TRUE));
+		$agenda_items = models\appointments::getInstance()->getAll("appointments.companyID = '{$this->user['company']['ID']}' AND DATE_FORMAT(appointmentStart,'%Y%m%d') = '{$currrentDate}'", "appointmentStart ASC", "", array("format" => TRUE, "client" => TRUE, "services" => TRUE));
 
 
 		//	test_array($agenda_items);
@@ -111,7 +111,9 @@ class home extends _ {
 		$logs = models\logs::getInstance()->getAll("appointmentID='{$return['ID']}'", "datein DESC", "", array("format" => TRUE));
 		$notifications = models\notifications::getInstance()->getAll("appointmentID='{$return['ID']}'", "datein DESC", "", array("format" => TRUE));
 
-		$events = array("add_1" => "", "add_2" => " - Front End", "edi_1" => "", "edi_2" => " - Front End",);
+		$events = array(
+
+			);
 
 
 		$log_array = array();
@@ -176,6 +178,9 @@ class home extends _ {
 
 		$defaultSection = user::settings("home_list_section") ? user::settings("home_list_section") : "list";
 		$section = isset($_GET['section']) ? $_GET['section'] : $defaultSection;
+		$search = isset($_GET['search']) ? $_GET['search'] : "";
+
+
 
 		switch ($section) {
 			case "list":
@@ -190,6 +195,68 @@ class home extends _ {
 				$allowedViews = array("month");
 				$section_viewDefault = "month";
 				break;
+			case "timeslots":
+
+				user::settings("home_list_section", $section);
+
+
+				$return['settings'] = array(
+					"section" => $section,
+					"search" => $search,
+
+					"label" => "Active Reserved Timeslots",
+
+
+				);
+				$where = "companyID='{$this->user['company']['ID']}'";
+				if ($search){
+					$where = $where ." AND `label` LIKE '%$search%'";
+
+				}
+
+				$records = models\timeslots::getInstance()->getAll($where, "repeat_mode ASC, ID DESC", "", array("format" => TRUE));
+				$return['records'] = $records;
+
+				$repeat_mode_label = array(
+					"_0"=>"Once Off",
+					"_1"=>"Daily",
+					"_2"=>"Weekly",
+					"_3"=>"Monthly"
+				);
+
+				$r = array();
+
+				foreach ($records as $item){
+					if (!isset($r[$item['repeat_mode']])){
+						$r[$item['repeat_mode']] = array(
+							"label"=>$repeat_mode_label["_".$item['repeat_mode']],
+							"records"=>array(),
+						);
+					}
+					$r[$item['repeat_mode']]['records'][] = $item;
+
+				}
+				$records = array();
+				foreach ($r as $item){
+					$records[] = $item;
+
+				}
+
+				$return['list'] = $records;
+
+
+			//	test_array($r);
+
+
+				$return['head'] = $this->head;
+
+
+
+
+				return $GLOBALS["output"]['data'] = $return;
+
+
+				break;
 			default:
 				$allowedViews = array("day");
 				$section_viewDefault = "day";
@@ -203,6 +270,7 @@ class home extends _ {
 			$section_view = $section_viewDefault;
 		}
 
+		//test_array($defaultSection);
 
 		user::settings("home_list_section", $section);
 		user::settings("home_list_view", $section_view);
@@ -232,14 +300,14 @@ class home extends _ {
 		//test_array($array)
 
 
-		$search = isset($_GET['search']) ? $_GET['search'] : "";
+
 
 
 		$next = "";
 		$prev = "";
 		$label = "";
 		$current = "";
-		$where = "1";
+		$where = "appointments.companyID = '{$this->user['company']['ID']}' ";
 
 		if ($search) {
 
@@ -252,7 +320,7 @@ class home extends _ {
 			$where .= " AND ($fields_str) ";
 		}
 
-		//test_array($where);
+		//test_array($section_view);
 
 		$list_value = "";
 
@@ -324,24 +392,40 @@ class home extends _ {
 				break;
 
 
+
 		}
 
 
-		$return['settings'] = array("section" => $section, "search" => $search, "day_value" => $day_value, "week_value" => $week_value, "month_value" => $month_value, "list_view" => $section_view, "label" => $label, "nav" => array("current" => $list_value, "now" => $current, "next" => $next, "prev" => $prev,)
 
-		);
+			$return['settings'] = array(
+				"section" => $section,
+				"search" => $search,
+				"day_value" => $day_value,
+				"week_value" => $week_value,
+				"month_value" => $month_value,
+				"list_view" => $section_view,
+				"label" => $label,
+				"nav" => array(
+					"current" => $list_value,
+					"now" => $current,
+					"next" => $next,
+					"prev" => $prev,
+				)
+
+			);
 
 
-		$records = models\appointments::getInstance()->getAll($where, "appointmentStart", "", array("services" => TRUE, "client" => TRUE));
+			$records = models\appointments::getInstance()->getAll($where, "appointmentStart", "", array("services" => TRUE, "client" => TRUE));
+			$return = $this->view($return, $records, $section);
 
 
-		$return = $this->view($return, $records, $section);
+			//test_array($list);
 
 
-		//test_array($list);
+			$return['head'] = $this->head;
 
 
-		$return['head'] = $this->head;
+
 
 		return $GLOBALS["output"]['data'] = $return;
 	}
@@ -529,6 +613,132 @@ class home extends _ {
 
 
 		$return_view['items'] = $new_records;
+
+
+
+
+		$reserved_timeslots = array();
+
+
+		$reserved_data = \models\timeslots::getInstance()->getAll("companyID = '{$this->user['company']['ID']}'");
+
+		foreach ($reserved_data as $item){
+
+			$include_item = false;
+			switch ($item['repeat_mode']){
+				case "0":
+					$item['start_date'] = date("Y-m-d H:i:s",strtotime($item['data']['onceoff'] . " " . $item['start'].":00"));
+					$item['end_date'] = date("Y-m-d H:i:s",strtotime($item['data']['onceoff'] . " " . $item['end'].":00"));
+
+					if ($item['data']['onceoff'] == $currentDay){
+						$include_item = true;
+					}
+					break;
+				case "1":
+					$item['start_date'] = date("Y-m-d ".$item['start'].":00",strtotime($currentDay));
+					$item['end_date'] = date("Y-m-d ".$item['end'].":00",strtotime($currentDay));
+					$include_item = true;
+					break;
+
+				case "2":
+
+					$dow_numeric = date('w',strtotime($currentDay));
+
+					$dayoftheweek = strtolower(date('l', strtotime("Sunday +{$dow_numeric} days")));
+					$days = explode(",",$item['data']['weekly']);
+
+					$item['start_date'] = date("Y-m-d ".$item['start'].":00",strtotime($currentDay));
+					$item['end_date'] = date("Y-m-d ".$item['end'].":00",strtotime($currentDay));
+
+
+					$item['dow'] = $dayoftheweek;
+					if (count($days)){
+
+						if (in_array($dayoftheweek,$days)){
+							$include_item = true;
+						}
+
+
+					}
+
+
+
+
+					break;
+
+				case "3":
+					$item['start_date'] = date("Y-m-d ".$item['start'].":00",strtotime($currentDay));
+					$item['end_date'] = date("Y-m-d ".$item['end'].":00",strtotime($currentDay));
+					$daytoday = date("d",strtotime($currentDay));
+					$days = explode(",",$item['data']['monthly']);
+					if (count($days)){
+
+						if (in_array($daytoday,$days)){
+							$include_item = true;
+						}
+
+
+					}
+
+
+
+
+					break;
+
+
+			}
+
+
+
+			if ($include_item){
+
+				$item['time']['start_view_short'] = date("H:i",strtotime($item['start_date']));
+				$item['time']['end_view_short'] = date("H:i",strtotime($item['end_date']));
+
+				$s = strtotime($item['start_date']);
+				$e = strtotime($item['end_date']);
+				$day_ = $e - $s;
+
+
+
+
+				$l_ = $s - $day_s;
+				if ($l_<0){
+					$l = 0;
+				} else {
+					$l = ($l_ / $day)*100;
+				}
+
+
+				$r_ = $day_e - $e;
+				$r = ($r_ / $day)*100;
+
+
+
+
+
+
+
+
+				$item['agenda']['top'] = $l;
+				$item['agenda']['bottom'] = $r;
+
+
+				$reserved_timeslots[] = $item;
+			}
+		}
+
+
+
+
+
+
+
+
+
+		//test_array($reserved_data);
+		//test_array($reserved_timeslots);
+		$return_view['reserved'] = $reserved_timeslots;
 
 
 

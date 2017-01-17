@@ -18,7 +18,7 @@ class general extends _ {
 			$return['credits'] = models\_sms::getInstance()->checkCredits();
 		}
 
-
+		//$return['credits'] = 2345;
 
 		return $GLOBALS["output"]['data'] = $return;
 

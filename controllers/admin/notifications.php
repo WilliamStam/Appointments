@@ -56,6 +56,15 @@ class notifications extends _ {
 
 		}
 
+		if (!$this->settings['enable_email']){
+			$notificationTypes['not_2'] = false;
+			$notificationTypes['not_4'] = false;
+		}
+		if (!$this->settings['enable_sms']){
+			$notificationTypes['not_1'] = false;
+			$notificationTypes['not_3'] = false;
+		}
+
 		//test_array($notificationTypes);
 
 		

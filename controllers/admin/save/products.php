@@ -17,7 +17,7 @@ class products extends _ {
 		$values = array(
 				"label" => $this->post("label",true),
 				"price" => $this->post("label",true),
-
+			"companyID" => $this->user['company']['ID'],
 				
 		);
 	

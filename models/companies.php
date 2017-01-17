@@ -2,7 +2,7 @@
 namespace models;
 use \timer as timer;
 
-class clients extends _ {
+class companies extends _ {
 	/**
 	 *
 	 * OPTIONS
@@ -29,7 +29,7 @@ class clients extends _ {
 
 	function get($ID,$options=array()) {
 		$timer = new timer();
-		$where = "(clients.ID = '$ID' OR MD5(clients.ID) = '$ID')";
+		$where = "(ID = '$ID' OR MD5(ID) = '$ID') OR url = '$ID'";
 		
 		
 		$result = $this->getData($where,"","0,1",$options);
@@ -39,7 +39,7 @@ class clients extends _ {
 			$return = $result[0];
 			
 		} else {
-			$return = parent::dbStructure("clients");
+			$return = parent::dbStructure("companies");
 		}
 		
 		if ($options['format']){
@@ -85,8 +85,8 @@ class clients extends _ {
 
 
 		$result = $f3->get("DB")->exec("
-			 SELECT DISTINCT clients.*
-			FROM clients
+			 SELECT DISTINCT *
+			FROM companies 
 			$where
 			GROUP BY ID
 			$orderby
@@ -106,14 +106,23 @@ class clients extends _ {
 		$f3 = \Base::instance();
 		$return = array();
 
-		
+
+		//test_array($values);
 
 		if (isset($values['data']))$values['data'] = json_encode($values['data']);
 
 
-		$a = new \DB\SQL\Mapper($f3->get("DB"), "clients");
+		$a = new \DB\SQL\Mapper($f3->get("DB"), "companies");
 		$a->load("ID='$ID'");
 
+		if (isset($values['settings'])){
+			$current_settings = json_decode($a->settings,true);
+			$values['settings'] = json_encode(array_merge((array) $current_settings,$values['settings']));
+
+
+		}
+
+		//test_array($values);
 		foreach ($values as $key => $value) {
 			if (isset($a->$key)) {
 				$a->$key = $value;
@@ -122,13 +131,36 @@ class clients extends _ {
 
 		$a->save();
 		$ID = ($a->ID) ? $a->ID : $a->_id;
-		
-		
+
+
 		$timer->_stop(__NAMESPACE__, __CLASS__, __FUNCTION__, func_get_args());
 		return $ID;
 	}
 
-	
+	public static function _defaultSettings($key="") {
+		$timer = new timer();
+		$f3 = \Base::instance();
+		$return = array();
+
+
+		$return['daysAhead'] = 30;
+		$return['timeslots'] = 30;
+		$return['closed'] = array();
+		$return['email_from'] = 'no-reply@appointed.co.za';
+
+
+
+		if($key){
+			$return = $return[$key];
+		}
+
+		$timer->_stop(__NAMESPACE__, __CLASS__, __FUNCTION__, func_get_args());
+		return $return;
+	}
+
+
+
+
 
 	public static function _delete($ID) {
 		$timer = new timer();
@@ -136,7 +168,7 @@ class clients extends _ {
 		$user = $f3->get("user");
 
 
-		$a = new \DB\SQL\Mapper($f3->get("DB"),"clients");
+		$a = new \DB\SQL\Mapper($f3->get("DB"),"companies");
 		$a->load("ID='$ID'");
 
 		$a->erase();
@@ -170,7 +202,12 @@ class clients extends _ {
 		foreach ($data as $item) {
 			$recordIDs[] = $item['ID'];
 			if (isset($item['data'])) $item['data'] = json_decode($item['data'],true);
+			if (isset($item['settings'])||$item['settings']===null) {
+				$settings = json_decode($item['settings'],true);
+				$settings = array_merge(self::_defaultSettings(), (array) $settings);
+				$item['settings'] = $settings;
 
+			}
 
 
 
@@ -180,7 +217,7 @@ class clients extends _ {
 
 		
 		
-		//test_array($options); 
+	//	test_array($n);
 		
 		
 		
@@ -193,7 +230,7 @@ class clients extends _ {
 		
 		
 		
-		//test_array($records);
+	//	test_array($records);
 		
 		
 		$timer->_stop(__NAMESPACE__, __CLASS__, __FUNCTION__, func_get_args());

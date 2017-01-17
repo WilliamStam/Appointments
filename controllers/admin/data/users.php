@@ -28,9 +28,9 @@ class users extends _ {
 		$ID = isset($_GET['ID']) ? $_GET['ID'] : "";
 		$search = isset($_GET['search']) ? $_GET['search'] : "";
 
-		$where = "";
+		$where = "companyID = '{$this->user['company']['ID']}'";
 		if ($search) {
-			$where = "label LIKE '%{$search}%'";
+			$where = " AND label LIKE '%{$search}%'";
 		}
 
 		$return['search'] = $search;

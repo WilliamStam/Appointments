@@ -49,7 +49,7 @@ class notifications extends _ {
 		$response = "";
 		if (count($this->errors)==0){
 			//test_array($values);
-			$response = models\settings::_save($values);
+			$response = models\companies::_save($this->user['company']['ID'],array("settings"=>$values));
 		}
 		$return = array(
 				"ID" => $response,

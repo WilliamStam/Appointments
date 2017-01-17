@@ -9,9 +9,13 @@
 
 
 				<div class="col-sm-2">
-					<div class="btn-group " role="group">
+					<div class="btn-group btn-group-justified" role="group">
 						<a class="form-appointment-btn btn btn-primary" href="#" data-id="" title="Add an appointment">
 							<i class="fa fa-plus "></i>
+
+						</a>
+						<a class="form-timeslot-btn btn btn-primary" href="#" data-id="" title="Add a reserved timeslot">
+							<i class="fa fa-clock-o "></i>
 
 						</a>
 
@@ -20,19 +24,24 @@
 				</div>
 				<div class="col-sm-6">
 					<div class="btn-group btn-group-justified" data-toggle="buttons">
-						<label class="btn btn-default {% if _user['settings']['home_list_section']|default('list')=='list' %}active{% endif %}">
+						<label class="btn btn-default {% if _user['settings']['home_list_section']|default('list')=='list' %}active{% endif %}" title="List">
 							<input type="radio" name="view" id="view-list" autocomplete="off" value="list" {% if _user['settings']['home_list_section']|default("list")=="list" %}checked="checked"{% endif %}>
-							<i class="fa fa-list"></i> List
+							<i class="fa fa-list"></i> <span class="hidden-sm">List</span>
 						</label>
-						<label class="btn btn-default {% if _user['settings']['home_list_section'] =='day' %}active{% endif %}">
+						<label class="btn btn-default {% if _user['settings']['home_list_section'] =='day' %}active{% endif %}" title="Day View">
 							<input type="radio" name="view" id="view-day" value="day" autocomplete="off" {% if _user['settings']['home_list_section']=="day" %}checked="checked"{% endif %}>
-							<i class="fa fa-calendar-o"></i> Day View
+							<i class="fa fa-calendar-o"></i> <span class="hidden-sm">Day View</span>
 						</label>
-						<label class="btn btn-default  {% if _user['settings']['home_list_section']=='calendar' %}active{% endif %}">
+						<label class="btn btn-default  {% if _user['settings']['home_list_section']=='calendar' %}active{% endif %}" title="Calendar">
 							<input type="radio" name="view" id="view-calendar" value="calendar" autocomplete="off"  {% if _user['settings']['home_list_section']=="calendar" %}checked="checked"{% endif %}>
-							<i class="fa fa-calendar"></i> Calendar
+							<i class="fa fa-calendar"></i> <span class="hidden-sm">Calendar</span>
+						</label>
+						<label class="btn btn-default  {% if _user['settings']['home_list_section']=='timeslots' %}active{% endif %}" title="Reserved Timeslots">
+							<input type="radio" name="view" id="view-timeslots" value="timeslots" autocomplete="off"  {% if _user['settings']['home_list_section']=="timeslots" %}checked="checked"{% endif %}>
+							<i class="fa fa-clock-o"></i> <span class="hidden-sm">Timeslots</span>
 						</label>
 					</div>
+
 
 
 				</div>

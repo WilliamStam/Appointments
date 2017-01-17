@@ -270,9 +270,6 @@
 	}
 	.closed-items-lines {
 	  .closed-item {
-
-
-
 		height:3px;
 		background-color: #ababab;
 		position: absolute;
@@ -282,8 +279,6 @@
 
 		opacity:0.5;
 		border-radius:2px;
-
-
 
 	  }
 	}
@@ -319,6 +314,64 @@
 		  color: #f1f1f1;
 		  font-weight: bold;
 		}
+
+	  }
+
+	}
+	.timeslot-items {
+	  .timeslot-item {
+		position: absolute;
+		left: 51px;
+		right: 0;
+		vertical-align: middle;
+		background: /* On "top" */
+				repeating-linear-gradient(
+								45deg,
+								transparent,
+								transparent 5px,
+								#f1f1f1 5px,
+								#f1f1f1 10px
+				),
+				  /* on "bottom" */
+				linear-gradient(
+								to bottom,
+								#e1e1e1,
+								#e1e1e1
+				);
+
+		.item-label {
+		  border: 1px solid #ccc;
+		  position: absolute;
+		  top: 0;
+		  left: 0;
+		  right: 0;
+		  bottom: 0;
+		  z-index: 8;
+		  .item-label-inner {
+			position: relative;
+			top: 50%;
+			transform: translateY(-50%);
+			z-index: 0;
+		  }
+
+		  &.timeslot-row {
+			cursor: pointer;
+			&:hover {
+			  position: absolute;
+			  top: 0;
+			  left: 0;
+			  right: 0;
+			  bottom: 0;
+			  z-index: 30;
+			  border: 1px solid $color-navy-blue;
+
+			}
+
+		  }
+
+
+		}
+
 
 	  }
 

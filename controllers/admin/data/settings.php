@@ -16,6 +16,7 @@ class settings extends _ {
 
 
 		$return['settings'] = $this->f3->get("settings");
+		$return['company'] = $this->user['company'];
 
 
 		return $GLOBALS["output"]['data'] = $return;

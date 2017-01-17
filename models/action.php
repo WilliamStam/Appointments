@@ -21,7 +21,7 @@ class action extends _ {
 		return self::$instance;
 	}
 
-	function call($appointment, $action, $log,$do=true) {
+	function call($appointment, $action, $log, $do = TRUE) {
 
 		if (is_array($appointment) && isset($appointment['ID'])) {
 
@@ -36,7 +36,6 @@ class action extends _ {
 		else {
 			$appointment["client"] = clients::getInstance()->get($appointment['clientID']);
 		}
-
 
 
 		$extra = array("appointment" => $appointment, "log" => $log);
@@ -61,6 +60,14 @@ class action extends _ {
 				$log_label = "Record Added - Front End";
 				$eventID = "add_1";
 				break;
+			case "deleted":
+				$log_label = "Record Deleted";
+				$eventID = "del_2";
+				break;
+			case "deleted-front":
+				$log_label = "Record Deleted - Front End";
+				$eventID = "del_1";
+				break;
 			default:
 				$log_label = "showing only";
 				$eventID = "showing";
@@ -69,29 +76,27 @@ class action extends _ {
 		$extra['log_label'] = $log_label;
 		$extra['eventID'] = $eventID;
 
+		//test_array($extra);
 
-		if (count($log)&&$do){
+		if (count($log) && $do) {
 			logs::getInstance()->_log($appointment['ID'], $log_label, $eventID, $log);
-			notifications::getInstance()->notify($appointment,$eventID,$extra);
+			notifications::getInstance()->notify($appointment, $eventID, $extra);
 		}
 
-		if ($do==false){
+		if ($do == FALSE) {
 			$extra['log'] = logs::getInstance()->getAll("appointmentID='{$extra['appointment']['ID']}'");
-			$extra['log'] =$extra['log'][0]['data'];
-				test_array($extra);
+			$extra['log'] = $extra['log'][0]['data'];
+			test_array($extra);
 		}
-
-
-
-
 
 
 	}
-	function show_data(){
-		$data = appointments::getInstance()->getAll("","ID DESC","0,1",array("format" => TRUE, "client" => TRUE, "services" => TRUE));
+
+	function show_data() {
+		$data = appointments::getInstance()->getAll("", "ID DESC", "0,1", array("format" => TRUE, "client" => TRUE, "services" => TRUE));
 		$data = $data[0];
 
-		$this->call($data,"",array(),false);
+		$this->call($data, "", array(), FALSE);
 	}
 
 

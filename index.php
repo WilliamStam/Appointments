@@ -97,22 +97,49 @@ $f3->set('_v', $minVersion);
 $uID = isset($_SESSION['uID']) ? base64_decode($_SESSION['uID']) : "";
 
 $userO = new \models\users();
-$user = $userO->get($uID,array("format"=>true));
+$user = $userO->get($uID,array("format"=>true,"companies"=>true));
 
 //test_array($user);
 if (isset($_GET['auID']) && $user['su'] == '1') {
 	$_SESSION['uID'] = $_GET['auID'];
-	$user = $userO->get($_GET['auID']);
+	$user = $userO->get($_GET['auID'],array("format"=>true,"companies"=>true));
 }
-//test_array($user);
 
-$settings = models\settings::getInstance()->getAll("",array("format"=>true));
+if ($user['lastCompanyID']==""){
+	$user['lastCompanyID'] = isset($user['companies'][0]['ID'])?$user['companies'][0]['ID']:null;
+}
+
+$companyID  = isset($_GET['cID'])?$_GET['cID']:false;
+
+if($user['ID']){
+
+	if (($companyID) && ($companyID != $user['lastCompanyID'])){
+		models\users::_save($user['ID'],array("lastCompanyID"=>$companyID));
+	}
+
+}
+
+$companyID = $companyID?$companyID:$user['lastCompanyID'];
+
+$company = models\companies::getInstance()->get($companyID,array("format"=>true));
+$user['company'] = $company;
+$settings = $company['settings'];
+
+//test_array($settings);
+
+
 $settings['enable_email'] = true;
 $settings['enable_sms'] = false;
 if($settings["smsportal_username"] && $settings["smsportal_password"]){
 	$settings['enable_sms'] = true;
 };
+
+
 $f3->set('settings', $settings);
+
+
+
+
 $f3->set('user', $user);
 
 if ($user['ID']) {
@@ -126,9 +153,9 @@ $f3->set('session', $SID);
 //test_array($f3->get("types"));
 
 
-//$f3->route('GET|POST /', 'controllers\front\home->page');
-$f3->route('GET|POST /', 'controllers\front\form->page');
-$f3->route('GET|POST /form', 'controllers\front\form->page');
+$f3->route('GET|POST /', 'controllers\front\home->page');
+$f3->route('GET|POST /@companyID', 'controllers\front\form->page');
+$f3->route('GET|POST /form/@companyID', 'controllers\front\form->page');
 $f3->route('GET|POST /login', 'controllers\front\login->page');
 
 $f3->route('GET|POST /admin', 'controllers\admin\home->page');
@@ -177,7 +204,7 @@ $f3->route('GET /test/sms/@number', function ($app, $params) {
 	$return = models\notifications::getInstance()->_send_sms($params['number'],"test message",array());
 	test_array($return);
 
-},500);
+});
 
 $f3->route('GET /test/email/@email', function ($app, $params) {
 
@@ -185,7 +212,31 @@ $f3->route('GET /test/email/@email', function ($app, $params) {
 	$return = models\notifications::getInstance()->_send_email($params['email'],"test message subject","test message body",array());
 	test_array($return);
 
-},500);
+});
+
+
+$f3->route('GET /importSettings', function ($app, $params) {
+
+	$companyID = '1';
+
+	$settings_data = $app->get("DB")->exec("SELECT * FROM settings;");
+	$settings = array();
+	foreach ($settings_data as $item){
+		$settings[$item['setting']] = json_decode($item['data'],true);
+	}
+
+
+
+	//test_array($settings);
+
+	$values = array("settings"=>($settings));
+	models\companies::_save($companyID,$values);
+
+	test_array("imported");
+
+
+
+});
 
 
 

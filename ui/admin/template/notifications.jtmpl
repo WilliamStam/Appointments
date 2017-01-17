@@ -64,13 +64,7 @@
 
 			</table>
 
-			<% if(!this.settings.enable_sms){ %>
-			<div class="alert alert-danger">
-				<p>
-					Please enter the SMS portal details below to enable sms notifications
-				</p>
-			</div>
-			<% } %>
+
 			<% if(!this.settings.enable_email){ %>
 			<div class="alert alert-danger">
 				<p>
@@ -150,41 +144,30 @@
 
 
 				</div>
-				<div class="alert alert-info">
+				<% if(!this.settings.enable_sms){ %>
+				<div class="alert alert-danger">
 					<p>
-						Remove the Username field to disable sms'ing. the password will remain blank. to change the
-						password place a new value in
+						Please enter the SMS portal details below to enable sms notifications
 					</p>
 				</div>
-
+				<% } %>
 			</div>
-
-
 		</div>
 
 		<div class="col-sm-6">
-
-
-
 			<div class="panel blue">
 				<div class="panel-heading built">From email address (the system)</div>
-
-
 				<div class="panel-body form-horizontal">
-
 					<div class="form-group">
 						<div class="col-sm-12">
 							<input type="text" name="email_from" class="form-control" id="email_from" placeholder="Email From" value="<% if(this.settings.email_from){ %><%= this.settings.email_from %><% } %>">
 						</div>
 					</div>
-
-
 				</div>
-
-
 			</div>
 			<div class="panel blue">
-				<div class="panel-heading built">SMTP Settings</div>
+				<div class="panel-heading built">SMTP Settings (optional)</div>
+
 
 
 				<div class="panel-body form-horizontal">
@@ -220,7 +203,11 @@
 
 
 				</div>
-
+				<div class="alert alert-warning">
+					<p>
+						These settings are only needed if you want the email to come from your own server
+					</p>
+				</div>
 
 			</div>
 

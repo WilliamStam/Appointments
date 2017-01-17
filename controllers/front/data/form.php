@@ -13,6 +13,12 @@ class form extends _ {
 	function data(){
 		$return = array();
 		$return['errors'] = array();
+		$company = isset($_REQUEST['companyID'])?$_REQUEST['companyID']:"";
+		$company = models\companies::getInstance()->get($company,array("format"=>true));
+
+		$services = models\services::getInstance()->getAll("companyID = '{$company['ID']}'","category ASC, label ASC","", array("format" => true,"group"=>"category"));
+
+
 		$cookiedata = isset($_SESSION['data'])?json_decode($_SESSION['data'],true):array();
 		if (!is_array($cookiedata)){
 			$cookiedata = array();
@@ -64,7 +70,7 @@ class form extends _ {
 
 
 		if ($return['post']['mobile_number']){
-			$clientDetails = models\clients::getInstance()->getAll("mobile_number=?","","0,1",array("args"=>array($return['post']['mobile_number'])));
+			$clientDetails = models\clients::getInstance()->getAll("mobile_number=? AND companyID = '{$company['ID']}'","","0,1",array("args"=>array($return['post']['mobile_number'])));
 			$return['client'] = $clientDetails;
 
 			if (isset($clientDetails[0])){
@@ -103,7 +109,7 @@ class form extends _ {
 
 
 
-		$settings = $this->f3->get("settings");
+		$settings = $company['settings'];
 
 		$return['times'] = array();
 		$return['dates'] = array();
@@ -187,7 +193,7 @@ class form extends _ {
 
 
 
-			$agenda_items = models\appointments::getInstance()->getAll("DATE_FORMAT(appointmentStart,'%Y-%m-%d') = '{$currrentDate}'","appointmentStart ASC","",array("format"=>true,"services"=>true));
+			$agenda_items = models\appointments::getInstance()->getAll("DATE_FORMAT(appointmentStart,'%Y-%m-%d') = '{$currrentDate}' AND appointments.companyID ='{$company['ID']}'","appointmentStart ASC","",array("format"=>true,"services"=>true));
 
 
 			$timeslots = array();
@@ -207,8 +213,87 @@ class form extends _ {
 					"s"=>date("H:i",strtotime($item['time']['start'])),
 					"e"=>date("H:i",strtotime($item['time']['end']))
 				);
-
 			}
+
+			$reserved_data = \models\timeslots::getInstance()->getAll("companyID = '{$company['ID']}'");
+
+			foreach ($reserved_data as $item){
+
+				$include_item = false;
+				switch ($item['repeat_mode']){
+					case "0":
+						$item['start_date'] = date("Y-m-d H:i:s",strtotime($item['data']['onceoff'] . " " . $item['start'].":00"));
+						$item['end_date'] = date("Y-m-d H:i:s",strtotime($item['data']['onceoff'] . " " . $item['end'].":00"));
+
+						if ($item['data']['onceoff'] == $currrentDate){
+							$include_item = true;
+						}
+						break;
+					case "1":
+						$item['start_date'] = date("Y-m-d ".$item['start'].":00",strtotime($currrentDate));
+						$item['end_date'] = date("Y-m-d ".$item['end'].":00",strtotime($currrentDate));
+						$include_item = true;
+						break;
+
+					case "2":
+
+						$dow_numeric = date('w',strtotime($currrentDate));
+
+						$dayoftheweek = strtolower(date('l', strtotime("Sunday +{$dow_numeric} days")));
+						$days = explode(",",$item['data']['weekly']);
+
+						$item['start_date'] = date("Y-m-d ".$item['start'].":00",strtotime($currrentDate));
+						$item['end_date'] = date("Y-m-d ".$item['end'].":00",strtotime($currrentDate));
+
+
+						$item['dow'] = $dayoftheweek;
+						if (count($days)){
+
+							if (in_array($dayoftheweek,$days)){
+								$include_item = true;
+							}
+
+
+						}
+
+
+
+
+						break;
+
+					case "3":
+						$item['start_date'] = date("Y-m-d ".$item['start'].":00",strtotime($currrentDate));
+						$item['end_date'] = date("Y-m-d ".$item['end'].":00",strtotime($currrentDate));
+						$daytoday = date("d",strtotime($currrentDate));
+						$days = explode(",",$item['data']['monthly']);
+						if (count($days)){
+
+							if (in_array($daytoday,$days)){
+								$include_item = true;
+							}
+
+
+						}
+
+
+
+
+						break;
+
+
+				}
+
+
+
+				if ($include_item){
+
+					$timeslots[] = array(
+						"s"=>date("H:i",strtotime($item['start_date'])),
+						"e"=>date("H:i",strtotime($item['end_date']))
+					);
+				}
+			}
+
 
 
 
@@ -328,7 +413,7 @@ class form extends _ {
 			$serviceids = is_array($return['post']['services'])?implode(",",$return['post']['services']):$return['post']['services'];
 
 			if ($serviceids){
-				$return['extra']['services'] = models\services::getInstance()->getAll("services.ID IN ({$serviceids})","category ASC, label ASC","",array("format"=>true));
+				$return['extra']['services'] = models\services::getInstance()->getAll("services.ID IN ({$serviceids}) AND companyID = '{$company['ID']}'","category ASC, label ASC","",array("format"=>true));
 
 				foreach ($return['extra']['services'] as $item){
 					$return['extra']['services_totals']['duration'] = $return['extra']['services_totals']['duration'] + $item['duration'];

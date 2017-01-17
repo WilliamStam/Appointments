@@ -65,15 +65,20 @@ class template {
 		$this->vars['_css'] = $GLOBALS['css'];
 		$this->vars['_javascript'] = $GLOBALS['javascript'];
 
-
-		$services = models\services::getInstance()->getAll("","category ASC, label ASC","", array("format" => true,"group"=>"category"));
-
-
+		$user = $this->f3->get("user");
+		$company = $user['company'];
 
 
 
+		$services = models\services::getInstance()->getAll("companyID = '{$company['ID']}'","category ASC, label ASC","", array("format" => true,"group"=>"category"));
+
+
+
+
+
+		$this->vars['_company'] = $company;
 		$this->vars['_services'] = $services;
-		$this->vars['_staff'] = models\staff::getInstance()->getAll("","","", array("format" => true));
+		$this->vars['_staff'] = models\staff::getInstance()->getAll("companyID = '{$company['ID']}'","","", array("format" => true));
 
 
 
@@ -85,8 +90,7 @@ class template {
 
 		
 
-		$this->vars['_settings'] = $this->f3->get('settings');
-		$this->vars['_user'] = $this->f3->get('user');
+		$this->vars['_user'] = $user;
 		$this->vars['_isAjax'] = is_ajax();
 
 
