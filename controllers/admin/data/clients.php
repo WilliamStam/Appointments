@@ -29,12 +29,12 @@ class clients extends _ {
 
 		$where = "companyID = '{$this->user['company']['ID']}'";
 		if ($search) {
-			$where = " label LIKE '%{$search}%'";
+			$where .= " AND (first_name LIKE '%{$search}%' OR last_name LIKE '%{$search}%' OR notes LIKE '%{$search}%' OR mobile_number LIKE '%{$search}%' OR 	email LIKE '%{$search}%')";
 		}
 
 		$return['search'] = $search;
 
-		$return['list'] = models\clients::getInstance()->getAll($where);
+		$return['list'] = models\clients::getInstance()->getAll($where,"first_name ASC");
 
 
 		return $GLOBALS["output"]['data'] = $return;
