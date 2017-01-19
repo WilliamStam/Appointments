@@ -123,6 +123,14 @@ class form extends _ {
 
 		);
 
+		$old_start = $values['start'];
+		$old_end= $values['end'];
+
+		if ($values['end']<$values['start']){
+			$values['end'] = $old_start;
+			$values['start'] = $old_end;
+		}
+
 
 		$repeat_onceoff = $this->post("repeat_onceoff");
 		$repeat_onceoff = $repeat_onceoff?$repeat_onceoff:date("Y-m-d");
