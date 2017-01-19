@@ -761,7 +761,6 @@ function getTimeslotForm() {
 		$('#start-inline').datetimepicker(dpOptions);
 		$("#start-inline").on("dp.change", function (e) {
 			$("#start").val(moment(e.date).format('HH:mm:00')).trigger("change");
-			$('#end-inline').data("DateTimePicker").minDate(e.date);
 		});
 
 
@@ -773,15 +772,9 @@ function getTimeslotForm() {
 		$('#end-inline').datetimepicker(dpOptions);
 		$("#end-inline").on("dp.change", function (e) {
 			$("#end").val(moment(e.date).format('HH:mm:00')).trigger("change");
-			$('#start-inline').data("DateTimePicker").maxDate(e.date);
 		});
 
-		if ($("#start").val()){
-			$('#end-inline').data("DateTimePicker").minDate(moment($("#start").val(),'HH:mm:00'))
-		}
-		if ($("#end").val()){
-			$('#start-inline').data("DateTimePicker").maxDate(moment($("#end").val(),'HH:mm:00'))
-		}
+
 
 
 		getTimeslotFormRepeats();
