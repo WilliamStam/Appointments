@@ -125,14 +125,6 @@ $company = models\companies::getInstance()->get($companyID,array("format"=>true)
 $user['company'] = $company;
 $settings = $company['settings'];
 
-//test_array($settings);
-
-
-$settings['enable_email'] = true;
-$settings['enable_sms'] = false;
-if($settings["smsportal_username"] && $settings["smsportal_password"]){
-	$settings['enable_sms'] = true;
-};
 
 
 $f3->set('settings', $settings);

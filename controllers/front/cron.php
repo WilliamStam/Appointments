@@ -12,14 +12,38 @@ class cron extends _ {
 
 		$records = models\appointments::getInstance()->getAll("appointmentStart BETWEEN NOW() AND NOW() + INTERVAL 25 HOUR","","",array("format"=>true,"services"=>true,"client"=>true));
 
-		$settings = $f3->get("settings");
+		$settings = array();
 
 		//test_array($settings);
 
+		$companies = array();
 		$recordsIDs = array();
 		foreach ($records as $item){
 			$recordsIDs[] = $item['ID'];
+			if (!in_array($item['companyID'], $companies)){
+				$companies[] = $item['companyID'];
+			}
+
 		}
+
+		if (count($companies)){
+			$companies = implode(",",$companies);
+			$companies = models\companies::getInstance()->getAll("ID in ($companies)");
+
+			foreach($companies as $item){
+
+				$s = $item['settings'];
+
+
+
+				$settings[$item['ID']] = $s;
+			}
+
+		}
+
+		//test_array($settings);
+
+
 
 
 		if (count($recordsIDs)){
@@ -41,9 +65,12 @@ class cron extends _ {
 		$counting = 0;
 		$r = array();
 		foreach ($records as $item){
+			//test_array($item);
 			$item_notifications = isset($noti[$item['ID']])?$noti[$item['ID']]:array();
 			$item['notify'] = array();
 			$sending_notification = false;
+
+			$settings = $settings[$item['companyID']];
 			foreach ($notification_array as $n=>$value){
 				$v = true;
 				//test_array($n);
@@ -61,7 +88,8 @@ class cron extends _ {
 						$sending_notification = true;
 						$extra = array("appointment" => $item);
 						$extra['log_label'] = "Booking Reminder";
-						models\notifications::getInstance()->notify($item,'rem_1',$extra,$n);
+						//test_array($item);
+						models\notifications::getInstance()->notify($item,'rem_1',$extra,$n,$settings);
 					}
 
 				}
