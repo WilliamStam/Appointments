@@ -61,6 +61,10 @@ class cron extends _ {
 
 	//	test_array($notification_array);
 
+		$debug = array(
+			"notifications"=>$notification_array,
+			"records"=>array(),
+		);
 		$notificationRecord = array();
 		$counting = 0;
 		$r = array();
@@ -68,9 +72,11 @@ class cron extends _ {
 			//test_array($item);
 			$item_notifications = isset($noti[$item['ID']])?$noti[$item['ID']]:array();
 			$item['notify'] = array();
+			$item['notification_sent'] = array();
 			$sending_notification = false;
 
 			$settings = $settings[$item['companyID']];
+
 			foreach ($notification_array as $n=>$value){
 				$v = true;
 				//test_array($n);
@@ -89,11 +95,16 @@ class cron extends _ {
 						$extra = array("appointment" => $item);
 						$extra['log_label'] = "Booking Reminder";
 						//test_array($item);
-						models\notifications::getInstance()->notify($item,'rem_1',$extra,$n,$settings);
+						$item['notification_sent'][] = $n;
+						if (!isset($_GET['debug'])) {
+							models\notifications::getInstance()->notify($item, 'rem_1', $extra, $n, $settings);
+						}
 					}
 
 				}
 			}
+
+			$debug["records"][] = $item;
 			if ($sending_notification){
 				$counting = $counting + 1;
 				$notificationRecord[] = $item;
@@ -118,7 +129,12 @@ class cron extends _ {
 			"records"=>$notificationRecord
 		);
 
-		models\logs::getInstance()->_log(null,"Cron task (".count($records)." notified ".$counting.")","cron",$log);
+		if (isset($_GET['debug'])){
+			test_array($debug);
+		} else {
+			models\logs::getInstance()->_log(null,"Cron task (".count($records)." notified ".$counting.")","cron",$log);
+
+		}
 
 
 
