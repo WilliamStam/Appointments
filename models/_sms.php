@@ -21,7 +21,11 @@ class _sms extends _ {
 
 
 
-	public function checkCredits() {
+	public function checkCredits($settings=false) {
+		if ($settings){
+			$this->username = $settings['smsportal_username'];
+			$this->password = $this->settings['smsportal_password'];
+		}
 		$data = array(
 			'Type' => 'credits',
 			'Username' => $this->username,
@@ -36,7 +40,15 @@ class _sms extends _ {
 		}
 	}
 
-	public function sendSms($mobile_number, $msg) {
+	public function sendSms($mobile_number, $msg, $settings=false) {
+		if ($settings){
+			$this->username = $settings['smsportal_username'];
+			$this->password = $settings['smsportal_password'];
+		}
+
+
+		//test_array($settings);
+
 		$data = array(
 			'Type' => 'sendparam',
 			'Username' => $this->username,

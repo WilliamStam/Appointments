@@ -205,6 +205,18 @@ class companies extends _ {
 			if (isset($item['settings'])||$item['settings']===null) {
 				$settings = json_decode($item['settings'],true);
 				$settings = array_merge(self::_defaultSettings(), (array) $settings);
+
+
+				$settings['enable_email'] = true;
+				if (isLocal()){
+					$settings['enable_email'] = false;
+				}
+				$settings['enable_sms'] = false;
+				if($settings["smsportal_username"] && $settings["smsportal_password"]){
+					$settings['enable_sms'] = true;
+				};
+
+
 				$item['settings'] = $settings;
 
 			}

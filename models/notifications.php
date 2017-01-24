@@ -117,10 +117,15 @@ class notifications extends _ {
 
 
 	function notify_body($notif, $eventID, $extra,$check_if_exists=false) {
+		if (isset($extra['settings'])) {
+			$settings = $extra['settings'];
+		} else {
+			$settings = $this->settings;
+		}
 		$return = false;
 		$body_exists = false;
-		if ($this->settings[$notif . "|" . $eventID . "_body_template"] || file_exists("./resources/notification_body/{$notif}-{$eventID}.twig")){
-			$body_exists = $this->settings[$notif . "|" . $eventID . "_body_template"]?$this->settings[$notif . "|" . $eventID . "_body_template"]:file_get_contents("./resources/notification_body/{$notif}-{$eventID}.twig");
+		if ($settings[$notif . "|" . $eventID . "_body_template"] || file_exists("./resources/notification_body/{$notif}-{$eventID}.twig")){
+			$body_exists = $settings[$notif . "|" . $eventID . "_body_template"]?$settings[$notif . "|" . $eventID . "_body_template"]:file_get_contents("./resources/notification_body/{$notif}-{$eventID}.twig");
 		};
 
 
@@ -144,10 +149,17 @@ class notifications extends _ {
 	}
 
 	function notify_subject($notif, $eventID, $extra,$check_if_exists=false) {
+		if (isset($extra['settings'])) {
+			$settings = $extra['settings'];
+		} else {
+			$settings = $this->settings;
+		}
+
+
 		$return = false;
 		$body_exists = false;
-		if ($this->settings[$notif . "|" . $eventID . "_body_template"] || file_exists("./resources/notification_subject/{$notif}-{$eventID}.twig")){
-			$body_exists = $this->settings[$notif . "|" . $eventID . "_subject_template"]?$this->settings[$notif . "|" . $eventID . "_subject_template"]:file_get_contents("./resources/notification_subject/{$notif}-{$eventID}.twig");
+		if ($settings[$notif . "|" . $eventID . "_body_template"] || file_exists("./resources/notification_subject/{$notif}-{$eventID}.twig")){
+			$body_exists = $settings[$notif . "|" . $eventID . "_subject_template"]?$settings[$notif . "|" . $eventID . "_subject_template"]:file_get_contents("./resources/notification_subject/{$notif}-{$eventID}.twig");
 		};
 
 
@@ -243,17 +255,24 @@ class notifications extends _ {
 		return $return;
 	}
 
-	function notify($appointment, $eventID, $extra, $forceEnd = FALSE) {
+	function notify($appointment, $eventID, $extra, $forceEnd = FALSE, $settings=false) {
+
+		if ($settings==false){
+			$settings = $this->settings;
+		}
+
+		$extra['settings'] = $settings;
 
 		$notifications = $this->defaultNotifications("notifications");
 		$events = $this->defaultNotifications("events");
 
 		$notifications["not_1"]['to'] = $appointment["client"]['mobile_number'];
 		$notifications["not_2"]['to'] = $appointment["client"]['email'];
-		$notifications["not_3"]['to'] = $this->settings['mobile_number'];
-		$notifications["not_4"]['to'] = $this->settings['email'];
+		$notifications["not_3"]['to'] = $settings['mobile_number'];
+		$notifications["not_4"]['to'] = $settings['email'];
 
 
+	//	test_array(array("notifications"=>$notifications,"eventID"=>$eventID,"settings"=>$settings,"appointment"=>$appointment));
 
 		//test_array(array($eventID,$forceEnd));
 
@@ -265,9 +284,10 @@ class notifications extends _ {
 		//test_array($notifications);
 
 		foreach ($notifications as $notif => $notification_settings) {
-			$enable_notification = isset($this->settings[$notif . "|" . $eventID]) && $this->settings[$notif . "|" . $eventID]=='1' ? TRUE : FALSE;
+			$enable_notification = isset($settings[$notif . "|" . $eventID]) && $settings[$notif . "|" . $eventID]=='1' ? TRUE : FALSE;
 
 
+			//test_array($enable_notification);
 
 			if ($notif=="not_3"){
 			//	test_array(array($this->settings[$notif . "|" . $eventID],$notif . "|" . $eventID));
@@ -291,14 +311,17 @@ class notifications extends _ {
 
 
 
+
 					switch ($notification_settings['type']) {
 						case "sms":
 							$log['body'] = $this->notify_body($notif, $eventID, $extra);
 
 
-							if ($notification_settings['to'] && $this->settings['enable_sms'] && $log['body']) {
+							//test_array($notification_settings);
+							if ($notification_settings['to'] && $settings['enable_sms'] && $log['body']) {
 
 								$result = notifications::getInstance()->_send_sms($notification_settings['to'], $log['body'], $extra);
+								//test_array($result);
 								if ($result) {
 									$log_label = "{$notification_settings['log_label_prefix']} Notification: " . $notification_settings['to'];
 								}
@@ -314,7 +337,7 @@ class notifications extends _ {
 								$log['subject'] =$events[$eventID]['label'];
 							}
 							$log['body'] = $this->notify_body($notif, $eventID, $extra);
-							if ($notification_settings['to'] && $this->settings['enable_email'] && $log['body']) {
+							if ($notification_settings['to'] && $settings['enable_email'] && $log['body']) {
 
 								$result = notifications::getInstance()->_send_email($notification_settings['to'], $log['body'], $log['subject'], $extra);
 								if ($result) {
@@ -343,7 +366,13 @@ class notifications extends _ {
 	}
 
 	function _send_sms($to, $body, $extra = array()) {
-		$result = _sms::getInstance()->sendSms($to, $body);
+		if (isset($extra['settings'])) {
+			$settings = $extra['settings'];
+		} else {
+			$settings = $this->settings;
+		}
+
+		$result = _sms::getInstance()->sendSms($to, $body, $settings);
 
 		$return = TRUE;
 		if (!$result) {
@@ -355,21 +384,26 @@ class notifications extends _ {
 	}
 
 	function _send_email($to, $body, $subject, $extra = array()) {
-			$this->settings['email_smtp_host'] = $this->settings['email_smtp_host'] ? $this->settings['email_smtp_host'] : "127.0.0.1";
-			$this->settings['email_smtp_port'] = $this->settings['email_smtp_port'] ? $this->settings['email_smtp_port'] : "25";
-			$this->settings['email_smtp_scheme'] = $this->settings['email_smtp_scheme'] ? $this->settings['email_smtp_scheme'] : "";
-			$this->settings['email_smtp_user'] = $this->settings['email_smtp_user'] ? $this->settings['email_smtp_user'] : "";
-			$this->settings['email_smtp_password'] = $this->settings['email_smtp_password'] ? $this->settings['email_smtp_password'] : "";
+		if (isset($extra['settings'])) {
+			$settings = $extra['settings'];
+		} else {
+			$settings = $this->settings;
+		}
+			$settings['email_smtp_host'] = $settings['email_smtp_host'] ? $settings['email_smtp_host'] : "127.0.0.1";
+			$settings['email_smtp_port'] = $settings['email_smtp_port'] ? $settings['email_smtp_port'] : "25";
+			$settings['email_smtp_scheme'] = $settings['email_smtp_scheme'] ? $settings['email_smtp_scheme'] : "";
+			$settings['email_smtp_user'] = $settings['email_smtp_user'] ? $settings['email_smtp_user'] : "";
+			$settings['email_smtp_password'] = $settings['email_smtp_password'] ? $settings['email_smtp_password'] : "";
 
 		$headers = "MIME-Version: 1.0\r\n";
 		$headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
 
 
 
-			$smtp = new \SMTP ($this->settings['email_smtp_host'], $this->settings['email_smtp_port'], $this->settings['email_smtp_scheme'], $this->settings['email_smtp_user'], $this->settings['email_smtp_password']);
+			$smtp = new \SMTP ($settings['email_smtp_host'], $settings['email_smtp_port'], $settings['email_smtp_scheme'], $settings['email_smtp_user'], $settings['email_smtp_password']);
 			$smtp->set('To', $to);
 			$smtp->set('Subject', $subject);
-			$smtp->set('From', $this->settings['email_from']);
+			$smtp->set('From', $settings['email_from']);
 			$smtp->set('MIME-Version', '1.0');
 			$smtp->set('Content-Type', 'text/html; charset=ISO-8859-1');
 			$result = $smtp->send($body);
