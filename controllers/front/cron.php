@@ -12,7 +12,7 @@ class cron extends _ {
 
 		$records = models\appointments::getInstance()->getAll("appointmentStart BETWEEN NOW() AND NOW() + INTERVAL 25 HOUR","","",array("format"=>true,"services"=>true,"client"=>true));
 
-		$settings = array();
+		$settings_array = array();
 
 		//test_array($settings);
 
@@ -36,7 +36,7 @@ class cron extends _ {
 
 
 
-				$settings[$item['ID']] = $s;
+				$settings_array[$item['ID']] = $s;
 			}
 
 		}
@@ -72,10 +72,10 @@ class cron extends _ {
 			//test_array($item);
 			$item_notifications = isset($noti[$item['ID']])?$noti[$item['ID']]:array();
 			$item['notify'] = array();
-			$item['notification_sent'] = array();
+			$item['debug'] = array();
 			$sending_notification = false;
 
-			$settings = $settings[$item['companyID']];
+			$settings = $settings_array[$item['companyID']];
 
 			foreach ($notification_array as $n=>$value){
 				$v = true;
@@ -84,6 +84,10 @@ class cron extends _ {
 					$v = false;
 				}
 				$item['notify'][$n.'|rem_1'] = $v;
+				$item['debug'][$n.'|rem_1'] = array(
+					"can"=>$v,
+					"settings"=>$settings[$n.'|rem_1']
+				);
 				if ($v){
 
 
@@ -94,8 +98,9 @@ class cron extends _ {
 						$sending_notification = true;
 						$extra = array("appointment" => $item);
 						$extra['log_label'] = "Booking Reminder";
+						$extra['settings'] = $settings;
 						//test_array($item);
-						$item['notification_sent'][] = $n;
+
 						if (!isset($_GET['debug'])) {
 							models\notifications::getInstance()->notify($item, 'rem_1', $extra, $n, $settings);
 						}
