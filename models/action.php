@@ -78,6 +78,9 @@ class action extends _ {
 
 		//test_array($extra);
 
+
+
+
 		if (count($log) && $do) {
 			logs::getInstance()->_log($appointment['ID'], $log_label, $eventID, $log);
 			notifications::getInstance()->notify($appointment, $eventID, $extra);

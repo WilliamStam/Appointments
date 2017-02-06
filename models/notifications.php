@@ -261,6 +261,14 @@ class notifications extends _ {
 			$settings = $this->settings;
 		}
 
+		if (!isset($settings[0])){
+			$company = companies::getInstance()->get($appointment['companyID'],array("format"=>true));
+			$settings = $company['settings'];
+
+
+		}
+
+
 		$extra['settings'] = $settings;
 
 		$notifications = $this->defaultNotifications("notifications");

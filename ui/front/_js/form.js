@@ -71,7 +71,7 @@ $(document).ready(function () {
 
 		$('#rootwizard')[0].reset();
 
-		window.location = "/form"
+		window.location = "?msg=done"
 
 
 	});
