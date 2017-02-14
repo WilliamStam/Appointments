@@ -23,6 +23,10 @@ class form extends _ {
 		if (!is_array($cookiedata)){
 			$cookiedata = array();
 		}
+		$return['cookie'] = $cookiedata;
+		$return['posting'] = $_POST;
+		$return['post_count'] = count($_POST);
+		//test_array($cookiedata);
 		//$cookiedata = array();
 
 		$return['post']['mobile_number']="";
@@ -38,9 +42,29 @@ class form extends _ {
 
 
 
-		$post = count($_POST)?$_POST:$cookiedata;
+		$post = $_POST;
+
+
+
+
+
+
+		foreach ($cookiedata as $k=>$v){
+
+			$return['post'][$k] = $v;
+
+		}
+
+
+
 
 		foreach ($post as $k=>$v){
+			if ($v==""){
+				if (isset($cookiedata[$k])){
+					$v = $cookiedata[$k];
+				}
+			}
+
 			$return['post'][$k] = $v;
 
 		}
@@ -48,7 +72,7 @@ class form extends _ {
 
 		//test_array($_POST);
 		$_SESSION['data'] = json_encode($return['post']);
-
+		$return['ses'] = $_SESSION['data'];
 		//test_array($_SESSION['data']);
 
 
@@ -218,7 +242,6 @@ class form extends _ {
 			$reserved_data = \models\timeslots::getInstance()->getAll("companyID = '{$company['ID']}'");
 
 			foreach ($reserved_data as $item){
-
 				$include_item = false;
 				switch ($item['repeat_mode']){
 					case "0":
@@ -451,7 +474,7 @@ class form extends _ {
 
 
 
-
+		//$_SESSION['data'] = json_encode($return);
 
 
 		return $GLOBALS["output"]['data'] = $return;

@@ -10,6 +10,8 @@
 - [x] Show reserved timeslots in the list
 - [x] Show reserved timeslots in the day view
 - [x] Reserved timeslots are click-able to bring up the form to edit them
+- [x] Order reserved timeslots in the list ASC
+- [x] Once off timeslots need to be hidden when in the past
 
 ##Appointment Actions *(on details pane)*
 
@@ -77,7 +79,7 @@
 - [ ] Capture who created/edited/deleted the record, IP etc
 - [ ] Allow editing / canceling of records (subject to admin confirming the action)
 - [x] Times to include reserved timeslots
-- [ ] check available times every step of the way. dont allow double bookings
+- [x] check available times every step of the way. dont allow double bookings
 
 ##Client History
 - [ ] Show a client history under "clients"
@@ -85,13 +87,29 @@
   - [ ] SMS Replys
   - [ ] Canceled Appointments
   
+##Staff members
+  - [ ] Timeslots dependent on staff member chosen
+  - [ ] Roster for staff members
+  - [ ] front form you choose a staff member and then choose services
+  - [ ] staff members get a list of services they offer
+  - [ ] dashboard lists limit it to the current staff member
+  - [ ] user gets linked to staff member. so when the user logs in the dashboard is their own list
+  - [ ] select a colour for a staff member
+    
+    
+    
     
 ##Misc  
 - [ ] Include the pipe character in the info block (description) for sms portal new line
-- [ ] Agenda lines (details pane, dashboard, agenda view) need to change colours for confirmed / unconfirmed
+- [ ] Agenda lines (details pane, dashboard, agenda view) need to change colours for 
+  - [ ] confirmed (as is now)
+  - [ ] unconfirmed (striped colour)
+  - [ ] staff member (each staff member gets their own color)
+  
 - [ ] SMS page for buying credits etc
+
 - [ ] Notification when credits are running low
-- [ ] custom 404 page
+
 
  
 ---
@@ -104,11 +122,13 @@
 - [ ] Super Admin section for companies (mark them as not paying and boot them etc)
 - [ ] Companies can use custom domains instead of unique urls
 - [x] SSL on whole project (security)
-- [ ] SMS administration
+- [ ] custom 404 page
+- [ ] global admin for companies
+  - [ ] sms bundles
+  - [ ] payed the bill
+  - [ ] basic stats
+- [ ] SMS bundles for each company
 
-  ###Staff members
-  - [ ] Timeslots dependent on staff member chosen
-  - [ ] Roster for staff members
 
 
 
@@ -141,4 +161,5 @@
 
 #####Users
 - [ ] Make sure the username is unique
+  - [ ] add user to company if user exists
 - [ ] Permissions

@@ -103,17 +103,35 @@ $(document).ready(function () {
 		data = data+"&companyID="+$("#confirm-form-area-form").attr("data-company")
 		data = data + "&submit[notes]="+$("#notes").val();
 
+		var $this = $(this);
+		$this.attr("disabled","disabled");
 
 
 		$.post("/save/form/form",data,function(data){
+			$this.removeAttr("disabled");
 			var data = data.data;
-			if (data.errors){
 
-				alert("There were errors submitting your booking")
+
+			if (data.errors && ObjectLength(data.errors)){
+
+
+
+				if (data.errors.timeslot){
+					$("input[name='appointmentDate_time']:checked").removeAttr("checked");
+					appointmenttimehighlight();
+				}
+
+				getSteps(true);
+
+
+
+
+
+				alert("There were errors submitting your booking");
+
 			} else {
+
 				$("#modal-window").jqotesub($("#template-booking-successful"), data).modal("show").on("hide.bs.modal",function(){
-		//			$('#rootwizard').bootstrapWizard('first');
-					//$(window).close();
 					$('#rootwizard').trigger("reset");
 
 
@@ -139,6 +157,15 @@ $(document).ready(function () {
 
 
 });
+function ObjectLength( object ) {
+	var length = 0;
+	for( var key in object ) {
+		if( object.hasOwnProperty(key) ) {
+			++length;
+		}
+	}
+	return length;
+};
 function appointmentdayhighlight(){
 	$("#appointmentDate_day li.active").removeClass("active")
 	$("input[name='appointmentDate_day']").each(function(){
@@ -204,7 +231,7 @@ function serviceshighlight(){
 
 
 }
-function getSteps(){
+function getSteps(jumptofirsterror){
 var $form = $("#rootwizard")
 	var data = $form.serialize();
 	data = data+"&companyID="+$("#confirm-form-area-form").attr("data-company")
@@ -295,6 +322,22 @@ var $form = $("#rootwizard")
 					['alignment', ['ul', 'ol', 'paragraph', 'lineheight']]
 				]
 			});
+
+			if (jumptofirsterror){
+
+				$("#wizard-tabs li").each(function(){
+					$this = $(this);
+					if ($this.find(".badge .fa-exclamation").length){
+						$this.find("a").trigger("click");
+
+						return false;
+
+					}
+
+				})
+
+
+			}
 
 
 

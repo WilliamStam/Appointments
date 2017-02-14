@@ -111,11 +111,14 @@ class timeslots extends _ {
 
 		//test_array($values);
 
+
 		if (isset($values['data']))$values['data'] = json_encode($values['data']);
 
 
 		$a = new \DB\SQL\Mapper($f3->get("DB"), "timeslots");
 		$a->load("ID='$ID'");
+
+
 
 
 		$log = array();

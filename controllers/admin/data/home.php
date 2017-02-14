@@ -227,17 +227,37 @@ class home extends _ {
 				$r = array();
 
 				foreach ($records as $item){
-					if (!isset($r[$item['repeat_mode']])){
-						$r[$item['repeat_mode']] = array(
-							"label"=>$repeat_mode_label["_".$item['repeat_mode']],
-							"records"=>array(),
-						);
+					$include_item = true;
+					$item['sort'] = $item['ID'];
+
+					if ($item['repeat_mode']=="0"){
+						$include_item = false;
+						$item['end_date'] = date("Y-m-d H:i:s",strtotime($item['data']['onceoff'] . " " . $item['end'].":00"));
+
+						$item['sort'] = strtotime($item['end_date']);
+						if (strtotime($item['end_date'])>=strtotime("now")){
+							$include_item = true;
+						}
 					}
-					$r[$item['repeat_mode']]['records'][] = $item;
+
+
+					if($include_item) {
+						if (!isset($r[$item['repeat_mode']])) {
+							$r[$item['repeat_mode']] = array(
+								"label" => $repeat_mode_label["_" . $item['repeat_mode']],
+								"records" => array()
+							);
+						}
+						$r[$item['repeat_mode']]['records'][] = $item;
+					}
 
 				}
 				$records = array();
 				foreach ($r as $item){
+					usort($item['records'], function($a, $b) {
+						return $a['sort'] <=> $b['sort'];
+					});
+
 					$records[] = $item;
 
 				}
@@ -245,7 +265,7 @@ class home extends _ {
 				$return['list'] = $records;
 
 
-			//	test_array($r);
+				//test_array($r);
 
 
 				$return['head'] = $this->head;
