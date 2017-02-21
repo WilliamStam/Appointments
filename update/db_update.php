@@ -46,7 +46,16 @@ $sql = array(
 
 	"ALTER TABLE `timeslots` ADD `repeat_value` TEXT NULL DEFAULT NULL AFTER `repeat_mode`;",
 
-	"ALTER TABLE `timeslots` CHANGE `repeat_value` `data` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL;"
+	"ALTER TABLE `timeslots` CHANGE `repeat_value` `data` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL;",
+	"ALTER TABLE `staff` ADD `services` VARCHAR(250) NULL DEFAULT NULL AFTER `last_name`;",
+	"ALTER TABLE `users` ADD `staffID` INT(6) NULL DEFAULT NULL AFTER `settings`;",
+	"ALTER TABLE `staff` ADD `colour` VARCHAR(10) NULL DEFAULT NULL AFTER `services`;",
+	"ALTER TABLE `appointments_services` ADD `appointmentStart` DATETIME NULL DEFAULT NULL AFTER `serviceID`;",
+	"ALTER TABLE `timeslots` ADD `staffID` INT(6) NULL DEFAULT NULL AFTER `data`, ADD `once_off_date` DATETIME NULL DEFAULT NULL AFTER `staffID`;",
+	"ALTER TABLE `staff` CHANGE `services` `services` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL;",
+	"ALTER TABLE `timeslots` CHANGE `once_off_date` `once_off_date` DATE NULL DEFAULT NULL;",
+	"ALTER TABLE `staff` CHANGE `colour` `badge_style` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL;",
+
 
 
 );

@@ -18,6 +18,7 @@ class form extends _ {
 
 		$services = models\services::getInstance()->getAll("companyID = '{$company['ID']}'","category ASC, label ASC","", array("format" => true,"group"=>"category"));
 
+		//test_array($services);
 
 		$cookiedata = isset($_SESSION['data'])?json_decode($_SESSION['data'],true):array();
 		if (!is_array($cookiedata)){
@@ -123,9 +124,7 @@ class form extends _ {
 		} else {
 			$return['extra']['appointmentDate_day_label'] = date("D, d M Y",strtotime($return['post']['appointmentDate_day']));
 		}
-		if ($return['post']['appointmentDate_time']==""){
-			$return['errors']['appointmentDate_time'] = "";
-		}
+
 
 		if (!count($return['post']['services'])){
 			$return['errors']['services'] = "";
@@ -208,220 +207,6 @@ class form extends _ {
 
 
 
-	//	test_array(array($return['dates'],$settings));
-
-//test_array(array($settings['timeslots'],isset($days[$return['post']['appointmentDate_day']]),$days[$return['post']['appointmentDate_day']]));
-
-		if ($settings['timeslots'] &&  isset($days[$return['post']['appointmentDate_day']]) && $days[$return['post']['appointmentDate_day']]==1 ){
-			$currrentDate = $return['post']['appointmentDate_day'];
-
-
-
-			$agenda_items = models\appointments::getInstance()->getAll("DATE_FORMAT(appointmentStart,'%Y-%m-%d') = '{$currrentDate}' AND appointments.companyID ='{$company['ID']}'","appointmentStart ASC","",array("format"=>true,"services"=>true));
-
-
-			$timeslots = array();
-			/*
-			$timeslots[] = array(
-				"s"=>"08:12",
-				"e"=>"09:16"
-			);
-			$timeslots[] = array(
-				"s"=>"14:12",
-				"e"=>"15:16"
-			);
-*/
-
-			foreach ($agenda_items as $item){
-				$timeslots[] = array(
-					"s"=>date("H:i",strtotime($item['time']['start'])),
-					"e"=>date("H:i",strtotime($item['time']['end']))
-				);
-			}
-
-			$reserved_data = \models\timeslots::getInstance()->getAll("companyID = '{$company['ID']}'");
-
-			foreach ($reserved_data as $item){
-				$include_item = false;
-				switch ($item['repeat_mode']){
-					case "0":
-						$item['start_date'] = date("Y-m-d H:i:s",strtotime($item['data']['onceoff'] . " " . $item['start'].":00"));
-						$item['end_date'] = date("Y-m-d H:i:s",strtotime($item['data']['onceoff'] . " " . $item['end'].":00"));
-
-						if ($item['data']['onceoff'] == $currrentDate){
-							$include_item = true;
-						}
-						break;
-					case "1":
-						$item['start_date'] = date("Y-m-d ".$item['start'].":00",strtotime($currrentDate));
-						$item['end_date'] = date("Y-m-d ".$item['end'].":00",strtotime($currrentDate));
-						$include_item = true;
-						break;
-
-					case "2":
-
-						$dow_numeric = date('w',strtotime($currrentDate));
-
-						$dayoftheweek = strtolower(date('l', strtotime("Sunday +{$dow_numeric} days")));
-						$days = explode(",",$item['data']['weekly']);
-
-						$item['start_date'] = date("Y-m-d ".$item['start'].":00",strtotime($currrentDate));
-						$item['end_date'] = date("Y-m-d ".$item['end'].":00",strtotime($currrentDate));
-
-
-						$item['dow'] = $dayoftheweek;
-						if (count($days)){
-
-							if (in_array($dayoftheweek,$days)){
-								$include_item = true;
-							}
-
-
-						}
-
-
-
-
-						break;
-
-					case "3":
-						$item['start_date'] = date("Y-m-d ".$item['start'].":00",strtotime($currrentDate));
-						$item['end_date'] = date("Y-m-d ".$item['end'].":00",strtotime($currrentDate));
-						$daytoday = date("d",strtotime($currrentDate));
-						$days = explode(",",$item['data']['monthly']);
-						if (count($days)){
-
-							if (in_array($daytoday,$days)){
-								$include_item = true;
-							}
-
-
-						}
-
-
-
-
-						break;
-
-
-				}
-
-
-
-				if ($include_item){
-
-					$timeslots[] = array(
-						"s"=>date("H:i",strtotime($item['start_date'])),
-						"e"=>date("H:i",strtotime($item['end_date']))
-					);
-				}
-			}
-
-
-
-
-			$open_hours = $settings['open'][strtolower(date("l",strtotime($currrentDate)))];
-
-
-			$duration = $return['post']['duration'];
-
-			if (date("Y-m-d",strtotime($currrentDate))==date("Y-m-d",strtotime("now"))){
-				$open_hours['start'] = date("H:i:00");
-			}
-
-
-			/*
-			$open_hours['start'] = '08:00:00';
-			$open_hours['end'] = '16:30:00';
-			$settings['timeslots'] = 15;
-			$duration = 60;
-*/
-
-			$start_hour = date("H:i",strtotime($open_hours['start']));
-			$end_hour = date("H:i",strtotime($open_hours['end']));
-
-			$return['extra']['open_hours'] = array(
-				"start"=>$start_hour,
-				"end"=>$end_hour,
-			);
-
-
-			//$start_hour = date("H:i",strtotime("-".$settings['timeslots']." minute",strtotime($start_hour)));
-			//$end_hour = date("H:i",strtotime("+".$settings['timeslots']." minute",strtotime($end_hour)));
-
-			$range=range(strtotime(date("00:00:00",strtotime("now"))),strtotime(date("23:59:59",strtotime("now"))),$settings['timeslots']*60);
-
-			$slots = array();
-			$time_slots = array();
-			$prev = "";
-			$test = array();
-			foreach($range as $time){
-				$cur = date("H:i",$time);
-
-
-				if ($cur<=date("H:i",strtotime("-".$duration." minute",strtotime($end_hour)))){
-					if ($prev){
-						if ($start_hour>$prev && $start_hour < $cur){
-							$time_slots[] = $start_hour;
-						}
-					}
-
-					if ($cur>=$start_hour && $cur <= $end_hour){
-						$time_slots[] = $cur;
-					}
-
-					$slots[] = $cur;
-				}
-
-				$prev = $cur;
-			}
-
-			if ($end_hour>$time_slots[count($time_slots)-1]){
-				$time_slots[] = $end_hour;
-			}
-
-			unset($time_slots[count($time_slots)-1]);
-			//$time_slotss = array_pop($time_slots);
-
-
-
-			$times = array();
-			$prev = "";
-			foreach ($time_slots as $item){
-				$active = 1;
-				foreach ($timeslots as $timeitems){
-					$item_start = date("H:i",strtotime("-".$duration." minute",strtotime($timeitems['s'])));
-
-
-					if (($item_start<=$item && $timeitems['e']>=$item)){
-						$active = 0;
-					}
-
-
-
-				}
-
-
-
-				$times[] = array(
-					"hour"=>date("H",strtotime($item)),
-					"minute"=>date("i",strtotime($item)),
-					"value"=>$item,
-					"active"=>$active
-				);
-				$prev = $item;
-			}
-
-
-
-
-			//test_array(array($timeslots,$times));
-			$return['times'] = $times;
-		} else {
-			$return['times'] = array();
-		}
-
-
 		$return['extra']['services'] = array();
 
 
@@ -436,7 +221,9 @@ class form extends _ {
 			$serviceids = is_array($return['post']['services'])?implode(",",$return['post']['services']):$return['post']['services'];
 
 			if ($serviceids){
-				$return['extra']['services'] = models\services::getInstance()->getAll("services.ID IN ({$serviceids}) AND companyID = '{$company['ID']}'","category ASC, label ASC","",array("format"=>true));
+				$return['extra']['services'] = models\services::getInstance()->getAll("services.ID IN ({$serviceids}) AND companyID = '{$company['ID']}'","category ASC, label ASC","",array("format"=>true,"staff"=>true));
+
+				//test_array("services.ID IN ({$serviceids}) AND companyID = '{$company['ID']}'");
 
 				foreach ($return['extra']['services'] as $item){
 					$return['extra']['services_totals']['duration'] = $return['extra']['services_totals']['duration'] + $item['duration'];
@@ -448,6 +235,27 @@ class form extends _ {
 
 		}
 
+
+		if (count($return['extra']['services']) && $return['post']['appointmentDate_day']){
+
+			$services = array();
+			foreach ($return['extra']['services'] as $service){
+				$staff = array();
+				foreach ((array)$service['staff'] as $item){
+					$item['times'] = models\available_timeslots::getInstance()->get($service, $item, $return['post']['appointmentDate_day']);
+					$staff[] = $item;
+				}
+				$service['staff'] = $staff;
+				$services[] = $service;
+			}
+			$return['extra']['services'] = $services;
+
+		}
+
+		//test_array($return);
+
+
+		//test_array($return['extra']['services']);
 
 		$return['extra']['services_totals']["duration_view"] = seconds_to_time($return['extra']['services_totals']['duration']*60,true);
 		$return['extra']['services_totals']["price_view"] = currency($return['extra']['services_totals']['price']);
@@ -472,6 +280,7 @@ class form extends _ {
 		}
 
 
+		//test_array($return);
 
 
 		//$_SESSION['data'] = json_encode($return);

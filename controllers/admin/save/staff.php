@@ -15,12 +15,17 @@ class staff extends _ {
 		$ID = isset($_REQUEST['ID'])?$_REQUEST['ID']:"";
 		
 		$values = array(
-				"first_name" => $this->post("first_name",true),
-				"last_name" => $this->post("last_name",true),
+			"first_name" => $this->post("first_name",true),
+			"last_name" => $this->post("last_name",true),
 			"companyID" => $this->user['company']['ID'],
-				
+			"services" => (array) $this->post("services"),
+			"badge_style" => $this->post("badge_style"),
+
 		);
-	
+		$values['services'] = implode(",",$values['services']);
+
+
+		//test_array($values);
 		
 		if (count($this->errors)==0){
 			

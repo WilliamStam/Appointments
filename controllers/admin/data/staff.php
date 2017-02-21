@@ -17,7 +17,11 @@ class staff extends _ {
 
 
 		$return = models\staff::getInstance()->get($ID);
-
+		if (isset($return['badge_style'])) {
+			$return['badge_style'] = json_decode($return['badge_style'],true);
+		} else {
+			$return['badge_style'] = array();
+		}
 
 		return $GLOBALS["output"]['data'] = $return;
 	}

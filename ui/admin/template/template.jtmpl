@@ -564,9 +564,7 @@
 
 				<div class="modal-title">
 					<%= this.label.main %>
-					<small
-					<% if(!this.agenda.settings.active){ %>style="margin-left:30px;" class="label label-danger"
-					title="Closed"<% } else { %>style="margin-left:30px;"<% } %>><%= this.label.small %></small>
+					<small style="margin-left:10px;" <% if(!this.agenda.settings.active){ %> class="label label-danger" title="Closed"<% } else { %><% } %>><%= this.label.small %></small>
 				</div>
 
 
@@ -605,8 +603,8 @@
 						</div>
 						<div class="agenda-items">
 							<% for(var i in this.agenda.items){ %>
-							<div class="agenda-item <% if(this.agenda.items[i].ID == this.ID) { %>current<% } %>" style="left:<%= this.agenda.items[i].agenda.l %>%;right:<%= this.agenda.items[i].agenda.r %>%;">
-								<div class="item-label appointment-row" title="<strong><%= this.agenda.items[i].client.first_name||'Walk-In' %> <%= this.agenda.items[i].client.last_name||'' %></strong><br><%= this.agenda.items[i].time.start_view %> - <%= this.agenda.items[i].time.end_view %>" data-id="<%= this.agenda.items[i].ID %>" data-toggle="tooltip" data-placement="bottom" data-content="<%= this.agenda.items[i].client.first_name||'Walk-In' %> <%= this.agenda.items[i].client.last_name||'' %>" data-html="true" data-trigger="hover" data-container="#details-appointment">
+							<div class="agenda-item agenda-staff-item-<% if(this.agenda.items[i].staff){ %><%= this.agenda.items[i].staff.ID %><% } %> <% if(this.agenda.items[i].appointment.ID == this.ID) { %>current<% } %>" style="left:<%= this.agenda.items[i].agenda.l %>%;right:<%= this.agenda.items[i].agenda.r %>%;" data-appid="<%= this.agenda.items[i].appointment.ID %>">
+								<div class="item-label appointment-row" title="<strong><%= this.agenda.items[i].appointment.client.first_name||'Walk-In' %> <%= this.agenda.items[i].appointment.client.last_name||'' %></strong>" data-id="<%= this.agenda.items[i].appointment.ID %>" data-toggle="popover" data-placement="bottom" data-content="<%= this.agenda.items[i].time.start_view_short %> - <%= this.agenda.items[i].time.end_view_short %><br><ul class='list-group' style='margin:5px -15px 0 -15px;'><li class='list-group-item heading text-right'><%= this.agenda.items[i].category %></li><li class='list-group-item'><%= this.agenda.items[i].label %></li></ul><% if( this.agenda.items[i].staff){ %><span class='badge staff-badge staff-badge-<%= this.agenda.items[i].staff.ID %>'><%= this.agenda.items[i].staff.first_name %> <%= this.agenda.items[i].staff.last_name||'' %></span><% } %>" data-html="true" data-trigger="hover" data-container="#details-appointment">
 
 
 								</div>
@@ -665,16 +663,26 @@
 							<% } %>
 							<% for(var g in this.services[i].records){ %>
 							<li class="list-group-item">
-								<span class="badge"><%= this.services[i].records[g].duration_view %></span>
+								<span class="badge"><%= this.services[i].records[g].time.start_view_short %></span>
 								<%= this.services[i].records[g].label %>
 
 								<% if(this.services[i].records[g].staff){ %>
-								<div style="font-size: smaller">
-									(<%= this.services[i].records[g].staff.first_name %> <%=
-									this.services[i].records[g].staff.last_name %>)
+
+								<div>
+									<span style="font-size: smaller" class="badge staff-badge staff-badge-<%= this.services[i].records[g].staff.ID %>">
+
+									<%= this.services[i].records[g].staff.first_name %> <%=
+									this.services[i].records[g].staff.last_name %>
+									</span>
 								</div>
 
 								<% } %>
+								<div style="font-size: smaller">
+
+									Duration: <%= this.services[i].records[g].duration_view %> | End: <%= this.services[i].records[g].time.end_view_short %>
+								</div>
+
+
 							</li>
 							<% } %>
 							<% } %>
@@ -837,6 +845,26 @@
 							</div>
 						</div>
 					</div>
+					<div class="panel blue">
+						<div class="panel-heading ">Staff</div>
+						<div class="panel-body no-border ">
+
+							<select name="staffID" id="staffID" class="select2" style="width:100%">
+								<option value="">All Staff</option>
+								<optgroup label="Staff Members">
+									{% for row in _staff %}
+										<option value="{{ row['ID'] }}" <% if(this.details.staffID=="{{ row['ID'] }}"){ %>selected<% } %>>{{ row['first_name'] }} {{ row['last_name'] }}</option>
+									{% endfor %}
+								</optgroup>
+							</select>
+
+
+
+
+
+
+						</div>
+					</div>
 					<div class="panel blue" style="margin-bottom:0;">
 						<div class="panel-heading ">Repeating</div>
 						<div class="panel-body no-border">
@@ -895,7 +923,7 @@
 					<div class="panel repeat-forms" id="repeat-form-2">
 						<div class="panel-body no-border" >
 
-							<div class="view-table">
+							<div class="view-table table-display">
 							<div class="view-row" id="repeat-weekly-buttons">
 
 							{% set weekdays = ['Sunday','Monday',"Tuesday",'Wednesday',"Thursday",'Friday','Saturday'] %}
@@ -921,7 +949,7 @@
 						<div class="panel-body no-border" id="repeat-monthly-buttons">
 
 
-							<div class="view-table">
+							<div class="view-table table-display">
 								<div class="view-row" >
 									{% for d in 1..11 %}
 										<div class="view-cell">

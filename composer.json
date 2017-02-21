@@ -226,7 +226,9 @@
     "components/bootstrap-datetimepicker":"dev-master",
     "Summernote/summernote":"dev-master",
     "weareoutman/clockpicker":"dev-gh-pages",
-    "twitter/typeahead.js":"*"
+    "twitter/typeahead.js":"*",
+    "itsjavi/bootstrap-colorpicker":"*",
+    "mexitek/phpcolors":"*"
 
   }
 }

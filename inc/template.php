@@ -73,7 +73,7 @@ class template {
 		$services = models\services::getInstance()->getAll("companyID = '{$company['ID']}'","category ASC, label ASC","", array("format" => true,"group"=>"category"));
 
 
-
+//test_array($services);
 
 
 		$this->vars['_company'] = $company;

@@ -85,9 +85,9 @@ $(document).ready(function () {
 
 	})
 
-	$(document).on("change","input[name='appointmentDate_time']",function(){
+	$(document).on("change","input.appointmentDate_time",function(){
 		appointmenttimehighlight();
-		$('#rootwizard').bootstrapWizard('next');
+		//$('#rootwizard').bootstrapWizard('next');
 
 	})
 
@@ -117,7 +117,7 @@ $(document).ready(function () {
 
 
 				if (data.errors.timeslot){
-					$("input[name='appointmentDate_time']:checked").removeAttr("checked");
+					$("input.appointmentDate_time:checked").removeAttr("checked");
 					appointmenttimehighlight();
 				}
 
@@ -176,7 +176,7 @@ function appointmentdayhighlight(){
 }
 function appointmenttimehighlight(){
 	$("#appointmentDate_time li.active").removeClass("active")
-	$("input[name='appointmentDate_time']").each(function(){
+	$(".appointmentDate_time").each(function(){
 		if ($(this).is(":checked")){
 			$(this).closest("li").addClass("active")
 		}

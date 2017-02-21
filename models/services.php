@@ -199,12 +199,18 @@ class services extends _ {
 		
 		
 		$recordIDs = array();
-		
+
+
 		$i = 1;
 		$n = array();
 		foreach ($data as $item) {
 			$recordIDs[] = $item['ID'];
 			if (isset($item['data'])) $item['data'] = json_decode($item['data'],true);
+
+
+
+
+
 
 			$item['duration_view'] = seconds_to_time($item['duration']*60,true);
 			$item['price_view'] = currency($item['price']);
@@ -213,10 +219,19 @@ class services extends _ {
 
 			$n[] = $item;
 		}
-		
+
+
+
+		$recordIDs = implode(",",$recordIDs);
+
+
+
+
+
 
 		if ($options['group']){
 			$r = array();
+
 
 			$r = array();
 			foreach ($n as $item){
@@ -225,6 +240,8 @@ class services extends _ {
 						"label"=>$item[$options['group']],
 						"records"=>array(),
 					);
+
+
 				}
 				$r[$item[$options['group']]]['records'][] = $item;
 			}
@@ -239,8 +256,47 @@ class services extends _ {
 			$n = $records;
 		}
 		
-		
-		//test_array($options); 
+		if ($options['staff']){
+
+			$sql = array();
+
+			$rec = array();
+			foreach ($n as $item){
+				$rec[$item['ID']] = $item;
+				$sql[] = "(find_in_set('{$item['ID']}',services) <> 0 AND companyID = '{$item['companyID']}')";
+			}
+
+			if (count($sql)){
+				$sql = implode(" OR ",$sql);
+
+				$staff_ = staff::getInstance()->getAll($sql);
+
+				$staff = array();
+				foreach ($staff_ as $item){
+					if ($item['services']){
+						$services = explode(",",$item['services']);
+						foreach ($services as $serv){
+							$staff["serv-".$serv][] = $item;
+						}
+					}
+				}
+
+				$r = array();
+				foreach ($n as $item){
+					$item['staff'] = $staff['serv-'.$item['ID']];
+					$r[] = $item;
+				}
+				$n = $r;
+
+
+
+
+			}
+
+
+			//test_array($sql);
+		}
+		//test_array($options);
 		
 		
 		

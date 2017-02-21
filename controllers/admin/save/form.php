@@ -119,6 +119,7 @@ class form extends _ {
 				"start" => $this->post("start",true),
 				"end" => $this->post("end",true),
 				"repeat_mode" => $this->post("repeat_mode"),
+				"staffID" => $this->post("staffID"),
 				"companyID" => $this->user['company']['ID'],
 
 		);
@@ -142,6 +143,9 @@ class form extends _ {
 			"monthly"=>$this->post("repeat_data_3"),
 		);
 
+		if ($values['repeat_mode']=="0"){
+			$values['once_off_date'] = $values['data']['onceoff'];
+		}
 
 
 		//test_array($_POST);

@@ -162,6 +162,10 @@ $f3->route('GET|POST /admin/settings/notification_templates', 'controllers\admin
 
 
 
+$f3->route('GET|POST /admin/test', 'controllers\admin\test->page');
+
+
+
 
 $f3->route('GET|POST /logout', function ($f3, $params) use ($user) {
 	session_start();
@@ -190,6 +194,33 @@ $f3->route('GET|POST /cron.php', 'controllers\front\cron->page');
 
 
 
+$f3->route('GET /test', function ($app, $params) {
+	$companyID = "1";
+
+	$appointment = models\appointments::getInstance()->get("148",array("format"=>true,"services"=>true));
+	$services = $appointment['services'];
+
+
+	$res = array();
+	foreach ($services as $item){
+		$res[] = models\available_timeslots::getInstance()->get($item,$item['staff']['ID'],"2017-02-18",$appointment['ID']);
+	}
+
+
+
+
+
+	test_array($res);
+
+
+
+
+
+
+
+
+});
+
 $f3->route('GET /test/sms/@number', function ($app, $params) {
 
 
@@ -207,24 +238,53 @@ $f3->route('GET /test/email/@email', function ($app, $params) {
 });
 
 
-$f3->route('GET /importSettings', function ($app, $params) {
+$f3->route('GET /updatetonew', function ($app, $params) {
 
-	$companyID = '1';
+	$appointments_ = models\appointments::getInstance()->getAll();
+	$services_ = models\services::getInstance()->getAll();
 
-	$settings_data = $app->get("DB")->exec("SELECT * FROM settings;");
-	$settings = array();
-	foreach ($settings_data as $item){
-		$settings[$item['setting']] = json_decode($item['data'],true);
+	$appointments = array();
+	foreach ($appointments_ as $item){
+		$appointments[$item['ID']]=$item;
+	}
+
+	$services = array();
+	foreach ($services_ as $item){
+		$services[$item['ID']]=$item;
+	}
+
+
+	$appointment_services = $app->get("DB")->exec("SELECT * FROM appointments_services WHERE appointmentStart is null ORDER BY ID ASC");
+
+
+	$sql = array();
+	$appoint = array();
+
+	foreach ($appointment_services as $item){
+		$appointmentStart = $appointments[$item['appointmentID']]['appointmentStart'];
+		if (isset($appoint[$item['appointmentID']])){
+			$appointmentStart = date("Y-m-d H:i:s",strtotime($appoint[$item['appointmentID']] . " + " . $services[$item['serviceID']]['duration']."min"));
+		}
+		$appoint[$item['appointmentID']] = $appointmentStart;
+
+		if ($appointmentStart){
+			$sql[] = "UPDATE appointments_services SET appointmentStart = '{$appointmentStart}' WHERE ID = '{$item['ID']}'";
+		}
+
 	}
 
 
 
-	//test_array($settings);
+	$count = count($sql);
 
-	$values = array("settings"=>($settings));
-	models\companies::_save($companyID,$values);
+	$sql = implode("; ",$sql);
+	$app->get("DB")->exec($sql);
+	test_string("{$count} Records updated");
 
-	test_array("imported");
+
+
+
+
 
 
 

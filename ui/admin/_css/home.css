@@ -119,9 +119,7 @@
     position: absolute;
     left: 50px;
     right: 0;
-    vertical-align: middle;
-    background-color: #c6d3df;
-    background: linear-gradient(to left, #d3dde7, #b9c9d8); }
+    vertical-align: middle; }
     #agenda-wrapper #agenda-view-area .agenda-items .agenda-item .item-label {
       border: 1px solid #ccc;
       position: absolute;
@@ -142,21 +140,12 @@
           left: 0;
           right: 0;
           bottom: 0;
-          z-index: 30;
-          border: 1px solid #34495e;
-          background-color: #c6d3df;
-          background: linear-gradient(to left, #d3dde7, #b9c9d8); }
-    #agenda-wrapper #agenda-view-area .agenda-items .agenda-item.current {
-      background-color: #3b536b;
-      background: linear-gradient(to bottom, #587ca0, #3d566e); }
-      #agenda-wrapper #agenda-view-area .agenda-items .agenda-item.current .item-label {
-        color: #fff;
-        z-index: 20; }
-        #agenda-wrapper #agenda-view-area .agenda-items .agenda-item.current .item-label.appointment-row:hover {
-          z-index: 30;
-          border: 1px solid #34495e;
-          background-color: #3b536b;
-          background: linear-gradient(to bottom, #587ca0, #3d566e); }
+          z-index: 30; }
+    #agenda-wrapper #agenda-view-area .agenda-items .agenda-item.current .item-label {
+      color: #fff;
+      z-index: 20; }
+      #agenda-wrapper #agenda-view-area .agenda-items .agenda-item.current .item-label.appointment-row:hover {
+        z-index: 30; }
   #agenda-wrapper #agenda-view-area .agenda-now {
     height: 5px;
     background-color: red;
@@ -220,8 +209,17 @@
           border: 1px solid #34495e; }
 
 .fc-event, .fc-event-dot {
-  background-color: #34495e;
-  padding: 3px; }
+  background-color: transparent;
+  color: #6a6c6f;
+  padding: 3px;
+  border: 1px solid #e4e5e7; }
+  .fc-event .badge, .fc-event-dot .badge {
+    padding: 1px 3px;
+    margin: -5px 2px -3px 0; }
+  .fc-event .event-time, .fc-event-dot .event-time {
+    font-size: 9px;
+    font-style: italic;
+    margin-right: 3px; }
   .fc-event:hover, .fc-event-dot:hover {
     background-color: #46637f; }
 
@@ -232,3 +230,125 @@
 
 #calendar-area .fc-other-month {
   opacity: 0.3; }
+
+#filter-on-staff-member, #filter-on-staff-member:focus, #filter-on-staff-member:active, #filter-on-staff-member.focus {
+  color: #333;
+  background-color: #fff;
+  border-color: #e4e5e7; }
+  #filter-on-staff-member:focus, #filter-on-staff-member.focus, #filter-on-staff-member:focus:focus, #filter-on-staff-member:focus.focus, #filter-on-staff-member:active:focus, #filter-on-staff-member:active.focus, #filter-on-staff-member.focus:focus, #filter-on-staff-member.focus.focus {
+    color: #333;
+    background-color: #e6e6e6;
+    border-color: #a1a4ab; }
+  #filter-on-staff-member:hover, #filter-on-staff-member:focus:hover, #filter-on-staff-member:active:hover, #filter-on-staff-member.focus:hover {
+    color: #333;
+    background-color: #e6e6e6;
+    border-color: #c4c6ca; }
+  #filter-on-staff-member:active, #filter-on-staff-member.active,
+  .open > #filter-on-staff-member.dropdown-toggle, #filter-on-staff-member:focus:active, #filter-on-staff-member:focus.active,
+  .open > #filter-on-staff-member:focus.dropdown-toggle, #filter-on-staff-member:active:active, #filter-on-staff-member:active.active,
+  .open > #filter-on-staff-member:active.dropdown-toggle, #filter-on-staff-member.focus:active, #filter-on-staff-member.focus.active,
+  .open > #filter-on-staff-member.focus.dropdown-toggle {
+    color: #333;
+    background-color: #e6e6e6;
+    border-color: #c4c6ca; }
+    #filter-on-staff-member:active:hover, #filter-on-staff-member:active:focus, #filter-on-staff-member:active.focus, #filter-on-staff-member.active:hover, #filter-on-staff-member.active:focus, #filter-on-staff-member.active.focus,
+    .open > #filter-on-staff-member.dropdown-toggle:hover,
+    .open > #filter-on-staff-member.dropdown-toggle:focus,
+    .open > #filter-on-staff-member.dropdown-toggle.focus, #filter-on-staff-member:focus:active:hover, #filter-on-staff-member:focus:active:focus, #filter-on-staff-member:focus:active.focus, #filter-on-staff-member:focus.active:hover, #filter-on-staff-member:focus.active:focus, #filter-on-staff-member:focus.active.focus,
+    .open > #filter-on-staff-member:focus.dropdown-toggle:hover,
+    .open > #filter-on-staff-member:focus.dropdown-toggle:focus,
+    .open > #filter-on-staff-member:focus.dropdown-toggle.focus, #filter-on-staff-member:active:active:hover, #filter-on-staff-member:active:active:focus, #filter-on-staff-member:active:active.focus, #filter-on-staff-member:active.active:hover, #filter-on-staff-member:active.active:focus, #filter-on-staff-member:active.active.focus,
+    .open > #filter-on-staff-member:active.dropdown-toggle:hover,
+    .open > #filter-on-staff-member:active.dropdown-toggle:focus,
+    .open > #filter-on-staff-member:active.dropdown-toggle.focus, #filter-on-staff-member.focus:active:hover, #filter-on-staff-member.focus:active:focus, #filter-on-staff-member.focus:active.focus, #filter-on-staff-member.focus.active:hover, #filter-on-staff-member.focus.active:focus, #filter-on-staff-member.focus.active.focus,
+    .open > #filter-on-staff-member.focus.dropdown-toggle:hover,
+    .open > #filter-on-staff-member.focus.dropdown-toggle:focus,
+    .open > #filter-on-staff-member.focus.dropdown-toggle.focus {
+      color: #333;
+      background-color: #d4d4d4;
+      border-color: #a1a4ab; }
+  #filter-on-staff-member:active, #filter-on-staff-member.active,
+  .open > #filter-on-staff-member.dropdown-toggle, #filter-on-staff-member:focus:active, #filter-on-staff-member:focus.active,
+  .open > #filter-on-staff-member:focus.dropdown-toggle, #filter-on-staff-member:active:active, #filter-on-staff-member:active.active,
+  .open > #filter-on-staff-member:active.dropdown-toggle, #filter-on-staff-member.focus:active, #filter-on-staff-member.focus.active,
+  .open > #filter-on-staff-member.focus.dropdown-toggle {
+    background-image: none; }
+  #filter-on-staff-member.disabled:hover, #filter-on-staff-member.disabled:focus, #filter-on-staff-member.disabled.focus, #filter-on-staff-member[disabled]:hover, #filter-on-staff-member[disabled]:focus, #filter-on-staff-member[disabled].focus,
+  fieldset[disabled] #filter-on-staff-member:hover,
+  fieldset[disabled] #filter-on-staff-member:focus,
+  fieldset[disabled] #filter-on-staff-member.focus, #filter-on-staff-member:focus.disabled:hover, #filter-on-staff-member:focus.disabled:focus, #filter-on-staff-member:focus.disabled.focus, #filter-on-staff-member:focus[disabled]:hover, #filter-on-staff-member:focus[disabled]:focus, #filter-on-staff-member:focus[disabled].focus,
+  fieldset[disabled] #filter-on-staff-member:focus:hover,
+  fieldset[disabled] #filter-on-staff-member:focus:focus,
+  fieldset[disabled] #filter-on-staff-member:focus.focus, #filter-on-staff-member:active.disabled:hover, #filter-on-staff-member:active.disabled:focus, #filter-on-staff-member:active.disabled.focus, #filter-on-staff-member:active[disabled]:hover, #filter-on-staff-member:active[disabled]:focus, #filter-on-staff-member:active[disabled].focus,
+  fieldset[disabled] #filter-on-staff-member:active:hover,
+  fieldset[disabled] #filter-on-staff-member:active:focus,
+  fieldset[disabled] #filter-on-staff-member:active.focus, #filter-on-staff-member.focus.disabled:hover, #filter-on-staff-member.focus.disabled:focus, #filter-on-staff-member.focus.disabled.focus, #filter-on-staff-member.focus[disabled]:hover, #filter-on-staff-member.focus[disabled]:focus, #filter-on-staff-member.focus[disabled].focus,
+  fieldset[disabled] #filter-on-staff-member.focus:hover,
+  fieldset[disabled] #filter-on-staff-member.focus:focus,
+  fieldset[disabled] #filter-on-staff-member.focus.focus {
+    background-color: #fff;
+    border-color: #e4e5e7; }
+  #filter-on-staff-member .badge, #filter-on-staff-member:focus .badge, #filter-on-staff-member:active .badge, #filter-on-staff-member.focus .badge {
+    color: #fff;
+    background-color: #333; }
+
+#filter-on-staff-member.active, #filter-on-staff-member.active:focus, #filter-on-staff-member.active:active, #filter-on-staff-member.active.focus {
+  color: #fff;
+  background-color: #337ab7;
+  border-color: #2e6da4; }
+  #filter-on-staff-member.active:focus, #filter-on-staff-member.active.focus, #filter-on-staff-member.active:focus:focus, #filter-on-staff-member.active:focus.focus, #filter-on-staff-member.active:active:focus, #filter-on-staff-member.active:active.focus, #filter-on-staff-member.active.focus:focus, #filter-on-staff-member.active.focus.focus {
+    color: #fff;
+    background-color: #286090;
+    border-color: #122b40; }
+  #filter-on-staff-member.active:hover, #filter-on-staff-member.active:focus:hover, #filter-on-staff-member.active:active:hover, #filter-on-staff-member.active.focus:hover {
+    color: #fff;
+    background-color: #286090;
+    border-color: #204d74; }
+  #filter-on-staff-member.active:active, #filter-on-staff-member.active.active,
+  .open > #filter-on-staff-member.active.dropdown-toggle, #filter-on-staff-member.active:focus:active, #filter-on-staff-member.active:focus.active,
+  .open > #filter-on-staff-member.active:focus.dropdown-toggle, #filter-on-staff-member.active:active:active, #filter-on-staff-member.active:active.active,
+  .open > #filter-on-staff-member.active:active.dropdown-toggle, #filter-on-staff-member.active.focus:active, #filter-on-staff-member.active.focus.active,
+  .open > #filter-on-staff-member.active.focus.dropdown-toggle {
+    color: #fff;
+    background-color: #286090;
+    border-color: #204d74; }
+    #filter-on-staff-member.active:active:hover, #filter-on-staff-member.active:active:focus, #filter-on-staff-member.active:active.focus, #filter-on-staff-member.active.active:hover, #filter-on-staff-member.active.active:focus, #filter-on-staff-member.active.active.focus,
+    .open > #filter-on-staff-member.active.dropdown-toggle:hover,
+    .open > #filter-on-staff-member.active.dropdown-toggle:focus,
+    .open > #filter-on-staff-member.active.dropdown-toggle.focus, #filter-on-staff-member.active:focus:active:hover, #filter-on-staff-member.active:focus:active:focus, #filter-on-staff-member.active:focus:active.focus, #filter-on-staff-member.active:focus.active:hover, #filter-on-staff-member.active:focus.active:focus, #filter-on-staff-member.active:focus.active.focus,
+    .open > #filter-on-staff-member.active:focus.dropdown-toggle:hover,
+    .open > #filter-on-staff-member.active:focus.dropdown-toggle:focus,
+    .open > #filter-on-staff-member.active:focus.dropdown-toggle.focus, #filter-on-staff-member.active:active:active:hover, #filter-on-staff-member.active:active:active:focus, #filter-on-staff-member.active:active:active.focus, #filter-on-staff-member.active:active.active:hover, #filter-on-staff-member.active:active.active:focus, #filter-on-staff-member.active:active.active.focus,
+    .open > #filter-on-staff-member.active:active.dropdown-toggle:hover,
+    .open > #filter-on-staff-member.active:active.dropdown-toggle:focus,
+    .open > #filter-on-staff-member.active:active.dropdown-toggle.focus, #filter-on-staff-member.active.focus:active:hover, #filter-on-staff-member.active.focus:active:focus, #filter-on-staff-member.active.focus:active.focus, #filter-on-staff-member.active.focus.active:hover, #filter-on-staff-member.active.focus.active:focus, #filter-on-staff-member.active.focus.active.focus,
+    .open > #filter-on-staff-member.active.focus.dropdown-toggle:hover,
+    .open > #filter-on-staff-member.active.focus.dropdown-toggle:focus,
+    .open > #filter-on-staff-member.active.focus.dropdown-toggle.focus {
+      color: #fff;
+      background-color: #204d74;
+      border-color: #122b40; }
+  #filter-on-staff-member.active:active, #filter-on-staff-member.active.active,
+  .open > #filter-on-staff-member.active.dropdown-toggle, #filter-on-staff-member.active:focus:active, #filter-on-staff-member.active:focus.active,
+  .open > #filter-on-staff-member.active:focus.dropdown-toggle, #filter-on-staff-member.active:active:active, #filter-on-staff-member.active:active.active,
+  .open > #filter-on-staff-member.active:active.dropdown-toggle, #filter-on-staff-member.active.focus:active, #filter-on-staff-member.active.focus.active,
+  .open > #filter-on-staff-member.active.focus.dropdown-toggle {
+    background-image: none; }
+  #filter-on-staff-member.active.disabled:hover, #filter-on-staff-member.active.disabled:focus, #filter-on-staff-member.active.disabled.focus, #filter-on-staff-member.active[disabled]:hover, #filter-on-staff-member.active[disabled]:focus, #filter-on-staff-member.active[disabled].focus,
+  fieldset[disabled] #filter-on-staff-member.active:hover,
+  fieldset[disabled] #filter-on-staff-member.active:focus,
+  fieldset[disabled] #filter-on-staff-member.active.focus, #filter-on-staff-member.active:focus.disabled:hover, #filter-on-staff-member.active:focus.disabled:focus, #filter-on-staff-member.active:focus.disabled.focus, #filter-on-staff-member.active:focus[disabled]:hover, #filter-on-staff-member.active:focus[disabled]:focus, #filter-on-staff-member.active:focus[disabled].focus,
+  fieldset[disabled] #filter-on-staff-member.active:focus:hover,
+  fieldset[disabled] #filter-on-staff-member.active:focus:focus,
+  fieldset[disabled] #filter-on-staff-member.active:focus.focus, #filter-on-staff-member.active:active.disabled:hover, #filter-on-staff-member.active:active.disabled:focus, #filter-on-staff-member.active:active.disabled.focus, #filter-on-staff-member.active:active[disabled]:hover, #filter-on-staff-member.active:active[disabled]:focus, #filter-on-staff-member.active:active[disabled].focus,
+  fieldset[disabled] #filter-on-staff-member.active:active:hover,
+  fieldset[disabled] #filter-on-staff-member.active:active:focus,
+  fieldset[disabled] #filter-on-staff-member.active:active.focus, #filter-on-staff-member.active.focus.disabled:hover, #filter-on-staff-member.active.focus.disabled:focus, #filter-on-staff-member.active.focus.disabled.focus, #filter-on-staff-member.active.focus[disabled]:hover, #filter-on-staff-member.active.focus[disabled]:focus, #filter-on-staff-member.active.focus[disabled].focus,
+  fieldset[disabled] #filter-on-staff-member.active.focus:hover,
+  fieldset[disabled] #filter-on-staff-member.active.focus:focus,
+  fieldset[disabled] #filter-on-staff-member.active.focus.focus {
+    background-color: #337ab7;
+    border-color: #2e6da4; }
+  #filter-on-staff-member.active .badge, #filter-on-staff-member.active:focus .badge, #filter-on-staff-member.active:active .badge, #filter-on-staff-member.active.focus .badge {
+    color: #337ab7;
+    background-color: #fff; }

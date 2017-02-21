@@ -2,27 +2,103 @@
 	<![CDATA[
 
 	<div class="panel">
-		<div class="panel-heading built"><% if(this.ID){ %>Edit Record<% } else { %>New Record<% } %></div>
+		<div class="panel-heading built"><h3><% if(this.ID){ %>Edit Record<% } else { %>New Record<% } %></h3></div>
 		<div class="panel-body form-horizontal">
 
 			<div class="form-group">
 				<label for="first_name" class="col-sm-2 control-label">First Name</label>
 				<div class="col-sm-10">
-					<input type="text" class="form-control" id="first_name" name="first_name" placeholder="First Name: ie John" value="<%= this.first_name %>">
+					<input type="text" class="form-control" id="first_name" name="first_name" placeholder="First Name: ie John" value="<%= this.first_name||'' %>">
 				</div>
 			</div>
 			<div class="form-group">
 				<label for="last_name" class="col-sm-2 control-label">Last Name</label>
 				<div class="col-sm-10">
-					<input type="text" class="form-control" id="last_name" name="last_name" placeholder="Last Name: ie Doe" value="<%= this.last_name %>">
+					<input type="text" class="form-control" id="last_name" name="last_name" placeholder="Last Name: ie Doe" value="<%= this.last_name||'' %>">
 				</div>
 			</div>
 
 		</div>
+	</div>
+	<div class="panel">
+		<div class="panel-heading built">Badge style</div>
+		<div class="panel-body form-horizontal text-center">
+
+			<div>
+				<span class="badge staff-badge" id="demo-style">
+				demo of the style
+				</span>
+			</div>
+
+			<hr>
+			<div class="form-group ">
+
+				<div class="col-sm-6">
+					<label for="badge_style-color">Font Colour</label>
+					<div id="badge_style-color-div"></div>
+
+					<input type="text" class="form-control" id="badge_style-color" name="badge_style[color]" placeholder="Colour: #FF0000" value="<% if(this.badge_style){ %><%= this.badge_style['color']||'' %><% } %>">
+				</div>
+				<div class="col-sm-6">
+					<label for="badge_style-background-color">Background Colour</label>
+					<div id="badge_style-background-color-div"></div>
+
+					<input type="text" class="form-control" id="badge_style-background-color" name="badge_style[background-color]" placeholder="Colour: #FF0000" value="<% if(this.badge_style){ %><%= this.badge_style['background-color']||'' %><% } %>">
+				</div>
+
+
+
+
+
+			</div>
+
+
+
+		</div>
+	</div>
+	<% var services = (this.services).split(","); %>
+	{% for group_row in _services %}
+	<div class="panel">
+		<div class="panel-heading built">
+			{{ group_row['label'] }}
+			<div class="panel-tools toggle-checkboxes" style="color:#ccc; cursor:pointer;" data-target="services-table-{{ loop.index }}">
+				Toggle
+			</div>
+		</div>
+		<div class="panel-body form-horizontal no-padding">
+
+			<table class="table table-condensed table-checkbox  records" id="services-table-{{ loop.index }}">
+					<tbody>
+					{% for row in group_row['records'] %}
+						<tr class="record">
+							<td style="width:30px;padding-left:15px; padding-right:5px;">
+
+									<input type="checkbox" name="services[]" id="services-{{ row['ID'] }}" value="{{ row['ID'] }}" <% if(services.indexOf("{{ row['ID'] }}")!=-1){ %>checked<% } %>>
+
+
+							</td>
+							<td>
+								{{ row['label'] }}
+							</td>
+							<td style="width:75px;">{{ row['duration_view'] }}</td>
+							<td style="width:85px;">{{ row['price_view'] }}</td>
+						</tr>
+					{% endfor %}
+					</tbody>
+
+			</table>
+
+
+		</div>
+	</div>
+	{% endfor %}
+
+	<div class="panel">
+
 		<div class="panel-footer">
 			<% if(this.ID){ %>
 
-			<button class="btn btn-danger" type="button" id="btn-delete-record" ><i class="fa fa-trash"></i></button>
+			<button class="btn btn-danger" type="button" id="btn-delete-record"><i class="fa fa-trash"></i></button>
 			<% } %>
 			<div class="pull-right">
 				<% if(this.ID){ %>
@@ -60,7 +136,7 @@
 			</div>
 		</form>
 	</div>
-	<div class="panel-body p-n" >
+	<div class="panel-body p-n">
 
 		<table class="table records" id="record-list">
 
@@ -75,9 +151,6 @@
 
 	</div>
 	<div class="panel-footer text-small text-center font-trans p-n"><%= this.list.length %> Records</div>
-
-
-
 
 
 	]]>

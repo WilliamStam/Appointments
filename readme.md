@@ -12,6 +12,8 @@
 - [x] Reserved timeslots are click-able to bring up the form to edit them
 - [x] Order reserved timeslots in the list ASC
 - [x] Once off timeslots need to be hidden when in the past
+- [x] staff members can have their own timeslots assigned
+
 
 ##Appointment Actions *(on details pane)*
 
@@ -82,8 +84,8 @@
 - [x] check available times every step of the way. dont allow double bookings
 
 ##Client History
-- [ ] Show a client history under "clients"
-  - [ ] Appointments
+- [x] Show a client history under "clients"
+  - [x] Appointments
   - [ ] SMS Replys
   - [ ] Canceled Appointments
   
@@ -91,10 +93,13 @@
   - [ ] Timeslots dependent on staff member chosen
   - [ ] Roster for staff members
   - [ ] front form you choose a staff member and then choose services
-  - [ ] staff members get a list of services they offer
+  - [x] staff members get a list of services they offer
   - [ ] dashboard lists limit it to the current staff member
   - [ ] user gets linked to staff member. so when the user logs in the dashboard is their own list
-  - [ ] select a colour for a staff member
+  - [ ] Badge styles for a staff member
+      - [x] font colour
+      - [x] background colour
+      - [ ] colour pickers
     
     
     

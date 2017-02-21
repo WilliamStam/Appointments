@@ -1,0 +1,131 @@
+<div class="content animate-panel" id="content-area">
+
+
+	<section id="calendar">
+
+		{% for service in services %}
+		<div class="panel" data-duration="{{ service['duration'] }}">
+			<div class="panel-heading">
+				<h1>{{ service['label'] }} <small>{{ service['duration_view'] }}</small></h1>
+			</div>
+			<div class="panel-body">
+				<div class="timeslots">
+					{% for row in service['timeslots'] %}
+						<div class="timeslot {% if row['locked']=='1' %} locked{% endif %}{% if row['duration_locked']=='1' %} duration_locked{% endif %}{% if row['staff']=='' %} continuous{% endif %}{% if row['status']=='1' %} selectable{% endif %} {% if row['selected']=='1' %} selected{% endif %} " data-value="{{ row['v'] }}" data-staff="{{ row['staff'] }}">
+							{{ row['l'] }}
+
+						</div>
+
+					{% endfor %}
+				</div>
+				<div class="clearfix"></div>
+			</div>
+			<div class="panel-footer">
+				<div class="staff-area div-table">
+					<div class="staff div-row">
+						{% for staff in service['staff'] %}
+							<div class="item div-cell" data-id="{{ staff['ID'] }}">{{ staff['first_name'] }} {{ staff['last_name'] }}</div>
+						{% endfor %}
+					</div>
+				</div>
+			</div>
+		</div>
+		{% endfor %}
+
+
+
+
+
+
+
+
+
+
+	</section>
+</div>
+<style>
+	#calendar {
+		position: relative;
+	}
+
+	#calendar .timeslots .timeslot.selectable {
+		cursor:pointer;
+		font-weight: bold;
+	}
+	#calendar .timeslots .timeslot.selectable:hover {
+		background-color: #0db4be;
+	}
+
+
+
+	#calendar .timeslots .timeslot {
+		width: 60px;
+		float: left;
+		border: 1px solid #ccc;
+		text-align: center;
+		margin-right:-1px;
+		padding:10px;
+	}
+
+
+	#calendar .timeslots .timeslot.active {
+		background-color: #203ecb;
+		color: #e8e8e8;
+	}
+
+	#calendar .timeslots .timeslot.selected {
+		background-color: #203ecb;
+		color: #e8e8e8;
+	}
+
+
+	#calendar .timeslots .timeslot.continuous {
+		background-color: rgba(253, 0, 0, 0.2);
+		color:#999;
+	}
+
+
+	#calendar .timeslots .timeslot.duration_locked {
+		background-color: #e8e8e8;
+		color:#999;
+	}
+
+	#calendar .timeslots .timeslot.locked {
+		background-color: #cbcbcb;
+		color:#999;
+	}
+
+
+	#calendar .timeslots .timeslot.selected.duration_locked,#calendar  .timeslots .timeslot.selected.continuous {
+		background-color: #7d58cb;
+		color: #e8e8e8;
+	}
+	#calendar .timeslots .timeslot.selected.locked {
+		background-color: #ff0000;
+		color: #e8e8e8;
+	}
+
+	.div-table {
+		width:100%;
+		display: table;
+	}
+	.div-table .div-row {
+		display: table-row;
+	}
+	.div-table .div-cell {
+		display: table-cell;
+	}
+
+	.staff .item {
+		border: 1px solid #ccc;
+		text-align: center;
+		margin-right:-1px;
+		display:none;
+		padding:10px;
+
+	}
+
+
+
+
+</style>

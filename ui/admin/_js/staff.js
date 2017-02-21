@@ -88,7 +88,14 @@ $(document).ready(function () {
 
 
 
+
+
+
+
+
+
 });
+
 function highlightCurrent(){
 	var ID =  $.bbq.getState("ID");
 	
@@ -109,6 +116,47 @@ function getForm() {
 		highlightCurrent();
 
 		$("#side-bar .offcanvas").trigger("offcanvas.close");
+
+		$(".table-checkbox").each(function () {
+			record_table_active($(this));
+		});
+
+		$('#badge_style-color-div').colorpicker({
+			color: $('#badge_style-color').val(),
+			container: true,
+			inline: true,
+			format:"hex"
+		}).on("changeColor",function(event,el){
+			var c = event.color.toHex();
+			$('#badge_style-color').val(c);
+			$("#demo-style").css({"color":c});
+		});
+		$('#badge_style-color').on("change",function(){
+			$('#badge_style-color-div').colorpicker('setValue', $(this).val());
+			$("#demo-style").css({"color":$(this).val()});
+		});
+
+
+
+
+		$('#badge_style-background-color-div').colorpicker({
+			color: $('#badge_style-background-color').val(),
+			container: true,
+			inline: true,
+			format:"hex"
+		}).on("changeColor",function(event,el){
+			var c = event.color.toHex();
+			$('#badge_style-background-color').val(c);
+			$("#demo-style").css({"background-color":c});
+		});
+		$('#badge_style-background-color').on("change",function(){
+			$('#badge_style-background-color-div').colorpicker('setValue', $(this).val());
+			$("#demo-style").css({"background-color":$(this).val()});
+		});
+
+		$("#demo-style").css({"color":$('#badge_style-color').val(),"background-color":$('#badge_style-background-color').val()});
+
+
 
 		
 		$(window).trigger("resize");

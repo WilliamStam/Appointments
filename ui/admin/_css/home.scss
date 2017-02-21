@@ -202,8 +202,8 @@
 		right: 0;
 		vertical-align: middle;
 
-		background-color: lighten($color-navy-blue, 54%);
-		background: linear-gradient(to left, lighten($color-navy-blue, 58%), lighten($color-navy-blue, 50%));
+	//	background-color: lighten($color-navy-blue, 54%);
+	//	background: linear-gradient(to left, lighten($color-navy-blue, 58%), lighten($color-navy-blue, 50%));
 		.item-label {
 		  border: 1px solid #ccc;
 		  position: absolute;
@@ -227,9 +227,9 @@
 			  right: 0;
 			  bottom: 0;
 			  z-index: 30;
-			  border: 1px solid $color-navy-blue;
-			  background-color: lighten($color-navy-blue, 54%);
-			  background: linear-gradient(to left, lighten($color-navy-blue, 58%), lighten($color-navy-blue, 50%));
+			//  border: 1px solid $color-navy-blue;
+			//  background-color: lighten($color-navy-blue, 54%);
+			//  background: linear-gradient(to left, lighten($color-navy-blue, 58%), lighten($color-navy-blue, 50%));
 			}
 
 		  }
@@ -239,8 +239,8 @@
 
 		&.current {
 
-		  background-color: lighten($color-navy-blue, 4%);
-		  background: linear-gradient(to bottom, lighten($color-navy-blue, 20%), lighten($color-navy-blue, 5%));
+		//  background-color: lighten($color-navy-blue, 4%);
+		//  background: linear-gradient(to bottom, lighten($color-navy-blue, 20%), lighten($color-navy-blue, 5%));
 
 		  .item-label {
 			color: #fff;
@@ -248,9 +248,9 @@
 			&.appointment-row {
 			  &:hover {
 				z-index: 30;
-				border: 1px solid $color-navy-blue;
-				background-color: lighten($color-navy-blue, 4%);
-				background: linear-gradient(to bottom, lighten($color-navy-blue, 20%), lighten($color-navy-blue, 5%));
+		//		border: 1px solid $color-navy-blue;
+		//		background-color: lighten($color-navy-blue, 4%);
+		//		background: linear-gradient(to bottom, lighten($color-navy-blue, 20%), lighten($color-navy-blue, 5%));
 			  }
 
 			}
@@ -382,8 +382,23 @@
 }
 
 .fc-event, .fc-event-dot {
-  background-color: $color-navy-blue;
+  background-color: transparent;
+  color: $color-text;
   padding:3px;
+  border: 1px solid $border-color;
+
+  .badge {
+	padding:1px 3px;
+	margin:-5px 2px -3px 0;
+
+  }
+  .event-time {
+	font-size:9px;
+	font-style: italic;
+	margin-right:3px;
+  }
+
+
   &:hover {
 	background-color: lighten($color-navy-blue,10%);
   }
@@ -417,5 +432,18 @@
   }
   .fc-other-month {
 	opacity:0.3;
+  }
+}
+
+#filter-on-staff-member {
+
+  &,&:focus,&:active,&.focus {
+	@include button-variant($btn-default-color, $btn-default-bg, $border-color);
+  }
+  &.active {
+	&,&:focus,&:active,&.focus {
+	  @include button-variant($btn-primary-color, $btn-primary-bg, $btn-primary-border);
+	}
+
   }
 }

@@ -112,7 +112,7 @@ function getForm() {
 
 		$("#side-bar .offcanvas").trigger("offcanvas.close");
 
-		
+		$(".select2").select2();
 		$(window).trigger("resize");
 	},"form-data")
 	

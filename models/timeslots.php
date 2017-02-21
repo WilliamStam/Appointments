@@ -173,15 +173,17 @@ class timeslots extends _ {
 			$data = array($data);
 		}
 		//test_array($items);
-		
-		
+
+
 		
 		$recordIDs = array();
-		
+		$staffIDs = array();
+
 		$i = 1;
 		$records = array();
 		foreach ($data as $item) {
 			$recordIDs[] = $item['ID'];
+			if (!in_array($item['staffID'],$staffIDs)&&$item['staffID']) $staffIDs[] = $item['staffID'];
 			if (isset($item['data'])) {
 				$item['data'] = (array) json_decode($item['data'],true);
 			} else {
@@ -211,8 +213,45 @@ class timeslots extends _ {
 
 
 
+
 			$records[] = $item;
 		}
+
+
+		if (isset($options['staff'])&&$options['staff']){
+			$staff = array();
+			if (count($staffIDs)){
+				$staffIDs = implode(",",$staffIDs);
+				//test_array("ID IN ({$staffIDs})");
+				$staff_ = staff::getInstance()->getAll("ID IN ({$staffIDs})","first_name","",array("format"=>true));
+
+				foreach ($staff_ as $item){
+					$staff[$item['ID']] = $item;
+				}
+			}
+
+			$n = array();
+			foreach ($records as $item){
+
+				if (isset($staff[$item['staffID']])){
+					$item['staff'] = $staff[$item['staffID']];
+				} else {
+					if ($item['staffID']==0){
+						$item['staff'] = array(
+							"ID"=>"all",
+							"first_name"=>"All staff",
+							"color"=>""
+						);
+					}
+				}
+
+				$n[] = $item;
+			}
+			$records = $n;
+
+
+		}
+
 
 		
 		

@@ -2,7 +2,7 @@
 	<![CDATA[
 
 	<div class="panel">
-		<div class="panel-heading built"><% if(this.ID){ %>Edit Record<% } else { %>New Record<% } %></div>
+		<div class="panel-heading built"><h3><% if(this.ID){ %>Edit Record<% } else { %>New Record<% } %></h3></div>
 		<div class="panel-body form-horizontal">
 
 			<div class="form-group">

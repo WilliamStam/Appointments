@@ -109,6 +109,7 @@ class staff extends _ {
 		
 
 		if (isset($values['data']))$values['data'] = json_encode($values['data']);
+		if (isset($values['badge_style']))$values['badge_style'] = json_encode($values['badge_style']);
 
 
 		$a = new \DB\SQL\Mapper($f3->get("DB"), "staff");
@@ -170,6 +171,58 @@ class staff extends _ {
 		foreach ($data as $item) {
 			$recordIDs[] = $item['ID'];
 			if (isset($item['data'])) $item['data'] = json_decode($item['data'],true);
+			if (isset($item['badge_style'])) {
+				$item['badge_style'] = json_decode($item['badge_style'],true);
+				$item['badge_style_normal'] = $item['badge_style'];
+				$item['badge_style_hover'] = $item['badge_style'];
+				$item['badge_style_active'] = $item['badge_style'];
+				$item['badge_style_current'] = $item['badge_style'];
+
+
+
+				$prop = 'background-color';
+				if ($item['badge_style'][$prop]){
+					$color_ = $item['badge_style'][$prop];
+					$color = new \Mexitek\PHPColors\Color($color_);
+					$color_rgb = $color->getRgb();
+					$item['badge_style_rgb'] =$color_rgb;
+
+					$item['badge_style_current'][$prop] = "rgba({$color_rgb['R']},{$color_rgb['G']},{$color_rgb['B']},1)";
+					$item['badge_style_hover'][$prop] = "rgba({$color_rgb['R']},{$color_rgb['G']},{$color_rgb['B']},1)";
+					$item['badge_style_normal'][$prop] = "rgba({$color_rgb['R']},{$color_rgb['G']},{$color_rgb['B']},0.6)";
+					$item['badge_style_active'][$prop] = "rgba({$color_rgb['R']},{$color_rgb['G']},{$color_rgb['B']},1)";
+
+				}
+
+
+
+
+				$item['badge_style_rendered'] = array(
+					"normal"=>"",
+					"hover"=>"",
+					"active"=>"",
+					"current"=>"",
+				);
+
+				foreach ($item['badge_style_normal'] as $prop=>$it){
+					$item['badge_style_rendered']['normal'] = $item['badge_style_rendered']['normal'] . "" . $prop . ": ".$it.";";
+				}
+				foreach ($item['badge_style_hover'] as $prop=>$it){
+					$item['badge_style_rendered']['hover'] = $item['badge_style_rendered']['hover'] . "" . $prop . ": ".$it.";";
+				}
+				foreach ($item['badge_style_active'] as $prop=>$it){
+					$item['badge_style_rendered']['active'] = $item['badge_style_rendered']['active'] . "" . $prop . ": ".$it.";";
+				}
+				foreach ($item['badge_style_current'] as $prop=>$it){
+					$item['badge_style_rendered']['current'] = $item['badge_style_rendered']['current'] . "" . $prop . ": ".$it.";";
+				}
+
+
+
+			}
+
+
+
 
 
 

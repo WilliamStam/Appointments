@@ -1,7 +1,7 @@
 <script type="text/x-jqote-template" id="template-form">
 	<![CDATA[
 	<div class="panel">
-		<div class="panel-heading built"><% if(this.details.ID){ %>Edit Record<% } else { %>New Record<% } %></div>
+		<div class="panel-heading built"><h3><% if(this.details.ID){ %>Edit Record<% } else { %>New Record<% } %></h3></div>
 		<div class="panel-body form-horizontal">
 
 			<div class="form-group">
@@ -68,6 +68,34 @@
 			</div>
 			<div class="clearfix"></div>
 		</div>
+	</div>
+
+	<div class="panel">
+		<div class="panel-heading built">
+			<h3>History</h3>
+		</div>
+
+	</div>
+	<div id="history-area">
+	<% for(var i in this.records){ %>
+	<div class="panel">
+		<div class="panel-heading built">
+			<%= this.records[i].label %>
+		</div>
+		<div class="panel-body no-padding" >
+			<table class="records table table-condensed">
+				<% for(var g in this.records[i].records){ %>
+				<tr class="record" data-id="<%= this.records[i].records[g].ID %>">
+					<td><%= this.records[i].records[g].appointmentStart %></td>
+					<td style="width:120px;" class="text-left"><span style="color:#ccc;">Services:</span> <%= this.records[i].records[g].services.length %></td>
+					<td style="width:85px;"><%= this.records[i].records[g].duration_view %></td>
+				</tr>
+				<% } %>
+			</table>
+
+		</div>
+	</div>
+	<% } %>
 	</div>
 
 	]]>

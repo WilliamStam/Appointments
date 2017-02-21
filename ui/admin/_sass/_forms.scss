@@ -99,12 +99,6 @@
 	}
 
   }
-  .repeat-forms {
-
-	display: none;
-	.datepicker {
-	  width: auto;
-	}
 
 	.view-table {
 	  width: 100%;
@@ -136,7 +130,7 @@
 
 			}
 			input {
-			 display:none;
+			  display:none;
 
 			}
 			&:hover {
@@ -155,6 +149,15 @@
 
 	  }
 	}
+
+  .repeat-forms {
+
+	display: none;
+	.datepicker {
+	  width: auto;
+	}
+
+
 
   }
 

@@ -47,6 +47,16 @@ $(document).ready(function () {
 		getData();
 
 	});
+	$(document).on("click","#filter-on-staff-member",function(e){
+		e.preventDefault();
+
+		$.bbq.pushState({"filter_staff":(!$(this).hasClass("active"))})
+
+
+
+		getData();
+
+	});
 
 
 
@@ -54,6 +64,8 @@ $(document).ready(function () {
 
 });
 function getData() {
+
+	var filter_staff_records = $.bbq.getState("filter_staff");
 
 	var search = $("#search").val();
 
@@ -63,7 +75,7 @@ function getData() {
 
 	var list_view = $.bbq.getState("list_view");
 
-	var params =  {"section": section, "search": search, "list_view":list_view};
+	var params =  {"section": section, "search": search, "list_view":list_view, "filter_staff_member":filter_staff_records};
 	switch(section){
 		case "list":
 
@@ -114,6 +126,10 @@ function getData() {
 
 
 	$.getData("/admin/data/home/data",params, function (data) {
+		$("#filter-on-staff-member").removeClass("active")
+		if (data.options.filter_staff_member){
+			$("#filter-on-staff-member").addClass("active")
+		}
 
 
 		$("#content-area").jqotesub($("#template-view-" + section), data);
@@ -160,6 +176,25 @@ function getData() {
 
 						return false;
 					}
+				},
+				eventRender: function( event, element, view ) {
+					element.find(".fc-event-title").remove();
+					element.find(".fc-event-time").remove();
+
+
+					var new_description =
+							event.prep + ''
+							+ '<span class="event-time">'
+							+ moment(event.start).format("HH:mm") + ' '
+							+ '</span>'
+							+ event.title + '<br/>'
+
+						;
+					element.html(new_description);
+
+
+					//var $title = element.find( '.fc-title' );
+					//$title.html( $title.text() );
 				}
 			});
 

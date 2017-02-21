@@ -76,9 +76,15 @@ class appointments extends _ {
 			$where = " ";
 		}
 
+
+
+
 		if ($orderby) {
-			$orderby = " ORDER BY " . $orderby;
+			$orderby =  $orderby.", ";
 		}
+		$orderby = " ORDER BY $orderby appser.appointmentStart ASC";
+
+
 		if ($limit) {
 			$limit = " LIMIT " . $limit;
 		}
@@ -92,9 +98,9 @@ class appointments extends _ {
 
 
 		$sql = "
-			 SELECT DISTINCT appointments.*
+			 SELECT DISTINCT appointments.*, min(appser.appointmentStart) AS appointmentStart, max(appser.appointmentStart + INTERVAL services.duration MINUTE) AS appointmentEnd
 			FROM 
-			(((`appointments` LEFT JOIN clients ON clients.ID = appointments.clientID) left join appointments_services ON appointments.ID = appointments_services.appointmentID) left join services ON services.ID = appointments_services.serviceID)
+			(((`appointments` LEFT JOIN clients ON clients.ID = appointments.clientID) left join appointments_services appser ON appointments.ID = appser.appointmentID) left join services ON services.ID = appser.serviceID)
 			$where
 			GROUP BY appointments.ID
 			$orderby
@@ -258,7 +264,7 @@ class appointments extends _ {
 
 	}
 
-	function services($records){
+	function services($records,$options){
 		$recordIDs = array();
 		$timer = new timer();
 		$f3 = \Base::instance();
@@ -267,10 +273,14 @@ class appointments extends _ {
 		}
 		if (count($recordIDs)){
 			$recordIDs_str = implode(",", $recordIDs);
+			$staff_sql = "";
+			if ($options['staffID']){
+				$staff_sql = " AND staffID = '{$options['staffID']}'";
 
+			}
 //test_array($recordIDs);
 
-			$data = $f3->get("DB")->exec("SELECT * FROM appointments_services WHERE appointmentID in ({$recordIDs_str})");
+			$data = $f3->get("DB")->exec("SELECT * FROM appointments_services WHERE appointmentID in ({$recordIDs_str}) $staff_sql");
 
 			$ids = array(
 				"staff"=>array(),
@@ -306,7 +316,7 @@ class appointments extends _ {
 			}
 
 
-			//	test_array($data_arr);
+
 			//test_array($lookup);
 			$rec = array();
 			foreach ($records as $item){
@@ -318,18 +328,49 @@ class appointments extends _ {
 
 				if (isset($data_arr[$item['ID']])){
 					$s = array();
-
 					foreach ($data_arr[$item['ID']] as $ser){
 						$serv = $services_arr[$ser['serviceID']];
 
 						if (is_numeric($serv['duration'])) $item['duration'] = $item['duration'] + $serv['duration'];
 						if (is_numeric($serv['price'])) $item['price'] = $item['price'] + $serv['price'];
 
-						$serv['staff'] = $staff_arr[$ser["ID"]];
+						$serv['staff'] = $staff_arr[$ser["staffID"]];
 						$serv['recordID'] = $ser['ID'];
+						$serv['appointmentStart'] = $ser['appointmentStart'];
+						$serv['appointmentEnd'] = date("Y-m-d H:i:s",strtotime(" + ".$serv['duration']." minutes",strtotime($serv['appointmentStart'])));
+						$serv['time'] = array(
+							"start"=> date("Y-m-d H:i:s",strtotime($serv['appointmentStart'])),
+							"end"=> $serv['appointmentEnd'],
+						);
+						$serv['time']['start_view'] = date("H:i:s",strtotime($serv['time']['start']));
+						$serv['time']['start_view_short'] = date("H:i",strtotime($serv['time']['start']));
+						$serv['time']['end_view'] = date("H:i:s",strtotime($serv['time']['end']));
+						$serv['time']['end_view_short'] = date("H:i",strtotime($serv['time']['end']));
+						$serv['time']['day_view'] = date("D, d M Y",strtotime($serv['time']['start']));
+
+
 						$s[] = $serv;
 
+
 					}
+
+					$s_arr = array();
+					foreach ($s as $s_item){
+						$s_arr[(int)strtotime($s_item['appointmentStart']).".".$s_item['ID']] = $s_item;
+					}
+
+					usort($s_arr, function($a, $b) {
+						if(strtotime($a['appointmentStart'])==strtotime($b['appointmentStart'])) return 0;
+						return strtotime($a['appointmentStart']) > strtotime($b['appointmentStart'])?1:-1;
+					});
+
+					$s = $s_arr;
+
+					//if ($item['ID']=="89"){
+					//	test_array($s);
+					//}
+
+
 
 
 					//$item['ser'] = $data_arr[$item['ID']];
@@ -377,10 +418,11 @@ class appointments extends _ {
 			$item['active'] = 0;
 
 
+//			test_array($item);
 
 			$item['time'] = array(
 				"start"=> date("Y-m-d H:i:s",strtotime($item['appointmentStart'])),
-				"end"=> date("Y-m-d H:i:s",strtotime(" + ".$item['duration']." minutes",strtotime($item['appointmentStart']))),
+				"end"=> date("Y-m-d H:i:s",strtotime($item['appointmentEnd'])),
 			);
 			$item['time']['start_view'] = date("H:i:s",strtotime($item['time']['start']));
 			$item['time']['start_view_short'] = date("H:i",strtotime($item['time']['start']));
@@ -459,7 +501,7 @@ class appointments extends _ {
 		$timer->_stop(__NAMESPACE__, __CLASS__, __FUNCTION__, func_get_args());
 		return $records;
 	}
-	function agenda_view($records,$day=""){
+	function agenda_view($records,$day="",$staffID=""){
 		$single = false;
 		if (isset($records['ID'])) {
 			$single = true;
@@ -547,60 +589,68 @@ class appointments extends _ {
 
 		//test_array($business_hours);
 		$new_records = array();
-		foreach ($records as $item){
+		foreach ($records as $appointment){
 
 
 
-			$day_s_item = strtotime(date("Y-m-d 00:00:00",strtotime($item['time']['start'])));
-			$day_e_item = strtotime(date("Y-m-d 23:59:59",strtotime($item['time']['end'])));
-			$day_item = $day_e_item - $day_s_item;
-
-			$s = strtotime($item['time']['start']);
-			$e = strtotime($item['time']['end']);
 
 
-			if (date("His",$s)<date("His",strtotime($business_hours['start_l']))){
-				$business_hours['start_l'] = date("H:i:s",$s);
+			foreach ($appointment['services'] as $item){
+
+				unset($appointment['services']);
+				$item['appointment'] = $appointment;
+
+				$day_s_item = strtotime(date("Y-m-d 00:00:00",strtotime($item['time']['start'])));
+				$day_e_item = strtotime(date("Y-m-d 23:59:59",strtotime($item['time']['end'])));
+				$day_item = $day_e_item - $day_s_item;
+
+				$s = strtotime($item['time']['start']);
+				$e = strtotime($item['time']['end']);
+
+
+				if (date("His",$s)<date("His",strtotime($business_hours['start_l']))){
+					$business_hours['start_l'] = date("H:i:s",$s);
+				}
+				if (date("His",$e)>date("His",strtotime($business_hours['end_r']))){
+					$business_hours['end_r'] = date("H:i:s",$e);
+				}
+
+
+
+				if ($item['ID']=='1'){
+				//	if (isset($_GET['debug'])) test_array(array($business_hours,date("His",$s),date("His",strtotime($business_hours['start_l'])),$comp));
+				}
+
+
+				$l = $s - $day_s_item;
+
+
+				$l= ($l / $day_item)*100;
+
+				//test_array(date("Y-m-d H:i:s",$day_e_item));
+
+
+				$r = $day_e_item - $e;
+
+				if ($r < 0){
+					$r = 0;
+				} else {
+					$r = ($r / $day_item)*100;
+				}
+
+				//$r = 100 - $r;
+
+				if ($l < 0)$l = 0;
+				// if ($r < 0)$l = 0;
+
+				//test_array(array("day s"=>$day_s,"day e"=>$day_e, "day"=> $day,"s"=>$s,"e"=>$e,"l"=>$l ));
+
+
+
+				$item['agenda']['l'] = $l;
+				$item['agenda']['r'] = $r;
+				$new_records[] = $item;
 			}
-			if (date("His",$e)>date("His",strtotime($business_hours['end_r']))){
-				$business_hours['end_r'] = date("H:i:s",$e);
-			}
-
-
-
-			if ($item['ID']=='1'){
-			//	if (isset($_GET['debug'])) test_array(array($business_hours,date("His",$s),date("His",strtotime($business_hours['start_l'])),$comp));
-			}
-
-
-			$l = $s - $day_s_item;
-
-
-			$l= ($l / $day_item)*100;
-
-			//test_array(date("Y-m-d H:i:s",$day_e_item));
-
-
-			$r = $day_e_item - $e;
-
-			if ($r < 0){
-				$r = 0;
-			} else {
-				$r = ($r / $day_item)*100;
-			}
-
-			//$r = 100 - $r;
-
-			if ($l < 0)$l = 0;
-			// if ($r < 0)$l = 0;
-
-			//test_array(array("day s"=>$day_s,"day e"=>$day_e, "day"=> $day,"s"=>$s,"e"=>$e,"l"=>$l ));
-
-
-
-			$item['agenda']['l'] = $l;
-			$item['agenda']['r'] = $r;
-			$new_records[] = $item;
 		}
 
 
@@ -618,9 +668,13 @@ class appointments extends _ {
 
 
 		$reserved_timeslots = array();
+		$staffsql = "";
+		if ($staffID){
+			$staffsql = " AND (staffID ='0' OR staffID is null OR staffID='$staffID')";
+		}
 
 
-		$reserved_data = \models\timeslots::getInstance()->getAll("companyID = '{$this->user['company']['ID']}'");
+		$reserved_data = \models\timeslots::getInstance()->getAll("companyID = '{$this->user['company']['ID']}' $staffsql","","",array("staff"=>true));
 
 		$day = $dateForNow[0];
 		foreach ($reserved_data as $item){

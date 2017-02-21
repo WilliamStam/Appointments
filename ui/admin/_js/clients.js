@@ -59,12 +59,19 @@ $(document).ready(function () {
 		getList()
 		
 	});
-	$(document).on("click", ".record[data-id]", function (e) {
+	$(document).on("click", "#right-area .record[data-id]", function (e) {
 		e.preventDefault();
 		var ID = $(this).attr("data-id")
 		$.bbq.pushState({"ID":ID})
 		getForm()
 		
+	});
+	$(document).on("click", "#history-area .record[data-id]", function (e) {
+		e.preventDefault();
+		var ID = $(this).attr("data-id")
+		$.bbq.pushState({"appID":ID})
+		getAppointmentView()
+
 	});
 	
 	

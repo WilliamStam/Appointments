@@ -117,6 +117,7 @@
 <script type="text/x-jqote-template" id="template-form-appointment-time">
 	<![CDATA[
 
+
 	<div id="appointmentDate_time">
 		<% if(this.post.appointmentDate_day==""){ %>
 		<div class="no-records">
@@ -131,23 +132,61 @@
 			<% } %>
 		</h1>
 
-
-		<div>
-			<nav aria-label="Page navigation" id="appointmentDate_day">
-				<ul class="pagination">
-					<% for(var i in this.times){ %>
-					<li class="<% if(this.times[i].active=='0'){ %>disabled<% } %>">
-						<label for="appointmentDate_time-<%= this.times[i].value %>"  <% if(this.times[i].active=='0'){ %>title="Not Available"<% } %>>
-							<div class="day"><%= this.times[i].hour %>:<%= this.times[i].minute %></div>
-
-							<input type="radio" name="appointmentDate_time" id="appointmentDate_time-<%= this.times[i].value %>" value="<%= this.times[i].value %>" <% if(this.times[i].active=='0'){ %>disabled="disabled"<% } %> <% if(this.post.appointmentDate_time==this.times[i].value){ %>checked="checked"<% } %> >
-						</label>
-					</li>
-					<% } %>
-
-				</ul>
-			</nav>
+		<div class="alert alert-info" style="margin-bottom:30px;">
+			<p>
+				Select a staff member and time from each service
+			</p>
 		</div>
+
+
+		<% for(var i in this.extra.services){ %>
+
+			<h1><%= this.extra.services[i].label %> <small>Duration: <%= this.extra.services[i].duration_view %></small></h1>
+
+
+			<% for(var s in this.extra.services[i].staff){ %>
+
+			<div class="panel">
+				<div class="panel-heading built">
+					<%= this.extra.services[i].staff[s].first_name %> <%= this.extra.services[i].staff[s].last_name||'' %>
+				</div>
+				<div class="panel-body no-padding">
+
+					<div>
+						<nav aria-label="Page navigation">
+							<ul class="pagination">
+								<% for(var t in this.extra.services[i].staff[s].times.times){ %>
+								<li class="<% if(this.extra.services[i].staff[s].times.times[t].active=='0'){ %>disabled<% } %>">
+									<label for="appointmentDate_time-<%= this.extra.services[i].ID %>-<%= this.extra.services[i].staff[s].ID %>-<%= this.extra.services[i].staff[s].times.times[t].value %>"  <% if(this.extra.services[i].staff[s].times.times[t].active=='0'){ %>title="Not Available"<% } %>>
+									<div class="day"><%= this.extra.services[i].staff[s].times.times[t].value %></div>
+
+									<input type="radio" name="appointmentDate_time[<%= this.extra.services[i].ID %>][<%= this.extra.services[i].staff[s].ID %>]" id="appointmentDate_time-<%= this.extra.services[i].ID %>-<%= this.extra.services[i].staff[s].ID %>-<%= this.extra.services[i].staff[s].times.times[t].value %>" value="<%= this.extra.services[i].staff[s].times.times[t].value %>" class="appointmentDate_time" <% if(this.extra.services[i].staff[s].times.times[t].active=='0'){ %>disabled="disabled"<% } %> <% if(this.post.appointmentDate_time==this.extra.services[i].staff[s].times.times[t].value){ %>checked="checked"<% } %> >
+									</label>
+								</li>
+								<% } %>
+
+							</ul>
+						</nav>
+					</div>
+				</div>
+			</div>
+
+
+
+
+
+
+
+			<% } %>
+		<% } %>
+
+
+
+
+
+
+
+
 
 		<% if (this.extra.open_hours){ %>
 		<div class="alert alert-info" style="margin-top:30px;">

@@ -10,12 +10,26 @@ class home extends _ {
 		parent::__construct();
 
 		$this->options = $_GET;
+		$this->options['filter_staff_member'] = (isset($_GET['filter_staff_member'])&&$_GET['filter_staff_member']=="true")?true:false;
+
+
 
 		$return = array();
 
 		$currrentDate = date("Ymd", strtotime("today"));
 
-		$agenda_items = models\appointments::getInstance()->getAll("appointments.companyID = '{$this->user['company']['ID']}' AND DATE_FORMAT(appointmentStart,'%Y%m%d') = '{$currrentDate}'", "appointmentStart ASC", "", array("format" => TRUE, "client" => TRUE, "services" => TRUE));
+
+		$filter_staff_member_sql = "";
+		$options = array("format" => TRUE, "client" => TRUE, "services" => TRUE);
+		$staffID = "";
+		if ($this->options['filter_staff_member']){
+			$options['staffID'] = $this->user['staffID'];
+			$filter_staff_member_sql = " AND staffID = '".$this->user['staffID']."'";
+			$staffID = $this->user['staffID'];
+		}
+
+
+		$agenda_items = models\appointments::getInstance()->getAll("appointments.companyID = '{$this->user['company']['ID']}' AND DATE_FORMAT(appointmentStart,'%Y%m%d') = '{$currrentDate}' $filter_staff_member_sql", "appointmentStart ASC", "", $options);
 		$n = array();
 		$return["stats"] = array("count" => count($agenda_items), "duration" => 0);
 		$active = array();
@@ -30,7 +44,7 @@ class home extends _ {
 		}
 		$agenda_items = $n;
 
-		$return['agenda'] = models\appointments::getInstance()->agenda_view($agenda_items, date("Y-m-d", strtotime("today")));
+		$return['agenda'] = models\appointments::getInstance()->agenda_view($agenda_items, $currrentDate,$staffID);
 
 		//	if (isset($_GET['debug'])) test_array($return);
 
@@ -51,7 +65,7 @@ class home extends _ {
 		$return['active'] = $active;
 
 
-		$return["next"] = models\appointments::getInstance()->getAll("appointments.companyID = '{$this->user['company']['ID']}' AND appointmentStart > now()", "appointmentStart ASC", "0,1", array("format" => TRUE, "client" => TRUE, "services" => TRUE));
+		$return["next"] = models\appointments::getInstance()->getAll("appointments.companyID = '{$this->user['company']['ID']}' AND appointmentStart > now() $filter_staff_member_sql", "appointmentStart ASC", "0,1", $options);
 
 
 		if (isset($return["next"][0])) {
@@ -80,13 +94,13 @@ class home extends _ {
 
 		$return = models\appointments::getInstance()->get($ID, array("format" => TRUE, "services" => TRUE, "client" => TRUE));
 		$return['status'] = "current";
-
+		//test_array($return);
 		$currrentDate = date("Ymd", strtotime($return['appointmentStart']));
 
 		$agenda_items = models\appointments::getInstance()->getAll("appointments.companyID = '{$this->user['company']['ID']}' AND DATE_FORMAT(appointmentStart,'%Y%m%d') = '{$currrentDate}'", "appointmentStart ASC", "", array("format" => TRUE, "client" => TRUE, "services" => TRUE));
 
 
-		//	test_array($agenda_items);
+
 
 
 		$return['services'] = models\services::getInstance()->format($return['services'], array("group" => "category"));
@@ -174,6 +188,7 @@ class home extends _ {
 
 	function data() {
 		$return = array();
+
 		$return['options'] = $this->options;
 
 		$defaultSection = user::settings("home_list_section") ? user::settings("home_list_section") : "list";
@@ -209,12 +224,24 @@ class home extends _ {
 
 				);
 				$where = "companyID='{$this->user['company']['ID']}'";
+
+				if ($this->options['filter_staff_member']){
+					$where = $where." AND staffID = '".$this->user['staffID']."'";
+				}
+
+
+
 				if ($search){
 					$where = $where ." AND `label` LIKE '%$search%'";
 
 				}
 
-				$records = models\timeslots::getInstance()->getAll($where, "repeat_mode ASC, ID DESC", "", array("format" => TRUE));
+				$timeslot_where = $where;
+				$timeslot_where = $timeslot_where . " AND (IF(repeat_mode ='0',DATE_FORMAT(CONCAT(once_off_date,' ',end),'%Y-%m-%d %H:%i:%s')>=now(),1))";
+
+			//	test_string($timeslot_where);
+
+				$records = models\timeslots::getInstance()->getAll($timeslot_where, "repeat_mode ASC, ID DESC", "", array("format" => TRUE,"staff"=>true));
 				$return['records'] = $records;
 
 				$repeat_mode_label = array(
@@ -226,18 +253,28 @@ class home extends _ {
 
 				$r = array();
 
+
 				foreach ($records as $item){
 					$include_item = true;
 					$item['sort'] = $item['ID'];
+
+					$item_staff = $item['staff'];
+
+
+
+
+
+
+
 
 					if ($item['repeat_mode']=="0"){
 						$include_item = false;
 						$item['end_date'] = date("Y-m-d H:i:s",strtotime($item['data']['onceoff'] . " " . $item['end'].":00"));
 
 						$item['sort'] = strtotime($item['end_date']);
-						if (strtotime($item['end_date'])>=strtotime("now")){
+
 							$include_item = true;
-						}
+
 					}
 
 
@@ -265,7 +302,7 @@ class home extends _ {
 				$return['list'] = $records;
 
 
-				//test_array($r);
+				//test_array($return['list']);
 
 
 				$return['head'] = $this->head;
@@ -303,6 +340,7 @@ class home extends _ {
 		user::settings("home_list_day_value", $day_value);
 		user::settings("home_list_week_value", $week_value);
 		user::settings("home_list_month_value", $month_value);
+		user::settings("filter_staff_member", $this->options['filter_staff_member']);
 
 
 		if ($day_value == "") {
@@ -328,10 +366,15 @@ class home extends _ {
 		$label = "";
 		$current = "";
 		$where = "appointments.companyID = '{$this->user['company']['ID']}' ";
+		if ($this->options['filter_staff_member']){
+			$where = $where." AND staffID = '".$this->user['staffID']."'";
+		}
+
+
 
 		if ($search) {
 
-			$fields = array("clients.first_name", "clients.last_name", "clients.mobile_number", "clients.email", "clients.notes", "services.label", "services.category", "appointments.notes", "appointments.appointmentStart",
+			$fields = array("clients.first_name", "clients.last_name", "clients.mobile_number", "clients.email", "clients.notes", "services.label", "services.category", "appointments.notes", "appointmentStart",
 
 			);
 
@@ -434,12 +477,16 @@ class home extends _ {
 
 			);
 
+			$options = array("services" => TRUE, "client" => TRUE);
+			if ($this->options['filter_staff_member']){
+				$options['staffID']=$this->user['staffID'];
+			}
 
-			$records = models\appointments::getInstance()->getAll($where, "appointmentStart", "", array("services" => TRUE, "client" => TRUE));
+			$records = models\appointments::getInstance()->getAll($where, "appointmentStart", "", $options);
 			$return = $this->view($return, $records, $section);
 
 
-			//test_array($list);
+			//test_array($records);
 
 
 			$return['head'] = $this->head;
@@ -600,35 +647,43 @@ class home extends _ {
 
 
 		$new_records = array();
-		foreach ($records as $item) {
-			$s = strtotime($item['time']['start']);
-			$e = strtotime($item['time']['end']);
-			$day_ = $e - $s;
+		foreach ($records as $appointment) {
+
+
+			foreach ($appointment['services'] as $item){
+
+				unset($appointment['services']);
+				$item['appointment'] = $appointment;
+
+				$s = strtotime($item['time']['start']);
+				$e = strtotime($item['time']['end']);
+				$day_ = $e - $s;
 
 
 
 
-			$l_ = $s - $day_s;
-			if ($l_<0){
-				$l = 0;
-			} else {
-				$l = ($l_ / $day)*100;
+				$l_ = $s - $day_s;
+				if ($l_<0){
+					$l = 0;
+				} else {
+					$l = ($l_ / $day)*100;
+				}
+
+
+				$r_ = $day_e - $e;
+				$r = ($r_ / $day)*100;
+
+
+
+
+
+
+
+
+				$item['agenda']['top'] = $l;
+				$item['agenda']['bottom'] = $r;
+				$new_records[] = $item;
 			}
-
-
-			$r_ = $day_e - $e;
-			$r = ($r_ / $day)*100;
-
-
-
-
-
-
-
-
-			$item['agenda']['top'] = $l;
-			$item['agenda']['bottom'] = $r;
-			$new_records[] = $item;
 		}
 
 
@@ -638,9 +693,15 @@ class home extends _ {
 
 
 		$reserved_timeslots = array();
+		$filter_staff_member_sql = "";
+		if ($this->options['filter_staff_member']){
+			$options['staffID'] = $this->user['staffID'];
+			$filter_staff_member_sql = " AND staffID = '".$this->user['staffID']."'";
+		}
 
 
-		$reserved_data = \models\timeslots::getInstance()->getAll("companyID = '{$this->user['company']['ID']}'");
+
+		$reserved_data = \models\timeslots::getInstance()->getAll("companyID = '{$this->user['company']['ID']}' $filter_staff_member_sql","","",array("staff"=>true));
 
 		foreach ($reserved_data as $item){
 
@@ -896,17 +957,39 @@ class home extends _ {
 		$return_view['items'] = array();
 		$settings = $this->settings;
 
-		foreach ($records as $item){
+		foreach ($records as $rec){
 
-			$label = $item['client']['ID']?$item['client']['first_name'] . " ".  $item['client']['last_name']:"Walk-In";
+			$label = $rec['client']['ID']?$rec['client']['first_name'] . " ".  $rec['client']['last_name']:"Walk-In";
+
+			$str = array();
+			foreach ($rec['services'] as $item){
+				if ($item['staff']['ID']){
+				if (!isset($str[$item['staff']['ID']])){
+					$str[$item['staff']['ID']] = array(
+						"r"=>0,
+						"c"=>$item['staff']['colour'],
+						"i"=>$item['staff']['ID'],
+					);
+				}
+				$str[$item['staff']['ID']]['r'] = $str[$item['staff']['ID']]['r']+1;
+				}
+			}
+
+			$s = "";
+			foreach($str as $s_item){
+				$s = $s . "<span class='badge staff-badge staff-badge-{$s_item['i']}'>{$s_item['r']}</span>";
+			}
 
 
 			$return_view['items'][] = array(
-				"ID"  => $item['ID'],
+				"ID"  => $rec['ID'],
 				"title"  => $label,
-				"start" => $item['time']['start'],
-				"end" => $item['time']['end']
+				"start" => $rec['time']['start'],
+				"end" => $rec['time']['end'],
+				"prep"=>$s
+
 			);
+
 		};
 
 

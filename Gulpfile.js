@@ -27,6 +27,7 @@ var jsfile_admin = [
 	'vendor/ivaynberg/select2/dist/js/select2.full.min.js',
 
 	'vendor/twitter/typeahead.js/dist/typeahead.bundle.min.js',
+	'vendor/itsjavi/bootstrap-colorpicker/dist/js/bootstrap-colorpicker.min.js',
 
 	'vendor/weareoutman/clockpicker/dist/bootstrap-clockpicker.min.js',
 

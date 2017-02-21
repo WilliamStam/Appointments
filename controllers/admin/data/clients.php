@@ -18,6 +18,36 @@ class clients extends _ {
 
 		$return['details'] = models\clients::getInstance()->get($ID);
 
+		$agenda_items = models\appointments::getInstance()->getAll("appointments.companyID = '{$this->user['company']['ID']}' AND clientID = '{$return['details']['ID']}'", "appointmentStart DESC", "", array("format" => TRUE, "services" => TRUE));
+
+		$records = array();
+
+		foreach ($agenda_items as $item){
+			$key = date("mY",strtotime($item['appointmentStart']));
+			if(!in_array($key, $records)){
+				$records[$key]=array(
+					"label"=>date("F Y",strtotime($item['appointmentStart'])),
+					"records"=>array()
+				);
+			}
+			$records[$key]['records'][] = $item;
+		}
+
+		$r = array();
+		foreach($records as $item){
+			$r[] = $item;
+		}
+		$records = $r;
+
+
+
+		$return['records'] = $records;
+
+
+
+
+
+
 
 		return $GLOBALS["output"]['data'] = $return;
 	}

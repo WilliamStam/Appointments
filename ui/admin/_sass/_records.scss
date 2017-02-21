@@ -11,6 +11,7 @@
 			}
 		}
 	}
+
 }
 #pagination {
 	padding:0;
@@ -71,6 +72,18 @@
 			}
 		}
 	}
+
+
+
+  &.table-checkbox {
+
+	tr {
+
+	}
+
+  }
+
+
 }
 .appointment-row, .timeslot-row {
   cursor:pointer;

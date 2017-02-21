@@ -26,207 +26,200 @@ $.fn.modal.Constructor.prototype.enforceFocus = function () {
 $(document).ready(function () {
 
 
-
-
-
-
-
-
 });
 
 
 function resize() {
-    var wh = $(window).height();
-    var ww = $(window).width();
-    var mh = wh - $("#navbar-header").outerHeight() - 6;
-    $("#menu-bar").css({"max-height": mh});
-    scroll();
+	var wh = $(window).height();
+	var ww = $(window).width();
+	var mh = wh - $("#navbar-header").outerHeight() - 6;
+	$("#menu-bar").css({"max-height": mh});
+	scroll();
 
-    $(".panel-fixed").each(function () {
-        var $this = $(this);
-        var h = $this.find("> .panel-heading").outerHeight();
-        var f = $this.find("> .panel-footer").outerHeight();
-        var $body = $this.find("> .panel-body");
-        $body.css({top: h, bottom: f});
+	$(".panel-fixed").each(function () {
+		var $this = $(this);
+		var h = $this.find("> .panel-heading").outerHeight();
+		var f = $this.find("> .panel-footer").outerHeight();
+		var $body = $this.find("> .panel-body");
+		$body.css({top: h, bottom: f});
 
 
-        //	console.log(h)
-    });
+		//	console.log(h)
+	});
 }
 function scroll() {
-    var ww = $(window).width();
-    var $toolbar = $("#toolbar");
+	var ww = $(window).width();
+	var $toolbar = $("#toolbar");
 
-    if ($toolbar.length) {
+	if ($toolbar.length) {
 
 
-        var toolbartop = $toolbar.offset().top;
-        var navbarheight = $(".navbar-fixed-top").outerHeight();
-        var toolbarheight = $toolbar.outerHeight();
-        var scrollTop = $(window).scrollTop();
+		var toolbartop = $toolbar.offset().top;
+		var navbarheight = $(".navbar-fixed-top").outerHeight();
+		var toolbarheight = $toolbar.outerHeight();
+		var scrollTop = $(window).scrollTop();
 
-        $nextElement = $toolbar.next();
+		$nextElement = $toolbar.next();
 
-        var contentOffset = $nextElement.offset().top;
+		var contentOffset = $nextElement.offset().top;
 
-        var toolboxtopscroll = (contentOffset - toolbarheight) - 15
+		var toolboxtopscroll = (contentOffset - toolbarheight) - 15
 
-        //	console.log("toolbartop: "+toolbartop+" | navbarheight: "+navbarheight+" | scroll:"+scrollTop + " | toolbar fixed: "+$toolbar.hasClass("fixed")+" | v:"+toolboxtopscroll);
+		//	console.log("toolbartop: "+toolbartop+" | navbarheight: "+navbarheight+" | scroll:"+scrollTop + " | toolbar fixed: "+$toolbar.hasClass("fixed")+" | v:"+toolboxtopscroll);
 
-        if ((scrollTop > (toolboxtopscroll - navbarheight)) && ww > 768) {
-            $toolbar.addClass("fixed").css({"top": navbarheight - 1});
-            $nextElement.css({"margin-top": $toolbar.outerHeight() + 31});
-        } else {
-            $toolbar.removeClass("fixed");
-            $nextElement.css({"margin-top": 0});
-        }
+		if ((scrollTop > (toolboxtopscroll - navbarheight)) && ww > 768) {
+			$toolbar.addClass("fixed").css({"top": navbarheight - 1});
+			$nextElement.css({"margin-top": $toolbar.outerHeight() + 31});
+		} else {
+			$toolbar.removeClass("fixed");
+			$nextElement.css({"margin-top": 0});
+		}
 
-    }
+	}
 
 }
 
 $(document).ready(function () {
-    resize();
-    $(window).resize(function () {
-        $.doTimeout(250, function () {
-            resize();
+	resize();
+	$(window).resize(function () {
+		$.doTimeout(250, function () {
+			resize();
 
-        });
-    });
+		});
+	});
 
-    $(window).scroll(function (event) {
-        scroll();
-        // Do something
-    });
+	$(window).scroll(function (event) {
+		scroll();
+		// Do something
+	});
 
-    $(".select2").select2();
+	$(".select2").select2();
 })
 $(document).on("change", ".has-error input", function () {
-    var $field = $(this);
-    $field.closest(".has-error").removeClass("has-error").find(".form-validation").remove();
-    submitBtnCounter($field.closest("form"));
+	var $field = $(this);
+	$field.closest(".has-error").removeClass("has-error").find(".form-validation").remove();
+	submitBtnCounter($field.closest("form"));
 })
 
 
 function validationErrors(data, $form) {
 
-    if (!$.isEmptyObject(data['errors'])) {
+	if (!$.isEmptyObject(data['errors'])) {
 
-        var i = 0;
-        //console.log(data.errors);
-        $(".form-validation", $form).remove();
-        $.each(data.errors, function (k, v) {
-            i = i + 1;
-            var $field = $("#" + k);
-            //console.info(k)
-            var $block = $field.closest(".form-group");
+		var i = 0;
+		//console.log(data.errors);
+		$(".form-validation", $form).remove();
+		$.each(data.errors, function (k, v) {
+			i = i + 1;
+			var $field = $("#" + k);
+			//console.info(k)
+			var $block = $field.closest(".form-group");
 
-            $block.addClass("has-error");
-            if ($field.parent().hasClass("input-group")) $field = $field.parent();
-
-
-            if (v != "") {
-
-                $field.after('<span class="help-block s form-validation">' + v + '</span>');
-            }
-            if ($block.hasClass("has-feedback")) {
-                $field.after('<span class="fa fa-times form-control-feedback form-validation" aria-hidden="true"></span>')
-            }
-        });
+			$block.addClass("has-error");
+			if ($field.parent().hasClass("input-group")) $field = $field.parent();
 
 
-        $("button[type='submit']", $form).addClass("btn-danger").html("(" + i + ") Error(s) Found");
+			if (v != "") {
 
-        if (i > 1) {
-            toastr["error"]("There were " + i + " errors saving the form", "Error");
-        } else {
-            toastr["error"]("There was an error saving the form", "Error");
-        }
+				$field.after('<span class="help-block s form-validation">' + v + '</span>');
+			}
+			if ($block.hasClass("has-feedback")) {
+				$field.after('<span class="fa fa-times form-control-feedback form-validation" aria-hidden="true"></span>')
+			}
+		});
 
 
-    } else {
-        toastr["success"]("Record Saved", "Success");
+		$("button[type='submit']", $form).addClass("btn-danger").html("(" + i + ") Error(s) Found");
 
-    }
+		if (i > 1) {
+			toastr["error"]("There were " + i + " errors saving the form", "Error");
+		} else {
+			toastr["error"]("There was an error saving the form", "Error");
+		}
 
-    //submitBtnCounter($form);
+
+	} else {
+		toastr["success"]("Record Saved", "Success");
+
+	}
+
+	//submitBtnCounter($form);
 
 
 }
 
 function submitBtnCounter($form) {
-    var c = $(".has-error", $form).length;
-    var $btn = $("button[type='submit']", $form);
-    if (c) {
-        $btn.addClass("btn-danger").html("(" + c + ") Error(s) Found");
-    } else {
+	var c = $(".has-error", $form).length;
+	var $btn = $("button[type='submit']", $form);
+	if (c) {
+		$btn.addClass("btn-danger").html("(" + c + ") Error(s) Found");
+	} else {
 
-        var tx = $btn.attr("data-text") || "Save";
+		var tx = $btn.attr("data-text") || "Save";
 
-        $btn.html(tx).removeClass("btn-danger");
-    }
+		$btn.html(tx).removeClass("btn-danger");
+	}
 }
 
 
 var datetimepickerOptions = {
-    inline: true,
-    sideBySide: true,
-    format: "YYYY-MM-DD HH:mm:00",
-    icons: {
-        time: "fa fa-clock-o",
-        date: "fa fa-calendar",
-        up: "fa fa-arrow-up",
-        down: "fa fa-arrow-down",
+	inline: true,
+	sideBySide: true,
+	format: "YYYY-MM-DD HH:mm:00",
+	icons: {
+		time: "fa fa-clock-o",
+		date: "fa fa-calendar",
+		up: "fa fa-arrow-up",
+		down: "fa fa-arrow-down",
 
-        previous: 'fa fa-chevron-left',
-        next: 'fa fa-chevron-right',
-        today: 'fa fa-screenshot',
-        clear: 'fa fa-trash',
-        close: 'fa fa-remove'
-    }
+		previous: 'fa fa-chevron-left',
+		next: 'fa fa-chevron-right',
+		today: 'fa fa-screenshot',
+		clear: 'fa fa-trash',
+		close: 'fa fa-remove'
+	}
 };
 $(document).ready(function () {
 
 	$("body").addClass("load-font");
 
-    $(document).on("click", ".form-appointment-btn", function (e) {
+	$(document).on("click", ".form-appointment-btn", function (e) {
 
-        e.preventDefault();
-        e.stopPropagation();
-        var $this = $(this);
-
-        var ID = $this.attr("data-id");
-
-        $.bbq.pushState({"appID": ID,"form":true});
-
-
-        getAppointmentForm();
-
-    });
-    $(document).on("click", ".form-timeslot-btn", function (e) {
-
-        e.preventDefault();
-        e.stopPropagation();
-        var $this = $(this);
-
-        var ID = $this.attr("data-id");
-
-        $.bbq.pushState({"timeslotID": ID,"form":true});
-
-
-        getTimeslotForm();
-
-    });
-
-
-
-	$(document).on("change","#services-area .services-select",function(){
+		e.preventDefault();
+		e.stopPropagation();
 		var $this = $(this);
-		$this.closest(".input-groups").find(".form-control-static").html(minutes_to_time($("option:selected",this).attr("data-duration"),true));
+
+		var ID = $this.attr("data-id");
+
+		$.bbq.pushState({"appID": ID, "form": true});
+
+
+		getAppointmentForm();
+
+	});
+	$(document).on("click", ".form-timeslot-btn", function (e) {
+
+		e.preventDefault();
+		e.stopPropagation();
+		var $this = $(this);
+
+		var ID = $this.attr("data-id");
+
+		$.bbq.pushState({"timeslotID": ID, "form": true});
+
+
+		getTimeslotForm();
+
+	});
+
+
+	$(document).on("change", "#services-area .services-select", function () {
+		var $this = $(this);
+		$this.closest(".input-groups").find(".form-control-static").html(minutes_to_time($("option:selected", this).attr("data-duration"), true));
 		update_services_duration();
 	});
-	$(document).on("click",".btn-new-service",function(){
-		$("#services-area").jqoteapp($("#template-appointment-services-area-item"),{});
+	$(document).on("click", ".btn-new-service", function () {
+		$("#services-area").jqoteapp($("#template-appointment-services-area-item"), {});
 		$("#services-area select").select2();
 
 		var $field = $(this);
@@ -235,23 +228,23 @@ $(document).ready(function () {
 		update_services_duration();
 	});
 
-	$(document).on("click",".appointment-row",function(e){
+	$(document).on("click", ".appointment-row", function (e) {
 		e.preventDefault();
 		var $this = $(this);
 		var ID = $this.attr("data-id");
-		if (ID){
-			$.bbq.pushState({"appID":ID});
+		if (ID) {
+			$.bbq.pushState({"appID": ID});
 			getAppointmentView()
 		}
 
 
 	});
-	$(document).on("click",".timeslot-row",function(e){
+	$(document).on("click", ".timeslot-row", function (e) {
 		e.preventDefault();
 		var $this = $(this);
 		var ID = $this.attr("data-id");
-		if (ID){
-			$.bbq.pushState({"timeslotID":ID});
+		if (ID) {
+			$.bbq.pushState({"timeslotID": ID});
 			getTimeslotForm()
 		}
 
@@ -259,31 +252,28 @@ $(document).ready(function () {
 	});
 
 
-	$(document).on("click","#form-appointment .appointment-row",function(e){
+	$(document).on("click", "#form-appointment .appointment-row", function (e) {
 		e.preventDefault();
 		$.bbq.removeState("form")
 	});
 
 
-
-
 });
 $(document).ready(function () {
 
-	setTimeout(function(){
-		$.getData("/admin/data/general/sms_credit?hiddenajax=true",{},function(data){
+	setTimeout(function () {
+		$.getData("/admin/data/general/sms_credit?hiddenajax=true", {}, function (data) {
 
 			//console.log(data.credits);
-			if (data.credits){
-				$(".sms-credit-block").each(function(){
-					$(this).html('SMS credits: <strong>'+data.credits+'</strong>')
+			if (data.credits) {
+				$(".sms-credit-block").each(function () {
+					$(this).html('SMS credits: <strong>' + data.credits + '</strong>')
 				});
 			}
 
 
-
-		},"sms-credit");
-	},300)
+		}, "sms-credit");
+	}, 300)
 
 
 	$(document).on("click", ".form-modal-forms-btn", function (e) {
@@ -292,10 +282,7 @@ $(document).ready(function () {
 		var form = $this.attr("data-form");
 
 
-
-
-		if (form=="walkin-form"){
-
+		if (form == "walkin-form") {
 
 
 			setClient("walkin");
@@ -306,15 +293,36 @@ $(document).ready(function () {
 		}
 
 
+	});
+	$(document).on("click", ".toggle-checkboxes", function (e) {
+		var $table = $("#" + $(this).attr("data-target"));
+		$table.find("input[type='checkbox']").each(function () {
+			var $checkbox = $(this);
+			$checkbox.attr('checked', !$checkbox.attr('checked'));
+		});
 
+		record_table_active($table);
 	});
 
+	$(document).on("click", ".table-checkbox tbody tr.record", function (e) {
+
+		if (e.target.type == "checkbox") {
+			e.stopPropagation();
+		} else {
+			var $checkbox = $(this).find(':checkbox');
+			$checkbox.attr('checked', !$checkbox.attr('checked')).trigger("change");
+		}
+	});
+
+	$(document).on("change", ".table-checkbox tbody tr.record input[type='checkbox']", function (e) {
+		var $table = $(this).closest(".table-checkbox");
+		record_table_active($table);
+	});
 
 
 	$(document).on("click", ".form-modal-forms-btn-client", function (e) {
 		e.preventDefault();
 		var $this = $(this);
-
 
 
 	});
@@ -336,7 +344,7 @@ $(document).ready(function () {
 
 		var $this = $(this);
 
-		$.post("/admin/save/form/client",$this.serialize(),function(result){
+		$.post("/admin/save/form/client", $this.serialize(), function (result) {
 			result = result.data;
 			validationErrors(result, $this);
 			if (!result.errors) {
@@ -347,7 +355,6 @@ $(document).ready(function () {
 		})
 
 
-
 	})
 
 	$(document).on("submit", "#form-appointment-capture", function (e) {
@@ -356,11 +363,11 @@ $(document).ready(function () {
 		var $this = $(this);
 		var ID = $.bbq.getState("appID");
 
-		$.post("/admin/save/form/appointment?ID="+ID,$this.serialize(),function(result){
+		$.post("/admin/save/form/appointment?ID=" + ID, $this.serialize(), function (result) {
 			result = result.data;
 			validationErrors(result, $this);
 			if (!result.errors) {
-				$.bbq.pushState({"appID":result.ID});
+				$.bbq.pushState({"appID": result.ID});
 				getAppointmentView();
 			}
 		})
@@ -370,7 +377,7 @@ $(document).ready(function () {
 	$(document).on("click", "#form-appointment #btn-delete-record", function (e) {
 		e.preventDefault();
 		var ID = $.bbq.getState("appID");
-		if (confirm("Are you sure you want to delete this record?")){
+		if (confirm("Are you sure you want to delete this record?")) {
 			$.post("/admin/save/form/delete_appointment?ID=" + ID, {}, function (result) {
 				result = result.data;
 
@@ -394,11 +401,11 @@ $(document).ready(function () {
 		var $this = $(this);
 		var ID = $.bbq.getState("timeslotID");
 
-		$.post("/admin/save/form/timeslot?ID="+ID,$this.serialize(),function(result){
+		$.post("/admin/save/form/timeslot?ID=" + ID, $this.serialize(), function (result) {
 			result = result.data;
 			validationErrors(result, $this);
 			if (!result.errors) {
-				$.bbq.pushState({"timeslotID":""});
+				$.bbq.pushState({"timeslotID": ""});
 				$("#modal-window").modal("hide");
 			}
 		})
@@ -406,7 +413,7 @@ $(document).ready(function () {
 	$(document).on("click", "#form-timeslot #btn-delete-record", function (e) {
 		e.preventDefault();
 		var ID = $.bbq.getState("timeslotID");
-		if (confirm("Are you sure you want to delete this record?")){
+		if (confirm("Are you sure you want to delete this record?")) {
 			$.post("/admin/save/form/delete_timeslot?ID=" + ID, {}, function (result) {
 				result = result.data;
 
@@ -428,22 +435,24 @@ $(document).ready(function () {
 	$(document).on("keyup", "#client-search", function (e) {
 		e.preventDefault();
 		var $this = $(this)
-		$this.doTimeout( 'client-search', 500, function(){
+		$this.doTimeout('client-search', 500, function () {
 
 			var search = $(this).val();
 
-			$.getData("/admin/data/form/clients",{"search":search,"hiddenajax":true},function(data){
-				$("#client-select-area").jqotesub($("#template-client-list"),data);
+			$.getData("/admin/data/form/clients", {"search": search, "hiddenajax": true}, function (data) {
+				$("#client-select-area").jqotesub($("#template-client-list"), data);
 
-				if (data.list.length==1){
+				if (data.list.length == 1) {
 					setClient(data.list[0].ID);
-					setTimeout(function() { $("#appointment-form textarea:first").focus() }, 500);
+					setTimeout(function () {
+						$("#appointment-form textarea:first").focus()
+					}, 500);
 				}
-				if (data.list.length==0 && search){
-					$("#client-select-area").html("<thead><tr><td class='text-center'>No records found matching: "+search+"</td></tr></thead>")
+				if (data.list.length == 0 && search) {
+					$("#client-select-area").html("<thead><tr><td class='text-center'>No records found matching: " + search + "</td></tr></thead>")
 				}
 
-			},"client-data-search")
+			}, "client-data-search")
 
 
 		});
@@ -463,25 +472,25 @@ $(document).ready(function () {
 		var $this = $(this);
 		var ID = $this.attr("data-id");
 
-		$.getData("/admin/data/form/clients",{"ID":ID},function(data){
-			$("#client-form").jqotesub($("#template-form-client"),data);
+		$.getData("/admin/data/form/clients", {"ID": ID}, function (data) {
+			$("#client-form").jqotesub($("#template-form-client"), data);
 			show_form("client-form");
-		},"client-data")
+		}, "client-data")
 	})
 	$(document).on("click", "#client-form button[type='reset']", function (e) {
 		e.preventDefault();
-		if ($("#clientID").val()){
+		if ($("#clientID").val()) {
 			show_form("appointment-form");
-		} else{
+		} else {
 			show_form("");
 		}
-	//	console.log($("#clientID").val())
+		//	console.log($("#clientID").val())
 
 
 	})
 	$(document).on("click", "#form-timeslot-capture button[type='reset']", function (e) {
 		e.preventDefault();
-		$.bbq.pushState("timeslotID","");
+		$.bbq.pushState("timeslotID", "");
 
 		$("#modal-window").modal("hide")
 
@@ -490,12 +499,12 @@ $(document).ready(function () {
 
 	$(document).on("click", "#details-appointment .btn[data-dismiss='modal']", function (e) {
 		e.preventDefault();
-		$.bbq.pushState("appID","");
+		$.bbq.pushState("appID", "");
 	});
 
 	$(document).on("click", "#form-timeslot .btn[data-dismiss='modal']", function (e) {
 		e.preventDefault();
-		$.bbq.pushState("timeslotID","");
+		$.bbq.pushState("timeslotID", "");
 	});
 
 
@@ -506,42 +515,54 @@ $(document).ready(function () {
 	});
 
 
-	$(document).on("offcanvas.open",".offcanvas-left",function(){
+	$(document).on("offcanvas.open", ".offcanvas-left", function () {
 		var w = $(window).width();
 		$(this).addClass("in");
 		offcanvas();
 
 	});
-	$(document).on("offcanvas.close",".offcanvas-left",function(){
+	$(document).on("offcanvas.close", ".offcanvas-left", function () {
 		var w = $(window).width();
 		$(this).removeClass("in");
 		offcanvas();
 	});
-	$(document).on("offcanvas.open",".offcanvas-right",function(){
+	$(document).on("offcanvas.open", ".offcanvas-right", function () {
 		var w = $(window).width();
 		$(this).addClass("in");
 		offcanvas();
 	});
-	$(document).on("offcanvas.close",".offcanvas-right",function(){
+	$(document).on("offcanvas.close", ".offcanvas-right", function () {
 		var w = $(window).width();
 		$(this).removeClass("in");
 		offcanvas();
 	});
 
 
-	$(document).on("click",".offcanvas-strip-close",function(){
+	$(document).on("click", ".offcanvas-strip-close", function () {
 		$(this).closest(".offcanvas").trigger("offcanvas.close");
 	})
 
 });
-function show_form(form){
+function record_table_active($table) {
+	var c = 0;
+	$("tbody tr.record", $table).each(function () {
+		var $this = $(this);
+		if ($this.find(':checkbox').is(":checked")) {
+			$this.addClass("active");
+			c = c + 1;
+		} else {
+			$this.removeClass("active");
+		}
+	});
+}
+function show_form(form) {
 	$("#modal-window .forms").stop(true, true).hide(400);
-	if (form){
+	if (form) {
 		$("#modal-window #" + form).stop(true, true).show(400);
 	}
-	if (form == "client-form"){
+	if (form == "client-form") {
 		$('#client-form textarea#notes').summernote({
-			minHeight:200,
+			minHeight: 200,
 			toolbar: [
 				['headline', ['style']],
 				['style', ['bold', 'italic', 'underline', 'superscript', 'subscript', 'strikethrough', 'clear']],
@@ -552,37 +573,29 @@ function show_form(form){
 	}
 
 
-
-
-
-
 }
-function setClient(ID){
-	if (typeof ID == "object"){
-		$("#client-area-form").jqotesub($("#template-client-form-display"),ID);
-		$("#clientID").val(ID.ID).attr("data-old-clientID",$("#clientID").val());
+function setClient(ID) {
+	if (typeof ID == "object") {
+		$("#client-area-form").jqotesub($("#template-client-form-display"), ID);
+		$("#clientID").val(ID.ID).attr("data-old-clientID", $("#clientID").val());
 	} else {
-		$.getData("/admin/data/form/clients",{"ID":ID},function(data){
+		$.getData("/admin/data/form/clients", {"ID": ID}, function (data) {
 
 
-			$("#client-area-form").jqotesub($("#template-client-form-display"),data);
-			$("#clientID").val(data.details.ID).attr("data-old-clientID",$("#clientID").val());
+			$("#client-area-form").jqotesub($("#template-client-form-display"), data);
+			$("#clientID").val(data.details.ID).attr("data-old-clientID", $("#clientID").val());
 			show_form("appointment-form");
 
 
-
-		},"client-data")
+		}, "client-data")
 	}
-
-
 
 
 }
 
 
-
 if ($.bbq.getState("appID")) {
-	if ($.bbq.getState("form")){
+	if ($.bbq.getState("form")) {
 		getAppointmentForm()
 	} else {
 		getAppointmentView()
@@ -591,7 +604,7 @@ if ($.bbq.getState("appID")) {
 
 if ($.bbq.getState("timeslotID")) {
 
-		getTimeslotForm();
+	getTimeslotForm();
 
 }
 
@@ -605,7 +618,7 @@ function getAppointmentView() {
 		$("#modal-window").jqotesub($("#template-modal-appointment"), data).modal("show");
 
 		//$("#content-area").jqotesub($("#template-view-" + section), data);
-	//	console.log(data);
+		//	console.log(data);
 		appointmentArrowButtons();
 		$('*[data-toggle="tooltip"]').tooltip();
 	}, "data-appointment")
@@ -613,58 +626,58 @@ function getAppointmentView() {
 
 }
 
-function appointmentArrowButtons(){
+function appointmentArrowButtons() {
 
-	var $btn_prev = $("#details-appointment .record-direction-btns .btn-prev").attr("disabled","disabled");
-	var $btn_next = $("#details-appointment .record-direction-btns .btn-next").attr("disabled","disabled");
+	var $btn_prev = $("#details-appointment .record-direction-btns .btn-prev").attr("disabled", "disabled");
+	var $btn_next = $("#details-appointment .record-direction-btns .btn-next").attr("disabled", "disabled");
 
 
 	var $agenda = $("#details-appointment .agenda-view");
 
 
-	var id = $(".agenda-item.current",$agenda).find(".appointment-row").attr("data-id");
-	var $current = $(".agenda-item.current",$agenda);
+	var id = $(".agenda-item.current", $agenda).find(".appointment-row").attr("data-id");
+	var $current = $(".agenda-item.current", $agenda);
 
-	var prev = $current.prev(".agenda-item").find(".appointment-row").attr("data-id");
-	var next = $current.next(".agenda-item").find(".appointment-row").attr("data-id");
+	var prev = $current.prevAll(".agenda-item:not([data-appid='" + id + "'])").attr("data-appid");
+	var next = $current.nextAll(".agenda-item:not([data-appid='" + id + "'])").attr("data-appid");
 
-	if (prev){
-		$btn_prev.removeAttr("disabled").attr("data-id",prev);
+
+	console.log(prev);
+	if (prev) {
+		$btn_prev.removeAttr("disabled").attr("data-id", prev);
 	}
-	if (next){
-		$btn_next.removeAttr("disabled").attr("data-id",next);
+	if (next) {
+		$btn_next.removeAttr("disabled").attr("data-id", next);
 	}
-
-
-
-
-
 
 
 }
 
 
-
-
 function getAppointmentForm() {
-    var ID = $.bbq.getState("appID");
+	var ID = $.bbq.getState("appID");
 
-    $.getData("/admin/data/form/appointment", {"ID": ID}, function (data) {
-        $("#modal-window").jqotesub($("#template-modal-form-appointment"), data).modal("show").on("hide.bs.modal",function(){
-        	$.bbq.removeState("form")
+	$.getData("/admin/data/form/appointment", {"ID": ID}, function (data) {
+		$("#modal-window").jqotesub($("#template-modal-form-appointment"), data).modal("show").on("hide.bs.modal", function () {
+			$.bbq.removeState("form")
 		});
 
-        if (data.details.ID==""){
-			setTimeout(function() { $("#client-search").focus() }, 500);
+		if (data.details.ID == "") {
+			setTimeout(function () {
+				$("#client-search").focus()
+			}, 500);
 		}
 
-		  if ($("#appointmentStart").val()==""){
-			  $("#appointmentStart").val(moment().format('YYYY-MM-DD HH:mm:00'));
-
-		  }
 
 
-	  datetimepickerOptions.defaultDate = moment($("#appointmentStart").val(),'YYYY-MM-DD HH:mm:ss');
+		if (!$("#appointmentStart").val()||$("#appointmentStart").val()=="undefined") {
+			$("#appointmentStart").val(moment().format('YYYY-MM-DD HH:mm:00'));
+
+		}
+
+
+		datetimepickerOptions.defaultDate = moment($("#appointmentStart").val(), 'YYYY-MM-DD HH:mm:ss');
+
 
 		$('#appointmentStart-inline').datetimepicker(datetimepickerOptions);
 		$("#appointmentStart-inline").on("dp.change", function (e) {
@@ -675,15 +688,15 @@ function getAppointmentForm() {
 
 		$("#services-area select").select2();
 
-		$("#services-area .services-select").each(function(){
+		$("#services-area .services-select").each(function () {
 			var $this = $(this);
-			$this.closest(".input-groups").find(".form-control-static").html(minutes_to_time($("option:selected",this).attr("data-duration"),true))
+			$this.closest(".input-groups").find(".form-control-static").html(minutes_to_time($("option:selected", this).attr("data-duration"), true))
 		})
 
 		update_services_duration();
 
 		$('textarea#notes').summernote({
-			minHeight:200,
+			minHeight: 200,
 			toolbar: [
 				['headline', ['style']],
 				['style', ['bold', 'italic', 'underline', 'superscript', 'subscript', 'strikethrough', 'clear']],
@@ -693,37 +706,32 @@ function getAppointmentForm() {
 		});
 
 
-
-
-
-
-    }, "form-data")
+	}, "form-data")
 
 };
-function update_services_duration(){
+function update_services_duration() {
 	var dur = 0;
 
-	$("#services-area .services-select").each(function(){
+	$("#services-area .services-select").each(function () {
 		var $this = $(this);
-		var d = $("option:selected",this).attr("data-duration");
+		var d = $("option:selected", this).attr("data-duration");
 		if (d) {
-			dur = dur + (d*1);
+			dur = dur + (d * 1);
 		}
 	})
 
-	$("#services-area-duration").html( minutes_to_time(dur,true)).attr("data-duration",dur);
+	$("#services-area-duration").html(minutes_to_time(dur, true)).attr("data-duration", dur);
 
 	var start = $("#appointmentStart").val();
 
-	if (start){
-
+	if (start) {
 
 
 		start = moment(start, "YYYY-MM-DD HH:mm:ss");
 		end = moment(start).add(dur, 'minutes');
-	//	$("#appointmentEnd").html(end.format("ddd, D MMM YYYY  HH:mm"));
+		//	$("#appointmentEnd").html(end.format("ddd, D MMM YYYY  HH:mm"));
 
-		if (moment(start).isSame(end, 'day')){
+		if (moment(start).isSame(end, 'day')) {
 			$("#appointmentEnd").html(end.format("HH:mm"));
 		} else {
 			$("#appointmentEnd").html(end.format("YYYY-MM-DD HH:mm"));
@@ -736,24 +744,22 @@ function update_services_duration(){
 	}
 
 
-
 }
-
 
 
 function getTimeslotForm() {
 	var ID = $.bbq.getState("timeslotID");
 
 	$.getData("/admin/data/form/timeslot", {"ID": ID}, function (data) {
-		$("#modal-window").jqotesub($("#template-modal-form-timeslots"), data).modal("show").on("hide.bs.modal",function(){
+		$("#modal-window").jqotesub($("#template-modal-form-timeslots"), data).modal("show").on("hide.bs.modal", function () {
 			$.bbq.removeState("form")
 		});
 
 		var dpOptions = datetimepickerOptions;
 		dpOptions.format = "HH:mm";
 		dpOptions.defaultDate = false;
-		if ($("#start").val()){
-			dpOptions.defaultDate = moment($("#start").val(),'HH:mm:00');
+		if ($("#start").val()) {
+			dpOptions.defaultDate = moment($("#start").val(), 'HH:mm:00');
 		}
 
 
@@ -764,8 +770,8 @@ function getTimeslotForm() {
 		});
 
 
-		if ($("#end").val()){
-			dpOptions.defaultDate = moment($("#end").val(),'HH:mm:00');
+		if ($("#end").val()) {
+			dpOptions.defaultDate = moment($("#end").val(), 'HH:mm:00');
 		}
 
 
@@ -774,25 +780,25 @@ function getTimeslotForm() {
 			$("#end").val(moment(e.date).format('HH:mm:00')).trigger("change");
 		});
 
+		record_table_active($("#timeslot-staff-table"));
 
-
+		//console.info(data.details.data.onceoff)
 
 		getTimeslotFormRepeats();
 
 
-
+		$("#modal-window .select2").select2();
 
 
 	}, "form-data")
 
 };
 
-function getTimeslotFormRepeats(){
+function getTimeslotFormRepeats() {
 	var repeatVal = $("#form-timeslot-capture input[name='repeat_mode']:checked").val();
 	$("#form-timeslot-capture input[name='repeat_mode']").closest(".btn").removeClass("btn-info").addClass("btn-default");
 
 	$("#form-timeslot-capture input[name='repeat_mode']:checked").closest(".btn").removeClass("btn-default").addClass("btn-info");
-
 
 
 	//console.log($("#form-timeslot-capture input[name='repeat']:checked"))
@@ -801,50 +807,51 @@ function getTimeslotFormRepeats(){
 	var dpOptions = datetimepickerOptions;
 
 	$("#form-timeslot-capture .repeat-forms").hide();
-	$("#form-timeslot-capture #repeat-form-"+repeatVal).show();
+	$("#form-timeslot-capture #repeat-form-" + repeatVal).show();
 
 	dpOptions.format = "YYYY-MM-DD";
-	dpOptions.useCurrent = true;
 
 
-	if ($("#repeat_data_0").val()){
-		dpOptions.defaultDate = moment($("#repeat_data").val()).format('YYYY-MM-DD');
+	if ($("#repeat_data_0").val()) {
+		dpOptions.defaultDate = moment($("#repeat_data_0").val()).format('YYYY-MM-DD');
+	} else {
+		dpOptions.useCurrent = true;
 	}
 
 
 	$('#repeat_onceoff-inline').datetimepicker(dpOptions);
 	$("#repeat_onceoff-inline").on("dp.change", function (e) {
 		$("#repeat_data_0").val(moment(e.date).format('YYYY-MM-DD'));
-	}).trigger("dp.change");
+	});
 
-
+	//console.log($("#repeat_data_0").val())
 
 	$("#repeat-weekly-buttons label.active").removeClass("active");
 
 
-	repeat_checkboxes($("#repeat-weekly-buttons"),$("#repeat_data_2"));
+	repeat_checkboxes($("#repeat-weekly-buttons"), $("#repeat_data_2"));
 
-	$("#repeat-weekly-buttons input").on("change",function(){
+	$("#repeat-weekly-buttons input").on("change", function () {
 
-		repeat_checkboxes($("#repeat-weekly-buttons"),$("#repeat_data_2"));
+		repeat_checkboxes($("#repeat-weekly-buttons"), $("#repeat_data_2"));
 	})
 
 
-	repeat_checkboxes($("#repeat-monthly-buttons"),$("#repeat_data_3"));
-	$("#repeat-monthly-buttons input").on("change",function(){
-		repeat_checkboxes($("#repeat-monthly-buttons"),$("#repeat_data_3"));
+	repeat_checkboxes($("#repeat-monthly-buttons"), $("#repeat_data_3"));
+	$("#repeat-monthly-buttons input").on("change", function () {
+		repeat_checkboxes($("#repeat-monthly-buttons"), $("#repeat_data_3"));
 	})
 
 
 }
-function repeat_checkboxes($area,$updatefield){
-	$("label.active",$area).removeClass("active");
+function repeat_checkboxes($area, $updatefield) {
+	$("label.active", $area).removeClass("active");
 	var value = [];
-	$("input",$area).each(function(){
+	$("input", $area).each(function () {
 		var $this = $(this);
 		var $label = $this.closest("label");
 
-		if ($this.is(":checked")){
+		if ($this.is(":checked")) {
 			$label.addClass("active");
 			value.push($this.val());
 		}
@@ -853,33 +860,31 @@ function repeat_checkboxes($area,$updatefield){
 
 	saveVal = value.join(",");
 
-if ($updatefield){
-	$updatefield.val(saveVal);
+	if ($updatefield) {
+		$updatefield.val(saveVal);
+	}
+
+
 }
 
 
-
-
-}
-
-
-function offcanvas(){
-	$(".offcanvas").each(function(){
+function offcanvas() {
+	$(".offcanvas").each(function () {
 		var $this = $(this);
 		var w = $(window).width();
-		$this.css({"width":w,"top":$("#main-nav-bar").outerHeight()})
-		if ($this.hasClass("offcanvas-right")){
-			if ($this.hasClass("in")){
-				$this.stop(true,true).animate({
+		$this.css({"width": w, "top": $("#main-nav-bar").outerHeight()})
+		if ($this.hasClass("offcanvas-right")) {
+			if ($this.hasClass("in")) {
+				$this.stop(true, true).animate({
 					right: 0,
-				}, 500, function() {
+				}, 500, function () {
 					// Animation complete.
 				})
 
 			} else {
-				$this.stop(true,true).animate({
+				$this.stop(true, true).animate({
 					right: -w,
-				}, 500, function() {
+				}, 500, function () {
 					// Animation complete.
 				})
 			}
