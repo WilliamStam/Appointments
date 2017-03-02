@@ -671,17 +671,16 @@ function getAppointmentForm() {
 
 
 		if (!$("#appointmentStart").val()||$("#appointmentStart").val()=="undefined") {
-			$("#appointmentStart").val(moment().format('YYYY-MM-DD HH:mm:00'));
-
+			$("#appointmentStart").val(moment().format('YYYY-MM-DD'));
 		}
 
-
-		datetimepickerOptions.defaultDate = moment($("#appointmentStart").val(), 'YYYY-MM-DD HH:mm:ss');
+		datetimepickerOptions.format = "YYY-MM-DD";
+		datetimepickerOptions.defaultDate = moment($("#appointmentStart").val(), 'YYYY-MM-DD');
 
 
 		$('#appointmentStart-inline').datetimepicker(datetimepickerOptions);
 		$("#appointmentStart-inline").on("dp.change", function (e) {
-			$("#appointmentStart").val(moment(e.date).format('YYYY-MM-DD HH:mm:00')).trigger("change");
+			$("#appointmentStart").val(moment(e.date).format('YYYY-MM-DD')).trigger("change");
 			update_services_duration();
 		});
 

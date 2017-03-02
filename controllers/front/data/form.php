@@ -150,7 +150,7 @@ class form extends _ {
 		$days = array();
 
 		if ($settings['daysAhead']){
-			for($i=0;$i<=$settings['daysAhead']-1;$i++){
+			for($i=-10;$i<=$settings['daysAhead']-1;$i++){
 				$date = strtotime("+$i day", $today);
 				$showdate = true;
 				if (isset($settings['closed'])){
@@ -240,15 +240,75 @@ class form extends _ {
 
 			$services = array();
 			foreach ($return['extra']['services'] as $service){
-				$staff = array();
-				foreach ((array)$service['staff'] as $item){
-					$item['times'] = models\available_timeslots::getInstance()->get($service, $item, $return['post']['appointmentDate_day']);
-					$staff[] = $item;
-				}
-				$service['staff'] = $staff;
-				$services[] = $service;
+
+				$services[] = $service['ID'];
 			}
-			$return['extra']['services'] = $services;
+
+
+			$first = "23:59";
+			$selected_target = array();
+			if ($return['post']['appointmentDate_time']){
+
+				foreach ($return['post']['appointmentDate_time'] as $s=>$v){
+					if ($v['time']<$first)$first=$v['time'];
+					$selected_target[] = array(
+						"serviceID"=>$s,
+						"staffID"=>$v['staffID'],
+						"time"=>$v['time'],
+						"ID"=>""
+					);
+				}
+
+			}
+			$return['post']['appointmentDate_time_display'] = $first;
+
+			$return['times'] = models\available_timeslots::getInstance()->get($services,$return['post']['appointmentDate_day'],$company['ID'],$selected_target);
+
+			$staff_ = models\staff::getInstance()->getAll("companyID = '{$company['ID']}'");
+
+			$return['extra']['services_selected'] = array();
+
+			$time_errors= false;
+			foreach ($return['extra']['services'] as $item){
+				$staff = array();
+				if ($return['post']['appointmentDate_time'][$item['ID']]){
+					$staff = $staff_[array_search($return['post']['appointmentDate_time'][$item['ID']]['staffID'], array_column($staff_, 'ID'))];
+				}
+				$item['staff'] = $staff;
+				if (isset($return['post']['appointmentDate_time'])&&isset($return['post']['appointmentDate_time'][$item['ID']])){
+					$item['time'] = array(
+						"start"=>$return['post']['appointmentDate_time'][$item['ID']]['time'],
+						"end"=>date("H:i",strtotime($return['post']['appointmentDate_time'][$item['ID']]['time'].":00")+($item['duration']*60))
+					);
+				}
+
+				if (isset($return['post']['appointmentDate_time'])){
+					if(!isset($return['post']['appointmentDate_time'][$item['ID']])){
+						$time_errors = true;
+					} else {
+						if(!isset($return['post']['appointmentDate_time'][$item['ID']]['staffID'])||$return['post']['appointmentDate_time'][$item['ID']]['staffID']==""){
+							$time_errors = true;
+						}
+
+						if(!isset($return['post']['appointmentDate_time'][$item['ID']]['time'])||$return['post']['appointmentDate_time'][$item['ID']]['time']==""){
+							$time_errors = true;
+						}
+					}
+
+
+				} else {
+					$time_errors = true;
+				}
+
+				$return['extra']['services_selected'][] = $item;
+			}
+
+			if ($return['times']['error']||$time_errors){
+				$return['errors']['appointmentDate_time'] = "";
+			}
+
+
+
 
 		}
 
@@ -263,7 +323,7 @@ class form extends _ {
 
 		if (!count($return['errors'])){
 			$return['submit'] = array(
-				"appointmentStart"=>$return['post']['appointmentDate_day']." ".$return['post']['appointmentDate_time'].":00",
+				"appointmentDate"=>$return['post']['appointmentDate_day'],
 				"notes"=>$return['post']['notes'],
 				"clientID"=>$return['post']['clientID'],
 				"client"=>array(

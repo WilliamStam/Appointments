@@ -1,5 +1,6 @@
 <?php
 namespace models;
+use controllers\admin\test;
 use \timer as timer;
 
 class available_timeslots extends _ {
@@ -19,271 +20,471 @@ class available_timeslots extends _ {
 
 
 	
-	function get($service,$staffID,$date,$appointmentID="") {
+	function get($services=array(),$date="",$companyID,$selected_target=array(),$not_available=false) {
 		$timer = new timer();
-		$return = array();
-		if (!is_array($service)){
-			$service = services::getInstance()->get($service,array("format"=>true));
+		$error = array();
+
+		if ($date==""){
+			$date=date("Y-m-d");
 		}
-		$companyID = $service['companyID'];
 
+		if (!$not_available){
+			$not_available = array();
 
+			$appointments = appointments::getInstance()->getAll("appointments.companyID = '{$companyID}' AND DATE_FORMAT(appser.appointmentStart,'%Y-%m-%d') = '{$date}'","","",array("services"=>true));
 
+		//	test_array($appointments);
 
-		$company = companies::getInstance()->get($companyID,array("format"=>true));
-
-		//test_array($company);
-
-		$settings = array(
-			"staffID"=>$staffID,
-			"companyID"=>$companyID,
-			"serviceID"=>$service['ID'],
-			"duration"=>$service['duration'],
-			"date"=>$date,
-			"company"=>$company
-		);
-		$timeslots = array();
-
-		$appointments = appointments::getInstance()->getAll("appointments.companyID = '{$settings['companyID']}' AND DATE_FORMAT(appointmentStart,'%Y-%m-%d') = '{$settings['date']}'","","",array("services"=>true));
-
-		foreach ($appointments as $appointment){
-			foreach ($appointment['services'] as $item){
-				$include = false;
-				if ($item['staff']['ID']==$settings['staffID']){
-					$include = true;
-
-				}
-				//test_array($item);
-
-				if ($include){
-					$timeslots[] = array(
-						"app_id"=>$appointment['ID'],
-						"current"=>$appointment['ID']==$appointmentID?1:0,
-						"s"=>date("H:i",strtotime($item['time']['start'])),
-						"e"=>date("H:i",strtotime($item['time']['end']))
+			foreach($appointments as $appointment){
+				foreach($appointment['services'] as $app_service){
+					$not_available[] = array(
+						"s"=>$app_service['time']['start_view_short'],
+						"e"=>$app_service['time']['end_view_short'],
+						"ID"=>$appointment['ID'],
+						"staffID"=>$app_service['staff']['ID'],
+						"serviceID"=>$app_service['ID']
 					);
 				}
-
-			}
-		}
-
-//test_array($timeslots);
-
-		$reserved_data = \models\timeslots::getInstance()->getAll("companyID = '{$settings['companyID']}' AND (staffID = '{$settings['staffID']}' OR staffID = '0')");
-
-		foreach ($reserved_data as $item){
-			$include_item = false;
-			switch ($item['repeat_mode']){
-				case "0":
-					$item['start_date'] = date("Y-m-d H:i:s",strtotime($item['data']['onceoff'] . " " . $item['start'].":00"));
-					$item['end_date'] = date("Y-m-d H:i:s",strtotime($item['data']['onceoff'] . " " . $item['end'].":00"));
-
-					if ($item['data']['onceoff'] == $date){
-						$include_item = true;
-					}
-					break;
-				case "1":
-					$item['start_date'] = date("Y-m-d ".$item['start'].":00",strtotime($date));
-					$item['end_date'] = date("Y-m-d ".$item['end'].":00",strtotime($date));
-					$include_item = true;
-					break;
-
-				case "2":
-
-					$dow_numeric = date('w',strtotime($date));
-
-					$dayoftheweek = strtolower(date('l', strtotime("Sunday +{$dow_numeric} days")));
-					$days = explode(",",$item['data']['weekly']);
-
-					$item['start_date'] = date("Y-m-d ".$item['start'].":00",strtotime($date));
-					$item['end_date'] = date("Y-m-d ".$item['end'].":00",strtotime($date));
-
-
-					$item['dow'] = $dayoftheweek;
-					if (count($days)){
-
-						if (in_array($dayoftheweek,$days)){
-							$include_item = true;
-						}
-
-
-					}
-
-
-
-
-					break;
-
-				case "3":
-					$item['start_date'] = date("Y-m-d ".$item['start'].":00",strtotime($date));
-					$item['end_date'] = date("Y-m-d ".$item['end'].":00",strtotime($date));
-					$daytoday = date("d",strtotime($date));
-					$days = explode(",",$item['data']['monthly']);
-					if (count($days)){
-
-						if (in_array($daytoday,$days)){
-							$include_item = true;
-						}
-
-
-					}
-
-
-
-
-					break;
-
-
-			}
-
-
-		//	test_array($item);
-
-			if ($include_item){
-
-				$timeslots[] = array(
-					"tim_id" => $item['ID'],
-					"s"=>date("H:i",strtotime($item['start_date'])),
-					"e"=>date("H:i",strtotime($item['end_date']))
-				);
 			}
 		}
 
 
-
-		//test_array($timeslots);
-
-		$open_hours = $settings['company']['settings']['open'][strtolower(date("l",strtotime($date)))];
-
-
-		$duration = $service['duration'];
-
-		if (date("Y-m-d",strtotime($date))==date("Y-m-d",strtotime("now"))){
-			$open_hours['start'] = date("H:i:00");
-		}
+	//	test_array($not_available);
 
 
 		/*
-		$open_hours['start'] = '08:00:00';
-		$open_hours['end'] = '16:30:00';
-		$settings['timeslots'] = 15;
-		$duration = 60;
-*/
+		$selected_target[] = array(
+			"serviceID"=>"35",
+			"staffID"=>"1",
+			"time"=>"15:45",
+			"ID"=>""
+		);
+		*/
 
+
+		/*
+		$not_available[] = array(
+			"s"=>"12:45",
+			"e"=>"13:00",
+			"ID"=>"5",
+			"staffID"=>"1",
+			"serviceID"=>"35"
+		);
+		*/
+
+
+
+
+
+
+
+
+
+
+		$settings = companies::getInstance()->get($companyID,array("format"=>true));
+
+		$minute_time_slots = $settings['settings']['timeslots'];
+
+
+		$services = implode(",",$services);
+		$services = services::getInstance()->getAll("ID in ($services)","","",array("format"=>true, "staff"=>true));
+
+
+
+
+		$potential = array();
+		foreach ((array)$selected_target as $time){
+
+			$service = $services[array_search($time['serviceID'], array_column($services, 'ID'))];
+			$time['s'] = $time['time'];
+			$time['e'] = date("H:i",strtotime("+ {$service['duration']} minute",strtotime($time['time'].":00")));
+
+			$potential[$service['ID']] = $time;
+		}
+
+
+		//test_array($potential);
+
+
+
+		$open_hours = $settings['settings']['open'][strtolower(date("l",strtotime($date)))];
 		$start_hour = date("H:i",strtotime($open_hours['start']));
 		$end_hour = date("H:i",strtotime($open_hours['end']));
+		$range=range(strtotime($start_hour.":00"),strtotime($end_hour.":00"),$minute_time_slots*60);
+
+
+		$serv = array();
+		foreach ($services as $service){
+			$staff_arr = array();
+			$slots = array();
 
 
 
 
-		//$start_hour = date("H:i",strtotime("-".$settings['timeslots']." minute",strtotime($start_hour)));
-		//$end_hour = date("H:i",strtotime("+".$settings['timeslots']." minute",strtotime($end_hour)));
+			$blank_continious  = array();
+			foreach ((array)$service['staff'] as $si){
+				$staff_arr[$si['ID']]=array();
+				$blank_continious[$si['ID']] = 0;
 
-		//test_array($settings['company']['settings']['timeslots']);
-		$range=range(strtotime(date("00:00:00",strtotime("now"))),strtotime(date("23:59:59",strtotime("now"))),$settings['company']['settings']['timeslots']*60);
+			}
 
-		//test_array($range);
-		$slots = array();
-		$time_slots = array();
-		$prev = "";
-		foreach($range as $time){
-			$cur = date("H:i",$time);
 
-		//	test_array($cur);
 
-			if ($cur<=date("H:i",strtotime("-".$duration." minute",strtotime($end_hour)))){
-				if ($prev){
-					if ($start_hour>$prev && $start_hour < $cur){
-						$time_slots[] = $start_hour;
+
+			if($potential){
+				//	test_array($potential);
+			}
+
+
+			foreach($range as $time){
+				$time_end = $time + ($minute_time_slots*60) - 1;
+				$cur = date("H:i",$time);
+
+
+
+
+				$locked =1;
+				$duration_locked = 0;
+
+				$selected = 0;
+
+				$na_a = $blank_continious;
+				//test_array($not_available);
+				foreach ($not_available as $val){
+
+
+					$na = $val;
+					$s = strtotime($na['s'].":00");
+					$e = strtotime($na['e'].":00");
+
+
+					if ($s<=$time_end && $e>$time){
+						if ($potential[$service['ID']]['ID']=="" || ($potential[$service['ID']]['ID']!= $na['ID'])){
+							$na_a[$val['staffID']] = 1;
+						}
+					}
+
+				}
+
+
+				if ($service['duration']=='45'&&$cur=="10:00")	{
+					//test_array($not_available);
+					//test_array($na_a);
+				}
+
+				if (in_array("0",array_values($na_a))){
+					$locked = 0;
+				}
+
+
+
+				//foreach ((array)$service['staff'] as $si){
+				//$staff_arr[$si['ID']][$cur] = 1;
+				//}
+				//if ($na_a[$na_staff_id])
+
+
+
+
+
+
+
+
+				foreach ((array)$service['staff'] as $si){
+					//test_array($si);
+					$staff_arr[$si['ID']][$cur] = $na_a[$si['ID']];
+				}
+
+
+				$item = array(
+					"v"=>$cur,
+					"l"=>$cur,
+					"other_selected"=>"0",
+					"active"=>"0",
+					"selected"=>"0",
+					"selected_ID"=>"",
+					"selected_staffID"=>"",
+					"locked"=>$locked,
+					"duration_locked"=>$duration_locked,
+
+					"busy"=>$na_a,
+					"no_continuous"=>0,
+					"no_continuous_staff"=>$blank_continious,
+					"error"=>0,
+					"disabled"=>0
+
+				);
+
+
+				foreach ($potential as $pot_item){
+					$na = $pot_item;
+					$s = strtotime($na['s'].":00");
+					$e = strtotime($na['e'].":00");
+					if ($pot_item['serviceID']==$service['ID']){
+						if ($s<=$time_end && $e>$time){
+							$item['selected'] = 1;
+							$item['selected_ID'] = $na['ID'];
+							$item['selected_staffID'] = $na['staffID'];
+						}
+					} else {
+						if ($s<=$time_end && $e>$time){
+							$item['other_selected'] = 1;
+							$item['locked'] = 1;
+
+						}
+					}
+
+
+				}
+
+
+
+
+
+				$slots[] = $item;
+			}
+			$slots_ = array();
+			foreach($slots as $i=>$item){
+				$slots_['k-'.$i] = $item;
+			}
+
+
+			if (isset($_GET['w'])){
+				if ($service['duration']==45){
+					//test_array(array($staff_arr,$slots));
+					//	test_array($slots);
+				}
+			}
+			arsort($slots_);
+
+			$s = array();
+			$dur = "";
+			$loop = 0;
+
+			$con = array();
+
+			foreach($slots_ as $i=>$item){
+				$v = $item['v'];
+				$k = $i;
+
+				$slot_index = str_replace("k-", "", $i);
+
+				if ($item['locked']==1 || $loop==0){
+					$dur = date("H:i",strtotime($item['v'].":00")-($service['duration']*60)+1);
+				}
+
+				if ($dur){
+					$sd = strtotime($dur.":00");
+					$ed = strtotime($v.":00");
+
+					if ($ed>$sd){
+						$item['soft_lock'] = '1';
+						$slots[$slot_index]['duration_locked'] = 1;
 					}
 				}
 
-				if ($cur>=$start_hour && $cur <= $end_hour){
-					$time_slots[] = $cur;
-				}
+				$item['dur'] = date("H:i",strtotime($item['v'].":00")-($service['duration']*60)+1);
 
-				$slots[] = $cur;
-			}
-
-			$prev = $cur;
-		}
-
-		if ($end_hour>$time_slots[count($time_slots)-1]){
-			$time_slots[] = $end_hour;
-		}
-
-
-
-		unset($time_slots[count($time_slots)-1]);
-		//$time_slotss = array_pop($time_slots);
-
-
-
-		$times = array();
-		$prev = "";
-		foreach ($time_slots as $item){
-			$active = 1;
-			$cur = false;
-			$rec = array();
-			foreach ($timeslots as $timeitems){
-				$item_start = date("H:i",strtotime("-".$duration." minute",strtotime($timeitems['s'])));
-
-				//test_array($item);
-
-				if (($item_start<=$item && $timeitems['e']>=$item)){
-					$active = 0;
-					$rec[] = $timeitems;
-				}
-
-
-
-
+				$s[$k] = $item;
+				$loop = $loop+1;
 			}
 
 
 
 
 
-			$times[] = array(
-				"hour"=>date("H",strtotime($item)),
-				"minute"=>date("i",strtotime($item)),
-				"value"=>$item,
-				"active"=>$active,
-				"records"=>$rec,
 
-			);
-			$prev = $item;
+
+
+			foreach ($staff_arr as $staffID=>$staff_item){
+
+
+				$i = 0;
+				foreach($staff_item as $k=>$v){
+					//	test_array($staff_item);
+
+					$time_start = strtotime($k.":00");
+					$time_end = strtotime($k.":00")+($service['duration']*60)-1;
+
+					if ($minute_time_slots >= $service['duration']){
+
+						$time_end = strtotime($k.":00")+($minute_time_slots*60);
+						//test_array(date("H:i:s",$time_end));
+					}
+
+
+
+
+
+					$range_sa=range($time_start,$time_end,$minute_time_slots*60);
+					foreach($range_sa as $time_sa){
+						$time_end_sa = $time_sa + ($minute_time_slots*60);
+						$slots[$i]['debug'][$staffID][] = date("H:i:s",$time_sa)." - " . date("H:i:s",$time_end_sa);
+						//test_array(array(date("H:i:s",$time_end_sa)));
+
+
+						foreach ((array)$not_available as $val){
+							$na = $val;
+							if ($val['staffID']==$staffID){
+								$s = strtotime($na['s'].":00");
+								$e = strtotime($na['e'].":00");
+								if ($s<$time_end_sa && $e>$time_sa){
+
+									if ($potential['ID']=="" || ($potential['ID']!= $na['ID'])){
+										$slots[$i]['no_continuous_staff'][$staffID] = 1;
+									}
+
+
+
+									//test_array(array("na"=>$na,"s"=>array($s,date("H:i:s",$s)),"e"=>array($e,date("H:i:s",$e)),"time_sa"=>array($time_sa,date("H:i:s",$time_sa)),"time_end_sa"=>array($time_end_sa,date("H:i:s",$time_end_sa)),"index"=>$i,"timeslot"=>$slots[$i]));
+
+									//	test_array($i);
+
+									//$slots[$i]['no_continuous_staff_reason'][$staffID][] = array("val"=>$val,"s"=>array($s,date("H:i:s",$s)),"e"=>array($e,date("H:i:s",$e)),"time_sa"=>array($time_sa,date("H:i:s",$time_sa)),"time_end_sa"=>array($time_end_sa,date("H:i:s",$time_end_sa)),"time_start"=>array($time_start,date("H:i:s",$time_start)),"time_end"=>array($time_end,date("H:i:s",$time_end),"s<"=>($s<$time_end_sa),"e>="=>($e>$time_sa)));
+
+									//	test_array($slots['1']);
+								}
+
+							}
+
+
+						}
+
+
+
+
+					}
+
+
+
+
+
+					$i = $i+1;
+				}
+
+
+
+			}
+
+
+
+
+
+
+
+
+
+
+
+			$selected_check = array();
+
+			foreach ($slots as $key=>$item){
+
+				$staff_available = array();
+				foreach($item['no_continuous_staff'] as $sk=>$vk){
+					if ($vk=='0'){
+						$staff_available[] = $sk;
+					}
+				}
+
+				$slots[$key]['staff'] = implode(",",$staff_available);
+
+				$error_status = 1;
+				$status = 1;
+
+				if ($item['locked']=='1'){
+					$status = 0;
+					$error_status = 0;
+					//$error[$service['ID']]["locked"] = "Cell Locked";
+				}
+
+				if ($item['duration_locked']=='1'){
+					$status = 0;
+				}
+
+				if (count($staff_available)==0){
+					$status = 0;
+				}
+
+				$slots[$key]['status'] = $status;
+
+				if ($status=='0')$slots[$key]['disabled'] = 1;
+
+				if (in_array("1",array_values($item['no_continuous_staff']))){
+					$slots[$key]['no_continuous'] = 1;
+				}
+
+
+				if ($item['selected']==1){
+					if($potential[$service['ID']]['s']==$item['v']){
+						$slots[$key]['active'] = '1';
+						if($item['duration_locked']==1){
+							$error_status = 0;
+							$error[$service['ID']]["duration_locked"] = "Time goes into locked cells";
+						}
+
+						//test_array(array($potential[$service['ID']]['s'],$item));
+					}
+					//test_array($item);
+
+
+					//$selected_check[$item['v']][] = (in_array($potential[$service['ID']]['staffID'],$staff_available))?1:0;
+					$selected_check[$item['v']] = $item['busy'];//array($potential[$service['ID']]['staffID'],$staff_available);
+					//$selected_check[$item['v']] = $staff_available;//array($potential[$service['ID']]['staffID'],$staff_available);
+
+					//$selected_check[$item['v']] = $item;
+					if ($item['busy'][$potential[$service['ID']]['staffID']]==1){
+						$error_status=0;
+						$error[$service['ID']]["staff_busy"] = "The staff member selected cant complete this appointment time slot";
+					}
+
+
+					if ($error_status==0){
+						$slots[$key]['error'] = 1;
+						//$error[$service['ID']] = true;
+					}
+
+
+
+				}
+
+			}
+
+
+
+
+
+
+
+			if (isset($_GET['w'])){
+				if ($service['duration']==45){
+					//test_array(array($staff_arr,$slots));
+					//test_array($selected_check);
+				}
+			}
+
+
+
+
+			$service['timeslots'] = $slots;
+			$service['timeslots_error'] = isset($error[$service['ID']])?$error[$service['ID']]:false;
+			$serv[] = $service;
 		}
 
-	//	test_array($times);
 
 
-		unset($settings['company']);
+		if (count($error))$error = true;
+
+
 		$return = array(
-			"settings"=>$settings,
-			"times"=>$times
+			"error"=>$error,
+			"services"=>$serv
 		);
-
 		
 		$timer->_stop(__NAMESPACE__, __CLASS__, __FUNCTION__, func_get_args());
 		return $return;
 	}
-	function getAll($services,$staffID,$date){
 
-		if (is_array($services)){
-			$services = implode(",",$services);
-		}
-
-		$services = services::getInstance()->getAll("ID in ($services)","","",array("format"=>true));
-		$return = array();
-		foreach ($services as $service){
-			$return[] = $this->get($service,$staffID,$date);
-		}
-
-
-
-		return $return;
-	}
 	
 	
 	

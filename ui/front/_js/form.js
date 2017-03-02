@@ -4,8 +4,7 @@ var datetimepickerOptions = {
 	format: "YYYY-MM-DD",
 
 
-
-icons: {
+	icons: {
 		time: "fa fa-clock-o",
 		date: "fa fa-calendar",
 		up: "fa fa-arrow-up",
@@ -21,25 +20,25 @@ icons: {
 
 
 $(document).ready(function () {
-	var currenttab = $.bbq.getState("tab")||"tab1";
+	var currenttab = $.bbq.getState("tab") || "tab1";
 
 	//console.log("bbq.getState:"+currenttab);
 
-	$('#wizard-tabs a[href="#'+currenttab+'"]').tab('show')
+	$('#wizard-tabs a[href="#' + currenttab + '"]').tab('show')
 	$('#rootwizard').bootstrapWizard({
-		'show':currenttab,
+		'show': currenttab,
 		'tabClass': 'nav nav-pills',
 		'nextSelector': '.button-next',
 		'previousSelector': '.button-previous',
 		'firstSelector': '.button-first',
 		'lastSelector': '.button-last',
-		'onTabShow':function(tab, navigation, index){
-			var tabid = $(tab).find("a").attr("href").replace("#","")
-			$.bbq.pushState({"tab":tabid});
-		//	console.log("bbq.pushState:"+tabid);
+		'onTabShow': function (tab, navigation, index) {
+			var tabid = $(tab).find("a").attr("href").replace("#", "")
+			$.bbq.pushState({"tab": tabid});
+			//	console.log("bbq.pushState:"+tabid);
 
-			if (tabid=="tab-confirm"){
-				$('#form-footer-other').find("button[type='submit']").attr("disabled","disabled");
+			if (tabid == "tab-confirm") {
+				$('#form-footer-other').find("button[type='submit']").attr("disabled", "disabled");
 				$("#form-footer-confirm").show();
 				$("#form-footer-other").hide();
 
@@ -55,13 +54,13 @@ $(document).ready(function () {
 
 	});
 
-	$(document).on("submit","#rootwizard",function(e){
+	$(document).on("submit", "#rootwizard", function (e) {
 		e.preventDefault();
 		$('#rootwizard').bootstrapWizard('next');
 
 	});
-	$(document).on("reset","#rootwizard",function(e){
-		$(':input','#rootwizard')
+	$(document).on("reset", "#rootwizard", function (e) {
+		$(':input', '#rootwizard')
 			.not(':button, :submit, :reset, :hidden')
 			.val('')
 			.removeAttr('checked')
@@ -77,46 +76,63 @@ $(document).ready(function () {
 	});
 
 
+	$(document).on("click", "#move-left", function () {
 
+		var w = $(window).width()
+		var leftPos = $('#appointmentDate_day').scrollLeft();
+		$('#appointmentDate_day').stop(true, true).animate({scrollLeft: leftPos - (w / 2)}, 800);
 
-	$(document).on("change","input[name='appointmentDate_day']",function(){
-		appointmentdayhighlight();
-		$('#rootwizard').bootstrapWizard('next');
 
 	})
 
-	$(document).on("change","input.appointmentDate_time",function(){
+
+	$(document).on("click", "#move-right", function () {
+		var w = $(window).width()
+
+		var leftPos = $('#appointmentDate_day').scrollLeft();
+		$('#appointmentDate_day').stop(true, true).animate({scrollLeft: leftPos + (w / 2)}, 800);
+		console.log(leftPos);
+	})
+
+
+	$(document).on("change", "input[name='appointmentDate_day']", function () {
+		appointmentdayhighlight();
+		//$('#rootwizard').bootstrapWizard('next');
+		getSteps();
+
+	})
+
+	$(document).on("change", "#appointmentDate_time input[type='radio']", function () {
 		appointmenttimehighlight();
 		//$('#rootwizard').bootstrapWizard('next');
-
+		getSteps();
 	})
 
-	$(document).on("change","input[name='services[]']",function(){
+	$(document).on("change", "input[name='services[]']", function () {
 		serviceshighlight()
 
 
 	})
 
-	$(document).on("click","#form-footer-confirm .btn.btn-primary",function(){
+	$(document).on("click", "#form-footer-confirm .btn.btn-primary", function () {
 
 		var data = $("#confirm-form-area-form").serialize();
-		data = data+"&companyID="+$("#confirm-form-area-form").attr("data-company")
-		data = data + "&submit[notes]="+$("#notes").val();
+		data = data + "&companyID=" + $("#confirm-form-area-form").attr("data-company")
+		data = data + "&submit[notes]=" + $("#notes").val();
 
 		var $this = $(this);
-		$this.attr("disabled","disabled");
+		$this.attr("disabled", "disabled");
 
 
-		$.post("/save/form/form",data,function(data){
+		$.post("/save/form/form", data, function (data) {
 			$this.removeAttr("disabled");
 			var data = data.data;
 
 
-			if (data.errors && ObjectLength(data.errors)){
+			if (data.errors && ObjectLength(data.errors)) {
 
 
-
-				if (data.errors.timeslot){
+				if (data.errors.timeslot) {
 					$("input.appointmentDate_time:checked").removeAttr("checked");
 					appointmenttimehighlight();
 				}
@@ -124,14 +140,11 @@ $(document).ready(function () {
 				getSteps(true);
 
 
-
-
-
 				alert("There were errors submitting your booking");
 
 			} else {
 
-				$("#modal-window").jqotesub($("#template-booking-successful"), data).modal("show").on("hide.bs.modal",function(){
+				$("#modal-window").jqotesub($("#template-booking-successful"), data).modal("show").on("hide.bs.modal", function () {
 					$('#rootwizard').trigger("reset");
 
 
@@ -141,55 +154,118 @@ $(document).ready(function () {
 		})
 
 
-
-
 	})
+
+	$(document).on("mouseenter",".timeslot",function(){
+		var $this = $(this);
+		var $panel = $this.closest(".panel");
+
+
+		var staff = $(this).attr("data-staff");
+		$(".staff .item.showing",$panel).removeClass("showing");
+		if (staff){
+			staff = staff.split(",");
+
+			for(var i in staff){
+
+				$(".staff .item[data-id="+staff[i]+"]",$panel.find(".panel-footer")).addClass("showing");
+			}
+
+		}
+	});
+
+	$(document).on("mouseleave",".timeslot",function(){
+		showStaff();
+	});
+
+
+
+
 
 
 
 
 	resize();
 
-	$(window).on("resize",function(){
+	$(window).on("resize", function () {
 		resize();
 	});
 
 
-
 });
-function ObjectLength( object ) {
+function showStaff(){
+	$("#appointmentDate_time .panel").each(function(){
+		var $panel = $(this);
+		var duration = $panel.attr("data-duration");
+
+		var $timeslots = $panel.find(".timeslots");
+
+		$(".staff .item.showing",$panel.find(".panel-footer")).removeClass("showing");
+
+		var staff = $(".active",$timeslots).attr("data-staff")
+		if (staff){
+			staff = staff.split(",");
+
+			for(var i in staff){
+
+				$(".staff .item[data-id="+staff[i]+"]",$panel.find(".panel-footer")).addClass("showing");
+			}
+
+		}
+
+	})
+
+}
+function ObjectLength(object) {
 	var length = 0;
-	for( var key in object ) {
-		if( object.hasOwnProperty(key) ) {
+	for (var key in object) {
+		if (object.hasOwnProperty(key)) {
 			++length;
 		}
 	}
 	return length;
 };
-function appointmentdayhighlight(){
+function appointmentdayhighlight() {
+	//$("label[for='appointmentDate_day-2017-03-18']").find("input").prop("checked",true);
 	$("#appointmentDate_day li.active").removeClass("active")
-	$("input[name='appointmentDate_day']").each(function(){
-		if ($(this).is(":checked")){
-			$(this).closest("li").addClass("active")
+	$("input[name='appointmentDate_day']").each(function () {
+		if ($(this).is(":checked")) {
+			var $box = $(this).closest("li");
+			$box.addClass("active");
 		}
-	})
-}
-function appointmenttimehighlight(){
-	$("#appointmentDate_time li.active").removeClass("active")
-	$(".appointmentDate_time").each(function(){
-		if ($(this).is(":checked")){
-			$(this).closest("li").addClass("active")
-		}
-	})
+	});
 
 
 }
-function serviceshighlight(){
+function appointmenttimehighlight() {
+
+	var $timeslots = $("#appointmentDate_time input[type='radio']:checked").closest(".panel-body");
+	var $staff = $("#appointmentDate_time input[type='radio']:checked").closest(".panel-footer");
+
+
+		$(".timeslot.active",$timeslots).removeClass("active");
+		$("input[type='radio']",$timeslots).each(function () {
+			if ($(this).is(":checked")) {
+				$(this).closest(".timeslot").addClass("active")
+			}
+		});
+
+		$(".item.active",$staff).removeClass("active");
+		$("input[type='radio']",$staff).each(function () {
+			if ($(this).is(":checked")) {
+				$(this).closest(".item").addClass("active")
+			}
+		});
+
+
+	showStaff();
+}
+function serviceshighlight() {
 
 	$(".panel-service label.active").removeClass("active")
 
-	$("input[name='services[]']").each(function(){
-		if ($(this).is(":checked")){
+	$("input[name='services[]']").each(function () {
+		if ($(this).is(":checked")) {
 			$(this).closest("label").addClass("active")
 		}
 	});
@@ -198,27 +274,27 @@ function serviceshighlight(){
 	var duration = 0;
 	var count = 0;
 	var $label_area = $("#services-selected");
-	$("#services  label.active").each(function(){
+	$("#services  label.active").each(function () {
 		var $this = $(this);
-		duration = duration + $this.attr("data-duration")*1;
+		duration = duration + $this.attr("data-duration") * 1;
 		count = count + 1;
 
 	})
 
 	$("#duration").val(duration);
 
-	duration = minutes_to_time(duration,true);
+	duration = minutes_to_time(duration, true);
 
-	if (count){
+	if (count) {
 		var lable = '';
 		lable += '<div class="row">';
 		lable += '	<div class="col-sm-6">';
 		lable += '		<span class="ser-foot-heading count">Services </span>';
-		lable += '		<span class="ser-foot-value count">'+count+'</span>'
+		lable += '		<span class="ser-foot-value count">' + count + '</span>'
 		lable += '	</div>';
 		lable += '	<div class="col-sm-6">';
 		lable += '		<span class="ser-foot-heading duration">Duration</span>';
-		lable += '		<span class="ser-foot-value duration">'+duration+'</span>';
+		lable += '		<span class="ser-foot-value duration">' + duration + '</span>';
 		lable += '	</div>';
 		lable += '</div>';
 
@@ -228,21 +304,19 @@ function serviceshighlight(){
 	}
 
 
-
-
 }
-function getSteps(jumptofirsterror){
-var $form = $("#rootwizard")
+function getSteps(jumptofirsterror) {
+	var $form = $("#rootwizard")
 	var data = $form.serialize();
-	data = data+"&companyID="+$("#confirm-form-area-form").attr("data-company")
-	var currenttab = $.bbq.getState("tab")||0;
+	data = data + "&companyID=" + $("#confirm-form-area-form").attr("data-company")
+	var currenttab = $.bbq.getState("tab") || 0;
 
-	$.post("/data/form/data?tab="+currenttab,data,function(data){
+	$.post("/data/form/data?tab=" + currenttab, data, function (data) {
 		data = data.data;
-		$("#form-tabs .tab-pane").each(function(){
+		$("#form-tabs .tab-pane").each(function () {
 			var $this = $(this);
-			if ($this.attr("data-form")){
-				$this.jqotesub($("#template-"+$this.attr("data-form")), data);
+			if ($this.attr("data-form")) {
+				$this.jqotesub($("#template-" + $this.attr("data-form")), data);
 			}
 		});
 
@@ -254,9 +328,8 @@ var $form = $("#rootwizard")
 		serviceshighlight();
 
 		var $capturebtn = $("#form-footer-confirm").find(".btn").removeClass("btn-danger").addClass("btn-primary").removeAttr("disabled");
-		if (data.errors){
+		if (data.errors) {
 			var tabs = {};
-
 
 
 			var i = 0;
@@ -281,7 +354,7 @@ var $form = $("#rootwizard")
 				}
 
 
-				$field.each(function(){
+				$field.each(function () {
 					//console.log($(this))
 					var tab = $(this).closest(".tab-pane").attr("id");
 					if (typeof tabs[tab] == "undefined") {
@@ -291,17 +364,16 @@ var $form = $("#rootwizard")
 				})
 
 
-
 			});
 
-			if (i!=0){
-				$capturebtn.addClass("btn-danger").removeClass("btn-primary").attr("disabled","disabled")
+			if (i != 0) {
+				$capturebtn.addClass("btn-danger").removeClass("btn-primary").attr("disabled", "disabled")
 			}
 
 //console.info(tabs);
-			$("#wizard-tabs a").each(function(){
+			$("#wizard-tabs a").each(function () {
 				var $this = $(this);
-				var id = $this.attr("href").replace("#","");
+				var id = $this.attr("href").replace("#", "");
 				if (typeof tabs[id] != "undefined") {
 					//console.log(id+" | "+tabs[id])
 
@@ -314,7 +386,7 @@ var $form = $("#rootwizard")
 			});
 
 			$('textarea#notes').summernote({
-				minHeight:200,
+				minHeight: 200,
 				toolbar: [
 					['headline', ['style']],
 					['style', ['bold', 'italic', 'underline', 'superscript', 'subscript', 'strikethrough', 'clear']],
@@ -323,11 +395,28 @@ var $form = $("#rootwizard")
 				]
 			});
 
-			if (jumptofirsterror){
 
-				$("#wizard-tabs li").each(function(){
+			showStaff();
+
+			var $box = $("#appointmentDate_day li.active");
+			var li_items = $box.prevAll("li").length;
+			var width = $box.width();
+			var offset = width * li_items;
+
+
+			var parent_width = $("#appointmentDate_day").width();
+
+			var cent_offset =  offset - (parent_width/2) + (width/2);
+			if (cent_offset<0)cent_offset=0;
+			$('#appointmentDate_day').stop(true, true).animate({scrollLeft: cent_offset}, 0);
+
+
+
+			if (jumptofirsterror) {
+
+				$("#wizard-tabs li").each(function () {
 					$this = $(this);
-					if ($this.find(".badge .fa-exclamation").length){
+					if ($this.find(".badge .fa-exclamation").length) {
 						$this.find("a").trigger("click");
 
 						return false;
@@ -338,7 +427,6 @@ var $form = $("#rootwizard")
 
 
 			}
-
 
 
 		}

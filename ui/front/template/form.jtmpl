@@ -1,20 +1,33 @@
 <script type="text/x-jqote-template" id="template-form-number">
 	<![CDATA[
-<h1>{{ company['company'] }}</h1>
-	<div class="form-group">
-		<label for="mobile_number" class="col-sm-2 control-label">Phone Number</label>
-		<div class="col-sm-10">
-			<input type="text" name="mobile_number" class="form-control" id="mobile_number" placeholder="Please enter your mobile number here" value="<%= this.post.mobile_number||'' %>">
-			<div class="help-text">We use your phone number as a unique ID</div>
+
+	<div class="panel">
+		<div class="panel-heading built">
+
+			<h3>{{ company['company'] }}</h3>
+		</div>
+
+	</div>
+	<div class="panel">
+
+		<div class="panel-body">
+			<div class="form-group">
+				<label for="mobile_number" class="col-sm-2 control-label">Phone Number</label>
+				<div class="col-sm-10">
+					<input type="text" name="mobile_number" class="form-control" id="mobile_number" placeholder="Please enter your mobile number here" value="<%= this.post.mobile_number||'' %>">
+
+				</div>
+			</div>
+		</div>
+		<div class="panel-footer">
+			We use your phone number as a unique ID
 		</div>
 	</div>
 
 
+	<div>{{ settings['client_form_branding']|raw() }}</div>
 
-<div>
 
-	{{ settings['client_form_branding']|raw() }}
-</div>
 
 
 	]]>
@@ -22,13 +35,18 @@
 <script type="text/x-jqote-template" id="template-form-services">
 	<![CDATA[
 
-	<h1>Select a service</h1>
+	<div class="panel">
+		<div class="panel-heading built">
+
+			<h3>Select a Service</h3>
+		</div>
+	</div>
 
 	<div id="services">
 	{% for row in services %}
-		<div class="panel grey panel-service">
+		<div class="panel orange panel-service">
 			{% if row['label'] %}
-			<div class="panel-heading">{{ row['label'] }}</div>
+			<div class="panel-heading built">{{ row['label'] }}</div>
 			{% endif %}
 			<div class="panel-body" style="border-left:none; border-right:none;">
 				{% for service in row['records'] %}
@@ -55,61 +73,45 @@
 
 <script type="text/x-jqote-template" id="template-form-client-details">
 	<![CDATA[
+	<div class="panel">
+		<div class="panel-heading built">
 
-	<h1>Your Details</h1>
-	<div class="form-group">
-		<label for="first_name" class="col-sm-2 control-label">First Name</label>
-		<div class="col-sm-10">
-			<input type="text" name="first_name" class="form-control" id="first_name" placeholder="John" value="<%= this.post.first_name||'' %>">
+			<h3>Your Details</h3>
+		</div>
+
+
+	</div>
+
+	<div class="panel">
+		<div class="panel-body">
+			<div class="form-group">
+				<label for="first_name" class="col-sm-2 control-label">First Name</label>
+				<div class="col-sm-10">
+					<input type="text" name="first_name" class="form-control" id="first_name" placeholder="John" value="<%= this.post.first_name||'' %>">
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="last_name" class="col-sm-2 control-label">Last Name</label>
+				<div class="col-sm-10">
+					<input type="text" name="last_name" class="form-control" id="last_name" placeholder="Doe" value="<%= this.post.last_name||'' %>">
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="mobile_number" class="col-sm-2 control-label">Number</label>
+				<div class="col-sm-10">
+					<p class="form-control-static"><%= this.post.mobile_number||'' %></p>
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="email" class="col-sm-2 control-label">Email</label>
+				<div class="col-sm-10">
+					<input type="text" name="email" class="form-control" id="email" placeholder="email@domain.com" value="<%= this.post.email||'' %>">
+				</div>
+			</div>
 		</div>
 	</div>
-	<div class="form-group">
-		<label for="last_name" class="col-sm-2 control-label">Last Name</label>
-		<div class="col-sm-10">
-			<input type="text" name="last_name" class="form-control" id="last_name" placeholder="Doe" value="<%= this.post.last_name||'' %>">
-		</div>
-	</div>
-	<div class="form-group">
-		<label for="mobile_number" class="col-sm-2 control-label">Number</label>
-		<div class="col-sm-10">
-			<p class="form-control-static"><%= this.post.mobile_number||'' %></p>
-		</div>
-	</div>
-	<div class="form-group">
-		<label for="email" class="col-sm-2 control-label">Email</label>
-		<div class="col-sm-10">
-			<input type="text" name="email" class="form-control" id="email" placeholder="email@domain.com" value="<%= this.post.email||'' %>">
-		</div>
-	</div>
 
 
-	]]>
-</script>
-<script type="text/x-jqote-template" id="template-form-appointment-day">
-	<![CDATA[
-
-<h1>Select a Date</h1>
-
-	<div>
-		<nav aria-label="Page navigation" id="appointmentDate_day">
-			<ul class="pagination">
-				<% for(var i in this.dates){ %>
-				<li class="<% if(this.dates[i].active=='0'){ %>disabled<% } %>">
-					<label for="appointmentDate_day-<%= this.dates[i].value %>" <% if(this.dates[i].active=='0'){ %>title="Not Available"<% } %>>
-						<div class="dayName"><%= this.dates[i].dayName %></div>
-						<div class="day"><%= this.dates[i].day %></div>
-						<div class="month"><%= this.dates[i].month %></div>
-
-						<input type="radio" name="appointmentDate_day" id="appointmentDate_day-<%= this.dates[i].value %>" value="<%= this.dates[i].value %>"
-						<% if(this.dates[i].active=='0'){ %>disabled="disabled"<% } %> <%
-						if(this.post.appointmentDate_day==this.dates[i].value){ %>checked="checked"<% } %> >
-					</label>
-				</li>
-				<% } %>
-
-			</ul>
-		</nav>
-	</div>
 
 
 	]]>
@@ -118,49 +120,29 @@
 	<![CDATA[
 
 
-	<div id="appointmentDate_time">
-		<% if(this.post.appointmentDate_day==""){ %>
-		<div class="no-records">
-			Please select a date first
-		</div>
 
-		<% } else { %>
-		<h1>
-			<%= this.extra.appointmentDate_day_label %>
-			<% if(this.extra.duration){ %>
-			<small class="pull-right" style="padding-top:8px;">Duration: <%= this.extra.duration_view %></small>
-			<% } %>
-		</h1>
+	<div>
+		<table style="width:100%; margin-bottom:20px">
+			<tr>
+				<td style="width:50px; font-size:50px; vertical-align: middle" id="move-left">
 
-		<div class="alert alert-info" style="margin-bottom:30px;">
-			<p>
-				Select a staff member and time from each service
-			</p>
-		</div>
+					<i class="fa fa-chevron-circle-left " ></i>
 
+				</td>
+				<td>
+					<div style="position:relative; height:100px;">
+						<nav aria-label="Page navigation" id="appointmentDate_day" style="overflow:hidden;white-space: nowrap; position:absolute; top:0; left:0; right:0; bottom:0;">
+							<ul class="pagination" >
+								<% for(var i in this.dates){ %>
+								<li class="<% if(this.dates[i].active=='0'){ %>disabled<% } %>">
+									<label for="appointmentDate_day-<%= this.dates[i].value %>" <% if(this.dates[i].active=='0'){ %>title="Not Available"<% } %>>
+									<div class="dayName"><%= this.dates[i].dayName %></div>
+									<div class="day"><%= this.dates[i].day %></div>
+									<div class="month"><%= this.dates[i].month %></div>
 
-		<% for(var i in this.extra.services){ %>
-
-			<h1><%= this.extra.services[i].label %> <small>Duration: <%= this.extra.services[i].duration_view %></small></h1>
-
-
-			<% for(var s in this.extra.services[i].staff){ %>
-
-			<div class="panel">
-				<div class="panel-heading built">
-					<%= this.extra.services[i].staff[s].first_name %> <%= this.extra.services[i].staff[s].last_name||'' %>
-				</div>
-				<div class="panel-body no-padding">
-
-					<div>
-						<nav aria-label="Page navigation">
-							<ul class="pagination">
-								<% for(var t in this.extra.services[i].staff[s].times.times){ %>
-								<li class="<% if(this.extra.services[i].staff[s].times.times[t].active=='0'){ %>disabled<% } %>">
-									<label for="appointmentDate_time-<%= this.extra.services[i].ID %>-<%= this.extra.services[i].staff[s].ID %>-<%= this.extra.services[i].staff[s].times.times[t].value %>"  <% if(this.extra.services[i].staff[s].times.times[t].active=='0'){ %>title="Not Available"<% } %>>
-									<div class="day"><%= this.extra.services[i].staff[s].times.times[t].value %></div>
-
-									<input type="radio" name="appointmentDate_time[<%= this.extra.services[i].ID %>][<%= this.extra.services[i].staff[s].ID %>]" id="appointmentDate_time-<%= this.extra.services[i].ID %>-<%= this.extra.services[i].staff[s].ID %>-<%= this.extra.services[i].staff[s].times.times[t].value %>" value="<%= this.extra.services[i].staff[s].times.times[t].value %>" class="appointmentDate_time" <% if(this.extra.services[i].staff[s].times.times[t].active=='0'){ %>disabled="disabled"<% } %> <% if(this.post.appointmentDate_time==this.extra.services[i].staff[s].times.times[t].value){ %>checked="checked"<% } %> >
+									<input type="radio" name="appointmentDate_day" id="appointmentDate_day-<%= this.dates[i].value %>" value="<%= this.dates[i].value %>"
+									<% if(this.dates[i].active=='0'){ %>disabled="disabled"<% } %> <%
+									if(this.post.appointmentDate_day==this.dates[i].value){ %>checked="checked"<% } %> >
 									</label>
 								</li>
 								<% } %>
@@ -168,39 +150,93 @@
 							</ul>
 						</nav>
 					</div>
-				</div>
-			</div>
 
+				</td>
+				<td style="width:50px; font-size:50px; vertical-align: middle;" id="move-right">
+					<i class="fa fa-chevron-circle-right "></i>
+				</td>
+			</tr>
 
+		</table>
 
-
-
-
-
-			<% } %>
-		<% } %>
-
-
-
-
-
-
-
-
-
-		<% if (this.extra.open_hours){ %>
-		<div class="alert alert-info" style="margin-top:30px;">
-			<div class="row text-center">
-				<div class="col-xs-6">Open: <strong><%= this.extra.open_hours.start %></strong></div>
-				<div class="col-xs-6">Close <strong><%= this.extra.open_hours.end %></strong></div>
-			</div>
-
-		</div>
-
-		<% } %>
-		<% } %>
 	</div>
 
+	<% if(this.post.appointmentDate_day){ %>
+
+	<section id="appointmentDate_time">
+
+
+		<% for (var i in this.times.services) { %>
+		<hr>
+				<div class="panel orange <% if(this.times.services[i].timeslots_error){ %>error<% } %>" data-duration="<%= this.times.services[i].duration %>" data-id="<%= this.times.services[i].ID %>">
+					<div class="panel-heading built">
+						<%= this.times.services[i].label %> <small class="pull-right">Duration: <%= this.times.services[i].duration_view %></small>
+					</div>
+					<% if(this.times.services[i].timeslots_error){ %>
+						<div class="alert alert-danger">
+							<ul>
+								<% for(var er in this.times.services[i].timeslots_error){ %>
+								<li><%= this.times.services[i].timeslots_error[er] %></li>
+								<% } %>
+							</ul>
+						</div>
+					<% } %>
+					<div class="panel-body">
+						<div class="timeslots">
+							<% for(var s in this.times.services[i].timeslots){ %>
+
+								<div class="timeslot radio-parent <% if(this.times.services[i].timeslots[s].locked=='1'){ %> locked<% } %> <% if(this.times.services[i].timeslots[s].duration_locked=='1'){ %> duration_locked<% } %> <% if(this.times.services[i].timeslots[s].staff==''){ %> continuous<% } %> <% if(this.times.services[i].timeslots[s].status=='1'){ %> selectable<% } %> <% if(this.times.services[i].timeslots[s].selected=='1'){ %> selected<% } %> <% if(this.times.services[i].timeslots[s].other_selected=='1'){ %> other_selected<% } %><% if(this.times.services[i].timeslots[s].error=='1'){ %> error<% } %> <% if(this.times.services[i].timeslots[s].active=='1'){ %> active<% } %> " data-value="<%= this.times.services[i].timeslots[s].v %>" data-staff="<%= this.times.services[i].timeslots[s].staff %>">
+
+
+									<label for="appointmentDate_time-<%= this.times.services[i].ID %>-<%= this.times.services[i].timeslots[s].v %>">
+										<div class="day"><%= this.times.services[i].timeslots[s].l %></div>
+										<input name="appointmentDate_time[<%= this.times.services[i].ID %>][time]" id="appointmentDate_time-<%= this.times.services[i].ID %>-<%= this.times.services[i].timeslots[s].v %>" value="<%= this.times.services[i].timeslots[s].v %>" type="radio" <% if(this.times.services[i].timeslots[s].disabled=='1'){ %>disabled<% } %>  <% if(this.post.appointmentDate_time[this.times.services[i].ID] && this.post.appointmentDate_time[this.times.services[i].ID].time==this.times.services[i].timeslots[s].v){ %>checked<% } %> >
+									</label>
+
+
+
+
+
+								</div>
+
+							<% } %>
+						</div>
+						<div>
+
+						</div>
+						<div class="clearfix"></div>
+					</div>
+					<% if(typeof(this.post.appointmentDate_time[this.times.services[i].ID])!='undefined' ){ %>
+						<% if(this.post.appointmentDate_time[this.times.services[i].ID].time!='' &&  !this.post.appointmentDate_time[this.times.services[i].ID].staffID){ %>
+						<div class="alert alert-warning">
+							<p>
+								Please select a staff member
+							</p>
+						</div>
+						<% } %>
+					<% } %>
+					<div class="panel-footer">
+						<div class="staff-area div-table">
+							<div class="staff div-row">
+								<% for(var s in this.times.services[i].staff){ %>
+									<div class="item  radio-parent div-cell" data-id="<%= this.times.services[i].staff[s].ID %>">
+
+										<label for="appointmentDate_time-<%= this.times.services[i].ID %>-<%= this.times.services[i].staff[s].ID %>">
+											<%= this.times.services[i].staff[s].first_name %> <%= this.times.services[i].staff[s].last_name %>
+											<input name="appointmentDate_time[<%= this.times.services[i].ID %>][staffID]" id="appointmentDate_time-<%= this.times.services[i].ID %>-<%= this.times.services[i].staff[s].ID %>" value="<%= this.times.services[i].staff[s].ID %>" type="radio" <% if(this.post.appointmentDate_time[this.times.services[i].ID] && this.post.appointmentDate_time[this.times.services[i].ID].staffID==this.times.services[i].staff[s].ID){ %>checked<% } %>>
+										</label>
+
+									</div>
+								<% } %>
+							</div>
+						</div>
+					</div>
+				</div>
+
+			<% } %>
+
+	</section>
+	<% } %>
 
 	]]>
 </script>
@@ -209,14 +245,18 @@
 	<![CDATA[
 
 	<div id="confirm">
-		<h1>Confirmation</h1>
+		<div class="panel">
+			<div class="panel-heading built">
+				<h3>Confirmation</h3>
+			</div>
+		</div>
 
 		<div class="row">
 			<div class="col-sm-6">
 				<h3>Appointment</h3><div style="padding-left:10px;">
 					<% if(this.extra.appointmentDate_day_label && this.post.appointmentDate_time ){ %>
 
-					<h4 style="display: inline-block"><%= this.extra.appointmentDate_day_label %></h4> at <h4 style="display: inline-block"><%= this.post.appointmentDate_time %></h4>
+					<h4 style="display: inline-block"><%= this.extra.appointmentDate_day_label %></h4> at <h4 style="display: inline-block"><%= this.post.appointmentDate_time_display %></h4>
 
 					<% } else { %>
 					Please select a date and time first
@@ -270,16 +310,36 @@
 					</tr>
 					</thead>
 
-					<% for(var i in this.extra.services){ %>
+					<% for(var i in this.extra.services_selected){ %>
 					<tr>
-						<th><%= this.extra.services[i].label %> <% if(this.extra.services[i].category){ %><small style="color:#ccc; margin-left:10px;">(<%= this.extra.services[i].category %>)</small><% } %></th>
+						<th><%= this.extra.services_selected[i].label %> <% if(this.extra.services_selected[i].category){ %><small style="color:#ccc; margin-left:10px;">(<%= this.extra.services_selected[i].category %>)</small><% } %>
+
+
+							<% if(this.extra.services_selected[i].staff && this.extra.services_selected[i].staff.ID){ %>
+							<div>
+							<span class="badge staff-badge-<%= this.extra.services_selected[i].staff.ID %>" style="margin-right:20px;">
+								<%= this.extra.services_selected[i].staff.first_name %> <%= this.extra.services_selected[i].staff.last_name %>
+							</span>
+								<div class="pull-right">
+									<%= this.extra.services_selected[i].time.start %> to <%= this.extra.services_selected[i].time.end %>
+								</div>
+
+
+							</div>
+
+
+							<% } %>
+
+						</th>
 						<td>
-							<%= this.extra.services[i].duration_view %>
+							<%= this.extra.services_selected[i].duration_view %>
 						</td>
 						<td>
-							<%= this.extra.services[i].price_view %>
+							<%= this.extra.services_selected[i].price_view %>
 						</td>
 					</tr>
+
+
 					<% } %>
 					<tfoot>
 					<tr>
@@ -323,15 +383,21 @@
 
 	<% if(this.submit){ %>
 	<input type="text" name="submit[clientID]" value="<%= this.submit.clientID %>" id="submit[clientID]">
-	<input type="text" name="submit[appointmentStart]" value="<%= this.submit.appointmentStart %>" id="submit[appointmentStart]">
+
 	<input type="text" name="submit[client][ID]" value="<%= this.submit.client.ID %>" id="submit[client][ID]">
 	<input type="text" name="submit[client][first_name]" value="<%= this.submit.client.first_name %>" id="submit[client][first_name]">
 	<input type="text" name="submit[client][last_name]" value="<%= this.submit.client.last_name %>" id="submit[client][last_name]">
 	<input type="text" name="submit[client][mobile_number]" value="<%= this.submit.client.mobile_number %>" id="submit[client][mobile_number]">
 	<input type="text" name="submit[client][email]" value="<%= this.submit.client.email %>" id="submit[client][email]">
-	<input type="text" name="submit[services]" value="<%= this.submit.services %>" id="submit[services]">
+	<!--<input type="text" name="submit[services]" value="<%= this.submit.services %>" id="submit[services]">-->
 	<input type="text" name="companyID" value="{{ company['ID'] }}" id="companyID">
+	<input type="text" name="submit[appointmentDate]" value="<%= this.submit.appointmentDate %>" id="submit[appointmentDate]">
 
+		<% for(var i in this.extra.services_selected){ %>
+			<input type="text" name="submit[services][<%= this.extra.services_selected[i].ID %>][serviceID]" value="<%= this.extra.services_selected[i].ID %>" id="submit[services][<%= this.extra.services_selected[i].ID %>][serviceID]">
+			<input type="text" name="submit[services][<%= this.extra.services_selected[i].ID %>][staffID]" value="<%= this.extra.services_selected[i].staff.ID %>" id="submit[services][<%= this.extra.services_selected[i].ID %>][staffID]">
+			<input type="text" name="submit[services][<%= this.extra.services_selected[i].ID %>][time]" value="<%= this.extra.services_selected[i].time.start %>" id="submit[services][<%= this.extra.services_selected[i].ID %>][time]">
+		<% } %>
 	<% } %>
 
 

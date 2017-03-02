@@ -1,25 +1,32 @@
 <div class="content animate-panel" id="content-area">
 
 
+	{% if error %}
+	<div class="alert alert-danger">EOORO</div>
+	{% endif %}
 	<section id="calendar">
 
 		{% for service in services %}
-		<div class="panel" data-duration="{{ service['duration'] }}">
+		<div class="panel" data-duration="{{ service['duration'] }}" data-id="{{ service['ID'] }}">
 			<div class="panel-heading">
-				<h1>{{ service['label'] }} <small>{{ service['duration_view'] }}</small></h1>
+				<h1>{{ service['ID'] }} | {{ service['label'] }} <small>{{ service['duration_view'] }}</small></h1>
 			</div>
+			{% if service['timeslots_error'] %}
+			<div class="alert alert-danger">EOORO</div>
+			{% endif %}
 			<div class="panel-body">
 				<div class="timeslots">
 					{% for row in service['timeslots'] %}
-						<div class="timeslot {% if row['locked']=='1' %} locked{% endif %}{% if row['duration_locked']=='1' %} duration_locked{% endif %}{% if row['staff']=='' %} continuous{% endif %}{% if row['status']=='1' %} selectable{% endif %} {% if row['selected']=='1' %} selected{% endif %} " data-value="{{ row['v'] }}" data-staff="{{ row['staff'] }}">
+						<div class="timeslot {% if row['locked']=='1' %} locked{% endif %}{% if row['duration_locked']=='1' %} duration_locked{% endif %}{% if row['staff']=='' %} continuous{% endif %}{% if row['status']=='1' %} selectable{% endif %} {% if row['selected']=='1' %} selected{% endif %} {% if row['other_selected']=='1' %} other_selected{% endif %} {% if row['error']=='1' %} error{% endif %} {% if row['active']=='1' %} active{% endif %} " data-value="{{ row['v'] }}" data-staff="{{ row['staff'] }}">
 							{{ row['l'] }}
-
+							<small>{% for starr in service['staff'] %}{{ row['busy'][starr['ID']] }}|{% endfor %}</small>
 						</div>
 
 					{% endfor %}
 				</div>
 				<div class="clearfix"></div>
 			</div>
+
 			<div class="panel-footer">
 				<div class="staff-area div-table">
 					<div class="staff div-row">
@@ -68,10 +75,7 @@
 	}
 
 
-	#calendar .timeslots .timeslot.active {
-		background-color: #203ecb;
-		color: #e8e8e8;
-	}
+
 
 	#calendar .timeslots .timeslot.selected {
 		background-color: #203ecb;
@@ -95,14 +99,29 @@
 		color:#999;
 	}
 
+	#calendar .timeslots .timeslot.other_selected.locked {
+		background-color: rgba(35, 73, 252, 0.46);
+		color: #e8e8e8;
+	}
 
 	#calendar .timeslots .timeslot.selected.duration_locked,#calendar  .timeslots .timeslot.selected.continuous {
 		background-color: #7d58cb;
 		color: #e8e8e8;
 	}
-	#calendar .timeslots .timeslot.selected.locked {
+	#calendar .timeslots .timeslot.error {
 		background-color: #ff0000;
 		color: #e8e8e8;
+	}
+
+	#calendar .panel.choosing .timeslots .timeslot.selected {
+		background-color: rgba(32, 62, 203, 0.2);
+		color:#999;
+	}
+
+	#calendar .timeslots .timeslot.active {
+		background-color: #203ecb;
+		color: #e8e8e8;
+		box-shadow: 0 0 10px #0000FF;
 	}
 
 	.div-table {
@@ -120,11 +139,12 @@
 		border: 1px solid #ccc;
 		text-align: center;
 		margin-right:-1px;
-		display:none;
 		padding:10px;
-
+		opacity:0.2;
 	}
-
+	.staff .item.showing {
+		opacity:1;
+	}
 
 
 

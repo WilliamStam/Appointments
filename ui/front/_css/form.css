@@ -3,7 +3,8 @@ body {
   top: 0;
   left: 0;
   right: 0;
-  bottom: 0; }
+  bottom: 0;
+  background-color: #f1f3f6; }
 
 #content-area {
   position: absolute;
@@ -68,11 +69,13 @@ body {
       background-color: #587ca0; }
       .pagination li label:hover .dayName, .pagination li label:hover .day, .pagination li label:hover .month {
         color: #fff; }
-  .pagination li.active label {
-    background-color: #34495e;
-    color: #fff; }
-    .pagination li.active label .dayName, .pagination li.active label .month {
-      color: #f1f1f1; }
+  .pagination li.active {
+    font-size: 20px; }
+    .pagination li.active label {
+      background-color: #34495e;
+      color: #fff; }
+      .pagination li.active label .dayName, .pagination li.active label .month {
+        color: #f1f1f1; }
   .pagination li.disabled {
     color: #ccc !important; }
     .pagination li.disabled label {
@@ -118,6 +121,9 @@ body {
         font-weight: bold;
         text-align: right; }
 
+#rootwizard > .panel > .panel-body {
+  background-color: #f1f3f6; }
+
 #rootwizard .nav-justified {
   margin: 0;
   padding: 0;
@@ -161,8 +167,7 @@ body {
     font-weight: normal;
     text-align: center;
     vertical-align: middle;
-    -ms-touch-action: manipulation;
-        touch-action: manipulation;
+    touch-action: manipulation;
     cursor: pointer;
     background-image: none;
     border: 1px solid transparent;
@@ -311,3 +316,148 @@ h1 {
     border-top: 1px solid #e4e5e7; }
   .text-area-panel .note-editor.note-frame {
     border: none; }
+
+#appointmentDate_time {
+  position: relative; }
+  #appointmentDate_time .panel.error {
+    border: 1px solid #ff0000; }
+  #appointmentDate_time .timeslots .timeslot.selectable label {
+    cursor: pointer;
+    font-weight: bold; }
+  #appointmentDate_time .timeslots .timeslot.selectable label:hover {
+    background-color: #587ca0;
+    color: #ffffff; }
+  #appointmentDate_time .timeslots .timeslot {
+    float: left;
+    border: 1px solid #e4e5e7;
+    text-align: center;
+    margin-right: -1px; }
+    #appointmentDate_time .timeslots .timeslot label {
+      width: 60px;
+      padding: 10px;
+      margin: 0; }
+      #appointmentDate_time .timeslots .timeslot label input {
+        display: none; }
+  #appointmentDate_time .timeslots .timeslot.active label {
+    background-color: #34495e;
+    color: #FFFFFF; }
+  #appointmentDate_time .timeslots .timeslot.selected label {
+    background-color: #3d566e;
+    color: #FFFFFF; }
+  #appointmentDate_time .timeslots .timeslot.continuous label {
+    background-color: #f2f2f2;
+    color: #ccc; }
+  #appointmentDate_time .timeslots .timeslot.duration_locked label {
+    background-color: #f2f2f2;
+    color: #ccc; }
+  #appointmentDate_time .timeslots .timeslot.locked label {
+    background-color: #f2f2f2;
+    color: #ccc; }
+  #appointmentDate_time .timeslots .timeslot.other_selected.locked label {
+    background-color: #b9c9d8;
+    color: #e8e8e8; }
+  #appointmentDate_time .timeslots .timeslot.selected.duration_locked label, #appointmentDate_time .timeslots .timeslot.selected.continuous label {
+    background-color: #3d566e;
+    color: #FFFFFF; }
+  #appointmentDate_time .timeslots .timeslot.error label {
+    background-color: #ff0000;
+    color: #e8e8e8; }
+  #appointmentDate_time .panel.choosing .timeslots .timeslot.selected label {
+    background-color: rgba(32, 62, 203, 0.2);
+    color: #999; }
+  #appointmentDate_time .timeslots .timeslot.active label {
+    background-color: #34495e;
+    color: #ffffff; }
+  #appointmentDate_time .div-table {
+    width: 100%;
+    display: table; }
+  #appointmentDate_time .div-table .div-row {
+    display: table-row; }
+  #appointmentDate_time .div-table .div-cell {
+    display: table-cell; }
+  #appointmentDate_time .staff .item {
+    border: 1px solid #ccc;
+    text-align: center;
+    margin-right: -1px;
+    opacity: 0.2; }
+    #appointmentDate_time .staff .item label {
+      cursor: pointer;
+      margin: 0;
+      display: block;
+      padding: 10px;
+      color: #333;
+      background-color: #fff;
+      border-color: #ccc; }
+      #appointmentDate_time .staff .item label:focus, #appointmentDate_time .staff .item label.focus {
+        color: #333;
+        background-color: #e6e6e6;
+        border-color: #8c8c8c; }
+      #appointmentDate_time .staff .item label:hover {
+        color: #333;
+        background-color: #e6e6e6;
+        border-color: #adadad; }
+      #appointmentDate_time .staff .item label:active, #appointmentDate_time .staff .item label.active,
+      .open > #appointmentDate_time .staff .item label.dropdown-toggle {
+        color: #333;
+        background-color: #e6e6e6;
+        border-color: #adadad; }
+        #appointmentDate_time .staff .item label:active:hover, #appointmentDate_time .staff .item label:active:focus, #appointmentDate_time .staff .item label:active.focus, #appointmentDate_time .staff .item label.active:hover, #appointmentDate_time .staff .item label.active:focus, #appointmentDate_time .staff .item label.active.focus,
+        .open > #appointmentDate_time .staff .item label.dropdown-toggle:hover,
+        .open > #appointmentDate_time .staff .item label.dropdown-toggle:focus,
+        .open > #appointmentDate_time .staff .item label.dropdown-toggle.focus {
+          color: #333;
+          background-color: #d4d4d4;
+          border-color: #8c8c8c; }
+      #appointmentDate_time .staff .item label:active, #appointmentDate_time .staff .item label.active,
+      .open > #appointmentDate_time .staff .item label.dropdown-toggle {
+        background-image: none; }
+      #appointmentDate_time .staff .item label.disabled:hover, #appointmentDate_time .staff .item label.disabled:focus, #appointmentDate_time .staff .item label.disabled.focus, #appointmentDate_time .staff .item label[disabled]:hover, #appointmentDate_time .staff .item label[disabled]:focus, #appointmentDate_time .staff .item label[disabled].focus,
+      fieldset[disabled] #appointmentDate_time .staff .item label:hover,
+      fieldset[disabled] #appointmentDate_time .staff .item label:focus,
+      fieldset[disabled] #appointmentDate_time .staff .item label.focus {
+        background-color: #fff;
+        border-color: #ccc; }
+      #appointmentDate_time .staff .item label .badge {
+        color: #fff;
+        background-color: #333; }
+      #appointmentDate_time .staff .item label input {
+        display: none; }
+    #appointmentDate_time .staff .item.active label {
+      color: #FFFFFF;
+      background-color: #34495e;
+      border-color: #2e6da4; }
+      #appointmentDate_time .staff .item.active label:focus, #appointmentDate_time .staff .item.active label.focus {
+        color: #FFFFFF;
+        background-color: #22303d;
+        border-color: #122b40; }
+      #appointmentDate_time .staff .item.active label:hover {
+        color: #FFFFFF;
+        background-color: #22303d;
+        border-color: #204d74; }
+      #appointmentDate_time .staff .item.active label:active, #appointmentDate_time .staff .item.active label.active,
+      .open > #appointmentDate_time .staff .item.active label.dropdown-toggle {
+        color: #FFFFFF;
+        background-color: #22303d;
+        border-color: #204d74; }
+        #appointmentDate_time .staff .item.active label:active:hover, #appointmentDate_time .staff .item.active label:active:focus, #appointmentDate_time .staff .item.active label:active.focus, #appointmentDate_time .staff .item.active label.active:hover, #appointmentDate_time .staff .item.active label.active:focus, #appointmentDate_time .staff .item.active label.active.focus,
+        .open > #appointmentDate_time .staff .item.active label.dropdown-toggle:hover,
+        .open > #appointmentDate_time .staff .item.active label.dropdown-toggle:focus,
+        .open > #appointmentDate_time .staff .item.active label.dropdown-toggle.focus {
+          color: #FFFFFF;
+          background-color: #151e26;
+          border-color: #122b40; }
+      #appointmentDate_time .staff .item.active label:active, #appointmentDate_time .staff .item.active label.active,
+      .open > #appointmentDate_time .staff .item.active label.dropdown-toggle {
+        background-image: none; }
+      #appointmentDate_time .staff .item.active label.disabled:hover, #appointmentDate_time .staff .item.active label.disabled:focus, #appointmentDate_time .staff .item.active label.disabled.focus, #appointmentDate_time .staff .item.active label[disabled]:hover, #appointmentDate_time .staff .item.active label[disabled]:focus, #appointmentDate_time .staff .item.active label[disabled].focus,
+      fieldset[disabled] #appointmentDate_time .staff .item.active label:hover,
+      fieldset[disabled] #appointmentDate_time .staff .item.active label:focus,
+      fieldset[disabled] #appointmentDate_time .staff .item.active label.focus {
+        background-color: #34495e;
+        border-color: #2e6da4; }
+      #appointmentDate_time .staff .item.active label .badge {
+        color: #34495e;
+        background-color: #FFFFFF; }
+  #appointmentDate_time .staff .item.showing {
+    cursor: pointer;
+    opacity: 1; }

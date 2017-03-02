@@ -1009,7 +1009,7 @@
 						<button type="button" class="btn btn-danger pull-left" id="btn-delete-record"><i class="fa fa-trash"></i>
 						</button>
 						<% } %>
-						
+
 						<button type="reset" class="btn btn-link">Cancel</button>
 						<button type="submit" class="btn btn-primary">Save changes</button>
 					</div>

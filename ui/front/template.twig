@@ -49,8 +49,61 @@
 	<script src="{{ page['template_js'] }}"></script>
 {% endif %}
 
-	
-	
+
+<style>
+	.agenda-item.agenda-item-vertical {
+
+	}
+	.staff-badge-, .agenda-item.agenda-staff-item- {
+		color:#fff;
+		background-color: #777777;
+	}
+	{% for row in _staff %}
+	.staff-badge-{{ row['ID'] }} {
+	{% for key,style in row['badge_style'] %}
+	{{ key }}: {{ style }};
+	{% endfor %}
+	}
+
+	.agenda-item.agenda-staff-item-{{ row['ID'] }} {
+	{{ row['badge_style_rendered']['normal'] }}
+		border: 1px solid {{ row['badge_style']['background-color'] }};
+	}
+	.agenda-item.agenda-staff-item-{{ row['ID'] }}:hover {
+	{{ row['badge_style_rendered']['hover'] }}
+		border: 1px solid {{ row['badge_style_hover']['background-color'] }};
+	}
+	.agenda-item.agenda-staff-item-{{ row['ID'] }}.active {
+	{{ row['badge_style_rendered']['active'] }}
+		border: 1px solid {{ row['badge_style_active']['background-color'] }};
+	}
+	.agenda-item.agenda-staff-item-{{ row['ID'] }}.current {
+	{{ row['badge_style_rendered']['current'] }}
+		border: 1px solid {{ row['badge_style_current']['background-color'] }};
+	}
+
+
+	.timeslot-item-staff-{{ row['ID'] }} {
+		background: /* On "top" */
+				repeating-linear-gradient(
+						45deg,
+						transparent,
+						transparent 5px,
+						#f1f1f1 5px,
+						#f1f1f1 10px
+				),
+					/* on "bottom" */
+				linear-gradient(
+						to bottom,
+						rgba({{ row['badge_style_rgb']['R'] }},{{ row['badge_style_rgb']['G'] }},{{ row['badge_style_rgb']['B'] }},0.1),
+						rgba({{ row['badge_style_rgb']['R'] }},{{ row['badge_style_rgb']['G'] }},{{ row['badge_style_rgb']['B'] }},0.12)
+				) !important;
+	}
+
+
+
+	{% endfor %}
+</style>
 	
 	
 	

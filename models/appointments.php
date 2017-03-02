@@ -204,6 +204,7 @@ class appointments extends _ {
 					$b->appointmentID = $ID;
 					$b->staffID = $val['staffID']?$val['staffID']:null;
 					$b->serviceID = $val['serviceID'];
+					$b->appointmentStart = $val['appointmentStart'];
 				}
 				$b->save();
 
