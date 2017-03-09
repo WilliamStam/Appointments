@@ -274,7 +274,7 @@ $f3->route('GET /updatetonew', function ($app, $params) {
 	$appoint = array();
 
 	foreach ($appointment_services as $item){
-		$appointmentStart = $appointments[$item['appointmentID']]['appointmentStart'];
+		$appointmentStart = $appointments[$item['appointmentID']]['appointmentStart_old'];
 		if (isset($appoint[$item['appointmentID']])){
 			$appointmentStart = date("Y-m-d H:i:s",strtotime($appoint[$item['appointmentID']] . " + " . $services[$item['serviceID']]['duration']."min"));
 		}
