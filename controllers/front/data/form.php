@@ -149,7 +149,7 @@ class form extends _ {
 		$days = array();
 
 		if ($settings['daysAhead']){
-			for($i=-10;$i<=$settings['daysAhead']-1;$i++){
+			for($i=0;$i<=$settings['daysAhead']-1;$i++){
 				$date = strtotime("+$i day", $today);
 				$showdate = true;
 				if (isset($settings['closed'])){
