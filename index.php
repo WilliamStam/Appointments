@@ -286,6 +286,7 @@ $f3->route('GET /updatetonew', function ($app, $params) {
 
 	}
 
+	//$sql[] = "ALTER TABLE `appointments` DROP `appointmentStart`;";
 
 
 	$count = count($sql);
