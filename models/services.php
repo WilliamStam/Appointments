@@ -85,7 +85,7 @@ class services extends _ {
 
 
 		$result = $f3->get("DB")->exec("
-			 SELECT DISTINCT *
+			 SELECT DISTINCT *, (SELECT count(ID) FROM staff WHERE staff.companyID = services.companyID AND find_in_set(services.ID,staff.services)) as staff_count
 			FROM services 
 			$where
 			GROUP BY ID

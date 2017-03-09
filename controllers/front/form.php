@@ -16,7 +16,10 @@ class form extends _ {
 			$this->f3->error("404");
 		}
 
-		$services = models\services::getInstance()->getAll("companyID = '{$company['ID']}'","category ASC, label ASC","", array("format" => true,"group"=>"category"));
+		$services = models\services::getInstance()->getAll("companyID = '{$company['ID']}' AND  (SELECT count(ID) FROM staff WHERE staff.companyID = services.companyID AND find_in_set(services.ID,staff.services))>0","category ASC, label ASC","", array("format" => true,"group"=>"category"));
+
+
+
 		
 		$tmpl = new \template("template.twig","ui/front");
 		$tmpl->page = array(

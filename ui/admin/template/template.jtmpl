@@ -314,10 +314,12 @@
 				{% for group in _services %}
 					<optgroup label="{{ group['label'] }}">
 						{% for row in group['records'] %}
+							{% if row['staff_count']>0 %}
 
 							<option value="{{ row['ID'] }}" style="width:100%" data-duration="{{ row['duration'] }}" data-duration-view="{{ row['duration_view'] }}" data-category="{{ row['category'] }}"  <% if(this.ID=="{{ row['ID'] }}"){ %>selected="selected"<% } %>>
 							{{ row['label'] }}
 							</option>
+						{% endif %}
 
 						{% endfor %}
 					</optgroup>
