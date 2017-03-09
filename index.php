@@ -255,7 +255,7 @@ $f3->route('GET /updatetonew', function ($app, $params) {
 	$appointments_ = models\appointments::getInstance()->getAll();
 	$services_ = models\services::getInstance()->getAll();
 
-	test_array($appointments_);
+	//test_array($appointments_);
 	$appointments = array();
 	foreach ($appointments_ as $item){
 		$appointments[$item['ID']]=$item;
