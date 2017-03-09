@@ -53,51 +53,75 @@ class form extends _ {
 
 		$values = array(
 				"clientID" => $this->post("clientID",true),
-				"appointmentStart" => $this->post("appointmentStart",true),
 				"notes" => $this->post("notes"),
-				"services" => $this->post("services"),
 			"companyID" => $this->user['company']['ID'],
 
 		);
+
+		$services_ = isset($_POST['service'])?$_POST['service']:array();
+
 
 
 
 		$services = array();
 
-		if (count($values['services']['records'])){
+		if (count($services_)){
 
-			foreach ($values['services'] as $key=>$item){
-				if ($item['serviceID']){
-					$services[$key] = $item;
-				}
-				if (is_numeric($key)&&$item['serviceID']==""){
+			foreach ($services_ as $key=>$item){
 
-					$services[$key] = $item;
+				$appointmentStart = isset($_POST['appointmentDate'])?$_POST['appointmentDate']:"";
+				$appointmentStart = $appointmentStart . " " . $item['time'] .":00";
+
+				$recordID = str_replace("edit-", "", $key);
+				if (!is_numeric($recordID)){
+					$recordID = "";
 				}
+				if (!$appointmentStart){
+					$this->errors['service-'.$key.'-time'] = "Date is required";
+				} else {
+					if (date("Y-m-d H:i:s",strtotime($appointmentStart))!=$appointmentStart){
+						$this->errors['service-'.$key.'-time'] = "Date isn't in a good format";
+					}
+				}
+
+				if ($item['staffID']==""){
+					$this->errors['service-'.$key.'-staffID'] = "Staff member is required";
+				}
+
+
+				$services[$recordID] = array(
+
+					"serviceID"=>$item['ID'],
+					"appointmentStart"=>$appointmentStart,
+					"staffID"=>$item['staffID'],
+				);
+
+
 
 
 			}
 
 		}
 
+
 		$values['services'] = $services;
-		if (!count($values['services'])){
+		if (!count($services)){
 
 			$this->errors['services-area'] = "Please select at least 1 service";
 
 		}
 
-	//	test_array($values);
 
 
 
 
 
 
+		//test_array($this->errors);
 
 
 		if (count($this->errors)==0){
-
+//test_array("woof");
 			$ID = models\appointments::_save($ID,$values);
 		}
 		$return = array(

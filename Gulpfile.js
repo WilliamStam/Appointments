@@ -25,6 +25,7 @@ var jsfile_admin = [
 	'vendor/components/toastr/toastr.js',
 	'vendor/components/TouchSwipe-Jquery-Plugin/jquery.touchSwipe.min.js',
 	'vendor/ivaynberg/select2/dist/js/select2.full.min.js',
+	'vendor/wvega/timepicker/jquery.timepicker.js',
 
 	'vendor/twitter/typeahead.js/dist/typeahead.bundle.min.js',
 	'vendor/itsjavi/bootstrap-colorpicker/dist/js/bootstrap-colorpicker.min.js',

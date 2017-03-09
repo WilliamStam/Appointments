@@ -18,26 +18,21 @@ class form extends _ {
 
 		$values = $_POST['submit'];
 
-		$services = array();
+
 		$servie = $values['services'];
 
-		$values['servie'] = $values['services'];
+		$serverIDS = array();
 
-		$ser = array();
-		$selected_target = array();
-		foreach ($servie as $item=>$val){
+		$services = array();
+		foreach ($servie as $item){
+			$serverIDS[] = $item['serviceID'];
 			$ser[] = $item;
-			$services['new-'.$item]=array(
-				"serviceID"=>$servie[$item]['serviceID'],
-				"staffID"=>$servie[$item]['staffID'],
-				"appointmentStart"=>$values['appointmentDate']." ".$servie[$item]['time'].":00",
+			$services[]=array(
+				"serviceID"=>$item['serviceID'],
+				"staffID"=>$item['staffID'],
+				"appointmentStart"=>$item['appointmentStart'],
 			);
-			$selected_target[] = array(
-				"serviceID"=>$servie[$item]['serviceID'],
-				"staffID"=>$servie[$item]['staffID'],
-				"time"=>$servie[$item]['time'],
-				"ID"=>""
-			);
+
 
 		}
 		$values["services"] = $services;
@@ -49,19 +44,42 @@ class form extends _ {
 		if ($values["companyID"]==""){
 			$this->errors['company'] = "Company needed";
 		}
+		$serverIDS = implode(",",$serverIDS);
+		$services_array = models\services::getInstance()->getAll("companyID='{$values['companyID']}' AND ID in ({$serverIDS})","","",array("staff"=>true));
+
+		$service_ = array();
+		foreach ($services_array as $item){
+			$service_[$item['ID']] = $item;
+		}
+
+		$check_arr = array();
+		foreach ($services as $item){
+			$check_arr[] = array_merge($item,$service_[$item['serviceID']]);
+
+
+		}
+
+
 
 		//$values['appointmentStart'] = "2017-02-14 09:00:00";
 
+		$slots = models\available_timeslots::getInstance()->timeslots($values['companyID'],$check_arr);;
 
-		$slots = models\available_timeslots::getInstance()->get($ser,$values['appointmentDate'],$values['companyID'],$selected_target);
 
-		if ($slots['error']){
-			$this->errors['appointmentDate_time'] = $slots['error'];
+		foreach ($slots as $item){
+			if (count($item['slots']['errors'])){
+				$this->errors['appointmentDate_time'] = $item['slots']['errors'];
+			}
+
 		}
+
+		//test_array(array("check"=>$check_arr,"slots"=>$slots,"errors"=>$this->errors));
+
+
 
 //test_array($slots);
 
-
+$company = models\companies::getInstance()->get($values["companyID"],array("format"=>true));
 
 		//test_array(array($values,$this->errors));
 
@@ -75,12 +93,23 @@ class form extends _ {
 			$return['clientID'] = $values['clientID'];
 			$return['appointmentID'] = models\appointments::_save($ID,$values);
 
-			$_SESSION['data'] = json_encode(array());
+			$_SESSION['data'] = json_encode(array("woof"));
+			session_unset();
+			session_destroy();
+			session_write_close();
+			setcookie(session_name(),'',0,'/');
+			unset($_SESSION['data']);
+
 		}
 
 		//
 
+		$redirect = "/{$company['url']}/form/complete";
+
+
+
 		$return['errors'] = $this->errors;
+		$return['redirect'] = $redirect;
 
 		return $GLOBALS["output"]['data'] = $return;
 	}

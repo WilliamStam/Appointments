@@ -50,8 +50,12 @@
 }
 .panel-body {
 	&.no-border {
-		border:none;
+		border-left:none;
+		border-right:none;
 	}
+  &.no-padding {
+	padding:0;
+  }
 }
 .panel {
 	&.form-group {
@@ -66,6 +70,15 @@
 			border-top-color:red!important;
 		}
 	}
+
+  &.no-border {
+	border-left:none;
+	border-right:none;
+	.panel-body {
+	  border-left:none;
+	  border-right:none;
+	}
+  }
 	
 }
 .panel {

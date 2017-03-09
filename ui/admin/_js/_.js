@@ -213,20 +213,15 @@ $(document).ready(function () {
 	});
 
 
-	$(document).on("change", "#services-area .services-select", function () {
-		var $this = $(this);
-		$this.closest(".input-groups").find(".form-control-static").html(minutes_to_time($("option:selected", this).attr("data-duration"), true));
-		update_services_duration();
-	});
-	$(document).on("click", ".btn-new-service", function () {
-		$("#services-area").jqoteapp($("#template-appointment-services-area-item"), {});
-		$("#services-area select").select2();
 
-		var $field = $(this);
-		$field.closest(".has-error").removeClass("has-error").find(".form-validation").remove();
-		submitBtnCounter($field.closest("form"));
-		update_services_duration();
-	});
+
+
+
+
+
+
+
+
 
 	$(document).on("click", ".appointment-row", function (e) {
 		e.preventDefault();
@@ -540,9 +535,97 @@ $(document).ready(function () {
 
 	$(document).on("click", ".offcanvas-strip-close", function () {
 		$(this).closest(".offcanvas").trigger("offcanvas.close");
+	});
+
+
+	$(document).on("change", "#appointmentDate_time .timeslots input[type='radio']", function () {
+		var $this = $(this);
+		var $panel = $this.closest(".panel");
+		var $timepicker = $(".timepicker", $panel);
+		var v = $this.val()
+
+		$timepicker.val(v).timepicker({"defaultTime":v});
+		$timepicker.trigger("change")
+
+		//postServiceTimes();
+
+		console.log($panel.attr("data-key"))
+
 	})
 
+	$(document).on("change", "#appointmentDate_time .staff-area input[type='radio']", function () {
+		postServiceTimes();
+	})
+
+	$(document).on("change", "#appointmentDate_time select", function () {
+		postServiceTimes();
+	})
+	$(document).on("change", "#appointmentDate_time .timepicker", function () {
+		postServiceTimes();
+	})
+
+
+	$(document).on("mouseenter", ".timeslot", function () {
+		var $this = $(this);
+		var $panel = $this.closest(".panel");
+
+		$panel.addClass("showing")
+
+		var staff = $(this).attr("data-staff");
+		//console.log(staff)
+		$(".staff .item.showing", $panel).removeClass("showing");
+		if (staff) {
+			staff = staff.split(",");
+
+			for (var i in staff) {
+
+				$(".staff .item[data-id=" + staff[i] + "]", $panel.find(".panel-footer")).addClass("showing");
+			}
+
+		}
+	});
+
+	$(document).on("mouseleave", ".timeslot", function () {
+		var $this = $(this);
+		var $panel = $this.closest(".panel");
+		$panel.removeClass("showing")
+
+		showStaff();
+	});
+
+
+
+
+	$(document).on("click", ".btn-new-service", function () {
+		add_new_service_action();
+	});
+
+
+
 });
+function add_new_service_action(){
+
+	var data = {
+		ID:"",
+		staffID:"",
+		appointmentStart:"",
+		key:"new-n-"+$("#services-area > .panel").length,
+		slots:{
+			errors:{},
+			warnings:{},
+			times:{},
+			clashing:{}
+		},
+		times: {
+			day:$("#appointmentDate").val(),
+			time:""
+		}
+	};
+	$("#services-area").jqoteapp($("#template-appointment-form-services"), data);
+
+	setupServicesTimes();
+
+}
 function record_table_active($table) {
 	var c = 0;
 	$("tbody tr.record", $table).each(function () {
@@ -669,30 +752,33 @@ function getAppointmentForm() {
 		}
 
 
-
-		if (!$("#appointmentStart").val()||$("#appointmentStart").val()=="undefined") {
-			$("#appointmentStart").val(moment().format('YYYY-MM-DD'));
+		if (!$("#appointmentDate").val() || $("#appointmentDate").val() == "undefined") {
+			$("#appointmentDate").val(moment().format('YYYY-MM-DD'));
 		}
 
+
 		datetimepickerOptions.format = "YYY-MM-DD";
-		datetimepickerOptions.defaultDate = moment($("#appointmentStart").val(), 'YYYY-MM-DD');
+		datetimepickerOptions.defaultDate = moment($("#appointmentDate").val(), 'YYYY-MM-DD');
 
 
-		$('#appointmentStart-inline').datetimepicker(datetimepickerOptions);
-		$("#appointmentStart-inline").on("dp.change", function (e) {
-			$("#appointmentStart").val(moment(e.date).format('YYYY-MM-DD')).trigger("change");
-			update_services_duration();
+		$('#appointmentDate-inline').datetimepicker(datetimepickerOptions);
+		$("#appointmentDate-inline").on("dp.change", function (e) {
+			$("#appointmentDate").val(moment(e.date).format('YYYY-MM-DD')).trigger("change");
+			postServiceTimes()
 		});
 
+		$("#services-area").attr("data-timeslots",data.time_interval);
 
-		$("#services-area select").select2();
+		setTimeout(function(){
+			setupServicesTimes(data)
+		},400)
 
-		$("#services-area .services-select").each(function () {
-			var $this = $(this);
-			$this.closest(".input-groups").find(".form-control-static").html(minutes_to_time($("option:selected", this).attr("data-duration"), true))
-		})
 
-		update_services_duration();
+
+
+		//getServiceTimes()
+
+		//getAppointmentFormServices();
 
 		$('textarea#notes').summernote({
 			minHeight: 200,
@@ -704,10 +790,102 @@ function getAppointmentForm() {
 			]
 		});
 
+		if (data.details.ID==""){
+			add_new_service_action();
+		}
+
 
 	}, "form-data")
 
 };
+function setupServicesTimes(data) {
+	$("#services-area > .panel").each(function () {
+		var $panel = $(this);
+		var $timepicker = $('.timepicker', $panel);
+		$timepicker.timepicker({
+			zindex: 10000000,
+			timeFormat: 'HH:mm',
+
+			interval:$("#services-area").attr("data-timeslots"),
+			dynamic: false,
+			dropdown: true,
+			scrollbar: true,
+			change:function(){
+				//postServiceTimes();
+			}
+		});
+		if ($timepicker.val()){
+			$timepicker.timepicker({"defaultTime":$timepicker.val()});
+		}
+
+
+	})
+	$("#services-area select").select2({
+		templateResult: formatServiceSelect2,
+		templateSelection: formatServiceSelect2
+	});
+	showStaff();
+}
+function postServiceTimes() {
+	var ID = $.bbq.getState("appID");
+	var data = $("#form-appointment-capture").serialize();
+
+
+	$.post("/admin/data/form/appointment_services?ID="+ID, data, function (data) {
+		data = data.data;
+		$("#services-area").jqotesub($("#template-appointment-form-services"), data.services);
+
+
+		setupServicesTimes(data)
+
+	})
+
+}
+function formatServiceSelect2(item) {
+	if (!item.id) {
+		return item.text;
+	}
+	var $item = $(
+		'<span class="pull-right" style="color:#ccc"> (' + $(item.element).attr("data-category") + ') ' + $(item.element).attr("data-duration-view") + '</span>' + '<span>' + item.text + '</span>'
+	);
+	return $item;
+};
+function showStaff() {
+	$("#appointmentDate_time .panel").each(function () {
+		var $panel = $(this);
+		var $footer = $panel.find(".panel-footer");
+		var duration = $panel.attr("data-duration");
+
+		var $timeslots = $panel.find(".timeslots");
+
+		$(".staff .item.showing", $footer).removeClass("showing");
+
+		var staff = $(".selected:first", $timeslots).attr("data-staff")
+		//console.log(staff)
+		if (staff) {
+			staff = staff.split(",");
+
+
+			for (var i in staff) {
+				$(".staff .item[data-id=" + staff[i] + "]", $footer).addClass("showing");
+			}
+
+		}
+
+	})
+
+}
+function ObjectLength(object) {
+	var length = 0;
+	for (var key in object) {
+		if (object.hasOwnProperty(key)) {
+			++length;
+		}
+	}
+	return length;
+};
+
+
 function update_services_duration() {
 	var dur = 0;
 

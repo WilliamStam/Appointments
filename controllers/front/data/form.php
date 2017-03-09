@@ -16,7 +16,6 @@ class form extends _ {
 		$company = isset($_REQUEST['companyID'])?$_REQUEST['companyID']:"";
 		$company = models\companies::getInstance()->get($company,array("format"=>true));
 
-		$services = models\services::getInstance()->getAll("companyID = '{$company['ID']}'","category ASC, label ASC","", array("format" => true,"group"=>"category"));
 
 		//test_array($services);
 
@@ -36,7 +35,7 @@ class form extends _ {
 		$return['post']['first_name'] = "";
 		$return['post']['last_name'] = "";
 		$return['post']['appointmentDate_day'] = "";
-		$return['post']['appointmentDate_time'] = "";
+		$return['post']['appointmentDate_time'] = array();
 		$return['post']['notes'] = "";
 		$return['post']['services'] = array();
 		$return['post']['duration'] = 0;
@@ -207,6 +206,7 @@ class form extends _ {
 
 
 
+
 		$return['extra']['services'] = array();
 
 
@@ -217,99 +217,103 @@ class form extends _ {
 		);
 		$serviceids = "";
 	//	test_array($return['post']['services']);
+
+
 		if (count($return['post']['services'])||$return['post']['services']!=""){
 			$serviceids = is_array($return['post']['services'])?implode(",",$return['post']['services']):$return['post']['services'];
 
-			if ($serviceids){
-				$return['extra']['services'] = models\services::getInstance()->getAll("services.ID IN ({$serviceids}) AND companyID = '{$company['ID']}'","category ASC, label ASC","",array("format"=>true,"staff"=>true));
 
-				//test_array("services.ID IN ({$serviceids}) AND companyID = '{$company['ID']}'");
+			if ($serviceids){
+				$return['extra']['services'] = models\services::getInstance()->getAll("services.ID IN ({$serviceids}) AND companyID = '{$company['ID']}'","category ASC, label ASC, ID ASC","",array("format"=>true,"staff"=>true));
 
 				foreach ($return['extra']['services'] as $item){
 					$return['extra']['services_totals']['duration'] = $return['extra']['services_totals']['duration'] + $item['duration'];
 					$return['extra']['services_totals']['price'] = $return['extra']['services_totals']['price'] + $item['price'];
 				}
 			}
+		}
+
+		$appointmentStarts = false;
+
+		//test_array($company);
+		if (count($return['extra']['services']) && $return['post']['appointmentDate_day']){
+
+			$key = 0;
+			$services = array();
+
+			foreach ($return['extra']['services'] as $service){
+				$key_ = $service['ID']."-".$key;
+				$defaultStart = "";
+				if ($service['appointmentStart']){
+					$defaultStart = date(" H:i:00",strtotime($service['appointmentStart']));
+
+				}
+
+				$serv_staffID = (isset($return['post']['appointmentDate_time-'.$key_.'-staffID']))?$return['post']['appointmentDate_time-'.$key_.'-staffID']:$service['staffID'];
+				$serv_time = (isset($return['post']['appointmentDate_time-'.$key_.'-time']))?" ".$return['post']['appointmentDate_time-'.$key_.'-time'].":00":$defaultStart;
+
+				$service['staff_member'] = array();
+
+				foreach ($service['staff'] as $staff_item){
+					if ($staff_item['ID']==$serv_staffID){
+						$service['staff_member'] = $staff_item;
+					}
+				}
+
+
+				$service['key'] = $key_;
+				$service['staffID'] = $serv_staffID;
+				$service['appointmentStart'] = $return['post']['appointmentDate_day'] . $serv_time;
+
+				$service['time_start'] = date("H:i",strtotime($service['appointmentStart']));
+				$service['time_end'] = date("H:i",strtotime("+{$service['duration']} minute",strtotime($service['appointmentStart'])));
+
+				if (!$appointmentStarts || $service['appointmentStart'] < $appointmentStarts ){
+					$appointmentStarts = $service['appointmentStart'];
+				}
+
+				$service['error'] = 0;
+				if (date('Y-m-d H:i:s', strtotime($service['appointmentStart'])) != $service['appointmentStart']){
+					$return['errors']['appointmentDate_time'][] = "Need a time";
+					$service['error'] = 1;
+				}
+
+
+
+				$services[] = $service;
+				$key = $key + 1;
+			}
+
+
+
+			$return['times']['services'] =  models\available_timeslots::getInstance()->timeslots($company['ID'],$services);
+
+			//test_array($services);
+
+			foreach($return['times']['services'] as $ts_sservice){
+				if (count($ts_sservice['slots']['errors'])){
+					$return['errors']['appointmentDate_time'][] = $ts_sservice['slots']['errors'];
+				}
+				if (isset($service['staff_member']['ID'])){
+					if ($service['staff_member']['ID']==""){
+						$return['errors']['appointmentDate_time'][] = "errrors";
+					}
+				} else {
+					$return['errors']['appointmentDate_time'][] = "errrors";
+				}
+
+
+			}
+
+
+
 
 
 
 		}
 
-
-		if (count($return['extra']['services']) && $return['post']['appointmentDate_day']){
-
-			$services = array();
-			foreach ($return['extra']['services'] as $service){
-
-				$services[] = $service['ID'];
-			}
-
-
-			$first = "23:59";
-			$selected_target = array();
-			if ($return['post']['appointmentDate_time']){
-
-				foreach ($return['post']['appointmentDate_time'] as $s=>$v){
-					if ($v['time']<$first)$first=$v['time'];
-					$selected_target[] = array(
-						"serviceID"=>$s,
-						"staffID"=>$v['staffID'],
-						"time"=>$v['time'],
-						"ID"=>""
-					);
-				}
-
-			}
-			$return['post']['appointmentDate_time_display'] = $first;
-
-			$return['times'] = models\available_timeslots::getInstance()->get($services,$return['post']['appointmentDate_day'],$company['ID'],$selected_target);
-
-			$staff_ = models\staff::getInstance()->getAll("companyID = '{$company['ID']}'");
-
-			$return['extra']['services_selected'] = array();
-
-			$time_errors= false;
-			foreach ($return['extra']['services'] as $item){
-				$staff = array();
-				if ($return['post']['appointmentDate_time'][$item['ID']]){
-					$staff = $staff_[array_search($return['post']['appointmentDate_time'][$item['ID']]['staffID'], array_column($staff_, 'ID'))];
-				}
-				$item['staff'] = $staff;
-				if (isset($return['post']['appointmentDate_time'])&&isset($return['post']['appointmentDate_time'][$item['ID']])){
-					$item['time'] = array(
-						"start"=>$return['post']['appointmentDate_time'][$item['ID']]['time'],
-						"end"=>date("H:i",strtotime($return['post']['appointmentDate_time'][$item['ID']]['time'].":00")+($item['duration']*60))
-					);
-				}
-
-				if (isset($return['post']['appointmentDate_time'])){
-					if(!isset($return['post']['appointmentDate_time'][$item['ID']])){
-						$time_errors = true;
-					} else {
-						if(!isset($return['post']['appointmentDate_time'][$item['ID']]['staffID'])||$return['post']['appointmentDate_time'][$item['ID']]['staffID']==""){
-							$time_errors = true;
-						}
-
-						if(!isset($return['post']['appointmentDate_time'][$item['ID']]['time'])||$return['post']['appointmentDate_time'][$item['ID']]['time']==""){
-							$time_errors = true;
-						}
-					}
-
-
-				} else {
-					$time_errors = true;
-				}
-
-				$return['extra']['services_selected'][] = $item;
-			}
-
-			if ($return['times']['error']||$time_errors){
-				$return['errors']['appointmentDate_time'] = "";
-			}
-
-
-
-
+		if ($appointmentStarts){
+			$return['extra']['appointmentDate_display'] = date('D, d M Y \a\t H:i',strtotime($appointmentStarts));
 		}
 
 		//test_array($return);
@@ -333,7 +337,7 @@ class form extends _ {
 					"mobile_number"=>$return['post']['mobile_number'],
 					"email"=>$return['post']['email'],
 				),
-				"services"=>$serviceids
+				"services"=>$return['times']['services']
 
 
 			);

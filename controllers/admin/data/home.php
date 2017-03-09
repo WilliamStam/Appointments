@@ -17,14 +17,14 @@ class home extends _ {
 		$return = array();
 
 		$currrentDate = date("Ymd", strtotime("today"));
-
+	//	$currrentDate = "20170218";
 
 		$filter_staff_member_sql = "";
 		$options = array("format" => TRUE, "client" => TRUE, "services" => TRUE);
 		$staffID = "";
 		if ($this->options['filter_staff_member']){
 			$options['staffID'] = $this->user['staffID'];
-			$filter_staff_member_sql = " AND staffID = '".$this->user['staffID']."'";
+			$filter_staff_member_sql = " AND (staffID = '".$this->user['staffID']."' OR staffID = '0')";
 			$staffID = $this->user['staffID'];
 		}
 
@@ -226,7 +226,7 @@ class home extends _ {
 				$where = "companyID='{$this->user['company']['ID']}'";
 
 				if ($this->options['filter_staff_member']){
-					$where = $where." AND staffID = '".$this->user['staffID']."'";
+					$where = $where." AND (staffID = '".$this->user['staffID']."' OR staffID = '0')";
 				}
 
 
@@ -367,7 +367,7 @@ class home extends _ {
 		$current = "";
 		$where = "appointments.companyID = '{$this->user['company']['ID']}' ";
 		if ($this->options['filter_staff_member']){
-			$where = $where." AND staffID = '".$this->user['staffID']."'";
+			$where = $where." AND (staffID = '".$this->user['staffID']."' OR staffID = '0')";
 		}
 
 
@@ -696,7 +696,7 @@ class home extends _ {
 		$filter_staff_member_sql = "";
 		if ($this->options['filter_staff_member']){
 			$options['staffID'] = $this->user['staffID'];
-			$filter_staff_member_sql = " AND staffID = '".$this->user['staffID']."'";
+			$filter_staff_member_sql = "  AND (staffID = '".$this->user['staffID']."' OR staffID = '0')";
 		}
 
 
@@ -963,15 +963,15 @@ class home extends _ {
 
 			$str = array();
 			foreach ($rec['services'] as $item){
-				if ($item['staff']['ID']){
-				if (!isset($str[$item['staff']['ID']])){
-					$str[$item['staff']['ID']] = array(
+				if ($item['staff_member']['ID']){
+				if (!isset($str[$item['staff_member']['ID']])){
+					$str[$item['staff_member']['ID']] = array(
 						"r"=>0,
-						"c"=>$item['staff']['colour'],
-						"i"=>$item['staff']['ID'],
+						"c"=>$item['staff_member']['colour'],
+						"i"=>$item['staff_member']['ID'],
 					);
 				}
-				$str[$item['staff']['ID']]['r'] = $str[$item['staff']['ID']]['r']+1;
+				$str[$item['staff_member']['ID']]['r'] = $str[$item['staff_member']['ID']]['r']+1;
 				}
 			}
 

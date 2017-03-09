@@ -1,25 +1,101 @@
 <div class="content animate-panel" id="content-area">
 
+	<section>
 
-	{% if error %}
-	<div class="alert alert-danger">EOORO</div>
-	{% endif %}
+
+		<table class="table">
+			<thead>
+			<tr>
+				<th>ID</th>
+				<th>label</th>
+				<th>Start</th>
+				<th>End</th>
+				<th>staffID</th>
+			</tr>
+			</thead>
+
+			{% for row in appointments %}
+			<thead>
+			<tr style="background-color: #ccc;">
+				<th colspan="2">{{ row['ID'] }}</th>
+				<th>{{ row['appointmentStart'] }}</th>
+				<th>{{ row['appointmentEnd'] }}</th>
+				<th></th>
+			</tr>
+			</thead>
+
+			<tbody>
+			{% for serv in row['services'] %}
+				<tr>
+					<td>
+						{{ serv['ID'] }}
+					</td>
+					<td>
+						{{ serv['label'] }}
+					</td>
+					<td>
+						{{ serv['appointmentStart'] }}
+					</td>
+					<td>
+						{{ serv['appointmentEnd'] }}
+					</td>
+					<td>
+						{{ serv['staffID'] }}
+					</td>
+				</tr>
+			{% endfor %}
+			</tbody>
+			{% endfor %}
+		</table>
+
+	</section>
+
+
 	<section id="calendar">
 
 		{% for service in services %}
 		<div class="panel" data-duration="{{ service['duration'] }}" data-id="{{ service['ID'] }}">
 			<div class="panel-heading">
 				<h1>{{ service['ID'] }} | {{ service['label'] }} <small>{{ service['duration_view'] }}</small></h1>
+				<div>
+					{{ service['appointmentStart'] }} to {{ service['appointmentEnd'] }} with {{ service['staffID'] }}
+				</div>
 			</div>
-			{% if service['timeslots_error'] %}
-			<div class="alert alert-danger">EOORO</div>
+			{% if service['slots']['errors'] %}
+			<div class="alert alert-danger">
+				<ul>
+					{% for err in service['slots']['errors'] %}
+					<li>{{ err }}</li>
+					{% endfor %}
+				</ul>
+			</div>
+			{% endif %}
+			{% if service['slots']['warnings'] %}
+				<div class="alert alert-warning">
+					<ul>
+						{% for err in service['slots']['warnings'] %}
+							<li>{{ err }}</li>
+						{% endfor %}
+					</ul>
+				</div>
 			{% endif %}
 			<div class="panel-body">
 				<div class="timeslots">
-					{% for row in service['timeslots'] %}
-						<div class="timeslot {% if row['locked']=='1' %} locked{% endif %}{% if row['duration_locked']=='1' %} duration_locked{% endif %}{% if row['staff']=='' %} continuous{% endif %}{% if row['status']=='1' %} selectable{% endif %} {% if row['selected']=='1' %} selected{% endif %} {% if row['other_selected']=='1' %} other_selected{% endif %} {% if row['error']=='1' %} error{% endif %} {% if row['active']=='1' %} active{% endif %} " data-value="{{ row['v'] }}" data-staff="{{ row['staff'] }}">
-							{{ row['l'] }}
-							<small>{% for starr in service['staff'] %}{{ row['busy'][starr['ID']] }}|{% endfor %}</small>
+					{% for row in service['slots']['times'] %}
+						<div class="timeslot {{ row['c'] }}">
+							{% if row['s']==1 %}
+								<a href="#">{{ row['l'] }}</a>
+							{% else %}
+								{{ row['l'] }}
+							{% endif %}
+
+							<small>
+								{% for starr in row['status']['staff'] %}
+									{% if starr['busy']|length==0 %}
+										{{ starr['ID'] }}|
+									{% endif %}
+								{% endfor %}
+							</small>
 						</div>
 
 					{% endfor %}
@@ -31,7 +107,7 @@
 				<div class="staff-area div-table">
 					<div class="staff div-row">
 						{% for staff in service['staff'] %}
-							<div class="item div-cell" data-id="{{ staff['ID'] }}">{{ staff['first_name'] }} {{ staff['last_name'] }}</div>
+							<div class="item div-cell {% if service['staffID'] == staff['ID'] %} active {% endif %}" data-id="{{ staff['ID'] }}">{{ staff['first_name'] }} {{ staff['last_name'] }}</div>
 						{% endfor %}
 					</div>
 				</div>
@@ -55,9 +131,10 @@
 		position: relative;
 	}
 
-	#calendar .timeslots .timeslot.selectable {
+	#calendar .timeslots .timeslot a {
 		cursor:pointer;
 		font-weight: bold;
+		text-shadow:#000000 0 0 10px;
 	}
 	#calendar .timeslots .timeslot.selectable:hover {
 		background-color: #0db4be;
@@ -74,55 +151,41 @@
 		padding:10px;
 	}
 
+	#calendar .timeslots .timeslot.closed {
+		background-color: #ccc;
+		color: #afafaf;
+	}
 
+	#calendar .timeslots .timeslot.soft_closed {
+		background-color: #eaeaea;
+		color: #afafaf;
+	}
+	#calendar .timeslots .timeslot.no_available {
+		background-color: #cc8c7d;
+		color: #afafaf;
+	}
 
-
+	#calendar .timeslots .timeslot.other_selected {
+		background-color: rgba(0, 0, 255, 0.5);
+		color: #ffffff;
+	}
 	#calendar .timeslots .timeslot.selected {
-		background-color: #203ecb;
-		color: #e8e8e8;
-	}
-
-
-	#calendar .timeslots .timeslot.continuous {
-		background-color: rgba(253, 0, 0, 0.2);
-		color:#999;
-	}
-
-
-	#calendar .timeslots .timeslot.duration_locked {
-		background-color: #e8e8e8;
-		color:#999;
-	}
-
-	#calendar .timeslots .timeslot.locked {
-		background-color: #cbcbcb;
-		color:#999;
-	}
-
-	#calendar .timeslots .timeslot.other_selected.locked {
-		background-color: rgba(35, 73, 252, 0.46);
-		color: #e8e8e8;
-	}
-
-	#calendar .timeslots .timeslot.selected.duration_locked,#calendar  .timeslots .timeslot.selected.continuous {
-		background-color: #7d58cb;
-		color: #e8e8e8;
+		background-color: #0000ff;
+		color: #ffffff;
 	}
 	#calendar .timeslots .timeslot.error {
-		background-color: #ff0000;
-		color: #e8e8e8;
+		background-color: #FF0000;
+		color: #ffffff;
 	}
 
-	#calendar .panel.choosing .timeslots .timeslot.selected {
-		background-color: rgba(32, 62, 203, 0.2);
-		color:#999;
+
+	#calendar .timeslots .timeslot.soft_error {
+		background-color: rgba(255, 0, 0, 0.5);
+		color: #ffffff;
 	}
 
-	#calendar .timeslots .timeslot.active {
-		background-color: #203ecb;
-		color: #e8e8e8;
-		box-shadow: 0 0 10px #0000FF;
-	}
+
+
 
 	.div-table {
 		width:100%;
@@ -144,6 +207,11 @@
 	}
 	.staff .item.showing {
 		opacity:1;
+	}
+	.staff .item.active {
+		opacity:1;
+		background-color: #0000FF;
+		color:#fff;
 	}
 
 

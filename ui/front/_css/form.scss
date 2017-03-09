@@ -371,52 +371,48 @@ h1 {
 	}
 
   }
-  .timeslots .timeslot.active label {
-	background-color: $color-navy-blue;
-	color: #FFFFFF;
 
-  }
-  .timeslots .timeslot.selected label {
-	background-color: lighten($color-navy-blue, 5%);
-	color: #FFFFFF;
 
+  .timeslots .timeslot.closed {
+	background-color: #ccc;
+	color: #afafaf;
   }
-  .timeslots .timeslot.continuous label {
-	background-color: #f2f2f2;
-	color: #ccc;
 
+  .timeslots .timeslot.soft_closed {
+	background-color: #eaeaea;
+	color: #afafaf;
   }
-  .timeslots .timeslot.duration_locked label {
-	background-color: #f2f2f2;
-	color: #ccc;
+  .timeslots .timeslot.no_available {
+	background-color: #cc8c7d;
+	color: #afafaf;
   }
-  .timeslots .timeslot.locked label {
-	background-color: #f2f2f2;
-	color: #ccc;
 
-  }
-  .timeslots .timeslot.other_selected.locked label {
+  .timeslots .timeslot.other_selected {
 	background-color: lighten($color-navy-blue, 50%);
 	color: #e8e8e8;
   }
-
-  .timeslots .timeslot.selected.duration_locked label, .timeslots .timeslot.selected.continuous label {
-	background-color: lighten($color-navy-blue, 5%);
-	color: #FFFFFF;
-  }
-  .timeslots .timeslot.error label {
-	background-color: #ff0000;
-	color: #e8e8e8;
-  }
-  .panel.choosing .timeslots .timeslot.selected label {
-	background-color: rgba(32, 62, 203, 0.2);
-	color: #999;
-  }
-  .timeslots .timeslot.active label {
+  .timeslots .timeslot.selected {
 	background-color: $color-navy-blue;
 	color: #ffffff;
-
+	:hover {
+	  background-color: lighten($color-navy-blue, 20%);
+	  color: #ffffff;
+	}
   }
+  .timeslots .timeslot.error {
+	background-color: #FF0000;
+	color: #ffffff;
+  }
+
+
+  .timeslots .timeslot.soft_error {
+	background-color: rgba(255, 0, 0, 0.5);
+	color: #ffffff;
+  }
+
+
+
+
 
   .div-table {
 	width: 100%;
@@ -447,17 +443,31 @@ h1 {
 	  }
 	}
 	&.active {
-
+	  opacity: 1;
 	  label {
 		@include button-variant(#FFFFFF, $color-navy-blue, $btn-primary-border);
 	  }
 	}
 
   }
-  .staff .item.showing {
-	cursor: pointer;
-	opacity: 1;
+  .panel {
+	&.showing {
+	  .staff .item {
+		&.active {
+		  opacity: 0.2;
+		  &.showing {
+			opacity: 1;
+		  }
+		}
+	  }
+
+	} .staff .item.showing {
+		cursor: pointer;
+		opacity: 1;
+	  }
   }
+
+
 
 }
 

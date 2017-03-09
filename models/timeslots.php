@@ -234,10 +234,10 @@ class timeslots extends _ {
 			foreach ($records as $item){
 
 				if (isset($staff[$item['staffID']])){
-					$item['staff'] = $staff[$item['staffID']];
+					$item['staff_member'] = $staff[$item['staffID']];
 				} else {
 					if ($item['staffID']==0){
-						$item['staff'] = array(
+						$item['staff_member'] = array(
 							"ID"=>"all",
 							"first_name"=>"All staff",
 							"color"=>""

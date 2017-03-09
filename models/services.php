@@ -256,7 +256,7 @@ class services extends _ {
 			$n = $records;
 		}
 		
-		if ($options['staff']){
+		if ($options['staff']||$options['service_staff']){
 
 			$sql = array();
 

@@ -38,7 +38,12 @@
 	<div class="panel">
 		<div class="panel-heading built">
 
-			<h3>Select a Service</h3>
+			<h3>Select all the services you are interested in</h3>
+		</div>
+		<div class="alert alert-info">
+			<p class="text-center">
+				Click/tap on each service you want to book. (You can book multiple services for 1 appointment)
+			</p>
 		</div>
 	</div>
 
@@ -168,29 +173,29 @@
 
 		<% for (var i in this.times.services) { %>
 		<hr>
-				<div class="panel orange <% if(this.times.services[i].timeslots_error){ %>error<% } %>" data-duration="<%= this.times.services[i].duration %>" data-id="<%= this.times.services[i].ID %>">
+				<div class="panel orange <% if(this.times.services[i].error==1){ %>error<% } %>" data-duration="<%= this.times.services[i].duration %>" data-id="<%= this.times.services[i].ID %>">
 					<div class="panel-heading built">
 						<%= this.times.services[i].label %> <small class="pull-right">Duration: <%= this.times.services[i].duration_view %></small>
 					</div>
-					<% if(this.times.services[i].timeslots_error){ %>
+					<% if(this.times.services[i].slots.errors.length){ %>
 						<div class="alert alert-danger">
 							<ul>
-								<% for(var er in this.times.services[i].timeslots_error){ %>
-								<li><%= this.times.services[i].timeslots_error[er] %></li>
+								<% for(var er in this.times.services[i].slots.errors){ %>
+								<li><%= this.times.services[i].slots.errors[er] %></li>
 								<% } %>
 							</ul>
 						</div>
 					<% } %>
 					<div class="panel-body">
 						<div class="timeslots">
-							<% for(var s in this.times.services[i].timeslots){ %>
+							<% for(var s in this.times.services[i].slots.times){ %>
 
-								<div class="timeslot radio-parent <% if(this.times.services[i].timeslots[s].locked=='1'){ %> locked<% } %> <% if(this.times.services[i].timeslots[s].duration_locked=='1'){ %> duration_locked<% } %> <% if(this.times.services[i].timeslots[s].staff==''){ %> continuous<% } %> <% if(this.times.services[i].timeslots[s].status=='1'){ %> selectable<% } %> <% if(this.times.services[i].timeslots[s].selected=='1'){ %> selected<% } %> <% if(this.times.services[i].timeslots[s].other_selected=='1'){ %> other_selected<% } %><% if(this.times.services[i].timeslots[s].error=='1'){ %> error<% } %> <% if(this.times.services[i].timeslots[s].active=='1'){ %> active<% } %> " data-value="<%= this.times.services[i].timeslots[s].v %>" data-staff="<%= this.times.services[i].timeslots[s].staff %>">
+								<div class="timeslot radio-parent <%= this.times.services[i].slots.times[s].c %> " data-staff="<%= this.times.services[i].slots.times[s].a %>">
 
 
-									<label for="appointmentDate_time-<%= this.times.services[i].ID %>-<%= this.times.services[i].timeslots[s].v %>">
-										<div class="day"><%= this.times.services[i].timeslots[s].l %></div>
-										<input name="appointmentDate_time[<%= this.times.services[i].ID %>][time]" id="appointmentDate_time-<%= this.times.services[i].ID %>-<%= this.times.services[i].timeslots[s].v %>" value="<%= this.times.services[i].timeslots[s].v %>" type="radio" <% if(this.times.services[i].timeslots[s].disabled=='1'){ %>disabled<% } %>  <% if(this.post.appointmentDate_time[this.times.services[i].ID] && this.post.appointmentDate_time[this.times.services[i].ID].time==this.times.services[i].timeslots[s].v){ %>checked<% } %> >
+									<label for="appointmentDate_time-<%= this.times.services[i].key %>-<%= this.times.services[i].slots.times[s].v %>">
+										<div class="day"><%= this.times.services[i].slots.times[s].l %></div>
+										<input name="appointmentDate_time-<%= this.times.services[i].key %>-time" id="appointmentDate_time-<%= this.times.services[i].key %>-<%= this.times.services[i].slots.times[s].v %>" value="<%= this.times.services[i].slots.times[s].v %>" type="radio" <% if(this.times.services[i].slots.times[s].s!=1){ %>disabled="disabled"<% } %> >
 									</label>
 
 
@@ -206,24 +211,24 @@
 						</div>
 						<div class="clearfix"></div>
 					</div>
-					<% if(typeof(this.post.appointmentDate_time[this.times.services[i].ID])!='undefined' ){ %>
-						<% if(this.post.appointmentDate_time[this.times.services[i].ID].time!='' &&  !this.post.appointmentDate_time[this.times.services[i].ID].staffID){ %>
+					<% if(!this.times.services[i].staffID  && this.times.services[i].appointmentStart.length > 10 ){ %>
+
 						<div class="alert alert-warning">
 							<p>
 								Please select a staff member
 							</p>
 						</div>
-						<% } %>
+
 					<% } %>
 					<div class="panel-footer">
 						<div class="staff-area div-table">
 							<div class="staff div-row">
 								<% for(var s in this.times.services[i].staff){ %>
-									<div class="item  radio-parent div-cell" data-id="<%= this.times.services[i].staff[s].ID %>">
+									<div class="item <% if(this.times.services[i].staff[s].ID == this.times.services[i].staffID){ %>active<% } %> radio-parent div-cell" data-id="<%= this.times.services[i].staff[s].ID %>">
 
-										<label for="appointmentDate_time-<%= this.times.services[i].ID %>-<%= this.times.services[i].staff[s].ID %>">
+										<label for="appointmentDate_time-<%= this.times.services[i].key %>-<%= this.times.services[i].staff[s].ID %>">
 											<%= this.times.services[i].staff[s].first_name %> <%= this.times.services[i].staff[s].last_name %>
-											<input name="appointmentDate_time[<%= this.times.services[i].ID %>][staffID]" id="appointmentDate_time-<%= this.times.services[i].ID %>-<%= this.times.services[i].staff[s].ID %>" value="<%= this.times.services[i].staff[s].ID %>" type="radio" <% if(this.post.appointmentDate_time[this.times.services[i].ID] && this.post.appointmentDate_time[this.times.services[i].ID].staffID==this.times.services[i].staff[s].ID){ %>checked<% } %>>
+											<input name="appointmentDate_time-<%= this.times.services[i].key %>-staffID" id="appointmentDate_time-<%= this.times.services[i].key %>-<%= this.times.services[i].staff[s].ID %>" value="<%= this.times.services[i].staff[s].ID %>" type="radio" <% if(this.times.services[i].staff[s].ID == this.times.services[i].staffID){ %>checked="checked"<% } %>>
 										</label>
 
 									</div>
@@ -256,7 +261,7 @@
 				<h3>Appointment</h3><div style="padding-left:10px;">
 					<% if(this.extra.appointmentDate_day_label && this.post.appointmentDate_time ){ %>
 
-					<h4 style="display: inline-block"><%= this.extra.appointmentDate_day_label %></h4> at <h4 style="display: inline-block"><%= this.post.appointmentDate_time_display %></h4>
+					<h4 style="display: inline-block"><%= this.extra.appointmentDate_display %></h4>
 
 					<% } else { %>
 					Please select a date and time first
@@ -310,18 +315,18 @@
 					</tr>
 					</thead>
 
-					<% for(var i in this.extra.services_selected){ %>
+					<% for(var i in this.times.services){ %>
 					<tr>
-						<th><%= this.extra.services_selected[i].label %> <% if(this.extra.services_selected[i].category){ %><small style="color:#ccc; margin-left:10px;">(<%= this.extra.services_selected[i].category %>)</small><% } %>
+						<th><%= this.times.services[i].label %> <% if(this.times.services[i].category){ %><small style="color:#ccc; margin-left:10px;">(<%= this.times.services[i].category %>)</small><% } %>
 
 
-							<% if(this.extra.services_selected[i].staff && this.extra.services_selected[i].staff.ID){ %>
+							<% if(this.times.services[i].staff_member && this.times.services[i].staff_member.ID){ %>
 							<div>
-							<span class="badge staff-badge-<%= this.extra.services_selected[i].staff.ID %>" style="margin-right:20px;">
-								<%= this.extra.services_selected[i].staff.first_name %> <%= this.extra.services_selected[i].staff.last_name %>
+							<span class="badge staff-badge-<%= this.times.services[i].staff_member.ID %>" style="margin-right:20px;">
+								<%= this.times.services[i].staff_member.first_name %> <%= this.times.services[i].staff_member.last_name %>
 							</span>
 								<div class="pull-right">
-									<%= this.extra.services_selected[i].time.start %> to <%= this.extra.services_selected[i].time.end %>
+									<%= this.times.services[i].time_start %> to <%= this.times.services[i].time_end %>
 								</div>
 
 
@@ -332,10 +337,10 @@
 
 						</th>
 						<td>
-							<%= this.extra.services_selected[i].duration_view %>
+							<%= this.times.services[i].duration_view %>
 						</td>
 						<td>
-							<%= this.extra.services_selected[i].price_view %>
+							<%= this.times.services[i].price_view %>
 						</td>
 					</tr>
 
@@ -391,12 +396,12 @@
 	<input type="text" name="submit[client][email]" value="<%= this.submit.client.email %>" id="submit[client][email]">
 	<!--<input type="text" name="submit[services]" value="<%= this.submit.services %>" id="submit[services]">-->
 	<input type="text" name="companyID" value="{{ company['ID'] }}" id="companyID">
-	<input type="text" name="submit[appointmentDate]" value="<%= this.submit.appointmentDate %>" id="submit[appointmentDate]">
 
-		<% for(var i in this.extra.services_selected){ %>
-			<input type="text" name="submit[services][<%= this.extra.services_selected[i].ID %>][serviceID]" value="<%= this.extra.services_selected[i].ID %>" id="submit[services][<%= this.extra.services_selected[i].ID %>][serviceID]">
-			<input type="text" name="submit[services][<%= this.extra.services_selected[i].ID %>][staffID]" value="<%= this.extra.services_selected[i].staff.ID %>" id="submit[services][<%= this.extra.services_selected[i].ID %>][staffID]">
-			<input type="text" name="submit[services][<%= this.extra.services_selected[i].ID %>][time]" value="<%= this.extra.services_selected[i].time.start %>" id="submit[services][<%= this.extra.services_selected[i].ID %>][time]">
+
+		<% for(var i in this.submit.services){ %>
+			<input type="text" name="submit[services][<%= this.submit.services[i].key %>][serviceID]" value="<%= this.submit.services[i].ID %>" id="submit[services][<%= this.submit.services[i].key %>][serviceID]">
+			<input type="text" name="submit[services][<%= this.submit.services[i].key %>][staffID]" value="<%= this.submit.services[i].staffID %>" id="submit[services][<%= this.submit.services[i].key %>][staffID]">
+			<input type="text" name="submit[services][<%= this.submit.services[i].key %>][appointmentStart]" value="<%= this.submit.services[i].appointmentStart %>" id="submit[services][<%= this.submit.services[i].key %>][appointmentStart]">
 		<% } %>
 	<% } %>
 

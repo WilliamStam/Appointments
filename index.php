@@ -8,6 +8,7 @@ if (!file_exists($errorFolder)) {
 $errorFile = $errorFolder . DIRECTORY_SEPARATOR . date("Y-m") . ".log";
 ini_set("error_log", $errorFile);
 
+
 if (session_id() == "") {
 	$SID = @session_start();
 } else $SID = session_id();
@@ -72,14 +73,20 @@ $f3->set('TAGS', 'p,br,b,strong,i,italics,em,h1,h2,h3,h4,h5,h6,div,span,blockquo
 
 //$f3->set('ERRORFILE', $errorFile);
 //$f3->set('ONERROR', 'Error::handler');
-$f3->set('ONERRORd',
-		function ($f3) {
-			// recursively clear existing output buffers:
-			while (ob_get_level())
+$f3->set('ONERRORd', function ($f3) {
+			while (ob_get_level()){
 				ob_end_clean();
+			}
+
 			// your fresh page here:
-			echo $f3->get('ERROR.text');
-			print_r($f3->get('ERROR.stack'));
+			if (is_ajax()){
+				$t = $f3->get('ERROR');
+				test_array($t);
+			} else {
+				echo $f3->get('ERROR.text');
+				print_r($f3->get('ERROR'));
+			}
+
 		}
 );
 
@@ -148,6 +155,11 @@ $f3->set('session', $SID);
 $f3->route('GET|POST /', 'controllers\front\home->page');
 $f3->route('GET|POST /@companyID', 'controllers\front\form->page');
 $f3->route('GET|POST /@companyID/form', 'controllers\front\form->page');
+$f3->route('GET|POST /@companyID/form/complete', 'controllers\front\form->complete');
+
+
+
+
 $f3->route('GET|POST /login', 'controllers\front\login->page');
 
 $f3->route('GET|POST /admin', 'controllers\admin\home->page');
@@ -162,7 +174,7 @@ $f3->route('GET|POST /admin/settings/notification_templates', 'controllers\admin
 
 
 
-$f3->route('GET|POST /admin/test', 'controllers\admin\test->page');
+$f3->route('GET|POST /admin/test', 'controllers\admin\test_page->page');
 
 
 

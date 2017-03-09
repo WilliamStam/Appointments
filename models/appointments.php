@@ -177,7 +177,7 @@ class appointments extends _ {
 							"k"=>"services-removed",
 							"o"=>$b->serviceID,
 							"n"=>"",
-							"l"=>"Service Removed - [".$services[$b->serviceID]['log_label']."]"
+							"l"=>"Service Removed - [".$services[$b->serviceID]['log_label']."] - ".$b->appointmentStart
 						);
 						$b->erase();
 					}
@@ -187,7 +187,7 @@ class appointments extends _ {
 							"k"=>"services-added",
 							"o"=>"",
 							"n"=>$val['serviceID'],
-							"l"=>"Service Added - [".$services[$val['serviceID']]['log_label']."]"
+							"l"=>"Service Added - [".$services[$val['serviceID']]['log_label']."] - ".$b->appointmentStart
 						);
 					} else {
 						if ($b->serviceID != $val['serviceID']){
@@ -195,7 +195,7 @@ class appointments extends _ {
 								"k"=>"services-changed",
 								"o"=>$b->serviceID,
 								"n"=>$val['serviceID'],
-								"l"=>"Service Changed - [".$services[$b->serviceID]['log_label']."] => [" .$services[$val['serviceID']]['log_label']."]"
+								"l"=>"Service Changed - [".$services[$b->serviceID]['log_label']."] => [" .$services[$val['serviceID']]['log_label']."] - ".$b->appointmentStart
 							);
 						}
 					}
@@ -272,6 +272,7 @@ class appointments extends _ {
 		foreach ($records as $item) {
 			$recordIDs[] = $item['ID'];
 		}
+		//test_array($records);
 		if (count($recordIDs)){
 			$recordIDs_str = implode(",", $recordIDs);
 			$staff_sql = "";
@@ -335,7 +336,8 @@ class appointments extends _ {
 						if (is_numeric($serv['duration'])) $item['duration'] = $item['duration'] + $serv['duration'];
 						if (is_numeric($serv['price'])) $item['price'] = $item['price'] + $serv['price'];
 
-						$serv['staff'] = $staff_arr[$ser["staffID"]];
+						$serv['staffID'] = $ser["staffID"];
+						$serv['staff_member'] = $staff_arr[$ser["staffID"]];
 						$serv['recordID'] = $ser['ID'];
 						$serv['appointmentStart'] = $ser['appointmentStart'];
 						$serv['appointmentEnd'] = date("Y-m-d H:i:s",strtotime(" + ".$serv['duration']." minutes",strtotime($serv['appointmentStart'])));

@@ -28,8 +28,32 @@ class form extends _ {
 			),
 		);
 		$tmpl->company = $company;
+		$tmpl->staff = models\staff::getInstance()->getAll("companyID = '{$company['ID']}'","","", array("format" => true));
 		$tmpl->settings = $company['settings'];
 		$tmpl->services = $services;
+		$tmpl->output();
+	}
+	function complete(){
+		$company = $this->f3->get("PARAMS['companyID']");
+
+		session_destroy();
+		unset($_COOKIE['PHPSESSID']);
+		setcookie('PHPSESSID', null, -1, '/');
+
+
+
+		//test_array($_SESSION);
+
+		$tmpl = new \template("template.twig","ui/front");
+		$tmpl->page = array(
+			"section"    => "form",
+			"sub_section"=> "complete",
+			"template"   => "form_complete",
+			"meta"       => array(
+				"title"=> "Booking Form - Complete",
+			),
+		);
+		$tmpl->company = $company;
 		$tmpl->output();
 	}
 	

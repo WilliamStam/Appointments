@@ -86,11 +86,11 @@
 						<ul style="list-style: none; padding:0; margin:0;">
 							<% for(var h in this.list[i].records[g].services){ %>
 							<li>
-								<% if (this.list[i].records[g].services[h].staff){ %>
+								<% if (this.list[i].records[g].services[h].staff_member){ %>
 								<small class="pull-right">
-									<span class="badge staff-badge staff-badge-<%=  this.list[i].records[g].services[h].staff.ID %>">
-									<%= this.list[i].records[g].services[h].staff.first_name %>
-									<%= this.list[i].records[g].services[h].staff.last_name %>
+									<span class="badge staff-badge staff-badge-<%=  this.list[i].records[g].services[h].staff_member.ID %>">
+									<%= this.list[i].records[g].services[h].staff_member.first_name %>
+									<%= this.list[i].records[g].services[h].staff_member.last_name %>
 									</span>
 								</small>
 								<% } %>
@@ -196,7 +196,7 @@
 							<div class="item-label-inner">
 								<strong><%= this.list.reserved[i].time.start_view_short %></strong> to <strong><%=	this.list.reserved[i].time.end_view_short %></strong>
 
-								<span class="badge staff-badge-<%= this.list.reserved[i].staffID %>" style="margin-left:15px; margin-right:15px;"><% if(this.list.reserved[i].staff){ %><%= this.list.reserved[i].staff.first_name %> <%= this.list.reserved[i].staff.last_name||'' %><% } %></span>
+								<span class="badge staff-badge-<%= this.list.reserved[i].staffID %>" style="margin-left:15px; margin-right:15px;"><% if(this.list.reserved[i].staff_member){ %><%= this.list.reserved[i].staff_member.first_name %> <%= this.list.reserved[i].staff_member.last_name||'' %><% } %></span>
 
 								<strong><%= this.list.reserved[i].label %></strong>
 
@@ -209,12 +209,12 @@
 				</div>
 				<div class="agenda-items">
 					<% for (var i in this.list.items) { %>
-					<div class="agenda-item agenda-item-vertical agenda-staff-item-<% if(this.list.items[i].staff){ %><%= this.list.items[i].staff.ID %><% } %> <% if(this.list.items[i].active==1){ %>current<% } %>" style="top:<%= this.list.items[i].agenda.top %>%;bottom:<%= this.list.items[i].agenda.bottom %>%">
+					<div class="agenda-item agenda-item-vertical agenda-staff-item-<% if(this.list.items[i].staff_member){ %><%= this.list.items[i].staff_member.ID %><% } %> <% if(this.list.items[i].active==1){ %>current<% } %>" style="top:<%= this.list.items[i].agenda.top %>%;bottom:<%= this.list.items[i].agenda.bottom %>%">
 						<div class="item-label appointment-row" data-id="<%= this.list.items[i].appointment.ID %>">
 							<div class="item-label-inner">
 
 								<strong><%= this.list.items[i].time.start_view_short %></strong> to <strong><%= this.list.items[i].time.end_view_short %></strong>
-								<span class="badge staff-badge-<% if(this.list.items[i].staff){ %><%= this.list.items[i].staff.ID %><% } %>" style="margin-left:15px; margin-right:15px;"><% if(this.list.items[i].staff){ %><%= this.list.items[i].staff.first_name %> <%= this.list.items[i].staff.last_name||'' %><% } %></span>
+								<span class="badge staff-badge-<% if(this.list.items[i].staff_member){ %><%= this.list.items[i].staff_member.ID %><% } %>" style="margin-left:15px; margin-right:15px;"><% if(this.list.items[i].staff_member){ %><%= this.list.items[i].staff_member.first_name %> <%= this.list.items[i].staff_member.last_name||'' %><% } %></span>
 
 								<strong style="margin-right:10px;"><%= this.list.items[i].label %></strong>
 
@@ -365,8 +365,8 @@
 
 						</div>
 						<div class="col-xs-3 col-sm-2">
-							<% if(this.list[i].records[g].staff){ %>
-							<span class="badge staff-badge staff-badge-<%= this.list[i].records[g].staff.ID %>" style="margin-right:10px;"><%= this.list[i].records[g].staff.first_name %> <%= this.list[i].records[g].staff.last_name||'' %></span>
+							<% if(this.list[i].records[g].staff_member){ %>
+							<span class="badge staff-badge staff-badge-<%= this.list[i].records[g].staff_member.ID %>" style="margin-right:10px;"><%= this.list[i].records[g].staff_member.first_name %> <%= this.list[i].records[g].staff_member.last_name||'' %></span>
 							<% } %>
 						</div>
 						<div class="col-sm-1">
@@ -421,13 +421,13 @@
 			<span class="badge"><%= this.services[i].records[g].time.start_view_short %></span>
 			<%= this.services[i].records[g].label %>
 
-			<% if(this.services[i].records[g].staff){ %>
+			<% if(this.services[i].records[g].staff_member){ %>
 
 			<div>
-									<span style="font-size: smaller" class="badge staff-badge staff-badge-<%= this.services[i].records[g].staff.ID %>">
+									<span style="font-size: smaller" class="badge staff-badge staff-badge-<%= this.services[i].records[g].staff_member.ID %>">
 
-									<%= this.services[i].records[g].staff.first_name %> <%=
-									this.services[i].records[g].staff.last_name %>
+									<%= this.services[i].records[g].staff_member.first_name %> <%=
+									this.services[i].records[g].staff_member.last_name %>
 									</span>
 			</div>
 
@@ -456,10 +456,10 @@
 			<span class='badge'><%= this.services[i].records[g].time.start_view_short %></span>
 			<%= this.services[i].records[g].label %>
 
-			<% if(this.services[i].records[g].staff){ %>
+			<% if(this.services[i].records[g].staff_member){ %>
 			<div>
-				<span style='font-size: smaller' class='badge staff-badge staff-badge-<%= this.services[i].records[g].staff.ID %>'>
-					<%= this.services[i].records[g].staff.first_name %> <%=	this.services[i].records[g].staff.last_name %>
+				<span style='font-size: smaller' class='badge staff-badge staff-badge-<%= this.services[i].records[g].staff_member.ID %>'>
+					<%= this.services[i].records[g].staff_member.first_name %> <%=	this.services[i].records[g].staff_member.last_name %>
 				</span>
 			</div>
 
@@ -621,7 +621,7 @@
 			<div class="timeslot-items">
 				<% for(var i in this.agenda.reserved){ %>
 				<div class="timeslot-item <%= this.agenda.reserved[i].status %> timeslot-item-staff-<%= this.agenda.reserved[i].staffID %>" style="left:<%= this.agenda.reserved[i].agenda.l %>%;right:<%= this.agenda.reserved[i].agenda.r %>%;">
-					<div class="item-label timeslot-row" title="<strong><%= this.agenda.reserved[i].label||'' %></strong>" data-id="<%= this.agenda.reserved[i].ID %>" data-toggle="popover" data-placement="bottom" data-content="<%= this.agenda.reserved[i].time.start_view_short %> - <%= this.agenda.reserved[i].time.end_view_short %> <br><span class='badge staff-badge staff-badge-<%= this.agenda.reserved[i].staffID %>'><% if(this.agenda.reserved[i].staff){ %><%= this.agenda.reserved[i].staff.first_name %> <%= this.agenda.reserved[i].staff.last_name||'' %><% } %></span>" data-html="true" data-trigger="hover" data-container="body">
+					<div class="item-label timeslot-row" title="<strong><%= this.agenda.reserved[i].label||'' %></strong>" data-id="<%= this.agenda.reserved[i].ID %>" data-toggle="popover" data-placement="bottom" data-content="<%= this.agenda.reserved[i].time.start_view_short %> - <%= this.agenda.reserved[i].time.end_view_short %> <br><span class='badge staff-badge staff-badge-<%= this.agenda.reserved[i].staffID %>'><% if(this.agenda.reserved[i].staff_member){ %><%= this.agenda.reserved[i].staff_member.first_name %> <%= this.agenda.reserved[i].staff_member.last_name||'' %><% } %></span>" data-html="true" data-trigger="hover" data-container="body">
 
 
 					</div>
@@ -640,8 +640,8 @@
 			<div class="agenda-items">
 				<% for(var i in this.agenda.items){ %>
 
-				<div class="agenda-item agenda-staff-item-<% if(this.agenda.items[i].staff){ %><%= this.agenda.items[i].staff.ID||'' %><% } %> <%= this.agenda.items[i].status %>" style="left:<%= this.agenda.items[i].agenda.l %>%;right:<%= this.agenda.items[i].agenda.r %>%;">
-					<div class="item-label appointment-row" title="<strong><%= this.agenda.items[i].appointment.client.first_name||'Walk-In' %> <%= this.agenda.items[i].appointment.client.last_name||'' %></strong>" data-id="<%= this.agenda.items[i].appointment.ID %>" data-toggle="popover" data-placement="bottom" data-content="<%= this.agenda.items[i].time.start_view_short %> - <%= this.agenda.items[i].time.end_view_short %><br><ul class='list-group' style='margin:5px -15px 0 -15px;'><li class='list-group-item heading text-right'><%= this.agenda.items[i].category %></li><li class='list-group-item'><%= this.agenda.items[i].label %></li></ul><% if( this.agenda.items[i].staff){ %><span class='badge staff-badge staff-badge-<%= this.agenda.items[i].staff.ID %>'><%= this.agenda.items[i].staff.first_name %> <%= this.agenda.items[i].staff.last_name||'' %></span><% } %>" data-html="true" data-trigger="hover" data-container="body">
+				<div class="agenda-item agenda-staff-item-<% if(this.agenda.items[i].staff_member){ %><%= this.agenda.items[i].staff_member.ID||'' %><% } %> <%= this.agenda.items[i].status %>" style="left:<%= this.agenda.items[i].agenda.l %>%;right:<%= this.agenda.items[i].agenda.r %>%;">
+					<div class="item-label appointment-row" title="<strong><%= this.agenda.items[i].appointment.client.first_name||'Walk-In' %> <%= this.agenda.items[i].appointment.client.last_name||'' %></strong>" data-id="<%= this.agenda.items[i].appointment.ID %>" data-toggle="popover" data-placement="bottom" data-content="<%= this.agenda.items[i].time.start_view_short %> - <%= this.agenda.items[i].time.end_view_short %><br><ul class='list-group' style='margin:5px -15px 0 -15px;'><li class='list-group-item heading text-right'><%= this.agenda.items[i].category %></li><li class='list-group-item'><%= this.agenda.items[i].label %></li></ul><% if( this.agenda.items[i].staff_member){ %><span class='badge staff-badge staff-badge-<%= this.agenda.items[i].staff_member.ID %>'><%= this.agenda.items[i].staff_member.first_name %> <%= this.agenda.items[i].staff_member.last_name||'' %></span><% } %>" data-html="true" data-trigger="hover" data-container="body">
 
 
 					</div>

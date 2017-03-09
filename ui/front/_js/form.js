@@ -103,7 +103,7 @@ $(document).ready(function () {
 	})
 
 	$(document).on("change", "#appointmentDate_time input[type='radio']", function () {
-		appointmenttimehighlight();
+
 		//$('#rootwizard').bootstrapWizard('next');
 		getSteps();
 	})
@@ -132,10 +132,6 @@ $(document).ready(function () {
 			if (data.errors && ObjectLength(data.errors)) {
 
 
-				if (data.errors.timeslot) {
-					$("input.appointmentDate_time:checked").removeAttr("checked");
-					appointmenttimehighlight();
-				}
 
 				getSteps(true);
 
@@ -143,12 +139,9 @@ $(document).ready(function () {
 				alert("There were errors submitting your booking");
 
 			} else {
+				$('#rootwizard').trigger("reset");
+				window.location = data.redirect;
 
-				$("#modal-window").jqotesub($("#template-booking-successful"), data).modal("show").on("hide.bs.modal", function () {
-					$('#rootwizard').trigger("reset");
-
-
-				});
 			}
 
 		})
@@ -160,8 +153,10 @@ $(document).ready(function () {
 		var $this = $(this);
 		var $panel = $this.closest(".panel");
 
+		$panel.addClass("showing")
 
 		var staff = $(this).attr("data-staff");
+		//console.log(staff)
 		$(".staff .item.showing",$panel).removeClass("showing");
 		if (staff){
 			staff = staff.split(",");
@@ -175,6 +170,10 @@ $(document).ready(function () {
 	});
 
 	$(document).on("mouseleave",".timeslot",function(){
+		var $this = $(this);
+		var $panel = $this.closest(".panel");
+		$panel.removeClass("showing")
+
 		showStaff();
 	});
 
@@ -196,19 +195,21 @@ $(document).ready(function () {
 function showStaff(){
 	$("#appointmentDate_time .panel").each(function(){
 		var $panel = $(this);
+		var $footer = $panel.find(".panel-footer");
 		var duration = $panel.attr("data-duration");
 
 		var $timeslots = $panel.find(".timeslots");
 
-		$(".staff .item.showing",$panel.find(".panel-footer")).removeClass("showing");
+		$(".staff .item.showing",$footer).removeClass("showing");
 
-		var staff = $(".active",$timeslots).attr("data-staff")
+		var staff = $(".selected:first",$timeslots).attr("data-staff")
+		//console.log(staff)
 		if (staff){
 			staff = staff.split(",");
 
-			for(var i in staff){
 
-				$(".staff .item[data-id="+staff[i]+"]",$panel.find(".panel-footer")).addClass("showing");
+			for(var i in staff){
+				$(".staff .item[data-id="+staff[i]+"]",$footer).addClass("showing");
 			}
 
 		}
@@ -236,29 +237,6 @@ function appointmentdayhighlight() {
 	});
 
 
-}
-function appointmenttimehighlight() {
-
-	var $timeslots = $("#appointmentDate_time input[type='radio']:checked").closest(".panel-body");
-	var $staff = $("#appointmentDate_time input[type='radio']:checked").closest(".panel-footer");
-
-
-		$(".timeslot.active",$timeslots).removeClass("active");
-		$("input[type='radio']",$timeslots).each(function () {
-			if ($(this).is(":checked")) {
-				$(this).closest(".timeslot").addClass("active")
-			}
-		});
-
-		$(".item.active",$staff).removeClass("active");
-		$("input[type='radio']",$staff).each(function () {
-			if ($(this).is(":checked")) {
-				$(this).closest(".item").addClass("active")
-			}
-		});
-
-
-	showStaff();
 }
 function serviceshighlight() {
 
@@ -308,6 +286,7 @@ function serviceshighlight() {
 function getSteps(jumptofirsterror) {
 	var $form = $("#rootwizard")
 	var data = $form.serialize();
+	//console.log(data);
 	data = data + "&companyID=" + $("#confirm-form-area-form").attr("data-company")
 	var currenttab = $.bbq.getState("tab") || 0;
 
@@ -324,7 +303,7 @@ function getSteps(jumptofirsterror) {
 
 
 		appointmentdayhighlight();
-		appointmenttimehighlight();
+
 		serviceshighlight();
 
 		var $capturebtn = $("#form-footer-confirm").find(".btn").removeClass("btn-danger").addClass("btn-primary").removeAttr("disabled");

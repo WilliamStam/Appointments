@@ -198,24 +198,26 @@
 				<div class="row">
 					<div class="col-sm-12">
 
-						<div id="appointmentStart-inline"></div>
-						<input type="hidden" value="<%= this.details.appointmentStart %>" id="appointmentStart" name="appointmentStart" class="form-control">
+						<div id="appointmentDate-inline"></div>
+						<input type="hidden" value="<%= this.details.appointmentDate %>" id="appointmentDate" name="appointmentDate" class="form-control">
 					</div>
 				</div>
 
 			</div>
 		</div>
 
-		<div class="panel blue form-group">
+		<div class="panel no-border blue form-group">
 			<div class="panel-heading ">Services
 				<div class="panel-tools"></div>
 			</div>
-			<div class="panel-body no-border ">
+			<div class="panel-body no-border " id="appointmentDate_time">
 
 				<section id="services-area">
 
 
-					<%= $.jqote($("#template-appointment-services-area-item"),this.details.services) %>
+
+					<%= $.jqote($("#template-appointment-form-services"),this.services) %>
+
 
 
 				</section>
@@ -298,29 +300,14 @@
 </script>
 
 
-<script type="text/x-jqote-template" id="template-appointment-services-area-item">
+
+<script type="text/x-jqote-template" id="template-appointment-form-services">
 	<![CDATA[
-	<% var co = this.recordID||"new-"+document.getElementsByClassName("service-group").length; %>
 
-	<div class="row input-groups service-group">
-		<input type="hidden" name="services[records][]" value="<%= co %>">
-		{% if _staff|length %}
-			<div class="col-xs-5 group-item">
-				<select name="services[<%= co %>][staffID]" id="staffID-<%= co %>" class="form-control" style="width:100%">
-					<option value="">
-						Anyone
-					</option>
-					{% for row in _staff %}
-						<option value="{{ row['ID'] }}" style="width:100%" <% if(this.staff && this.staff.ID=="{{ row['ID'] }}"){ %>selected="selected"<% } %>>
-						{{ row['first_name'] }} {{ row['last_name'] }}
-						</option>
-					{% endfor %}
-				</select>
-			</div>
 
-		{% endif %}
-		<div class="col-xs-{% if _staff|length > 0 %}5{% else %}10{% endif %} group-item">
-			<select name="services[<%= co %>][serviceID]" id="serviceID-<%= co %>" class="form-control services-select" style="width:100%">
+	<div class="panel no-border" data-key="<%= this.key %>" id="service-<%= this.key %>">
+		<div class="panel-heading" style="padding:0;">
+			<select name="service[<%= this.key %>][ID]" id="serviceID-" class="form-control services-select" style="width:100%">
 				<option value="" data-duration-view="">
 					Service
 				</option>
@@ -328,7 +315,7 @@
 					<optgroup label="{{ group['label'] }}">
 						{% for row in group['records'] %}
 
-							<option value="{{ row['ID'] }}" style="width:100%" data-duration="{{ row['duration'] }}" data-duration-view="{{ row['duration_view'] }}"  <% if(this.ID=="{{ row['ID'] }}"){ %>selected="selected"<% } %>>
+							<option value="{{ row['ID'] }}" style="width:100%" data-duration="{{ row['duration'] }}" data-duration-view="{{ row['duration_view'] }}" data-category="{{ row['category'] }}"  <% if(this.ID=="{{ row['ID'] }}"){ %>selected="selected"<% } %>>
 							{{ row['label'] }}
 							</option>
 
@@ -338,20 +325,125 @@
 				{% endfor %}
 			</select>
 		</div>
+		<% if(this.slots.errors.length){ %>
+		<div class="alert alert-danger">
+			<ul>
+				<% for(var er in this.slots.errors){ %>
+				<li><%= this.slots.errors[er] %></li>
+				<% } %>
+			</ul>
+		</div>
+		<% } %>
+		<% if(this.slots.warnings.length){ %>
+		<div class="alert alert-warning">
+			<ul>
+				<% for(var er in this.slots.warnings){ %>
+				<li><%= this.slots.warnings[er] %></li>
+				<% } %>
+			</ul>
+		</div>
+		<% } %>
 
-		<div class="col-xs-2">
-			<p class="form-control-static">
 
-			</p>
+		<div class="panel-body form-group" style="padding:10px 0;">
 
+			<input type="hidden" value="<%= this.recordID||'' %>" name="service[<%= this.key %>][recordID]" id="service[<%= this.key %>][recordID]">
+			<div id="service-<%= this.key %>-time">
+				<input id="service[<%= this.key %>][time]" class="timepicker form-control" name="service[<%= this.key %>][time]" value="<%= this.times.time||'' %>" />
+			</div>
+			<div class="timeslots">
+				<% for(var s in this.slots.times){ %>
+
+				<div class="timeslot radio-parent <%= this.slots.times[s].c %> " data-value="<%= this.slots.times[s].v %>" data-staff="<%= this.slots.times[s].a %>">
+
+
+					<label for="appointmentDate_time-<%= this.key %>-<%= this.slots.times[s].v %>">
+						<div class="day"><%= this.slots.times[s].l %></div>
+						<input name="appointmentDate_time[<%= this.key %>][time]" id="appointmentDate_time-<%= this.key %>-<%= this.slots.times[s].v %>" value="<%= this.slots.times[s].v %>" type="radio" >
+					</label>
+
+
+
+
+
+				</div>
+
+				<% } %>
+				<div class="clearfix"></div>
+			</div>
 
 		</div>
+		<% if(this.clashing){ %>
+		<div class="alert alert-warning">
+			<table class="table" style="margin:0;">
+				<% if( this.clashing.appointments ){ %>
+				<% for(var i in this.clashing.appointments){ %>
+				<thead>
+				<tr>
+					<th colspan="3">Appointments</th>
+				</tr>
+				</thead>
+				<tbody>
+				<tr>
+					<td style="width:80px;"><%= this.clashing.appointments[i].time.start_view_short %></td>
+					<td style="width:80px;"><%= this.clashing.appointments[i].time.end_view_short %></td>
+					<td><%= this.clashing.appointments[i].client.first_name %> <%= this.clashing.appointments[i].client.last_name %></td>
 
+				</tr>
+				</tbody>
+				<% } %>
+				<% } %>
+				<% if( this.clashing.timeslots ){ %>
+				<% for(var i in this.clashing.timeslots){ %>
+				<thead>
+				<tr>
+					<th colspan="3">Timeslots</th>
+				</tr>
+				</thead>
+				<tbody>
+				<tr>
+					<td style="width:80px;"><%= this.clashing.timeslots[i].time.start_view_short %></td>
+					<td style="width:80px;"><%= this.clashing.timeslots[i].time.end_view_short %></td>
+					<td><%= this.clashing.timeslots[i].label %></td>
+
+				</tr>
+				</tbody>
+				<% } %>
+				<% } %>
+			</table>
+
+		</div>
+		<% } %>
+
+		<% if(this.appointmentStart.length>11 && (this.staffID=="" || !this.staffID)){ %>
+		<div class="alert alert-danger">
+			<p>
+				Please select a staff member
+			</p>
+		</div>
+		<% } %>
+
+
+		<div class="panel-footer form-group" >
+			<div class="staff-area div-table" id="service-<%= this.key %>-staffID">
+				<div class="staff div-row">
+					<% for(var s in this.staff){ %>
+					<div class="item <% if(this.staff[s].ID==this.staffID){ %>active<% } %> radio-parent div-cell" data-id="<%= this.staff[s].ID %>">
+
+						<label for="service-staff-<%= this.ID %>-<%= this.key %>-<%= this.staff[s].ID %>">
+							<%= this.staff[s].first_name %> <%= this.staff[s].last_name %>
+							<input name="service[<%= this.key %>][staffID]" id="service-staff-<%= this.ID %>-<%= this.key %>-<%= this.staff[s].ID %>" value="<%= this.staff[s].ID %>" type="radio" <% if(this.staff[s].ID==this.staffID){ %>checked="checked"<% } %>>
+						</label>
+
+					</div>
+					<% } %>
+				</div>
+			</div>
+		</div>
 
 	</div>
 
-
-	]]>
+]]>
 </script>
 
 
@@ -584,7 +676,7 @@
 						</div>
 						<div class="timeslot-items">
 							<% for(var i in this.agenda.reserved){ %>
-							<div class="timeslot-item <%= this.agenda.reserved[i].status %>" style="left:<%= this.agenda.reserved[i].agenda.l %>%;right:<%= this.agenda.reserved[i].agenda.r %>%;">
+							<div class="timeslot-item <%= this.agenda.reserved[i].status %> timeslot-item-staff-<%= this.agenda.reserved[i].staffID %>" style="left:<%= this.agenda.reserved[i].agenda.l %>%;right:<%= this.agenda.reserved[i].agenda.r %>%;">
 								<div class="item-label timeslot-row" title="<strong><%= this.agenda.reserved[i].label||'' %></strong><br><%= this.agenda.reserved[i].time.start_view_short %> - <%= this.agenda.reserved[i].time.end_view_short %>" data-id="<%= this.agenda.reserved[i].ID %>" data-toggle="tooltip" data-placement="bottom" data-content="<%= this.agenda.reserved[i].label||'' %>" data-html="true" data-trigger="hover" data-container="body">
 
 
@@ -603,8 +695,8 @@
 						</div>
 						<div class="agenda-items">
 							<% for(var i in this.agenda.items){ %>
-							<div class="agenda-item agenda-staff-item-<% if(this.agenda.items[i].staff){ %><%= this.agenda.items[i].staff.ID %><% } %> <% if(this.agenda.items[i].appointment.ID == this.ID) { %>current<% } %>" style="left:<%= this.agenda.items[i].agenda.l %>%;right:<%= this.agenda.items[i].agenda.r %>%;" data-appid="<%= this.agenda.items[i].appointment.ID %>">
-								<div class="item-label appointment-row" title="<strong><%= this.agenda.items[i].appointment.client.first_name||'Walk-In' %> <%= this.agenda.items[i].appointment.client.last_name||'' %></strong>" data-id="<%= this.agenda.items[i].appointment.ID %>" data-toggle="popover" data-placement="bottom" data-content="<%= this.agenda.items[i].time.start_view_short %> - <%= this.agenda.items[i].time.end_view_short %><br><ul class='list-group' style='margin:5px -15px 0 -15px;'><li class='list-group-item heading text-right'><%= this.agenda.items[i].category %></li><li class='list-group-item'><%= this.agenda.items[i].label %></li></ul><% if( this.agenda.items[i].staff){ %><span class='badge staff-badge staff-badge-<%= this.agenda.items[i].staff.ID %>'><%= this.agenda.items[i].staff.first_name %> <%= this.agenda.items[i].staff.last_name||'' %></span><% } %>" data-html="true" data-trigger="hover" data-container="#details-appointment">
+							<div class="agenda-item agenda-staff-item-<% if(this.agenda.items[i].staff_member){ %><%= this.agenda.items[i].staff_member.ID %><% } %> <% if(this.agenda.items[i].appointment.ID == this.ID) { %>current<% } %>" style="left:<%= this.agenda.items[i].agenda.l %>%;right:<%= this.agenda.items[i].agenda.r %>%;" data-appid="<%= this.agenda.items[i].appointment.ID %>">
+								<div class="item-label appointment-row" title="<strong><%= this.agenda.items[i].appointment.client.first_name||'Walk-In' %> <%= this.agenda.items[i].appointment.client.last_name||'' %></strong>" data-id="<%= this.agenda.items[i].appointment.ID %>" data-toggle="popover" data-placement="bottom" data-content="<%= this.agenda.items[i].time.start_view_short %> - <%= this.agenda.items[i].time.end_view_short %><br><ul class='list-group' style='margin:5px -15px 0 -15px;'><li class='list-group-item heading text-right'><%= this.agenda.items[i].category %></li><li class='list-group-item'><%= this.agenda.items[i].label %></li></ul><% if( this.agenda.items[i].staff_member){ %><span class='badge staff-badge staff-badge-<%= this.agenda.items[i].staff_member.ID %>'><%= this.agenda.items[i].staff_member.first_name %> <%= this.agenda.items[i].staff_member.last_name||'' %></span><% } %>" data-html="true" data-trigger="hover" data-container="#details-appointment">
 
 
 								</div>
@@ -666,13 +758,13 @@
 								<span class="badge"><%= this.services[i].records[g].time.start_view_short %></span>
 								<%= this.services[i].records[g].label %>
 
-								<% if(this.services[i].records[g].staff){ %>
+								<% if(this.services[i].records[g].staff_member){ %>
 
 								<div>
-									<span style="font-size: smaller" class="badge staff-badge staff-badge-<%= this.services[i].records[g].staff.ID %>">
+									<span style="font-size: smaller" class="badge staff-badge staff-badge-<%= this.services[i].records[g].staff_member.ID %>">
 
-									<%= this.services[i].records[g].staff.first_name %> <%=
-									this.services[i].records[g].staff.last_name %>
+									<%= this.services[i].records[g].staff_member.first_name %> <%=
+									this.services[i].records[g].staff_member.last_name %>
 									</span>
 								</div>
 

@@ -205,6 +205,18 @@
           "reference": "gh-pages"
         }
       }
+    },
+    {
+      "type": "package",
+      "package": {
+        "name": "wvega/timepicker",
+        "version": "dev-master",
+        "source": {
+          "url": "https://github.com/wvega/timepicker",
+          "type": "git",
+          "reference": "origin/master"
+        }
+      }
     }
   ],
   "require": {
@@ -224,6 +236,7 @@
     "components/toastr":"dev-master",
     "components/twitter-bootstrap-wizard":"dev-master",
     "components/bootstrap-datetimepicker":"dev-master",
+    "wvega/timepicker":"dev-master",
     "Summernote/summernote":"dev-master",
     "weareoutman/clockpicker":"dev-gh-pages",
     "twitter/typeahead.js":"*",

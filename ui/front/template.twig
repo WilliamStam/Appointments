@@ -58,7 +58,7 @@
 		color:#fff;
 		background-color: #777777;
 	}
-	{% for row in _staff %}
+	{% for row in staff %}
 	.staff-badge-{{ row['ID'] }} {
 	{% for key,style in row['badge_style'] %}
 	{{ key }}: {{ style }};
