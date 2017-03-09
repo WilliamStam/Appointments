@@ -252,7 +252,17 @@ $f3->route('GET /test/email/@email', function ($app, $params) {
 
 $f3->route('GET /updatetonew', function ($app, $params) {
 
-	$appointments_ = models\appointments::getInstance()->getAll();
+
+	//test_array($sql);
+	$appointments_ = $app->get("DB")->exec("
+			 SELECT DISTINCT appointments.*, min(appser.appointmentStart) AS appointmentStart, max(appser.appointmentStart + INTERVAL services.duration MINUTE) AS appointmentEnd, appointments.appointmentStart as appointmentStart_old
+			FROM 
+			(((`appointments` LEFT JOIN clients ON clients.ID = appointments.clientID) left join appointments_services appser ON appointments.ID = appser.appointmentID) left join services ON services.ID = appser.serviceID)
+			GROUP BY appointments.ID;
+		", $args, $ttl);
+
+
+	$appointments_ = models\appointments::getInstance()->format($appointments_,array());
 	$services_ = models\services::getInstance()->getAll();
 
 	//test_array($appointments_);
@@ -297,6 +307,11 @@ $f3->route('GET /updatetonew', function ($app, $params) {
 
 
 
+	/* instructions
+ "ALTER TABLE `appointments` DROP `appointmentStart`;";
+
+
+	*/
 
 
 

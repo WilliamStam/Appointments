@@ -89,8 +89,7 @@
 								<% if (this.list[i].records[g].services[h].staff_member){ %>
 								<small class="pull-right">
 									<span class="badge staff-badge staff-badge-<%=  this.list[i].records[g].services[h].staff_member.ID %>">
-									<%= this.list[i].records[g].services[h].staff_member.first_name %>
-									<%= this.list[i].records[g].services[h].staff_member.last_name %>
+									<%= this.list[i].records[g].services[h].staff_member.first_name %> <%= this.list[i].records[g].services[h].staff_member.last_name %>
 									</span>
 								</small>
 								<% } %>
