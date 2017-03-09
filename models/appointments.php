@@ -98,7 +98,7 @@ class appointments extends _ {
 
 
 		$sql = "
-			 SELECT DISTINCT appointments.*, min(appser.appointmentStart) AS appointmentStart, max(appser.appointmentStart + INTERVAL services.duration MINUTE) AS appointmentEnd
+			 SELECT DISTINCT appointments.*, min(appser.appointmentStart) AS appointmentStart, max(appser.appointmentStart + INTERVAL services.duration MINUTE) AS appointmentEnd, appointments.appointmentStart as appointmentStart_old
 			FROM 
 			(((`appointments` LEFT JOIN clients ON clients.ID = appointments.clientID) left join appointments_services appser ON appointments.ID = appser.appointmentID) left join services ON services.ID = appser.serviceID)
 			$where
