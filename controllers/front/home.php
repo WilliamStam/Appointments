@@ -16,7 +16,7 @@ class home extends _ {
 			"sub_section"=> "home",
 			"template"   => "home",
 			"meta"       => array(
-				"title"=> "Woof",
+				"title"=> "Appointed | Online Booking System",
 			),
 		);
 		$tmpl->output();
