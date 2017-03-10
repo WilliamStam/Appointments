@@ -15,132 +15,165 @@ class form extends _ {
 		$return['errors'] = array();
 		$company = isset($_REQUEST['companyID'])?$_REQUEST['companyID']:"";
 		$company = models\companies::getInstance()->get($company,array("format"=>true));
+		$settings = $company['settings'];
+
+		$sessionKey = "data".date("Ymd");
+
+		$saved = isset($_COOKIE['front-form'])?json_decode($_COOKIE['front-form'],true):array();
+
+		//test_array($saved);
+		$defaults = array();
+		$defaults['mobile_number']="";
+		$defaults['email'] = "";
+		$defaults['clientID'] = "";
+		$defaults['first_name'] = "";
+		$defaults['last_name'] = "";
+		$defaults['notes'] = "";
+		$defaults['services'] = array();
+		$defaults['services_data'] = array();
+		$defaults['duration'] = 0;
+		$defaults['appointmentDate'] = date("Y-m-d");
 
 
-		//test_array($services);
+		$appointmentStart = false;
 
-		$cookiedata = isset($_SESSION['data'])?json_decode($_SESSION['data'],true):array();
-		if (!is_array($cookiedata)){
-			$cookiedata = array();
-		}
-		$return['cookie'] = $cookiedata;
-		$return['posting'] = $_POST;
-		$return['post_count'] = count($_POST);
-		//test_array($cookiedata);
-		//$cookiedata = array();
+		$return['data'] = array_replace_recursive($defaults,$saved,$_POST);
+		setcookie("front-form",json_encode($return['data']), time() + (86400), "/");
 
-		$return['post']['mobile_number']="";
-		$return['post']['email'] = "";
-		$return['post']['clientID'] = "";
-		$return['post']['first_name'] = "";
-		$return['post']['last_name'] = "";
-		$return['post']['appointmentDate_day'] = "";
-		$return['post']['appointmentDate_time'] = array();
-		$return['post']['notes'] = "";
-		$return['post']['services'] = array();
-		$return['post']['duration'] = 0;
-
-
-
-		$post = $_POST;
-
-
-
-
-
-
-		foreach ($cookiedata as $k=>$v){
-
-			$return['post'][$k] = $v;
-
-		}
-
-
-
-
-		foreach ($post as $k=>$v){
-			if ($v==""){
-				if (isset($cookiedata[$k])){
-					$v = $cookiedata[$k];
-				}
-			}
-
-			$return['post'][$k] = $v;
-
-		}
-
-
-		//test_array($_POST);
-		$_SESSION['data'] = json_encode($return['post']);
-		$return['ses'] = $_SESSION['data'];
-		//test_array($_SESSION['data']);
-
-
-		$return['save'] = array(
-			"clientID"=>"",
-			"appointmentStart"=>"",
-			"notes"=>"",
+		// ---------------------------------------- extra ----------------------------------------
+		$return['extra'] = array();
+		$return['extra']['services_totals'] = array(
+			"duration"=>0,
+			"price"=>0,
 		);
 
 
+		// ---------------------------------------- extra ----------------------------------------
 
-			if ($return['post']['mobile_number']==""){
-				$return['errors']['mobile_number'] = "";
+
+
+
+
+
+
+
+
+		// ---------------------------------------- client ----------------------------------------
+
+		$clientDetails = models\clients::getInstance()->getAll("mobile_number=? AND companyID = '{$company['ID']}'","","0,1",array("args"=>array($return['data']['mobile_number'])));
+
+
+		if (isset($clientDetails[0])){
+			$clientDetails = $clientDetails[0];
+
+			$fields = array("clientID"=>"ID","email","first_name","last_name");
+
+
+			foreach($fields as $k=>$f){
+				if (is_numeric($k))$k=$f;
+				$return['data'][$k] = $clientDetails[$f];
 			}
 
-		//$return['post']['mobile_number'] = "0835029157";
+		}
+
+		$return['client'] = $clientDetails;
+
+		// ---------------------------------------- client ----------------------------------------
+
+
+		// ---------------------------------------- services ----------------------------------------
+
+
+		if (count($return['data']['services'])){
+			$serviceIDs = implode(",",$return['data']['services']);
+
+			$services_ = models\services::getInstance()->getAll("ID in ({$serviceIDs}) AND companyID = '{$company['ID']}'","","",array("staff"=>true));
+
+			$services = array();
+			$key_ = array();
+			foreach ($services_ as $item){
+				if (!isset($key_[$item['ID']])) {
+					$key_[$item['ID']] = 0;
+				}
+				$key = "new-" . $item['ID']. "-".$key_[$item['ID']];
+				if (isset($item['recordID']) && $item['recordID']) {
+					$key = "edit-".$item['recordID'];
+				}
+
+				$item['form_key'] = $key;
+				$item['appointmentStart'] = $return['data']['appointmentDate'];
+
+				if (isset($return['data']['services_data'][$key])){
+					if (isset($return['data']['services_data'][$key]['time'])){
+						$item['appointmentStart'] = $item['appointmentStart'] ." ".$return['data']['services_data'][$key]['time'].":00";
+						if (!date("Y-m-d H:i:s",strtotime($item['appointmentStart']))){
+							$item['appointmentStart'] = "";
+						}
+
+
+					}
+					if (isset($return['data']['services_data'][$key]['staffID'])){
+						$item['staffID'] = $return['data']['services_data'][$key]['staffID'];
+					}
+
+				}
+
+
+				if ($item['appointmentStart']){
+					if ($appointmentStart==false || $item['appointmentStart'] < $appointmentStart){
+						$appointmentStart = $item['appointmentStart'];
+					}
+
+				}
 
 
 
+				if ($item['staffID']){
+					$item['staff_member'] = array();
+					foreach($item['staff'] as $staff_item){
+						if ($staff_item['ID']==$item['staffID']){
+							$item['staff_member'] = $staff_item;
+						}
+					}
 
-		if ($return['post']['mobile_number']){
-			$clientDetails = models\clients::getInstance()->getAll("mobile_number=? AND companyID = '{$company['ID']}'","","0,1",array("args"=>array($return['post']['mobile_number'])));
-			$return['client'] = $clientDetails;
+				}
 
-			if (isset($clientDetails[0])){
-				$clientDetails = $clientDetails[0];
+				$services[] = $item;
+			}
 
-				$return['post']['clientID'] = $clientDetails['ID'];
-				$return['post']['email'] = $clientDetails['email'];
-				$return['post']['first_name'] = $clientDetails['first_name'];
-				$return['post']['last_name'] = $clientDetails['last_name'];
+			$services = models\services::format((array)$services, array());
+			$services_ = models\available_timeslots::getInstance()->timeslots($company['ID'], $services);
+
+			$services = array();
+			foreach ($services_ as $item){
+
+
+				$item['time_start'] = date("H:i",$item['s']);
+				$item['time_end'] = date("H:i",$item['e']);
+
+				$return['extra']['services_totals']['duration'] = $return['extra']['services_totals']['duration'] + $item['duration'];
+				$return['extra']['services_totals']['price'] = $return['extra']['services_totals']['duration'] + $item['price'];
+				//unset($item['staff']);
+
+				$services[] = $item;
 			}
 
 
+			//test_array($services);
+			$return['services'] = $services;
 
 
-		} else {
 
 		}
 
-
-		if ($return['post']['first_name']==""){
-			$return['errors']['first_name'] = "";
-		}
-
-		if ($return['post']['appointmentDate_day']==""){
-			$return['errors']['appointmentDate_day'] = "";
-		} else {
-			$return['extra']['appointmentDate_day_label'] = date("D, d M Y",strtotime($return['post']['appointmentDate_day']));
-		}
-
-
-		if (!count($return['post']['services'])){
-			$return['errors']['services'] = "";
-		}
+		// ---------------------------------------- services ----------------------------------------
 
 
 
-		$settings = $company['settings'];
 
-		$return['times'] = array();
+
+		// ---------------------------------------- dates ----------------------------------------
 		$return['dates'] = array();
-
-		$return['extra']['duration'] = $return['post']['duration'];
-		$return['extra']['duration_view'] = seconds_to_time($return['extra']['duration']*60,true)
-		;
-
-
 		$today = time();
 
 
@@ -157,10 +190,7 @@ class form extends _ {
 						$showdate = false;
 					}
 				}
-
-
 				$dayname = strtolower(date('l',$date));
-
 				if (isset($settings['open'])){
 					if (isset($settings['open'][$dayname])){
 						if ($settings['open'][$dayname]['start'] && $settings['open'][$dayname]['end']){
@@ -168,8 +198,6 @@ class form extends _ {
 						} else {
 							$showdate = false;
 						}
-
-
 					}
 				}
 
@@ -177,16 +205,12 @@ class form extends _ {
 
 
 				$days[date('Y-m-d', $date)] = $showdate?1:0;
-
 			}
-
-
 
 			$nd = array();
 
 			foreach($days as $k=>$item){
 				$date = strtotime($k);
-
 				$nd[] = array(
 					"dayName"=>date("D",$date),
 					"day"=>date("d",$date),
@@ -194,160 +218,94 @@ class form extends _ {
 					"value"=>$k,
 					"active"=>$item
 				);
-
-
 			}
-
 			$return['dates'] = $nd;
 		} else {
 			$return['dates'] = array();
 		}
+		// ---------------------------------------- dates ----------------------------------------
+
+
+		// ---------------------------------------- extra ----------------------------------------
+
+		$return['extra']['appointmentStart'] = date('D, d M Y \a\t H:i',strtotime($appointmentStart));
+		$return['extra']['services_totals']["duration_view"]= seconds_to_time($return['extra']['services_totals']["duration"]*60,true);
+		$return['extra']['services_totals']["price_view"]=currency($return['extra']['services_totals']["price"]);
+
+
+
+		// ---------------------------------------- extra ----------------------------------------
 
 
 
 
+		// ---------------------------------------- errors ----------------------------------------
 
-		$return['extra']['services'] = array();
-
-
-		$return['extra']['services_totals'] = array(
-			"duration" => 0,
-			"price" => 0,
-
-		);
-		$serviceids = "";
-	//	test_array($return['post']['services']);
-
-
-		if (count($return['post']['services'])||$return['post']['services']!=""){
-			$serviceids = is_array($return['post']['services'])?implode(",",$return['post']['services']):$return['post']['services'];
-
-
-			if ($serviceids){
-				$return['extra']['services'] = models\services::getInstance()->getAll("services.ID IN ({$serviceids}) AND companyID = '{$company['ID']}'","category ASC, label ASC, ID ASC","",array("format"=>true,"staff"=>true));
-
-				foreach ($return['extra']['services'] as $item){
-					$return['extra']['services_totals']['duration'] = $return['extra']['services_totals']['duration'] + $item['duration'];
-					$return['extra']['services_totals']['price'] = $return['extra']['services_totals']['price'] + $item['price'];
-				}
-			}
+		if ($return['data']['mobile_number']==""){
+			$return['errors']['mobile_number'] = "";
+		}
+		if ($return['data']['first_name']==""){
+			$return['errors']['first_name'] = "";
 		}
 
-		$appointmentStarts = false;
 
-		//test_array($company);
-		if (count($return['extra']['services']) && $return['post']['appointmentDate_day']){
+		if ($return['data']['appointmentDate']==""){
+			$return['errors']['appointmentDate_day'] = "";
+		}
 
-			$key = 0;
-			$services = array();
+		if (count($return['services'])==0){
+			$return['errors']['services'] = "Please select at least 1 service";
+		} else {
+			foreach ($return['services'] as $item){
 
-			foreach ($return['extra']['services'] as $service){
-				$key_ = $service['ID']."-".$key;
-				$defaultStart = "";
-				if ($service['appointmentStart']){
-					$defaultStart = date(" H:i:00",strtotime($service['appointmentStart']));
-
-				}
-
-				$serv_staffID = (isset($return['post']['appointmentDate_time-'.$key_.'-staffID']))?$return['post']['appointmentDate_time-'.$key_.'-staffID']:$service['staffID'];
-				$serv_time = (isset($return['post']['appointmentDate_time-'.$key_.'-time']))?" ".$return['post']['appointmentDate_time-'.$key_.'-time'].":00":$defaultStart;
-
-				$service['staff_member'] = array();
-
-				foreach ($service['staff'] as $staff_item){
-					if ($staff_item['ID']==$serv_staffID){
-						$service['staff_member'] = $staff_item;
+				if ($item['appointmentStart']){
+					if (date("Y-m-d H:i:s",strtotime($item['appointmentStart']))!=$item['appointmentStart']){
+						$return['errors']['appointmentDate_time'] = "";
 					}
 				}
 
-
-				$service['key'] = $key_;
-				$service['staffID'] = $serv_staffID;
-				$service['appointmentStart'] = $return['post']['appointmentDate_day'] . $serv_time;
-
-				$service['time_start'] = date("H:i",strtotime($service['appointmentStart']));
-				$service['time_end'] = date("H:i",strtotime("+{$service['duration']} minute",strtotime($service['appointmentStart'])));
-
-				if (!$appointmentStarts || $service['appointmentStart'] < $appointmentStarts ){
-					$appointmentStarts = $service['appointmentStart'];
+				if (count($item['slots']['errors'])){
+					$return['errors']['appointmentDate_time'] = "";
+					$return['errors']['service-item-'.$item['form_key']] = "";
 				}
 
-				$service['error'] = 0;
-				if (date('Y-m-d H:i:s', strtotime($service['appointmentStart'])) != $service['appointmentStart']){
-					$return['errors']['appointmentDate_time'][] = "Need a time";
-					$service['error'] = 1;
-				}
-
-
-
-				$services[] = $service;
-				$key = $key + 1;
+				//test_array($item);
 			}
-
-
-
-			$return['times']['services'] =  models\available_timeslots::getInstance()->timeslots($company['ID'],$services);
-
-			//test_array($services);
-
-			foreach($return['times']['services'] as $ts_sservice){
-				if (count($ts_sservice['slots']['errors'])){
-					$return['errors']['appointmentDate_time'][] = $ts_sservice['slots']['errors'];
-				}
-				if (isset($service['staff_member']['ID'])){
-					if ($service['staff_member']['ID']==""){
-						$return['errors']['appointmentDate_time'][] = "errrors";
-					}
-				} else {
-					$return['errors']['appointmentDate_time'][] = "errrors";
-				}
-
-
-			}
-
-
-
-
-
-
 		}
 
-		if ($appointmentStarts){
-			$return['extra']['appointmentDate_display'] = date('D, d M Y \a\t H:i',strtotime($appointmentStarts));
-		}
-
-		//test_array($return);
 
 
-		//test_array($return['extra']['services']);
 
-		$return['extra']['services_totals']["duration_view"] = seconds_to_time($return['extra']['services_totals']['duration']*60,true);
-		$return['extra']['services_totals']["price_view"] = currency($return['extra']['services_totals']['price']);
+		// ---------------------------------------- errors ----------------------------------------
 
 
-		if (!count($return['errors'])){
+
+		// ---------------------------------------- submit ----------------------------------------
+		if (count($return['errors'])==0){
+
+
 			$return['submit'] = array(
-				"appointmentDate"=>$return['post']['appointmentDate_day'],
-				"notes"=>$return['post']['notes'],
-				"clientID"=>$return['post']['clientID'],
+				"appointmentDate"=>$return['data']['appointmentDate'],
+				"notes"=>$return['data']['notes'],
+				"clientID"=>$return['data']['clientID'],
 				"client"=>array(
-					"ID"=>$return['post']['clientID'],
-					"first_name"=>$return['post']['first_name'],
-					"last_name"=>$return['post']['last_name'],
-					"mobile_number"=>$return['post']['mobile_number'],
-					"email"=>$return['post']['email'],
+					"ID"=>$return['data']['clientID'],
+					"first_name"=>$return['data']['first_name'],
+					"last_name"=>$return['data']['last_name'],
+					"mobile_number"=>$return['data']['mobile_number'],
+					"email"=>$return['data']['email'],
 				),
-				"services"=>$return['times']['services']
+				"services"=>$return['services']
 
 
 			);
+
 		}
 
 
-		//test_array($return);
+		// ---------------------------------------- submit ----------------------------------------
 
 
-		//$_SESSION['data'] = json_encode($return);
 
 
 		return $GLOBALS["output"]['data'] = $return;

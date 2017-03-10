@@ -38,7 +38,7 @@ class available_timeslots extends _ {
 
 		foreach((array)$services as $service){
 
-			$service["key"] = uniqid();
+			$service["internal_AT_key"] = uniqid();
 
 
 			if (strlen($service['appointmentStart'])>11){
@@ -110,9 +110,11 @@ class available_timeslots extends _ {
 
 
 
+
 			$item['slots'] = $this->_status_slots($slots, $item, $not_available, $services,$settings['settings']['timeslots']);
 			$item['slots'] = $this->_cleanup_slots($item['slots']);
 
+			unset($item['internal_AT_key']);
 
 
 			$return[] = $item;
@@ -279,7 +281,7 @@ class available_timeslots extends _ {
 			$other_selected = 0;
 			//test_array($otherservices);
 			foreach ($otherservices as $otherservices_item){
-				if ($otherservices_item['key']!=$service['key']){
+				if ($otherservices_item['internal_AT_key']!=$service['internal_AT_key']){
 					$item_soft_closed_s = strtotime("+{$minute_time_slots} minute",strtotime("-{$service['duration']} minute",$otherservices_item['s']));
 					$item_soft_closed_e = $otherservices_item['s'];
 					if ($item_soft_closed_s<=$slot_item['e'] && $item_soft_closed_e>$slot_item['s']){

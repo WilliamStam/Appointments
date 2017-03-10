@@ -39,9 +39,10 @@ class form extends _ {
 	function complete(){
 		$company = $this->f3->get("PARAMS['companyID']");
 
-		session_destroy();
-		unset($_COOKIE['PHPSESSID']);
-		setcookie('PHPSESSID', null, -1, '/');
+		if (isset($_COOKIE['front-form'])) {
+			unset($_COOKIE['front-form']);
+			setcookie('front-form', NULL, -1, '/');
+		}
 
 
 

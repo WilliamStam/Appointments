@@ -95,24 +95,15 @@ $(document).ready(function () {
 	})
 
 
-	$(document).on("change", "input[name='appointmentDate_day']", function () {
-		appointmentdayhighlight();
-		//$('#rootwizard').bootstrapWizard('next');
-		getSteps();
 
-	})
 
-	$(document).on("change", "#appointmentDate_time input[type='radio']", function () {
+	$(document).on("change", "input.post-data", function () {
 
 		//$('#rootwizard').bootstrapWizard('next');
 		getSteps();
 	})
 
-	$(document).on("change", "input[name='services[]']", function () {
-		serviceshighlight()
 
-
-	})
 
 	$(document).on("click", "#form-footer-confirm .btn.btn-primary", function () {
 
@@ -229,7 +220,7 @@ function ObjectLength(object) {
 function appointmentdayhighlight() {
 	//$("label[for='appointmentDate_day-2017-03-18']").find("input").prop("checked",true);
 	$("#appointmentDate_day li.active").removeClass("active")
-	$("input[name='appointmentDate_day']").each(function () {
+	$("input[name='appointmentDate']").each(function () {
 		if ($(this).is(":checked")) {
 			var $box = $(this).closest("li");
 			$box.addClass("active");
@@ -247,6 +238,7 @@ function serviceshighlight() {
 			$(this).closest("label").addClass("active")
 		}
 	});
+
 
 
 	var duration = 0;

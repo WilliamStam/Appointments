@@ -291,7 +291,7 @@ $f3->route('GET /updatetonew', function ($app, $params) {
 		$appoint[$item['appointmentID']] = $appointmentStart;
 
 		if ($appointmentStart){
-			$sql[] = "UPDATE appointments_services SET appointmentStart = '{$appointmentStart}' WHERE ID = '{$item['ID']}'";
+			$sql[] = "UPDATE appointments_services SET appointmentStart = '{$appointmentStart}', staffID = '2' WHERE ID = '{$item['ID']}'";
 		}
 
 	}

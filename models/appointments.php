@@ -187,15 +187,20 @@ class appointments extends _ {
 							"k"=>"services-added",
 							"o"=>"",
 							"n"=>$val['serviceID'],
-							"l"=>"Service Added - [".$services[$val['serviceID']]['log_label']."] - ".$b->appointmentStart
+							"l"=>"Service Added - [".$services[$val['serviceID']]['log_label']."] - ".$val['appointmentStart']
 						);
 					} else {
+						$appointmentStart = "";
+						if ($b->appointmentStart != $val['appointmentStart']){
+							$appointmentStart = " - ".$b->appointmentStart . "->" . $val['appointmentStart'];
+						}
+
 						if ($b->serviceID != $val['serviceID']){
 							$log[] = array(
 								"k"=>"services-changed",
 								"o"=>$b->serviceID,
 								"n"=>$val['serviceID'],
-								"l"=>"Service Changed - [".$services[$b->serviceID]['log_label']."] => [" .$services[$val['serviceID']]['log_label']."] - ".$b->appointmentStart
+								"l"=>"Service Changed - [".$services[$b->serviceID]['log_label']."] => [" .$services[$val['serviceID']]['log_label']."]".$appointmentStart
 							);
 						}
 					}

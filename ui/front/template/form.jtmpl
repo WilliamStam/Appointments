@@ -14,7 +14,7 @@
 			<div class="form-group">
 				<label for="mobile_number" class="col-sm-2 control-label">Phone Number</label>
 				<div class="col-sm-10">
-					<input type="text" name="mobile_number" class="form-control" id="mobile_number" placeholder="Please enter your mobile number here" value="<%= this.post.mobile_number||'' %>">
+					<input type="text" name="mobile_number" class="form-control" id="mobile_number" placeholder="Please enter your mobile number here" value="<%= this.data.mobile_number||'' %>">
 
 				</div>
 			</div>
@@ -61,7 +61,7 @@
 						<div class="col-sm-2 ps-duration col-xs-6">{{ service['duration_view'] }}</div>
 						<div class="col-sm-2 ps-price col-xs-6">{{ service['price_view'] }}</div>
 
-						<input type="checkbox" value="{{ service['ID'] }}" id="service-{{ service['ID'] }}" name="services[]" <% if (this.post.services && this.post.services.indexOf("{{ service['ID'] }}")!=-1){ %>checked="checked"<% } %>>
+						<input type="checkbox" class="post-data" value="{{ service['ID'] }}" id="service-{{ service['ID'] }}" name="services[]" <% if (this.data.services && this.data.services.indexOf("{{ service['ID'] }}")!=-1){ %>checked="checked"<% } %>>
 
 					</div>
 					</label>
@@ -72,7 +72,7 @@
 	{% endfor %}
 	</div>
 
-	<input type="hidden" value="<%= this.post.duration %>" name="duration" id="duration" >
+	<input type="hidden" value="<%= this.data.duration %>" name="duration" id="duration" >
 	]]>
 </script>
 
@@ -92,25 +92,25 @@
 			<div class="form-group">
 				<label for="first_name" class="col-sm-2 control-label">First Name</label>
 				<div class="col-sm-10">
-					<input type="text" name="first_name" class="form-control" id="first_name" placeholder="John" value="<%= this.post.first_name||'' %>">
+					<input type="text" name="first_name" class="form-control" id="first_name" placeholder="John" value="<%= this.data.first_name||'' %>">
 				</div>
 			</div>
 			<div class="form-group">
 				<label for="last_name" class="col-sm-2 control-label">Last Name</label>
 				<div class="col-sm-10">
-					<input type="text" name="last_name" class="form-control" id="last_name" placeholder="Doe" value="<%= this.post.last_name||'' %>">
+					<input type="text" name="last_name" class="form-control" id="last_name" placeholder="Doe" value="<%= this.data.last_name||'' %>">
 				</div>
 			</div>
 			<div class="form-group">
 				<label for="mobile_number" class="col-sm-2 control-label">Number</label>
 				<div class="col-sm-10">
-					<p class="form-control-static"><%= this.post.mobile_number||'' %></p>
+					<p class="form-control-static"><%= this.data.mobile_number||'' %></p>
 				</div>
 			</div>
 			<div class="form-group">
 				<label for="email" class="col-sm-2 control-label">Email</label>
 				<div class="col-sm-10">
-					<input type="text" name="email" class="form-control" id="email" placeholder="email@domain.com" value="<%= this.post.email||'' %>">
+					<input type="text" name="email" class="form-control" id="email" placeholder="email@domain.com" value="<%= this.data.email||'' %>">
 				</div>
 			</div>
 		</div>
@@ -145,9 +145,7 @@
 									<div class="day"><%= this.dates[i].day %></div>
 									<div class="month"><%= this.dates[i].month %></div>
 
-									<input type="radio" name="appointmentDate_day" id="appointmentDate_day-<%= this.dates[i].value %>" value="<%= this.dates[i].value %>"
-									<% if(this.dates[i].active=='0'){ %>disabled="disabled"<% } %> <%
-									if(this.post.appointmentDate_day==this.dates[i].value){ %>checked="checked"<% } %> >
+									<input type="radio" name="appointmentDate" id="appointmentDate_day-<%= this.dates[i].value %>" value="<%= this.dates[i].value %>" class="post-data" <% if(this.dates[i].active=='0'){ %>disabled="disabled"<% } %> <% if(this.data.appointmentDate==this.dates[i].value){ %>checked="checked"<% } %> >
 									</label>
 								</li>
 								<% } %>
@@ -166,36 +164,38 @@
 
 	</div>
 
-	<% if(this.post.appointmentDate_day){ %>
+	<% if(this.data.appointmentDate){ %>
 
 	<section id="appointmentDate_time">
 
 
-		<% for (var i in this.times.services) { %>
+		<% for (var i in this.services) { %>
 		<hr>
-				<div class="panel orange <% if(this.times.services[i].error==1){ %>error<% } %>" data-duration="<%= this.times.services[i].duration %>" data-id="<%= this.times.services[i].ID %>">
+				<div class="panel orange <% if(this.services[i].error==1){ %>error<% } %>" data-duration="<%= this.services[i].duration %>" data-id="<%= this.services[i].ID %>" id="service-item-<%= this.services[i].form_key %>">
 					<div class="panel-heading built">
-						<%= this.times.services[i].label %> <small class="pull-right">Duration: <%= this.times.services[i].duration_view %></small>
+						<%= this.services[i].label %> <small class="pull-right">Duration: <%= this.services[i].duration_view %></small>
 					</div>
-					<% if(this.times.services[i].slots.errors.length){ %>
+					<% if(this.services[i].slots.errors.length){ %>
 						<div class="alert alert-danger">
 							<ul>
-								<% for(var er in this.times.services[i].slots.errors){ %>
-								<li><%= this.times.services[i].slots.errors[er] %></li>
+								<% for(var er in this.services[i].slots.errors){ %>
+								<li><%= this.services[i].slots.errors[er] %></li>
 								<% } %>
 							</ul>
 						</div>
 					<% } %>
 					<div class="panel-body">
 						<div class="timeslots">
-							<% for(var s in this.times.services[i].slots.times){ %>
-
-								<div class="timeslot radio-parent <%= this.times.services[i].slots.times[s].c %> " data-staff="<%= this.times.services[i].slots.times[s].a %>">
 
 
-									<label for="appointmentDate_time-<%= this.times.services[i].key %>-<%= this.times.services[i].slots.times[s].v %>">
-										<div class="day"><%= this.times.services[i].slots.times[s].l %></div>
-										<input name="appointmentDate_time-<%= this.times.services[i].key %>-time" id="appointmentDate_time-<%= this.times.services[i].key %>-<%= this.times.services[i].slots.times[s].v %>" value="<%= this.times.services[i].slots.times[s].v %>" type="radio" <% if(this.times.services[i].slots.times[s].s!=1){ %>disabled="disabled"<% } %> >
+							<% for(var s in this.services[i].slots.times){ %>
+
+								<div class="timeslot radio-parent <%= this.services[i].slots.times[s].c %> " data-staff="<%= this.services[i].slots.times[s].a %>">
+
+
+									<label for="app_time_<%= this.services[i].form_key %>_<%= this.services[i].slots.times[s].v %>">
+										<div class="day"><%= this.services[i].slots.times[s].l %></div>
+										<input name="services_data[<%= this.services[i].form_key %>][time]" id="app_time_<%= this.services[i].form_key %>_<%= this.services[i].slots.times[s].v %>" value="<%= this.services[i].slots.times[s].v %>" type="radio" <% if(this.services[i].slots.times[s].s!=1){ %>disabled="disabled"<% } %> class="post-data" >
 									</label>
 
 
@@ -211,7 +211,7 @@
 						</div>
 						<div class="clearfix"></div>
 					</div>
-					<% if(!this.times.services[i].staffID  && this.times.services[i].appointmentStart.length > 10 ){ %>
+					<% if(!this.services[i].staffID  && this.services[i].appointmentStart.length > 10 ){ %>
 
 						<div class="alert alert-warning">
 							<p>
@@ -223,12 +223,12 @@
 					<div class="panel-footer">
 						<div class="staff-area div-table">
 							<div class="staff div-row">
-								<% for(var s in this.times.services[i].staff){ %>
-									<div class="item <% if(this.times.services[i].staff[s].ID == this.times.services[i].staffID){ %>active<% } %> radio-parent div-cell" data-id="<%= this.times.services[i].staff[s].ID %>">
+								<% for(var s in this.services[i].staff){ %>
+									<div class="item <% if(this.services[i].staff[s].ID == this.services[i].staffID){ %>active<% } %> radio-parent div-cell" data-id="<%= this.services[i].staff[s].ID %>">
 
-										<label for="appointmentDate_time-<%= this.times.services[i].key %>-<%= this.times.services[i].staff[s].ID %>">
-											<%= this.times.services[i].staff[s].first_name %> <%= this.times.services[i].staff[s].last_name %>
-											<input name="appointmentDate_time-<%= this.times.services[i].key %>-staffID" id="appointmentDate_time-<%= this.times.services[i].key %>-<%= this.times.services[i].staff[s].ID %>" value="<%= this.times.services[i].staff[s].ID %>" type="radio" <% if(this.times.services[i].staff[s].ID == this.times.services[i].staffID){ %>checked="checked"<% } %>>
+										<label for="appointmentDate_time-<%= this.services[i].form_key %>-<%= this.services[i].staff[s].ID %>">
+											<%= this.services[i].staff[s].first_name %> <%= this.services[i].staff[s].last_name %>
+											<input name="services_data[<%= this.services[i].form_key %>][staffID]" id="appointmentDate_time-<%= this.services[i].form_key %>-<%= this.services[i].staff[s].ID %>" value="<%= this.services[i].staff[s].ID %>" type="radio" <% if(this.services[i].staff[s].ID == this.services[i].staffID){ %>checked="checked"<% } %> class="post-data">
 										</label>
 
 									</div>
@@ -259,9 +259,9 @@
 		<div class="row">
 			<div class="col-sm-6">
 				<h3>Appointment</h3><div style="padding-left:10px;">
-					<% if(this.extra.appointmentDate_day_label && this.post.appointmentDate_time ){ %>
+					<% if(this.extra.appointmentStart){ %>
 
-					<h4 style="display: inline-block"><%= this.extra.appointmentDate_display %></h4>
+					<h4 style="display: inline-block"><%= this.extra.appointmentStart %></h4>
 
 					<% } else { %>
 					Please select a date and time first
@@ -274,25 +274,25 @@
 					<tr>
 						<th>First Name</th>
 						<td>
-							<%= this.post.first_name||'' %>
+							<%= this.data.first_name||'' %>
 						</td>
 					</tr>
 					<tr>
 						<th>Last Name</th>
 						<td>
-							<%= this.post.last_name||'' %>
+							<%= this.data.last_name||'' %>
 						</td>
 					</tr>
 					<tr>
 						<th>Number</th>
 						<td>
-							<%= this.post.mobile_number||'' %>
+							<%= this.data.mobile_number||'' %>
 						</td>
 					</tr>
 					<tr>
 						<th>Email</th>
 						<td>
-							<%= this.post.email||'' %>
+							<%= this.data.email||'' %>
 						</td>
 					</tr>
 
@@ -315,18 +315,18 @@
 					</tr>
 					</thead>
 
-					<% for(var i in this.times.services){ %>
+					<% for(var i in this.services){ %>
 					<tr>
-						<th><%= this.times.services[i].label %> <% if(this.times.services[i].category){ %><small style="color:#ccc; margin-left:10px;">(<%= this.times.services[i].category %>)</small><% } %>
+						<th><%= this.services[i].label %> <% if(this.services[i].category){ %><small style="color:#ccc; margin-left:10px;">(<%= this.services[i].category %>)</small><% } %>
 
 
-							<% if(this.times.services[i].staff_member && this.times.services[i].staff_member.ID){ %>
+							<% if(this.services[i].staff_member && this.services[i].staff_member.ID){ %>
 							<div>
-							<span class="badge staff-badge-<%= this.times.services[i].staff_member.ID %>" style="margin-right:20px;">
-								<%= this.times.services[i].staff_member.first_name %> <%= this.times.services[i].staff_member.last_name %>
+							<span class="badge staff-badge-<%= this.services[i].staff_member.ID %>" style="margin-right:20px;">
+								<%= this.services[i].staff_member.first_name %> <%= this.services[i].staff_member.last_name %>
 							</span>
 								<div class="pull-right">
-									<%= this.times.services[i].time_start %> to <%= this.times.services[i].time_end %>
+									<%= this.services[i].time_start %> to <%= this.services[i].time_end %>
 								</div>
 
 
@@ -337,10 +337,10 @@
 
 						</th>
 						<td>
-							<%= this.times.services[i].duration_view %>
+							<%= this.services[i].duration_view %>
 						</td>
 						<td>
-							<%= this.times.services[i].price_view %>
+							<%= this.services[i].price_view %>
 						</td>
 					</tr>
 
@@ -366,7 +366,7 @@
 				<h4>Notes <small>(Anything you want to include with your booking place it here)</small></h4>
 
 				<div class="text-area-panel">
-					<textarea name="notes" id="notes" cols="30" rows="10"><%= this.post.notes %></textarea>
+					<textarea name="notes" id="notes" cols="30" rows="10"><%= this.data.notes %></textarea>
 				</div>
 
 
@@ -399,9 +399,9 @@
 
 
 		<% for(var i in this.submit.services){ %>
-			<input type="text" name="submit[services][<%= this.submit.services[i].key %>][serviceID]" value="<%= this.submit.services[i].ID %>" id="submit[services][<%= this.submit.services[i].key %>][serviceID]">
-			<input type="text" name="submit[services][<%= this.submit.services[i].key %>][staffID]" value="<%= this.submit.services[i].staffID %>" id="submit[services][<%= this.submit.services[i].key %>][staffID]">
-			<input type="text" name="submit[services][<%= this.submit.services[i].key %>][appointmentStart]" value="<%= this.submit.services[i].appointmentStart %>" id="submit[services][<%= this.submit.services[i].key %>][appointmentStart]">
+			<input type="text" name="submit[services][<%= this.submit.services[i].form_key %>][serviceID]" value="<%= this.submit.services[i].ID %>" id="submit[services][<%= this.submit.services[i].form_key %>][serviceID]">
+			<input type="text" name="submit[services][<%= this.submit.services[i].form_key %>][staffID]" value="<%= this.submit.services[i].staffID %>" id="submit[services][<%= this.submit.services[i].form_key %>][staffID]">
+			<input type="text" name="submit[services][<%= this.submit.services[i].form_key %>][appointmentStart]" value="<%= this.submit.services[i].appointmentStart %>" id="submit[services][<%= this.submit.services[i].form_key %>][appointmentStart]">
 		<% } %>
 	<% } %>
 
