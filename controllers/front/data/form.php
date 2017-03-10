@@ -269,6 +269,11 @@ class form extends _ {
 					$return['errors']['service-item-'.$item['form_key']] = "";
 				}
 
+				if ($item['staffID']==""){
+					$return['errors']['appointmentDate_time'] = "";
+					$return['errors']['service-item-'.$item['form_key']] = "";
+				}
+
 				//test_array($item);
 			}
 		}
