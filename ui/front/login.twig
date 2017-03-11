@@ -5,9 +5,9 @@
 		<div class="col-md-12">
 
 			<div class="panel {% if response.failed %}red{% else %}navyblue{% endif %}">
-				<div class="panel-header built">
+				<div class="panel-header built text-center">
+					<img src="/ui/_images/logo_400x111.jpg" alt="" style="max-width:300px;">
 					<div class="text-center m-b-md">
-						<h3>PLEASE LOGIN</h3>
 						{% if response.msg %}
 						<div class="alert {% if response.failed %}alert-danger{% else %}alert-info{% endif %}">
 							<p>{{ response.msg }}</p>

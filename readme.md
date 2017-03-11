@@ -1,3 +1,15 @@
+#Priorities
+
+* Basic company super admin
+  * SMS bundle administration
+  - Basic usage stats
+- Reports
+  - Company
+  - Staff
+  
+  
+  
+
 #TODO
 
 ##Reserved Timeslots
@@ -71,10 +83,10 @@
     - [ ] not_4 - admin email
     
 ##Capture form Admin side
-- [ ] Show timeslots used
-- [ ] Warn user if timeslots clash - appointments
-- [ ] Warn user if timeslots clash - reserved timeslots
-- [ ] Warn user if timeslot goes out of "open hours"
+- [x] Show timeslots used
+- [x] Warn user if timeslots clash - appointments
+- [x] Warn user if timeslots clash - reserved timeslots
+- [x] Warn user if timeslot goes out of "open hours"
 - [ ] Capture who created/edited/deleted the record (log etc)    
 
 ##Capture form Front side
@@ -90,18 +102,21 @@
   - [ ] Canceled Appointments
   
 ##Staff members
-  - [ ] Timeslots dependent on staff member chosen
+  - [x] Timeslots dependent on staff member chosen
   - [ ] Roster for staff members
-  - [ ] front form you choose a staff member and then choose services
+  - [x] front form you choose a staff member and then choose services
   - [x] staff members get a list of services they offer
-  - [ ] dashboard lists limit it to the current staff member
-  - [ ] user gets linked to staff member. so when the user logs in the dashboard is their own list
-  - [ ] Badge styles for a staff member
+  - [x] dashboard lists limit it to the current staff member
+  - [x] user gets linked to staff member. so when the user logs in the dashboard is their own list
+  - [x] Badge styles for a staff member
       - [x] font colour
       - [x] background colour
-      - [ ] colour pickers
+      - [x] colour pickers
     
-    
+##Reports
+  - [ ] Company
+  - [ ] Staff Members
+  - [ ] Services
     
     
 ##Misc  
@@ -109,7 +124,7 @@
 - [ ] Agenda lines (details pane, dashboard, agenda view) need to change colours for 
   - [ ] confirmed (as is now)
   - [ ] unconfirmed (striped colour)
-  - [ ] staff member (each staff member gets their own color)
+  - [x] staff member (each staff member gets their own color)
   
 - [ ] SMS page for buying credits etc
 
