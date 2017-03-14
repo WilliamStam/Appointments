@@ -217,6 +217,18 @@
           "reference": "origin/master"
         }
       }
+    },
+    {
+      "type": "package",
+      "package": {
+        "name": "WilliamStam/SearchBox",
+        "version": "dev-master",
+        "source": {
+          "url": "https://github.com/WilliamStam/SearchBox",
+          "type": "git",
+          "reference": "origin/master"
+        }
+      }
     }
   ],
   "require": {
