@@ -101,6 +101,7 @@ $(document).ready(function () {
 
 		//$('#rootwizard').bootstrapWizard('next');
 		getSteps();
+		//serviceshighlight();
 	})
 
 
@@ -233,7 +234,7 @@ function serviceshighlight() {
 
 	$(".panel-service label.active").removeClass("active")
 
-	$("input[name='services[]']").each(function () {
+	$("input[class='post-data']:checked",$("#services")).each(function () {
 		if ($(this).is(":checked")) {
 			$(this).closest("label").addClass("active")
 		}
@@ -249,7 +250,7 @@ function serviceshighlight() {
 		duration = duration + $this.attr("data-duration") * 1;
 		count = count + 1;
 
-	})
+	});
 
 	$("#duration").val(duration);
 
@@ -279,7 +280,21 @@ function getSteps(jumptofirsterror) {
 	var $form = $("#rootwizard")
 	var data = $form.serialize();
 	//console.log(data);
-	data = data + "&companyID=" + $("#confirm-form-area-form").attr("data-company")
+
+
+	data = data + "&companyID=" + $("#confirm-form-area-form").attr("data-company");
+
+	var services = [];
+	$("input[class='post-data']:checked",$("#services")).each(function(){
+		services.push($(this).val());
+	});
+
+	services = (services.join(","));
+	console.log(services);
+	if($("#services").length) {
+		data = data + "&services="+services;
+	}
+	console.info(data);
 	var currenttab = $.bbq.getState("tab") || 0;
 
 	$.post("/data/form/data?tab=" + currenttab, data, function (data) {

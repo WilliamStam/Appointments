@@ -29,7 +29,7 @@ class form extends _ {
 		$defaults['first_name'] = "";
 		$defaults['last_name'] = "";
 		$defaults['notes'] = "";
-		$defaults['services'] = array();
+		$defaults['services'] = "";
 		$defaults['services_data'] = array();
 		$defaults['duration'] = 0;
 		$defaults['appointmentDate'] = date("Y-m-d");
@@ -37,7 +37,11 @@ class form extends _ {
 
 		$appointmentStart = false;
 
+		unset($_POST['services_']);
+
 		$return['data'] = array_replace_recursive($defaults,$saved,$_POST);
+		unset($return['data']['services_']);
+
 		setcookie("front-form",json_encode($return['data']), time() + (86400), "/");
 
 		// ---------------------------------------- extra ----------------------------------------
@@ -46,7 +50,7 @@ class form extends _ {
 			"duration"=>0,
 			"price"=>0,
 		);
-
+		$return['post'] = $_POST;
 
 		// ---------------------------------------- extra ----------------------------------------
 
@@ -83,9 +87,14 @@ class form extends _ {
 
 		// ---------------------------------------- services ----------------------------------------
 
+	//	test_array($return['data']);
+		$services = array();
 
-		if (count($return['data']['services'])){
-			$serviceIDs = implode(",",$return['data']['services']);
+		$serviceIDs = ($return['data']['services']);
+		if (($serviceIDs)){
+
+
+			$return['test'] = ("ID in ({$serviceIDs}) AND companyID = '{$company['ID']}'");
 
 			$services_ = models\services::getInstance()->getAll("ID in ({$serviceIDs}) AND companyID = '{$company['ID']}'","","",array("staff"=>true));
 
@@ -146,26 +155,16 @@ class form extends _ {
 
 			$services = array();
 			foreach ($services_ as $item){
-
-
 				$item['time_start'] = date("H:i",$item['s']);
 				$item['time_end'] = date("H:i",$item['e']);
 
 				$return['extra']['services_totals']['duration'] = $return['extra']['services_totals']['duration'] + $item['duration'];
 				$return['extra']['services_totals']['price'] = $return['extra']['services_totals']['price'] + $item['price'];
 				//unset($item['staff']);
-
 				$services[] = $item;
 			}
-
-
-			//test_array($services);
-			$return['services'] = $services;
-
-
-
 		}
-
+		$return['services'] = $services;
 		// ---------------------------------------- services ----------------------------------------
 
 

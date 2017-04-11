@@ -61,7 +61,7 @@
 						<div class="col-sm-2 ps-duration col-xs-6">{{ service['duration_view'] }}</div>
 						<div class="col-sm-2 ps-price col-xs-6">{{ service['price_view'] }}</div>
 
-						<input type="checkbox" class="post-data" value="{{ service['ID'] }}" id="service-{{ service['ID'] }}" name="services[]" <% if (this.data.services && this.data.services.indexOf("{{ service['ID'] }}")!=-1){ %>checked="checked"<% } %>>
+						<input type="checkbox" class="post-data" value="{{ service['ID'] }}" id="service-{{ service['ID'] }}" name="services_[]" <% if (this.data.services && this.data.services.split(",").indexOf("{{ service['ID'] }}")!=-1){ %>checked="checked"<% } %>>
 
 					</div>
 					</label>
@@ -72,6 +72,7 @@
 	{% endfor %}
 	</div>
 
+	<% console.log(this.data.services); %>
 	<input type="hidden" value="<%= this.data.duration %>" name="duration" id="duration" >
 	]]>
 </script>
