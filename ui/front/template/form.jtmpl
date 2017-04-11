@@ -72,7 +72,6 @@
 	{% endfor %}
 	</div>
 
-	<% console.log(this.data.services); %>
 	<input type="hidden" value="<%= this.data.duration %>" name="duration" id="duration" >
 	]]>
 </script>

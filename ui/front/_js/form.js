@@ -290,11 +290,11 @@ function getSteps(jumptofirsterror) {
 	});
 
 	services = (services.join(","));
-	console.log(services);
+	//console.log(services);
 	if($("#services").length) {
 		data = data + "&services="+services;
 	}
-	console.info(data);
+	//console.info(data);
 	var currenttab = $.bbq.getState("tab") || 0;
 
 	$.post("/data/form/data?tab=" + currenttab, data, function (data) {
