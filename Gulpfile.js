@@ -263,9 +263,10 @@ gulp.task('git-push', function (done) {
 	var branch_ = 'WIP';
 	git.revParse({args:'--abbrev-ref HEAD'}, function (err, branch) {
 		branch_ = branch;
+
 	});
 
-
+	console.log("Pushing to: "+branch_);
 
 	git.push('remote', branch_, function (err) {
 		if (err) {
