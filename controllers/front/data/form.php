@@ -6,7 +6,8 @@ use \models as models;
 class form extends _ {
 	function __construct() {
 		parent::__construct();
-
+		$this->version = $this->f3->get('_version');
+		$this->sessionName = 'front-form-'.$this->version;
 	}
 
 
@@ -19,7 +20,8 @@ class form extends _ {
 
 		$sessionKey = "data".date("Ymd");
 
-		$saved = isset($_COOKIE['front-form'])?json_decode($_COOKIE['front-form'],true):array();
+
+		$saved = isset($_COOKIE[$this->sessionName])?json_decode($_COOKIE[$this->sessionName],true):array();
 
 		//test_array($saved);
 		$defaults = array();
@@ -42,7 +44,7 @@ class form extends _ {
 		$return['data'] = array_replace_recursive($defaults,$saved,$_POST);
 		unset($return['data']['services_']);
 
-		setcookie("front-form",json_encode($return['data']), time() + (86400), "/");
+		setcookie($this->sessionName,json_encode($return['data']), time() + (86400), "/");
 
 		// ---------------------------------------- extra ----------------------------------------
 		$return['extra'] = array();
