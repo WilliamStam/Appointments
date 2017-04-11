@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "dbc1bd4223d5b9cd04e078e8c2f164fc",
+    "content-hash": "43b9d6afabccadb08a6a73f37e080d3f",
     "packages": [
         {
             "name": "Summernote/Summernote",
@@ -19,16 +19,16 @@
         },
         {
             "name": "bcosca/fatfree",
-            "version": "3.6.0",
+            "version": "3.6.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bcosca/fatfree.git",
-                "reference": "2a2affd840a6365ae927a9cae9fa2dc756a837d7"
+                "reference": "2920fecebf4f01a3d5fc5a3dd909a66319e1ebea"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bcosca/fatfree/zipball/2a2affd840a6365ae927a9cae9fa2dc756a837d7",
-                "reference": "2a2affd840a6365ae927a9cae9fa2dc756a837d7",
+                "url": "https://api.github.com/repos/bcosca/fatfree/zipball/2920fecebf4f01a3d5fc5a3dd909a66319e1ebea",
+                "reference": "2920fecebf4f01a3d5fc5a3dd909a66319e1ebea",
                 "shasum": ""
             },
             "require": {
@@ -46,7 +46,7 @@
             ],
             "description": "A powerful yet easy-to-use PHP micro-framework designed to help you build dynamic and robust Web applications - fast!",
             "homepage": "http://fatfreeframework.com/",
-            "time": "2016-11-19T13:31:15+00:00"
+            "time": "2017-04-02T10:02:41+00:00"
         },
         {
             "name": "components/HideSeek",
@@ -129,16 +129,16 @@
         },
         {
             "name": "components/jquery",
-            "version": "3.1.1",
+            "version": "3.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/components/jquery.git",
-                "reference": "09a1658378bc1f818856086396ebeab7d0ec2276"
+                "reference": "e5534d4ab8e80c159553d507e358ed20a806d3bf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/components/jquery/zipball/09a1658378bc1f818856086396ebeab7d0ec2276",
-                "reference": "09a1658378bc1f818856086396ebeab7d0ec2276",
+                "url": "https://api.github.com/repos/components/jquery/zipball/e5534d4ab8e80c159553d507e358ed20a806d3bf",
+                "reference": "e5534d4ab8e80c159553d507e358ed20a806d3bf",
                 "shasum": ""
             },
             "type": "component",
@@ -149,7 +149,10 @@
                     ],
                     "files": [
                         "jquery.min.js",
-                        "jquery.min.map"
+                        "jquery.min.map",
+                        "jquery.slim.js",
+                        "jquery.slim.min.js",
+                        "jquery.slim.min.map"
                     ]
                 }
             },
@@ -159,13 +162,12 @@
             ],
             "authors": [
                 {
-                    "name": "John Resig",
-                    "email": "jeresig@gmail.com"
+                    "name": "JS Foundation and other contributors"
                 }
             ],
             "description": "jQuery JavaScript Library",
             "homepage": "http://jquery.com",
-            "time": "2016-09-23T06:06:29+00:00"
+            "time": "2017-03-21T07:01:49+00:00"
         },
         {
             "name": "components/jquery-hotkeys",
@@ -583,16 +585,16 @@
         },
         {
             "name": "symfony/process",
-            "version": "v3.2.5",
+            "version": "v3.2.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/process.git",
-                "reference": "68bfa8c83f24c0ac04ea7193bcdcda4519f41892"
+                "reference": "57fdaa55827ae14d617550ebe71a820f0a5e2282"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/process/zipball/68bfa8c83f24c0ac04ea7193bcdcda4519f41892",
-                "reference": "68bfa8c83f24c0ac04ea7193bcdcda4519f41892",
+                "url": "https://api.github.com/repos/symfony/process/zipball/57fdaa55827ae14d617550ebe71a820f0a5e2282",
+                "reference": "57fdaa55827ae14d617550ebe71a820f0a5e2282",
                 "shasum": ""
             },
             "require": {
@@ -628,20 +630,20 @@
             ],
             "description": "Symfony Process Component",
             "homepage": "https://symfony.com",
-            "time": "2017-03-04T12:23:14+00:00"
+            "time": "2017-03-27T18:07:02+00:00"
         },
         {
             "name": "timrwood/moment",
-            "version": "2.17.1",
+            "version": "2.18.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/moment/moment.git",
-                "reference": "b8a297c1f99b3918f44dd9e3d7bd59379a876ba6"
+                "reference": "b8a7fc310eb3625e83fc0c8f1ea2840fa83c7378"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/moment/moment/zipball/b8a297c1f99b3918f44dd9e3d7bd59379a876ba6",
-                "reference": "b8a297c1f99b3918f44dd9e3d7bd59379a876ba6",
+                "url": "https://api.github.com/repos/moment/moment/zipball/b8a7fc310eb3625e83fc0c8f1ea2840fa83c7378",
+                "reference": "b8a7fc310eb3625e83fc0c8f1ea2840fa83c7378",
                 "shasum": ""
             },
             "require": {
@@ -670,7 +672,7 @@
                 }
             ],
             "description": "Parse, validate, manipulate, and display dates in JavaScript.",
-            "homepage": "http://github.com/moment/moment/",
+            "homepage": "https://github.com/moment/moment",
             "keywords": [
                 "date",
                 "ender",
@@ -682,7 +684,7 @@
                 "time",
                 "validate"
             ],
-            "time": "2016-12-04T05:41:33+00:00"
+            "time": "2017-03-21T22:54:37+00:00"
         },
         {
             "name": "twbs/bootstrap-sass",
@@ -739,16 +741,16 @@
         },
         {
             "name": "twig/twig",
-            "version": "v2.2.0",
+            "version": "v2.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/twigphp/Twig.git",
-                "reference": "29bb02dde09ff56291d30f7687eb8696918023af"
+                "reference": "9718186a5df85a4f7917e78d3ffcabc204c75d25"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/Twig/zipball/29bb02dde09ff56291d30f7687eb8696918023af",
-                "reference": "29bb02dde09ff56291d30f7687eb8696918023af",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/9718186a5df85a4f7917e78d3ffcabc204c75d25",
+                "reference": "9718186a5df85a4f7917e78d3ffcabc204c75d25",
                 "shasum": ""
             },
             "require": {
@@ -758,12 +760,12 @@
             "require-dev": {
                 "psr/container": "^1.0",
                 "symfony/debug": "~2.7",
-                "symfony/phpunit-bridge": "~3.2"
+                "symfony/phpunit-bridge": "~3.3@dev"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.2-dev"
+                    "dev-master": "2.3-dev"
                 }
             },
             "autoload": {
@@ -798,7 +800,7 @@
             "keywords": [
                 "templating"
             ],
-            "time": "2017-02-27T00:16:20+00:00"
+            "time": "2017-03-22T15:41:51+00:00"
         },
         {
             "name": "twitter/typeahead.js",

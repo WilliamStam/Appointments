@@ -152,7 +152,7 @@ class form extends _ {
 				$item['time_end'] = date("H:i",$item['e']);
 
 				$return['extra']['services_totals']['duration'] = $return['extra']['services_totals']['duration'] + $item['duration'];
-				$return['extra']['services_totals']['price'] = $return['extra']['services_totals']['duration'] + $item['price'];
+				$return['extra']['services_totals']['price'] = $return['extra']['services_totals']['price'] + $item['price'];
 				//unset($item['staff']);
 
 				$services[] = $item;
@@ -175,7 +175,9 @@ class form extends _ {
 		// ---------------------------------------- dates ----------------------------------------
 		$return['dates'] = array();
 		$today = time();
+		//$today = strtotime("2017-04-09 10:11:12");
 
+		//test_array(date("Y-m-d H:i:s",$today));
 
 
 
