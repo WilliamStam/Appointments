@@ -260,7 +260,14 @@ gulp.task('git-push', function (done) {
 
 	git = (typeof git !== 'undefined') ? git : require('gulp-git');
 
-	git.push('remote', 'WIP', function (err) {
+	var branch_ = 'WIP';
+	git.revParse({args:'--abbrev-ref HEAD'}, function (err, branch) {
+		branch_ = branch;
+	});
+
+
+
+	git.push('remote', branch_, function (err) {
 		if (err) {
 			throw err;
 		} else {
