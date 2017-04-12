@@ -33,7 +33,10 @@ $(document).ready(function () {
 		'firstSelector': '.button-first',
 		'lastSelector': '.button-last',
 		'onTabShow': function (tab, navigation, index) {
-			var tabid = $(tab).find("a").attr("href").replace("#", "")
+			var tabid = $(tab).find("a").attr("href").replace("#", "");
+
+
+
 			$.bbq.pushState({"tab": tabid});
 			//	console.log("bbq.pushState:"+tabid);
 
@@ -49,14 +52,21 @@ $(document).ready(function () {
 			}
 
 
+
+
 			getSteps()
 		},
+		'onTabChange':function(){
+
+		}
 
 	});
 
 	$(document).on("submit", "#rootwizard", function (e) {
 		e.preventDefault();
 		$('#rootwizard').bootstrapWizard('next');
+
+
 
 	});
 	$(document).on("reset", "#rootwizard", function (e) {
@@ -282,6 +292,8 @@ function getSteps(jumptofirsterror) {
 	//console.log(data);
 
 
+
+
 	data = data + "&companyID=" + $("#confirm-form-area-form").attr("data-company");
 
 	var services = [];
@@ -416,6 +428,8 @@ function getSteps(jumptofirsterror) {
 
 
 		}
+
+
 
 		resize()
 	})

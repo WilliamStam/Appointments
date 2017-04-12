@@ -153,9 +153,13 @@ class appointments extends _ {
 
 		if (isset($values['services'])){
 
-			//test_array($values['services']);
 
-			$services_data = services::getInstance()->getAll();
+			$where = "";
+			if ($values['companyID']){
+				$where = "companyID = '{$values['companyID']}'";
+			}
+
+			$services_data = services::getInstance()->getAll($where);
 			$services = array();
 
 			foreach ($services_data as $item){
@@ -166,10 +170,12 @@ class appointments extends _ {
 				$services[$item['ID']] = $item;
 			}
 
+			//test_array($services);
+
 
 			$b = new \DB\SQL\Mapper($f3->get("DB"), "appointments_services");
 			foreach ($values['services'] as $key=>$val){
-				$b->load("ID='$key'");
+				$b->load("ID='{$val['ID']}'");
 
 				if ($val['serviceID']==""){
 					if (!$b->dry()){

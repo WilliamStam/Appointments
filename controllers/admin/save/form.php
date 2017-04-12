@@ -89,8 +89,10 @@ class form extends _ {
 				}
 
 
-				$services[$recordID] = array(
 
+				$services[$key] = array(
+
+					"ID"=>$recordID,
 					"serviceID"=>$item['ID'],
 					"appointmentStart"=>$appointmentStart,
 					"staffID"=>$item['staffID'],
@@ -102,6 +104,8 @@ class form extends _ {
 			}
 
 		}
+
+		//test_array($values);
 
 
 		$values['services'] = $services;

@@ -48,8 +48,6 @@ class form extends _ {
 
 
 
-		//test_array($_SESSION);
-
 		$tmpl = new \template("template.twig","ui/front");
 		$tmpl->page = array(
 			"section"    => "form",

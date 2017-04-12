@@ -434,7 +434,7 @@
 
 						<label for="service-staff-<%= this.ID %>-<%= this.key %>-<%= this.staff[s].ID %>">
 							<%= this.staff[s].first_name %> <%= this.staff[s].last_name %>
-							<input name="service[<%= this.key %>][staffID]" id="service-staff-<%= this.ID %>-<%= this.key %>-<%= this.staff[s].ID %>" value="<%= this.staff[s].ID %>" type="radio" <% if(this.staff[s].ID==this.staffID){ %>checked="checked"<% } %>>
+							<input name="service[<%= this.key %>][staffID]" id="service-staff-<%= this.ID %>-<%= this.key %>-<%= this.staff[s].ID %>" value="<%= this.staff[s].ID %>" type="radio" <% if(this.staff[s].ID==this.staffID || this.staff.length=='1'){ %>checked="checked"<% } %>>
 						</label>
 
 					</div>

@@ -228,7 +228,7 @@
 
 										<label for="appointmentDate_time-<%= this.services[i].form_key %>-<%= this.services[i].staff[s].ID %>">
 											<%= this.services[i].staff[s].first_name %> <%= this.services[i].staff[s].last_name %>
-											<input name="services_data[<%= this.services[i].form_key %>][staffID]" id="appointmentDate_time-<%= this.services[i].form_key %>-<%= this.services[i].staff[s].ID %>" value="<%= this.services[i].staff[s].ID %>" type="radio" <% if(this.services[i].staff[s].ID == this.services[i].staffID){ %>checked="checked"<% } %> class="post-data">
+											<input name="services_data[<%= this.services[i].form_key %>][staffID]" id="appointmentDate_time-<%= this.services[i].form_key %>-<%= this.services[i].staff[s].ID %>" value="<%= this.services[i].staff[s].ID %>" type="radio" <% if(this.services[i].staff[s].ID == this.services[i].staffID  || this.services[i].staff.length ==1){ %>checked="checked"<% } %> class="post-data">
 										</label>
 
 									</div>

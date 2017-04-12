@@ -28,6 +28,7 @@ class form extends _ {
 			$serverIDS[] = $item['serviceID'];
 			$ser[] = $item;
 			$services[]=array(
+				"ID"=>"",
 				"serviceID"=>$item['serviceID'],
 				"staffID"=>$item['staffID'],
 				"appointmentStart"=>$item['appointmentStart'],
