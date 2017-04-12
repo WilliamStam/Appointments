@@ -44,7 +44,7 @@ class form extends _ {
 		$return['data'] = array_replace_recursive($defaults,$saved,$_POST);
 		unset($return['data']['services_']);
 
-		setcookie($this->sessionName,json_encode($return['data']), time() + (86400), "/");
+		setcookie($this->sessionName,json_encode($return['data']), time() + (60*5), "/");
 
 		// ---------------------------------------- extra ----------------------------------------
 		$return['extra'] = array();

@@ -5,6 +5,8 @@ use \models as models;
 class form extends _ {
 	function __construct(){
 		parent::__construct();
+		$this->version = $this->f3->get('_version');
+		$this->sessionName = 'front-form-'.$this->version;
 	}
 	function page(){
 		//if ($this->user['ID']=="")$this->f3->reroute("/login");
@@ -39,9 +41,9 @@ class form extends _ {
 	function complete(){
 		$company = $this->f3->get("PARAMS['companyID']");
 
-		if (isset($_COOKIE['front-form'])) {
-			unset($_COOKIE['front-form']);
-			setcookie('front-form', NULL, -1, '/');
+		if (isset($_COOKIE[$this->sessionName])) {
+			unset($_COOKIE[$this->sessionName]);
+			setcookie($this->sessionName, NULL, -1, '/');
 		}
 
 
