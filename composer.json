@@ -253,7 +253,8 @@
     "weareoutman/clockpicker":"dev-gh-pages",
     "twitter/typeahead.js":"*",
     "itsjavi/bootstrap-colorpicker":"*",
-    "mexitek/phpcolors":"*"
+    "mexitek/phpcolors":"*",
+    "sorich87/bootstrap-tour":"*"
 
   }
 }

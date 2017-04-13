@@ -9,6 +9,7 @@ var jsfile = [
 	'ui/_js/plugins/jquery.getData.js',
 	'ui/_js/plugins/jquery.ba-dotimeout.min.js',
 	'vendor/Summernote/Summernote/dist/summernote.min.js',
+	'vendor/sorich87/bootstrap-tour/build/js/bootstrap-tour.min.js',
 	'ui/_js/plugins/jquery.ba-bbq.js',
 	'ui/_js/_.js'
 ];

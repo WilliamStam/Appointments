@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "43b9d6afabccadb08a6a73f37e080d3f",
+    "content-hash": "ceb95b565156fa3fbd277c8adb8fa3a9",
     "packages": [
         {
             "name": "Summernote/Summernote",
@@ -523,6 +523,33 @@
             ],
             "description": "Allows installation of Components via Composer.",
             "time": "2015-08-10T12:35:38+00:00"
+        },
+        {
+            "name": "sorich87/bootstrap-tour",
+            "version": "v0.11.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/sorich87/bootstrap-tour.git",
+                "reference": "942af8331ac82a1595b060d91ad6189160067b72"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/sorich87/bootstrap-tour/zipball/942af8331ac82a1595b060d91ad6189160067b72",
+                "reference": "942af8331ac82a1595b060d91ad6189160067b72",
+                "shasum": ""
+            },
+            "type": "component",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Show people how to use your web site",
+            "homepage": "http://bootstraptour.com/",
+            "keywords": [
+                "bootstrap",
+                "tour"
+            ],
+            "time": "2016-08-06T06:05:19+00:00"
         },
         {
             "name": "symfony/polyfill-mbstring",

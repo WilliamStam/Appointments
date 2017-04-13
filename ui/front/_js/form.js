@@ -18,9 +18,34 @@ var datetimepickerOptions = {
 	}
 };
 
+var tour = new Tour({
+	steps: [
+		{
+			orphan : true,
+			title: "Take the tour?",
+			content: "the following steps should be self explanitory. if you ever get stuck click the <i class='fa fa-question-circle'></i> icon to bring up the steps tour"
+		},
+		{
+			element: "#mobile_number",
+			title: "Enter your mobile number",
+			content: "Our highly trained hamsters use this to identify you, maybe 1 day we will teach them the alphabet but for now its numbers only",
+			placement:"bottom",
+			backdrop:true
+		}
+	]});
+
+
+
+
 
 $(document).ready(function () {
 	var currenttab = $.bbq.getState("tab") || "tab1";
+
+	//tour.init();
+	//tour.start(true);
+
+
+
 
 	//console.log("bbq.getState:"+currenttab);
 
@@ -76,7 +101,7 @@ $(document).ready(function () {
 			.removeAttr('checked')
 			.removeAttr('selected');
 
-		console.log("clear all")
+	//	console.log("clear all")
 
 		$('#rootwizard')[0].reset();
 
