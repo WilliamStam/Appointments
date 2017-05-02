@@ -83,8 +83,6 @@ class form extends _ {
 $company = models\companies::getInstance()->get($values["companyID"],array("format"=>true));
 
 		//test_array(array($values,$this->errors));
-
-
 		//$this->errors['error'] = true;
 
 		if (count($this->errors)==0){
