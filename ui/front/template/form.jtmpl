@@ -175,7 +175,7 @@
 
 		<% for (var i in this.services) { %>
 		<hr>
-				<div class="panel <% if(this.services[i].error==1){ %>error red <% } else { %><% if(this.services[i].appointmentEnd&&this.services[i].staffID){ %>green<% } else { %>orange<% } %><% } %>" data-duration="<%= this.services[i].duration %>" data-id="<%= this.services[i].ID %>" id="service-item-<%= this.services[i].form_key %>">
+				<div class="panel <% if(this.services[i].error==1 || this.services[i].slots.errors.length){ %>error red <% } else { %><% if(this.services[i].appointmentEnd&&this.services[i].staffID){ %>green<% } else { %>orange<% } %><% } %>" data-duration="<%= this.services[i].duration %>" data-id="<%= this.services[i].ID %>" id="service-item-<%= this.services[i].form_key %>">
 					<div class="panel-heading built">
 						<%= this.services[i].label %> <small class="pull-right">Duration: <%= this.services[i].duration_view %></small>
 					</div>
