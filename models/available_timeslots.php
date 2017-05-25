@@ -23,7 +23,7 @@ class available_timeslots extends _ {
 		}
 		return self::$instance;
 	}
-	function timeslots($companyID,$services=array(),$not_available=false,$appointmentID=false){
+	function timeslots($companyID,$services=array(),$not_available=false,$appointmentID=false,$appDate=false){
 		$timer = new timer();
 		$error = array();
 		$return = array();
@@ -31,6 +31,15 @@ class available_timeslots extends _ {
 			"start"=>"",
 			"end"=>""
 		);
+	//	$appDate = false;
+
+
+		if ($appDate){
+			$appointmentDate = array(
+				"start"=>$appDate,
+				"end"=>$appDate
+			);
+		}
 
 		//test_array($services);
 
@@ -73,7 +82,10 @@ class available_timeslots extends _ {
 
 			$appointmentIDsql = $appointmentID?" AND appointments.ID != '$appointmentID'":"";
 
-			$appointments = appointments::getInstance()->getAll("appointments.companyID = '{$companyID}' AND DATE_FORMAT(appser.appointmentStart,'%Y-%m-%d') BETWEEN '{$appointmentDate['start']}' AND '{$appointmentDate['end']}' $appointmentIDsql","","",array("services"=>true));
+			$appointmentIDsqlwhere = "appointments.companyID = '{$companyID}' AND DATE_FORMAT(appser.appointmentStart,'%Y-%m-%d') BETWEEN '{$appointmentDate['start']}' AND '{$appointmentDate['end']}' $appointmentIDsql";
+			//test_array($appointmentIDsqlwhere);
+
+			$appointments = appointments::getInstance()->getAll($appointmentIDsqlwhere,"","",array("services"=>true));
 			foreach($appointments as $appointment){
 				foreach($appointment['services'] as $app_service){
 					$not_available[] = array(
@@ -86,18 +98,130 @@ class available_timeslots extends _ {
 				}
 			}
 
-			// TODO: reserved timeslots need to be added aswell
+
+
+
+
+
+
+
+		
+
+			$timeslot_where = "companyID='{$companyID}'";
+
+			//	test_string($timeslot_where);
+
+			$reserved_timeslots = timeslots::getInstance()->getAll($timeslot_where, "repeat_mode ASC, ID DESC", "", array("format" => TRUE));
+
+
+			$repeat_mode_label = array(
+				"_0"=>"Once Off",
+				"_1"=>"Daily",
+				"_2"=>"Weekly",
+				"_3"=>"Monthly"
+			);
+
+			$r = array();
+
+
+			//$date_reserved= date("Y-m-d",$appointmentStartTime);
+
+
+
+
+			foreach((array)$services as $service){
+
+				$appointmentStartTime = strtotime($service['appointmentStart']);
+				$now = date("Y-m-d H:i:s",$appointmentStartTime);
+
+				foreach ($reserved_timeslots as $item){
+
+					$include = false;
+
+					SWITCH ($item['repeat_mode']){
+						CASE "0":
+							$item['start_date'] = date("Y-m-d H:i:s",strtotime($item['data']['onceoff'] . " " . $item['start'].":00"));
+							$item['end_date'] = date("Y-m-d H:i:s",strtotime($item['data']['onceoff'] . " " . $item['end'].":00"));
+
+							if ($item['start_date']<=$now AND $item['end_date']>=$now)	$include = true;
+
+
+							break;
+						CASE "1":
+							$appointmentStartDay = date("Y-m-d",($appointmentStartTime));
+							$item['start_date'] = date("Y-m-d H:i:s",strtotime($appointmentStartDay . " " . $item['start'].":00"));
+							$item['end_date'] = date("Y-m-d H:i:s",strtotime($appointmentStartDay . " " . $item['end'].":00"));
+							$item['d'] = $service['appointmentStart'];
+							if ($item['start_date']<=$now AND $item['end_date']>=$now)	$include = true;
+							break;
+						CASE "2":
+
+							$dayofweek = date("l",$appointmentStartTime);
+							if (strtolower($dayofweek)==$item['data']['weekly']){
+								$appointmentStartDay = date("Y-m-d",($appointmentStartTime));
+								$item['start_date'] = date("Y-m-d H:i:s",strtotime($appointmentStartDay . " " . $item['start'].":00"));
+								$item['end_date'] = date("Y-m-d H:i:s",strtotime($appointmentStartDay . " " . $item['end'].":00"));
+
+								if ($item['start_date']<=$now AND $item['end_date']>=$now)	$include = true;
+
+
+							}
+							break;
+						CASE "3":
+							$dayofmonth = date("d",$appointmentStartTime);
+							if (($dayofmonth)==$item['data']['monthly']){
+								$appointmentStartDay = date("Y-m-d",($appointmentStartTime));
+								$item['start_date'] = date("Y-m-d H:i:s",strtotime($appointmentStartDay . " " . $item['start'].":00"));
+								$item['end_date'] = date("Y-m-d H:i:s",strtotime($appointmentStartDay . " " . $item['end'].":00"));
+
+								if ($item['start_date']<=$now AND $item['end_date']>=$now)	$include = true;
+
+
+							}
+							break;
+
+					}
+					$item['inc'] = $include;
+
+					//if ($include){
+						$r[] = $item;
+					//}
+
+					$not_available[] = array(
+						"s"=>strtotime($item['start_date']),
+						"e"=>strtotime($item['end_date']),
+						"ID"=>"r-".$item['ID'],
+						"staffID"=>$item['staffID'],
+
+					);
+
+
+
+				}
+			}
+
+
+
+
 
 		}
 
+		$n = array();
+		foreach ($not_available as $item){
+			$item["ds"] = date("Y-m-d H:i:s",$item['s']);
+			$item["de"] = date("Y-m-d H:i:s",$item['e']);
+			$n[] = $item;
+		}
 
-	//	test_array($not_available);
+		//test_array(array($appointmentDate,$n));
+
+	//
 
 		$settings = companies::getInstance()->get($companyID,array("format"=>true));
 
 
 
-
+		//test_array($appointmentDate);
 
 
 

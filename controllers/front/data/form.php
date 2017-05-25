@@ -151,9 +151,11 @@ class form extends _ {
 
 				$services[] = $item;
 			}
+			
+
 
 			$services = models\services::format((array)$services, array());
-			$services_ = models\available_timeslots::getInstance()->timeslots($company['ID'], $services);
+			$services_ = models\available_timeslots::getInstance()->timeslots($company['ID'], $services, false, false, $return['data']['appointmentDate']);
 
 			$services = array();
 			foreach ($services_ as $item){

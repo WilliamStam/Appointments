@@ -62,9 +62,10 @@ class form extends _ {
 
 
 
+
 		//$values['appointmentStart'] = "2017-02-14 09:00:00";
 
-		$slots = models\available_timeslots::getInstance()->timeslots($values['companyID'],$check_arr);;
+		$slots = models\available_timeslots::getInstance()->timeslots($values['companyID'],$check_arr,false,false,false);;
 
 
 		foreach ($slots as $item){
