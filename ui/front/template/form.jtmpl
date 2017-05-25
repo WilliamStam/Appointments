@@ -167,11 +167,15 @@
 	<% if(this.data.appointmentDate){ %>
 
 	<section id="appointmentDate_time">
-
+<div class="alert alert-info">
+	<p class="text-center">
+		Please select a time-slot for each treatment
+	</p>
+</div>
 
 		<% for (var i in this.services) { %>
 		<hr>
-				<div class="panel orange <% if(this.services[i].error==1){ %>error<% } %>" data-duration="<%= this.services[i].duration %>" data-id="<%= this.services[i].ID %>" id="service-item-<%= this.services[i].form_key %>">
+				<div class="panel <% if(this.services[i].error==1){ %>error red <% } else { %><% if(this.services[i].appointmentEnd&&this.services[i].staffID){ %>green<% } else { %>orange<% } %><% } %>" data-duration="<%= this.services[i].duration %>" data-id="<%= this.services[i].ID %>" id="service-item-<%= this.services[i].form_key %>">
 					<div class="panel-heading built">
 						<%= this.services[i].label %> <small class="pull-right">Duration: <%= this.services[i].duration_view %></small>
 					</div>
@@ -256,6 +260,17 @@
 			</div>
 		</div>
 
+		<% if(this.errorsCount > 0){ %>
+		<div class="alert alert-danger" style="margin-top:-10px; margin-bottom:10px; position:relative;">
+			<div style="position:absolute; top:0; left:0; width:70px; text-align: center;">
+				<i class="fa fa-exclamation" style="font-size:50px;"></i>
+			</div>
+			<div style="margin-left:70px;">
+				<strong id="error-list-area">Errors found: </strong> <span></span>
+			</div>
+		</div>
+		<% } %>
+
 		<div class="row">
 			<div class="col-sm-6">
 				<h3>Appointment</h3><div style="padding-left:10px;">
@@ -326,7 +341,12 @@
 								<%= this.services[i].staff_member.first_name %> <%= this.services[i].staff_member.last_name %>
 							</span>
 								<div class="pull-right">
+									<% if (this.services[i].time_start && this.services[i].time_end){ %>
 									<%= this.services[i].time_start %> to <%= this.services[i].time_end %>
+									<% } else { %>
+									<span class="badge badge-danger">Please select a timeslot</span>
+									<% } %>
+
 								</div>
 
 

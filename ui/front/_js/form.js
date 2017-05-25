@@ -351,6 +351,8 @@ function getSteps(jumptofirsterror) {
 		serviceshighlight();
 
 		var $capturebtn = $("#form-footer-confirm").find(".btn").removeClass("btn-danger").addClass("btn-primary").removeAttr("disabled");
+
+
 		if (data.errors) {
 			var tabs = {};
 
@@ -358,6 +360,8 @@ function getSteps(jumptofirsterror) {
 			var i = 0;
 			//console.log(data.errors);
 			$(".form-validation", $form).remove();
+			var $errorlistarea = $("#error-list-area").html("");
+			var errorTabsForAlert = [];
 			$.each(data.errors, function (k, v) {
 				i = i + 1;
 				var $field = $("#" + k);
@@ -384,29 +388,43 @@ function getSteps(jumptofirsterror) {
 						tabs[tab] = 0;
 					}
 					tabs[tab] = (tabs[tab]) + 1;
-				})
+				});
+
+
 
 
 			});
 
-			if (i != 0) {
-				$capturebtn.addClass("btn-danger").removeClass("btn-primary").attr("disabled", "disabled")
-			}
+			$errorlistarea.html(i+" Error(s) found");
 
+
+
+			$("#wizard-tabs a").removeClass("label-danger label-success has-error")
+			$("#wizard-tabs a .badge").removeClass("label-danger label-success has-error")
 //console.info(tabs);
 			$("#wizard-tabs a").each(function () {
 				var $this = $(this);
 				var id = $this.attr("href").replace("#", "");
+
 				if (typeof tabs[id] != "undefined") {
 					//console.log(id+" | "+tabs[id])
 
 
-					$this.find(".badge").html('<i class="fa fa-exclamation"></i>');
+					$this.addClass("has-error").find(".badge").html('<i class="fa fa-exclamation"></i>').addClass("label label-danger");
 				} else {
-					$this.find(".badge").html('');
+					$this.find(".badge").html('<i class="fa fa-check"></i>').addClass("label label-success");
 				}
 
 			});
+
+			$("#finished-tab").removeClass("label-danger label-success has-error")
+			$("#finished-tab .badge").removeClass("label-danger label-success has-error")
+			if (i != 0) {
+				$capturebtn.addClass("btn-danger").removeClass("btn-primary").attr("disabled", "disabled");
+				$("#finished-tab").addClass("has-error").find(".badge").html('<i class="fa fa-exclamation"></i>').addClass("label label-danger")
+			} else {
+				$("#finished-tab").find(".badge").html('<i class="fa fa-check"></i>').addClass("label label-success");
+			}
 
 			$('textarea#notes').summernote({
 				minHeight: 200,

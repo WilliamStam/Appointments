@@ -59,31 +59,31 @@ body {
     .pagination li label input {
       display: none; }
     .pagination li label .dayName {
-      color: #666; }
+      color: #666666; }
     .pagination li label .day {
       font-size: 18px; }
     .pagination li label .month {
-      color: #666; }
+      color: #666666; }
     .pagination li label:hover {
-      color: #fff;
+      color: #ffffff;
       background-color: #587ca0; }
       .pagination li label:hover .dayName, .pagination li label:hover .day, .pagination li label:hover .month {
-        color: #fff; }
+        color: #ffffff; }
   .pagination li.active {
     font-size: 20px; }
     .pagination li.active label {
       background-color: #34495e;
-      color: #fff; }
+      color: #ffffff; }
       .pagination li.active label .dayName, .pagination li.active label .month {
         color: #f1f1f1; }
   .pagination li.disabled {
-    color: #ccc !important; }
+    color: #cccccc !important; }
     .pagination li.disabled label {
       cursor: default;
       border-color: white;
       background-color: #f2f2f2; }
       .pagination li.disabled label .dayName, .pagination li.disabled label .day, .pagination li.disabled label .month {
-        color: #ccc;
+        color: #cccccc;
         text-decoration: line-through; }
       .pagination li.disabled label:hover {
         color: inherit;
@@ -104,12 +104,12 @@ body {
       display: block;
       cursor: pointer; }
       .panel-service .panel-body label:not(:last-child) {
-        border-bottom: 1px dotted #ccc; }
+        border-bottom: 1px dotted #cccccc; }
       .panel-service .panel-body label.active {
         background-color: #34495e;
-        color: #fff; }
+        color: #ffffff; }
       .panel-service .panel-body label:hover {
-        color: #fff;
+        color: #ffffff;
         background-color: #587ca0; }
       .panel-service .panel-body label input {
         display: none; }
@@ -141,6 +141,9 @@ body {
 
 #rootwizard .nav-justified > li {
   position: relative; }
+  #rootwizard .nav-justified > li .has-error {
+    background-color: rgba(231, 76, 60, 0.2);
+    font-weight: bold; }
   #rootwizard .nav-justified > li .badge-block {
     position: absolute;
     top: 5px;
@@ -149,8 +152,13 @@ body {
     left: 0;
     text-align: right; }
     #rootwizard .nav-justified > li .badge-block .badge {
-      vertical-align: middle;
-      background-color: #e74c3c; }
+      vertical-align: middle; }
+      #rootwizard .nav-justified > li .badge-block .badge.label-danger {
+        background: #e74c3c;
+        color: #ffffff; }
+      #rootwizard .nav-justified > li .badge-block .badge.label-success {
+        background: #62cb31;
+        color: #ffffff; }
   #rootwizard .nav-justified > li:not(:first-child):not(:last-child) a {
     border-radius: 0; }
   #rootwizard .nav-justified > li:first-child a {
@@ -216,27 +224,27 @@ body {
       color: #fff;
       background-color: #333; }
   #rootwizard .nav-justified > li.active a {
-    color: #FFFFFF;
+    color: #ffffff;
     background-color: #34495e;
     border-color: #2e6da4; }
     #rootwizard .nav-justified > li.active a:focus, #rootwizard .nav-justified > li.active a.focus {
-      color: #FFFFFF;
+      color: #ffffff;
       background-color: #22303d;
       border-color: #122b40; }
     #rootwizard .nav-justified > li.active a:hover {
-      color: #FFFFFF;
+      color: #ffffff;
       background-color: #22303d;
       border-color: #204d74; }
     #rootwizard .nav-justified > li.active a:active, #rootwizard .nav-justified > li.active a.active,
     .open > #rootwizard .nav-justified > li.active a.dropdown-toggle {
-      color: #FFFFFF;
+      color: #ffffff;
       background-color: #22303d;
       border-color: #204d74; }
       #rootwizard .nav-justified > li.active a:active:hover, #rootwizard .nav-justified > li.active a:active:focus, #rootwizard .nav-justified > li.active a:active.focus, #rootwizard .nav-justified > li.active a.active:hover, #rootwizard .nav-justified > li.active a.active:focus, #rootwizard .nav-justified > li.active a.active.focus,
       .open > #rootwizard .nav-justified > li.active a.dropdown-toggle:hover,
       .open > #rootwizard .nav-justified > li.active a.dropdown-toggle:focus,
       .open > #rootwizard .nav-justified > li.active a.dropdown-toggle.focus {
-        color: #FFFFFF;
+        color: #ffffff;
         background-color: #151e26;
         border-color: #122b40; }
     #rootwizard .nav-justified > li.active a:active, #rootwizard .nav-justified > li.active a.active,
@@ -250,32 +258,29 @@ body {
       border-color: #2e6da4; }
     #rootwizard .nav-justified > li.active a .badge {
       color: #34495e;
-      background-color: #FFFFFF; }
-    #rootwizard .nav-justified > li.active a .badge {
-      color: #fff;
-      background-color: #e74c3c; }
+      background-color: #ffffff; }
   #rootwizard .nav-justified > li.active:active a {
-    color: #FFFFFF;
+    color: #ffffff;
     background-color: #34495e;
     border-color: #2e6da4; }
     #rootwizard .nav-justified > li.active:active a:focus, #rootwizard .nav-justified > li.active:active a.focus {
-      color: #FFFFFF;
+      color: #ffffff;
       background-color: #22303d;
       border-color: #122b40; }
     #rootwizard .nav-justified > li.active:active a:hover {
-      color: #FFFFFF;
+      color: #ffffff;
       background-color: #22303d;
       border-color: #204d74; }
     #rootwizard .nav-justified > li.active:active a:active, #rootwizard .nav-justified > li.active:active a.active,
     .open > #rootwizard .nav-justified > li.active:active a.dropdown-toggle {
-      color: #FFFFFF;
+      color: #ffffff;
       background-color: #22303d;
       border-color: #204d74; }
       #rootwizard .nav-justified > li.active:active a:active:hover, #rootwizard .nav-justified > li.active:active a:active:focus, #rootwizard .nav-justified > li.active:active a:active.focus, #rootwizard .nav-justified > li.active:active a.active:hover, #rootwizard .nav-justified > li.active:active a.active:focus, #rootwizard .nav-justified > li.active:active a.active.focus,
       .open > #rootwizard .nav-justified > li.active:active a.dropdown-toggle:hover,
       .open > #rootwizard .nav-justified > li.active:active a.dropdown-toggle:focus,
       .open > #rootwizard .nav-justified > li.active:active a.dropdown-toggle.focus {
-        color: #FFFFFF;
+        color: #ffffff;
         background-color: #151e26;
         border-color: #122b40; }
     #rootwizard .nav-justified > li.active:active a:active, #rootwizard .nav-justified > li.active:active a.active,
@@ -289,7 +294,7 @@ body {
       border-color: #2e6da4; }
     #rootwizard .nav-justified > li.active:active a .badge {
       color: #34495e;
-      background-color: #FFFFFF; }
+      background-color: #ffffff; }
 
 h1 {
   margin-top: 0;
@@ -321,6 +326,8 @@ h1 {
   position: relative; }
   #appointmentDate_time .panel.error {
     border: 1px solid #ff0000; }
+  #appointmentDate_time .timeslots .timeslot {
+    background: #fff; }
   #appointmentDate_time .timeslots .timeslot.selectable label {
     cursor: pointer;
     font-weight: bold; }
@@ -339,7 +346,7 @@ h1 {
       #appointmentDate_time .timeslots .timeslot label input {
         display: none; }
   #appointmentDate_time .timeslots .timeslot.closed {
-    background-color: #ccc;
+    background-color: #cccccc;
     color: #afafaf; }
   #appointmentDate_time .timeslots .timeslot.soft_closed {
     background-color: #eaeaea;
@@ -357,7 +364,7 @@ h1 {
       background-color: #587ca0;
       color: #ffffff; }
   #appointmentDate_time .timeslots .timeslot.error {
-    background-color: #FF0000;
+    background-color: #ff0000;
     color: #ffffff; }
   #appointmentDate_time .timeslots .timeslot.soft_error {
     background-color: rgba(255, 0, 0, 0.5);
@@ -370,7 +377,7 @@ h1 {
   #appointmentDate_time .div-table .div-cell {
     display: table-cell; }
   #appointmentDate_time .staff .item {
-    border: 1px solid #ccc;
+    border: 1px solid #cccccc;
     text-align: center;
     margin-right: -1px;
     opacity: 0.2; }
@@ -419,27 +426,27 @@ h1 {
     #appointmentDate_time .staff .item.active {
       opacity: 1; }
       #appointmentDate_time .staff .item.active label {
-        color: #FFFFFF;
+        color: #ffffff;
         background-color: #34495e;
         border-color: #2e6da4; }
         #appointmentDate_time .staff .item.active label:focus, #appointmentDate_time .staff .item.active label.focus {
-          color: #FFFFFF;
+          color: #ffffff;
           background-color: #22303d;
           border-color: #122b40; }
         #appointmentDate_time .staff .item.active label:hover {
-          color: #FFFFFF;
+          color: #ffffff;
           background-color: #22303d;
           border-color: #204d74; }
         #appointmentDate_time .staff .item.active label:active, #appointmentDate_time .staff .item.active label.active,
         .open > #appointmentDate_time .staff .item.active label.dropdown-toggle {
-          color: #FFFFFF;
+          color: #ffffff;
           background-color: #22303d;
           border-color: #204d74; }
           #appointmentDate_time .staff .item.active label:active:hover, #appointmentDate_time .staff .item.active label:active:focus, #appointmentDate_time .staff .item.active label:active.focus, #appointmentDate_time .staff .item.active label.active:hover, #appointmentDate_time .staff .item.active label.active:focus, #appointmentDate_time .staff .item.active label.active.focus,
           .open > #appointmentDate_time .staff .item.active label.dropdown-toggle:hover,
           .open > #appointmentDate_time .staff .item.active label.dropdown-toggle:focus,
           .open > #appointmentDate_time .staff .item.active label.dropdown-toggle.focus {
-            color: #FFFFFF;
+            color: #ffffff;
             background-color: #151e26;
             border-color: #122b40; }
         #appointmentDate_time .staff .item.active label:active, #appointmentDate_time .staff .item.active label.active,
@@ -453,7 +460,7 @@ h1 {
           border-color: #2e6da4; }
         #appointmentDate_time .staff .item.active label .badge {
           color: #34495e;
-          background-color: #FFFFFF; }
+          background-color: #ffffff; }
   #appointmentDate_time .panel.showing .staff .item.active {
     opacity: 0.2; }
     #appointmentDate_time .panel.showing .staff .item.active.showing {
@@ -461,3 +468,12 @@ h1 {
   #appointmentDate_time .panel .staff .item.showing {
     cursor: pointer;
     opacity: 1; }
+
+#appointmentDate_time .panel:not(.error).green .panel-body, #appointmentDate_time .panel:not(.error).green .panel-heading, #appointmentDate_time .panel:not(.error).green .panel-footer {
+  background: rgba(0, 250, 0, 0.08); }
+
+#appointmentDate_time .panel:not(.error).orange .panel-body, #appointmentDate_time .panel:not(.error).orange .panel-heading, #appointmentDate_time .panel:not(.error).orange .panel-footer {
+  background: rgba(230, 126, 34, 0.08); }
+
+#appointmentDate_time .panel .error .panel-body, #appointmentDate_time .panel .error .panel-heading, #appointmentDate_time .panel .error .panel-footer {
+  background: rgba(230, 0, 0, 0.08); }

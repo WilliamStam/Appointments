@@ -159,8 +159,10 @@ class form extends _ {
 
 			$services = array();
 			foreach ($services_ as $item){
-				$item['time_start'] = date("H:i",$item['s']);
-				$item['time_end'] = date("H:i",$item['e']);
+				$item['time_start'] = $item['s']?date("H:i",$item['s']):"";
+				$item['time_start_'] = $item['s'];
+				$item['time_end'] = $item['e']?date("H:i",$item['e']):'';
+				$item['time_end_'] = $item['e'];
 
 				$return['extra']['services_totals']['duration'] = $return['extra']['services_totals']['duration'] + $item['duration'];
 				$return['extra']['services_totals']['price'] = $return['extra']['services_totals']['price'] + $item['price'];
@@ -289,7 +291,7 @@ class form extends _ {
 		// ---------------------------------------- errors ----------------------------------------
 
 
-
+		$return['errorsCount'] = count($return['errors']);
 		// ---------------------------------------- submit ----------------------------------------
 		if (count($return['errors'])==0){
 
