@@ -132,7 +132,7 @@ class form extends _ {
 
 		}
 		$services = models\services::format((array)$services, array("staff" => TRUE));
-		$return_ = models\available_timeslots::getInstance()->timeslots($company['ID'], $services, FALSE, $ID);
+		$return_ = models\available_timeslots::getInstance()->timeslots($company['ID'], $services, FALSE, $ID,$_POST['appointmentDate']);
 		//test_array($return_);
 
 
