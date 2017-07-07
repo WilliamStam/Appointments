@@ -173,6 +173,9 @@ class form extends _ {
 
 		if ($values['repeat_mode']=="0"){
 			$values['once_off_date'] = $values['data']['onceoff'];
+			if ($values['once_off_date']==""){
+				$values['once_off_date'] = date("Y-m-d");
+			}
 		}
 
 
