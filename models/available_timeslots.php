@@ -23,7 +23,7 @@ class available_timeslots extends _ {
 		}
 		return self::$instance;
 	}
-	function timeslots($companyID,$services=array(),$not_available=false,$appointmentID=false,$appDate=false){
+	function timeslots($companyID,$services=array(),$not_available=false,$appointmentID=false,$appDate=false,$min=false,$max=false){
 		$timer = new timer();
 		$error = array();
 		$return = array();
@@ -225,7 +225,7 @@ class available_timeslots extends _ {
 
 
 
-		$slots = $this->_slots($appointmentDate['start'],$appointmentDate['end'],$settings);
+		$slots = $this->_slots($appointmentDate['start'],$appointmentDate['end'],$settings,$min,$max);
 
 
 		//test_array($slots);
@@ -235,8 +235,9 @@ class available_timeslots extends _ {
 
 
 
-			$item['slots'] = $this->_status_slots($slots, $item, $not_available, $services,$settings['settings']['timeslots']);
-			$item['slots'] = $this->_cleanup_slots($item['slots']);
+			$item['slots'] = $this->_status_slots($slots, $item, $not_available, $services,$settings['settings']['timeslots'],$min,$max);
+			//test_array($item);
+			$item['slots'] = $this->_cleanup_slots($item['slots'],$min,$max);
 
 			unset($item['internal_AT_key']);
 
@@ -255,7 +256,7 @@ class available_timeslots extends _ {
 		$timer->_stop(__NAMESPACE__, __CLASS__, __FUNCTION__, func_get_args());
 		return $return;
 	}
-	function _slots($start_date, $end_date, $settings){
+	function _slots($start_date, $end_date, $settings,$min=false,$max=false){
 		$timer = new timer();
 		$return = array();
 
@@ -285,6 +286,9 @@ class available_timeslots extends _ {
 				$open = 0;
 			}
 
+			if ($min && $start_hour<$min) $open = 0;
+			if ($max && $end_hour>$max) $open = 0;
+
 			$return[] = array(
 				"label"=>date("H:i", $time),
 				"s"=>$time,
@@ -302,7 +306,7 @@ class available_timeslots extends _ {
 		$timer->_stop(__NAMESPACE__, __CLASS__, __FUNCTION__, func_get_args());
 		return $return;
 	}
-	function _status_slots($slots, $service, $unavailable,$otherservices,$minute_time_slots){
+	function _status_slots($slots, $service, $unavailable,$otherservices,$minute_time_slots,$min=false,$max=false){
 		$timer = new timer();
 
 		$return = array();
@@ -322,6 +326,7 @@ class available_timeslots extends _ {
 		foreach ($slots as $slot_item){
 			$busy =$busy_blank;
 			$busy_soft_closed =$busy_blank;
+
 
 
 			$t = array();
@@ -418,6 +423,9 @@ class available_timeslots extends _ {
 				}
 			}
 
+			if ($min && $slot_item['date']<$min) $available = 0;
+			if ($max && $slot_item['date']>$max) $available = 0;
+
 
 
 
@@ -487,7 +495,7 @@ class available_timeslots extends _ {
 		$timer->_stop(__NAMESPACE__, __CLASS__, __FUNCTION__, func_get_args());
 		return $return;
 	}
-	function _cleanup_slots($data){
+	function _cleanup_slots($data,$min=false,$max=false){
 		$timer = new timer();
 
 		$return = $data;

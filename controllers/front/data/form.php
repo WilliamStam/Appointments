@@ -155,7 +155,7 @@ class form extends _ {
 
 
 			$services = models\services::format((array)$services, array());
-			$services_ = models\available_timeslots::getInstance()->timeslots($company['ID'], $services, false, false, $return['data']['appointmentDate']);
+			$services_ = models\available_timeslots::getInstance()->timeslots($company['ID'], $services, false, false, $return['data']['appointmentDate'],date("Y-m-d H:i:s"));
 
 			$services = array();
 			foreach ($services_ as $item){
