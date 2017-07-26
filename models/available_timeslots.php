@@ -423,8 +423,8 @@ class available_timeslots extends _ {
 				}
 			}
 
-			if ($min!==false && $slot_item['date']<$min) $available = 0;
-			if ($max!==false && $slot_item['date']>$max) $available = 0;
+			//if ($min!==false && $slot_item['date']<$min) $available = 0;
+			//if ($max!==false && $slot_item['date']>$max) $available = 0;
 
 
 
