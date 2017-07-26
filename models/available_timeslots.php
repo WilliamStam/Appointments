@@ -286,8 +286,8 @@ class available_timeslots extends _ {
 				$open = 0;
 			}
 
-			if ($min && $start_hour<$min) $open = 0;
-			if ($max && $end_hour>$max) $open = 0;
+			if ($min!==false && $start_hour<$min) $open = 0;
+			if ($max!==false && $end_hour>$max) $open = 0;
 
 			$return[] = array(
 				"label"=>date("H:i", $time),
@@ -423,8 +423,8 @@ class available_timeslots extends _ {
 				}
 			}
 
-			if ($min && $slot_item['date']<$min) $available = 0;
-			if ($max && $slot_item['date']>$max) $available = 0;
+			if ($min!==false && $slot_item['date']<$min) $available = 0;
+			if ($max!==false && $slot_item['date']>$max) $available = 0;
 
 
 
