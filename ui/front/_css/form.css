@@ -477,3 +477,7 @@ h1 {
 
 #appointmentDate_time .panel .error .panel-body, #appointmentDate_time .panel .error .panel-heading, #appointmentDate_time .panel .error .panel-footer {
   background: rgba(230, 0, 0, 0.08); }
+
+.panel-service .panel-heading {
+  text-shadow: 1px 1px 5px #fff;
+  font-size: 24px; }

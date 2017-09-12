@@ -51,7 +51,7 @@
 	{% for row in services %}
 		<div class="panel orange panel-service">
 			{% if row['label'] %}
-			<div class="panel-heading built">{{ row['label'] }}</div>
+			<div class="panel-heading">{{ row['label'] }}</div>
 			{% endif %}
 			<div class="panel-body" style="border-left:none; border-right:none;">
 				{% for service in row['records'] %}
