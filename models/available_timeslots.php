@@ -123,6 +123,7 @@ class available_timeslots extends _ {
 
 			$r = array();
 
+			//test_array($reserved_timeslots);
 
 			//$date_reserved= date("Y-m-d",$appointmentStartTime);
 
@@ -157,14 +158,22 @@ class available_timeslots extends _ {
 						CASE "2":
 
 							$dayofweek = date("l",$appointmentStartTime);
-							if (strtolower($dayofweek)==$item['data']['weekly']){
+
+
+
+							$weekdays = explode(",",$item['data']['weekly']);
+							//test_array(array(strtolower($dayofweek),$item['data']['weekly'],$weekdays));
+
+
+
+							if (in_array(strtolower($dayofweek), $weekdays)){
 								$appointmentStartDay = date("Y-m-d",($appointmentStartTime));
 								$item['start_date'] = date("Y-m-d H:i:s",strtotime($appointmentStartDay . " " . $item['start'].":00"));
 								$item['end_date'] = date("Y-m-d H:i:s",strtotime($appointmentStartDay . " " . $item['end'].":00"));
 
 								if ($item['start_date']<=$now AND $item['end_date']>=$now)	$include = true;
 
-
+								
 							}
 							break;
 						CASE "3":
