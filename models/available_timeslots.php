@@ -178,7 +178,9 @@ class available_timeslots extends _ {
 							break;
 						CASE "3":
 							$dayofmonth = date("d",$appointmentStartTime);
-							if (($dayofmonth)==$item['data']['monthly']){
+							$monthdays = explode(",",$item['data']['monthly']);
+
+							if (in_array(strtolower($dayofmonth), $monthdays)){
 								$appointmentStartDay = date("Y-m-d",($appointmentStartTime));
 								$item['start_date'] = date("Y-m-d H:i:s",strtotime($appointmentStartDay . " " . $item['start'].":00"));
 								$item['end_date'] = date("Y-m-d H:i:s",strtotime($appointmentStartDay . " " . $item['end'].":00"));
