@@ -1,5 +1,5 @@
 <p>{{ data['appointment']['client']['first_name'] }}, a booking was made for you:</p>
-<p>{{ data['appointment']['time']['day_view'] }} {{ data['appointment']['time']['start_view_short'] }}</p>
+<p>{{ data['appointment']['time']['day_view'] }} @ {{ data['appointment']['time']['start_view_short'] }}</p>
 <p>for the following:</p>
 <ul>
 	{% for row in data['appointment']['services'] %}

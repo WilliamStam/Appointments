@@ -47,10 +47,9 @@ class _sms extends _ {
 		}
 
 
-		if ($msg){
-			$msg = utf8_encode($msg);
-		}
 		//test_array($settings);
+		$msg = str_replace("&","%26",$msg);
+		$msg = utf8_encode($msg);
 
 		$data = array(
 			'Type' => 'sendparam',
