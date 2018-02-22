@@ -25,8 +25,7 @@ class action extends _ {
 
 		if (is_array($appointment) && isset($appointment['ID'])) {
 
-		}
-		else {
+		} else {
 			$appointment = appointments::getInstance()->get($appointment, array("format" => TRUE, "client" => TRUE, "services" => TRUE));
 		}
 
@@ -81,7 +80,7 @@ class action extends _ {
 
 
 
-		if (count($log) && $do) {
+		if ((count($log) || in_array($eventID,array("del_1","del_2")))&& $do) {
 			logs::getInstance()->_log($appointment['ID'], $log_label, $eventID, $log);
 			notifications::getInstance()->notify($appointment, $eventID, $extra);
 		}

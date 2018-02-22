@@ -47,6 +47,11 @@ class _sms extends _ {
 		}
 
 
+		if ($msg){
+			$msg = str_replace("&", "%26amp;", $msg);
+			$msg = str_replace("<", "%26lt;", $msg);
+			$msg = str_replace(">", "%26gt;", $msg);
+		}
 		//test_array($settings);
 
 		$data = array(

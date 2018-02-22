@@ -257,11 +257,16 @@ class appointments extends _ {
 		}
 
 		//test_array(array($action,$values));
-		action::getInstance()->call($ID,$action,array());
+
 
 		$a = new \DB\SQL\Mapper($f3->get("DB"),"appointments");
 		$a->load("ID='$ID'");
 
+
+		$log = array();
+
+
+		action::getInstance()->call($ID,$action,$log);
 		$a->erase();
 
 		$a->save();
