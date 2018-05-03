@@ -77,12 +77,13 @@ class available_timeslots extends _ {
 
 
 
+
 		if ($not_available===false){
 			$not_available = array();
 
 			$appointmentIDsql = $appointmentID?" AND appointments.ID != '$appointmentID'":"";
 
-			$appointmentIDsqlwhere = "appointments.companyID = '{$companyID}' AND DATE_FORMAT(appser.appointmentStart,'%Y-%m-%d') BETWEEN '{$appointmentDate['start']}' AND '{$appointmentDate['end']}' $appointmentIDsql";
+			$appointmentIDsqlwhere = "appointments.companyID = '{$companyID}' AND (DATE_FORMAT(appser.appointmentStart,'%Y-%m-%d') BETWEEN '{$appointmentDate['start']}' AND '{$appointmentDate['end']}') $appointmentIDsql";
 			//test_array($appointmentIDsqlwhere);
 
 			$appointments = appointments::getInstance()->getAll($appointmentIDsqlwhere,"","",array("services"=>true));
@@ -109,7 +110,7 @@ class available_timeslots extends _ {
 
 			$timeslot_where = "companyID='{$companyID}'";
 
-			//	test_string($timeslot_where);
+			//test_string($timeslot_where);
 
 			$reserved_timeslots = timeslots::getInstance()->getAll($timeslot_where, "repeat_mode ASC, ID DESC", "", array("format" => TRUE));
 
@@ -141,10 +142,15 @@ class available_timeslots extends _ {
 
 					SWITCH ($item['repeat_mode']){
 						CASE "0":
-							$item['start_date'] = date("Y-m-d H:i:s",strtotime($item['data']['onceoff'] . " " . $item['start'].":00"));
-							$item['end_date'] = date("Y-m-d H:i:s",strtotime($item['data']['onceoff'] . " " . $item['end'].":00"));
+							if ($item['data']['onceoff']){
+								$item['start_date'] = date("Y-m-d H:i:s",strtotime($item['data']['onceoff'] . " " . $item['start'].":00"));
+								$item['end_date'] = date("Y-m-d H:i:s",strtotime($item['data']['onceoff'] . " " . $item['end'].":00"));
 
-							if ($item['start_date']<=$now AND $item['end_date']>=$now)	$include = true;
+								if ($item['data']['onceoff'] && (strtotime($item['data']['onceoff']) == date("Y-m-d",strtotime($now))))	{
+									$include = true;
+								}
+							}
+
 
 
 							break;
@@ -153,7 +159,7 @@ class available_timeslots extends _ {
 							$item['start_date'] = date("Y-m-d H:i:s",strtotime($appointmentStartDay . " " . $item['start'].":00"));
 							$item['end_date'] = date("Y-m-d H:i:s",strtotime($appointmentStartDay . " " . $item['end'].":00"));
 							$item['d'] = $service['appointmentStart'];
-							if ($item['start_date']<=$now AND $item['end_date']>=$now)	$include = true;
+							$include = true;
 							break;
 						CASE "2":
 
@@ -168,13 +174,15 @@ class available_timeslots extends _ {
 
 							if (in_array(strtolower($dayofweek), $weekdays)){
 								$appointmentStartDay = date("Y-m-d",($appointmentStartTime));
+
 								$item['start_date'] = date("Y-m-d H:i:s",strtotime($appointmentStartDay . " " . $item['start'].":00"));
 								$item['end_date'] = date("Y-m-d H:i:s",strtotime($appointmentStartDay . " " . $item['end'].":00"));
 
-								if ($item['start_date']<=$now AND $item['end_date']>=$now)	$include = true;
+
 
 								
 							}
+							$include = true;
 							break;
 						CASE "3":
 							$dayofmonth = date("d",$appointmentStartTime);
@@ -185,10 +193,11 @@ class available_timeslots extends _ {
 								$item['start_date'] = date("Y-m-d H:i:s",strtotime($appointmentStartDay . " " . $item['start'].":00"));
 								$item['end_date'] = date("Y-m-d H:i:s",strtotime($appointmentStartDay . " " . $item['end'].":00"));
 
-								if ($item['start_date']<=$now AND $item['end_date']>=$now)	$include = true;
+
 
 
 							}
+							$include = true;
 							break;
 
 					}
@@ -198,14 +207,18 @@ class available_timeslots extends _ {
 						$r[] = $item;
 					//}
 
-					$not_available[] = array(
-						"s"=>strtotime($item['start_date']),
-						"e"=>strtotime($item['end_date']),
-						"ID"=>"r-".$item['ID'],
-						"staffID"=>$item['staffID'],
+					if ($include){
+						$not_available[] = array(
+							"s"=>strtotime($item['start_date']),
+							"s_"=>date("Y-m-d H:i:s",strtotime($item['start_date'])),
+							"e"=>strtotime($item['end_date']),
+							"e_"=>date("Y-m-d H:i:s",strtotime($item['end_date'])),
+							"ID"=>"r-".$item['ID'],
+							"staffID"=>$item['staffID'],
+							"item"=>$item
 
-					);
-
+						);
+					}
 
 
 				}
@@ -239,9 +252,10 @@ class available_timeslots extends _ {
 		$slots = $this->_slots($appointmentDate['start'],$appointmentDate['end'],$settings,$min,$max);
 
 
-		//test_array($slots);
+		//test_array($not_available);
 
 		foreach ($services as $item){
+
 
 
 
@@ -341,6 +355,7 @@ class available_timeslots extends _ {
 
 
 			$t = array();
+			//test_array($unavailable);
 			foreach ($unavailable as $unavailable_item){
 
 				$unavailable_item_soft_closed_s = strtotime("+{$minute_time_slots} minute",strtotime("-{$service['duration']} minute",$unavailable_item['s']));
@@ -443,6 +458,7 @@ class available_timeslots extends _ {
 			if ($selected==1 && $available==0){
 				$error = 1;
 				$errors['staff_other'][] = $slot_item['label'];
+				//test_array($busy);
 				foreach((array)$busy["staff-".$service['staffID']]['busy'] as $clas_busy){
 					if (!in_array($clas_busy,$clashing)){
 						$clashing[] = $clas_busy;
