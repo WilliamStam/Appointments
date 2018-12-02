@@ -10,7 +10,6 @@ class login extends _ {
 		//if ($this->user['ID']=="")$this->f3->reroute("/login");
 		
 		
-		
 		$tmpl = new \template("template.twig");
 		$tmpl->page = array(
 				"section"    => "login",

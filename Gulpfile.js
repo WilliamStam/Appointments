@@ -29,7 +29,8 @@ var jsfile_admin = [
 	'vendor/wvega/timepicker/jquery.timepicker.js',
 
 	'vendor/twitter/typeahead.js/dist/typeahead.bundle.min.js',
-	'vendor/itsjavi/bootstrap-colorpicker/dist/js/bootstrap-colorpicker.min.js',
+//	'vendor/itsjavi/bootstrap-colorpicker/dist/js/bootstrap-colorpicker.min.js',
+	'ui/_plugins/bootstrap-colorpicker/js/bootstrap-colorpicker.min.js',
 
 	'vendor/weareoutman/clockpicker/dist/bootstrap-clockpicker.min.js',
 
@@ -177,8 +178,7 @@ gulp.task('javascript', function (done) {
 	}
 
 	var uglify_options = {
-		preserveComments: 'license',
-		compress:true,
+		compress:false,
 
 	};
 
@@ -192,9 +192,6 @@ gulp.task('javascript', function (done) {
 
 				.pipe(concat(element.filename, {newLine: ';'}))
 				.pipe(rename(element.filename))
-				.pipe(sourcemaps.init())
-				.pipe(uglify(uglify_options))
-				.pipe(sourcemaps.write("."))
 				.pipe(timer)
 				.pipe(gulp.dest(element.path));
 		} else {

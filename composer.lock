@@ -1,10 +1,10 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ceb95b565156fa3fbd277c8adb8fa3a9",
+    "content-hash": "19e4a7d012c884bd0cc9f430510c2107",
     "packages": [
         {
             "name": "Summernote/Summernote",
@@ -15,24 +15,24 @@
                 "reference": "origin/master"
             },
             "type": "library",
-            "time": "2016-08-07 05:17:16"
+            "time": "2018-11-24T12:23:10+00:00"
         },
         {
             "name": "bcosca/fatfree",
-            "version": "3.6.1",
+            "version": "3.6.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bcosca/fatfree.git",
-                "reference": "2920fecebf4f01a3d5fc5a3dd909a66319e1ebea"
+                "reference": "dee4d73918a42076d5ac7db64d6d39706c7f328a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bcosca/fatfree/zipball/2920fecebf4f01a3d5fc5a3dd909a66319e1ebea",
-                "reference": "2920fecebf4f01a3d5fc5a3dd909a66319e1ebea",
+                "url": "https://api.github.com/repos/bcosca/fatfree/zipball/dee4d73918a42076d5ac7db64d6d39706c7f328a",
+                "reference": "dee4d73918a42076d5ac7db64d6d39706c7f328a",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.6"
+                "php": ">=5.4"
             },
             "type": "library",
             "autoload": {
@@ -46,7 +46,7 @@
             ],
             "description": "A powerful yet easy-to-use PHP micro-framework designed to help you build dynamic and robust Web applications - fast!",
             "homepage": "http://fatfreeframework.com/",
-            "time": "2017-04-02T10:02:41+00:00"
+            "time": "2018-04-19T17:23:25+00:00"
         },
         {
             "name": "components/HideSeek",
@@ -57,7 +57,7 @@
                 "reference": "origin/master"
             },
             "type": "library",
-            "time": "2016-10-11 12:11:55"
+            "time": "2017-05-15T20:15:05+00:00"
         },
         {
             "name": "components/TouchSwipe-Jquery-Plugin",
@@ -68,7 +68,7 @@
                 "reference": "origin/master"
             },
             "type": "library",
-            "time": "2016-08-05 14:38:11"
+            "time": "2018-09-17T12:00:19+00:00"
         },
         {
             "name": "components/bootstrap-datetimepicker",
@@ -79,7 +79,7 @@
                 "reference": "origin/master"
             },
             "type": "library",
-            "time": "2016-11-25 03:16:13"
+            "time": "2018-08-03T14:14:27+00:00"
         },
         {
             "name": "components/font-awesome",
@@ -125,20 +125,20 @@
                 "reference": "origin/master"
             },
             "type": "library",
-            "time": "2012-05-04 07:35:41"
+            "time": "2012-05-04T07:35:41+00:00"
         },
         {
             "name": "components/jquery",
-            "version": "3.2.1",
+            "version": "3.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/components/jquery.git",
-                "reference": "e5534d4ab8e80c159553d507e358ed20a806d3bf"
+                "reference": "459648cda77875519c5da3ae1dd0ed5d170aa649"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/components/jquery/zipball/e5534d4ab8e80c159553d507e358ed20a806d3bf",
-                "reference": "e5534d4ab8e80c159553d507e358ed20a806d3bf",
+                "url": "https://api.github.com/repos/components/jquery/zipball/459648cda77875519c5da3ae1dd0ed5d170aa649",
+                "reference": "459648cda77875519c5da3ae1dd0ed5d170aa649",
                 "shasum": ""
             },
             "type": "component",
@@ -167,7 +167,7 @@
             ],
             "description": "jQuery JavaScript Library",
             "homepage": "http://jquery.com",
-            "time": "2017-03-21T07:01:49+00:00"
+            "time": "2018-03-04T13:23:48+00:00"
         },
         {
             "name": "components/jquery-hotkeys",
@@ -178,7 +178,7 @@
                 "reference": "origin/master"
             },
             "type": "library",
-            "time": "2016-09-19 22:22:09"
+            "time": "2016-09-19T22:22:09+00:00"
         },
         {
             "name": "components/jquery-mousewheel",
@@ -189,24 +189,21 @@
                 "reference": "origin/master"
             },
             "type": "library",
-            "time": "2016-04-04 21:47:05"
+            "time": "2017-01-21T21:08:37+00:00"
         },
         {
             "name": "components/modernizr",
-            "version": "2.8.3",
+            "version": "3.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/components/modernizr.git",
-                "reference": "4115686a0f488b370b169e5a702d5028e7650bd3"
+                "reference": "f4fc5301da393558235c8c927937ed21a5a7c344"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/components/modernizr/zipball/4115686a0f488b370b169e5a702d5028e7650bd3",
-                "reference": "4115686a0f488b370b169e5a702d5028e7650bd3",
+                "url": "https://api.github.com/repos/components/modernizr/zipball/f4fc5301da393558235c8c927937ed21a5a7c344",
+                "reference": "f4fc5301da393558235c8c927937ed21a5a7c344",
                 "shasum": ""
-            },
-            "require": {
-                "robloach/component-installer": "*"
             },
             "type": "component",
             "extra": {
@@ -225,10 +222,6 @@
             ],
             "authors": [
                 {
-                    "name": "Modernizr",
-                    "homepage": "http://Modernizr.com"
-                },
-                {
                     "name": "Faruk Ates"
                 },
                 {
@@ -241,24 +234,24 @@
                     "name": "Ryan Seddon"
                 },
                 {
-                    "name": "Alexander Farkas"
-                },
-                {
-                    "name": "Ben Alman"
-                },
-                {
                     "name": "Stu Cox"
+                },
+                {
+                    "name": "Patrick Kettner"
+                },
+                {
+                    "name": "Richard Herrera"
                 }
             ],
             "description": "Modernizr is a JavaScript library that detects HTML5 and CSS3 features in the user's browser.",
-            "homepage": "http://modernizr.com",
+            "homepage": "https://modernizr.com",
             "keywords": [
                 "CSS3",
                 "HTML5",
                 "browser",
                 "feature detection"
             ],
-            "time": "2014-10-08T13:59:52+00:00"
+            "time": "2017-07-06T07:27:29+00:00"
         },
         {
             "name": "components/toastr",
@@ -269,7 +262,7 @@
                 "reference": "origin/master"
             },
             "type": "library",
-            "time": "2016-07-27 11:55:41"
+            "time": "2018-06-16T03:54:40+00:00"
         },
         {
             "name": "components/twitter-bootstrap-wizard",
@@ -280,51 +273,20 @@
                 "reference": "origin/master"
             },
             "type": "library",
-            "time": "2016-04-01 15:57:02"
-        },
-        {
-            "name": "itsjavi/bootstrap-colorpicker",
-            "version": "2.5.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/itsjavi/bootstrap-colorpicker.git",
-                "reference": "db978b4d8c3436cdaed6e3a1a065f9f47bb686b1"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/itsjavi/bootstrap-colorpicker/zipball/db978b4d8c3436cdaed6e3a1a065f9f47bb686b1",
-                "reference": "db978b4d8c3436cdaed6e3a1a065f9f47bb686b1",
-                "shasum": ""
-            },
-            "require": {
-                "components/jquery": ">=1.10"
-            },
-            "type": "library",
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "Apache License Version 2.0"
-            ],
-            "authors": [
-                {
-                    "name": "Javier Aguilar",
-                    "homepage": "https://itsjavi.com"
-                }
-            ],
-            "description": "Fancy and customizable colorpicker plugin for Twitter Bootstrap",
-            "time": "2017-02-05T18:59:49+00:00"
+            "time": "2018-11-21T19:42:00+00:00"
         },
         {
             "name": "ivaynberg/select2",
-            "version": "4.0.3",
+            "version": "4.0.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/select2/select2.git",
-                "reference": "566c7846fbf8c3b7674346f26d0ee872c0a77629"
+                "reference": "ebf10c93db7d6d7a0d1330119d4c6f32cbd231d7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/select2/select2/zipball/566c7846fbf8c3b7674346f26d0ee872c0a77629",
-                "reference": "566c7846fbf8c3b7674346f26d0ee872c0a77629",
+                "url": "https://api.github.com/repos/select2/select2/zipball/ebf10c93db7d6d7a0d1330119d4c6f32cbd231d7",
+                "reference": "ebf10c93db7d6d7a0d1330119d4c6f32cbd231d7",
                 "shasum": ""
             },
             "require": {
@@ -351,8 +313,8 @@
                 "MIT"
             ],
             "description": "Select2 is a jQuery based replacement for select boxes.",
-            "homepage": "https://select2.github.io/",
-            "time": "2016-05-27T01:16:06+00:00"
+            "homepage": "https://select2.org/",
+            "time": "2017-10-25T22:08:18+00:00"
         },
         {
             "name": "kriswallsmith/assetic",
@@ -526,16 +488,16 @@
         },
         {
             "name": "sorich87/bootstrap-tour",
-            "version": "v0.11.0",
+            "version": "v0.12.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sorich87/bootstrap-tour.git",
-                "reference": "942af8331ac82a1595b060d91ad6189160067b72"
+                "reference": "1a06475e27f852bb642b9353574638d51673b0d5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sorich87/bootstrap-tour/zipball/942af8331ac82a1595b060d91ad6189160067b72",
-                "reference": "942af8331ac82a1595b060d91ad6189160067b72",
+                "url": "https://api.github.com/repos/sorich87/bootstrap-tour/zipball/1a06475e27f852bb642b9353574638d51673b0d5",
+                "reference": "1a06475e27f852bb642b9353574638d51673b0d5",
                 "shasum": ""
             },
             "type": "component",
@@ -549,20 +511,78 @@
                 "bootstrap",
                 "tour"
             ],
-            "time": "2016-08-06T06:05:19+00:00"
+            "time": "2017-09-30T10:35:18+00:00"
         },
         {
-            "name": "symfony/polyfill-mbstring",
-            "version": "v1.3.0",
+            "name": "symfony/polyfill-ctype",
+            "version": "v1.10.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/symfony/polyfill-mbstring.git",
-                "reference": "e79d363049d1c2128f133a2667e4f4190904f7f4"
+                "url": "https://github.com/symfony/polyfill-ctype.git",
+                "reference": "e3d826245268269cd66f8326bd8bc066687b4a19"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/e79d363049d1c2128f133a2667e4f4190904f7f4",
-                "reference": "e79d363049d1c2128f133a2667e4f4190904f7f4",
+                "url": "https://api.github.com/repos/symfony/polyfill-ctype/zipball/e3d826245268269cd66f8326bd8bc066687b4a19",
+                "reference": "e3d826245268269cd66f8326bd8bc066687b4a19",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "suggest": {
+                "ext-ctype": "For best performance"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.9-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Polyfill\\Ctype\\": ""
+                },
+                "files": [
+                    "bootstrap.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                },
+                {
+                    "name": "Gert de Pagter",
+                    "email": "BackEndTea@gmail.com"
+                }
+            ],
+            "description": "Symfony polyfill for ctype functions",
+            "homepage": "https://symfony.com",
+            "keywords": [
+                "compatibility",
+                "ctype",
+                "polyfill",
+                "portable"
+            ],
+            "time": "2018-08-06T14:22:27+00:00"
+        },
+        {
+            "name": "symfony/polyfill-mbstring",
+            "version": "v1.10.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/polyfill-mbstring.git",
+                "reference": "c79c051f5b3a46be09205c73b80b346e4153e494"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/c79c051f5b3a46be09205c73b80b346e4153e494",
+                "reference": "c79c051f5b3a46be09205c73b80b346e4153e494",
                 "shasum": ""
             },
             "require": {
@@ -574,7 +594,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.3-dev"
+                    "dev-master": "1.9-dev"
                 }
             },
             "autoload": {
@@ -608,29 +628,29 @@
                 "portable",
                 "shim"
             ],
-            "time": "2016-11-14T01:06:16+00:00"
+            "time": "2018-09-21T13:07:52+00:00"
         },
         {
             "name": "symfony/process",
-            "version": "v3.2.7",
+            "version": "v3.4.19",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/process.git",
-                "reference": "57fdaa55827ae14d617550ebe71a820f0a5e2282"
+                "reference": "abb46b909dd6ba0b50e10d4c10ffe6ee96dd70f2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/process/zipball/57fdaa55827ae14d617550ebe71a820f0a5e2282",
-                "reference": "57fdaa55827ae14d617550ebe71a820f0a5e2282",
+                "url": "https://api.github.com/repos/symfony/process/zipball/abb46b909dd6ba0b50e10d4c10ffe6ee96dd70f2",
+                "reference": "abb46b909dd6ba0b50e10d4c10ffe6ee96dd70f2",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.5.9"
+                "php": "^5.5.9|>=7.0.8"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.2-dev"
+                    "dev-master": "3.4-dev"
                 }
             },
             "autoload": {
@@ -657,20 +677,20 @@
             ],
             "description": "Symfony Process Component",
             "homepage": "https://symfony.com",
-            "time": "2017-03-27T18:07:02+00:00"
+            "time": "2018-11-20T16:10:26+00:00"
         },
         {
             "name": "timrwood/moment",
-            "version": "2.18.1",
+            "version": "2.22.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/moment/moment.git",
-                "reference": "b8a7fc310eb3625e83fc0c8f1ea2840fa83c7378"
+                "reference": "2e2a5b35439665d4b0200143d808a7c26d6cd30f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/moment/moment/zipball/b8a7fc310eb3625e83fc0c8f1ea2840fa83c7378",
-                "reference": "b8a7fc310eb3625e83fc0c8f1ea2840fa83c7378",
+                "url": "https://api.github.com/repos/moment/moment/zipball/2e2a5b35439665d4b0200143d808a7c26d6cd30f",
+                "reference": "2e2a5b35439665d4b0200143d808a7c26d6cd30f",
                 "shasum": ""
             },
             "require": {
@@ -711,7 +731,7 @@
                 "time",
                 "validate"
             ],
-            "time": "2017-03-21T22:54:37+00:00"
+            "time": "2018-06-01T06:45:43+00:00"
         },
         {
             "name": "twbs/bootstrap-sass",
@@ -768,36 +788,40 @@
         },
         {
             "name": "twig/twig",
-            "version": "v2.3.0",
+            "version": "v2.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/twigphp/Twig.git",
-                "reference": "9718186a5df85a4f7917e78d3ffcabc204c75d25"
+                "reference": "6a5f676b77a90823c2d4eaf76137b771adf31323"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/Twig/zipball/9718186a5df85a4f7917e78d3ffcabc204c75d25",
-                "reference": "9718186a5df85a4f7917e78d3ffcabc204c75d25",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/6a5f676b77a90823c2d4eaf76137b771adf31323",
+                "reference": "6a5f676b77a90823c2d4eaf76137b771adf31323",
                 "shasum": ""
             },
             "require": {
                 "php": "^7.0",
+                "symfony/polyfill-ctype": "^1.8",
                 "symfony/polyfill-mbstring": "~1.0"
             },
             "require-dev": {
                 "psr/container": "^1.0",
-                "symfony/debug": "~2.7",
-                "symfony/phpunit-bridge": "~3.3@dev"
+                "symfony/debug": "^2.7",
+                "symfony/phpunit-bridge": "^3.3"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.3-dev"
+                    "dev-master": "2.5-dev"
                 }
             },
             "autoload": {
                 "psr-0": {
                     "Twig_": "lib/"
+                },
+                "psr-4": {
+                    "Twig\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -818,16 +842,16 @@
                 },
                 {
                     "name": "Twig Team",
-                    "homepage": "http://twig.sensiolabs.org/contributors",
+                    "homepage": "https://twig.symfony.com/contributors",
                     "role": "Contributors"
                 }
             ],
             "description": "Twig, the flexible, fast, and secure template language for PHP",
-            "homepage": "http://twig.sensiolabs.org",
+            "homepage": "https://twig.symfony.com",
             "keywords": [
                 "templating"
             ],
-            "time": "2017-03-22T15:41:51+00:00"
+            "time": "2018-07-13T07:18:09+00:00"
         },
         {
             "name": "twitter/typeahead.js",
@@ -871,7 +895,7 @@
                 "reference": "gh-pages"
             },
             "type": "library",
-            "time": "2014-08-07 11:42:35"
+            "time": "2014-08-07T11:42:35+00:00"
         },
         {
             "name": "wvega/timepicker",
@@ -882,7 +906,7 @@
                 "reference": "origin/master"
             },
             "type": "library",
-            "time": "2016-07-10 04:51:26"
+            "time": "2016-07-10T04:51:26+00:00"
         }
     ],
     "packages-dev": [],

@@ -4,7 +4,7 @@
   "private": true,
   "minimum-stability": "dev",
   "devDependencies": {
-    "gulp": "github:gulpjs/gulp#4.0",
+    "gulp": "^4.0.0",
     "gulp-autoprefixer": "latest",
     "gulp-clean-css": "latest",
     "gulp-composer": "latest",
@@ -16,11 +16,8 @@
     "gulp-sourcemaps": "latest",
     "gulp-total-task-time": "latest",
     "gulp-uglify": "latest",
-
-
     "merge-stream": "latest",
     "run-sequence": "latest",
-
     "time-require": "latest"
   }
 }
