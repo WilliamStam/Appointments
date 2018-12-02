@@ -380,13 +380,13 @@ class notifications extends _ {
 			$settings = $this->settings;
 		}
 
-	//	$result = _sms::getInstance()->sendSms($to, $body, $settings);
-		$result = true;
+		$result = _sms::getInstance()->sendSms($to, $body, $settings);
+//		$result = true;
 		$return = TRUE;
 		if (!$result) {
 			$return = FALSE;
 		}
-		file_put_contents("D:\\Work\\Appointed\\tmp\\sms_{$to}.html",$body);
+//		file_put_contents("D:\\Work\\Appointed\\tmp\\sms_{$to}.html",$body);
 		return $return;
 
 	}
@@ -414,10 +414,10 @@ class notifications extends _ {
 			$smtp->set('From', $settings['email_from']);
 			$smtp->set('MIME-Version', '1.0');
 			$smtp->set('Content-Type', 'text/html; charset=ISO-8859-1');
-		//	$result = $smtp->send($body);
+			$result = $smtp->send($body);
 		
 		
-		file_put_contents("D:\\Work\\Appointed\\tmp\\email_{$subject}.html",$body);
+//		file_put_contents("D:\\Work\\Appointed\\tmp\\email_{$subject}.html",$body);
 		
 		$result = true;
 
