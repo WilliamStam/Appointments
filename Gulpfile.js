@@ -30,7 +30,7 @@ var jsfile_admin = [
 
 	'vendor/twitter/typeahead.js/dist/typeahead.bundle.min.js',
 //	'vendor/itsjavi/bootstrap-colorpicker/dist/js/bootstrap-colorpicker.min.js',
-	'ui/_plugins/bootstrap-colorpicker/js/bootstrap-colorpicker.min.js',
+	'ui/_plugins/bootstrap-colorpicker/js/bootstrap-colorpicker.js',
 
 	'vendor/weareoutman/clockpicker/dist/bootstrap-clockpicker.min.js',
 
@@ -190,13 +190,13 @@ gulp.task('javascript', function (done) {
 		if (build) {
 			return gulp.src(element.files)
 
-				.pipe(concat(element.filename, {newLine: ';'}))
+				.pipe(concat(element.filename, {newLine: ';\r'}))
 				.pipe(rename(element.filename))
 				.pipe(timer)
 				.pipe(gulp.dest(element.path));
 		} else {
 			return gulp.src(element.files)
-				.pipe(concat(element.filename, {newLine: ';'}))
+				.pipe(concat(element.filename, {newLine: ';\r'}))
 				.pipe(rename(element.filename))
 				.pipe(timer)
 				.pipe(gulp.dest(element.path));

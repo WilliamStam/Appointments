@@ -127,7 +127,8 @@ class notifications extends _ {
 		if ($settings[$notif . "|" . $eventID . "_body_template"] || file_exists("./resources/notification_body/{$notif}-{$eventID}.twig")){
 			$body_exists = $settings[$notif . "|" . $eventID . "_body_template"]?$settings[$notif . "|" . $eventID . "_body_template"]:file_get_contents("./resources/notification_body/{$notif}-{$eventID}.twig");
 		};
-
+		
+		file_put_contents("D:\\Temp\\Appointments\\tmp\\email_.html",$body_exists);
 
 
 		if ($check_if_exists){
@@ -140,8 +141,8 @@ class notifications extends _ {
 				$return = $tmpl->render_string();
 			}
 		}
-
-
+		
+		
 
 		return $return;
 
@@ -380,8 +381,8 @@ class notifications extends _ {
 			$settings = $this->settings;
 		}
 
-		$result = _sms::getInstance()->sendSms($to, $body, $settings);
-//		$result = true;
+//		$result = _sms::getInstance()->sendSms($to, $body, $settings);
+		$result = true;
 		$return = TRUE;
 		if (!$result) {
 			$return = FALSE;
@@ -414,10 +415,10 @@ class notifications extends _ {
 			$smtp->set('From', $settings['email_from']);
 			$smtp->set('MIME-Version', '1.0');
 			$smtp->set('Content-Type', 'text/html; charset=ISO-8859-1');
-			$result = $smtp->send($body);
+//			$result = $smtp->send($body);
 		
 		
-//		file_put_contents("D:\\Work\\Appointed\\tmp\\email_{$subject}.html",$body);
+		file_put_contents("D:\\Temp\\Appointments\\tmp\\email_{$subject}.html",$body);
 		
 		$result = true;
 

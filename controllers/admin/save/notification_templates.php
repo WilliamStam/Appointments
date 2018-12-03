@@ -12,7 +12,7 @@ class notification_templates extends _ {
 	
 	function template() {
 		$result = array();
-
+		$this->errors = array();
 		$values = array();
 
 		$exclude = array("submit");

@@ -15,7 +15,7 @@
                 "reference": "origin/master"
             },
             "type": "library",
-            "time": "2018-11-24T12:23:10+00:00"
+            "time": "2018-04-16T02:18:23+00:00"
         },
         {
             "name": "bcosca/fatfree",
@@ -68,7 +68,7 @@
                 "reference": "origin/master"
             },
             "type": "library",
-            "time": "2018-09-17T12:00:19+00:00"
+            "time": "2017-11-28T16:16:30+00:00"
         },
         {
             "name": "components/bootstrap-datetimepicker",
@@ -79,7 +79,7 @@
                 "reference": "origin/master"
             },
             "type": "library",
-            "time": "2018-08-03T14:14:27+00:00"
+            "time": "2017-07-01T15:00:11+00:00"
         },
         {
             "name": "components/font-awesome",
@@ -262,7 +262,7 @@
                 "reference": "origin/master"
             },
             "type": "library",
-            "time": "2018-06-16T03:54:40+00:00"
+            "time": "2017-12-08T05:46:32+00:00"
         },
         {
             "name": "components/twitter-bootstrap-wizard",
@@ -273,7 +273,7 @@
                 "reference": "origin/master"
             },
             "type": "library",
-            "time": "2018-11-21T19:42:00+00:00"
+            "time": "2017-03-16T15:33:36+00:00"
         },
         {
             "name": "ivaynberg/select2",
