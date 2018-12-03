@@ -104,7 +104,7 @@ $(document).on("change", ".has-error input", function () {
 
 function validationErrors(data, $form) {
 
-	if (!$.isEmptyObject(data['errors']) && data['errors'].length >0 ) {
+	if (!$.isEmptyObject(data['errors']) && Object.keys(data['errors']).length >0 ) {
 
 		var i = 0;
 		//console.log(data.errors);
@@ -342,7 +342,7 @@ $(document).ready(function () {
 		$.post("/admin/save/form/client", $this.serialize(), function (result) {
 			result = result.data;
 			validationErrors(result, $this);
-			if ($.isEmptyObject(result['errors']) || result['errors'].length == 0 ) {
+			if ($.isEmptyObject(result['errors']) || Object.keys(result['errors']).length == 0 ) {
 
 				setClient(result.ID);
 				show_form("appointment-form");
@@ -361,7 +361,7 @@ $(document).ready(function () {
 		$.post("/admin/save/form/appointment?ID=" + ID, $this.serialize(), function (result) {
 			result = result.data;
 			validationErrors(result, $this);
-			if ($.isEmptyObject(result['errors']) || result['errors'].length == 0 ) {
+			if ($.isEmptyObject(result['errors']) || Object.keys(result['errors']).length == 0 ) {
 				$.bbq.pushState({"appID": result.ID});
 				getAppointmentView();
 			}
@@ -376,7 +376,7 @@ $(document).ready(function () {
 			$.post("/admin/save/form/delete_appointment?ID=" + ID, {}, function (result) {
 				result = result.data;
 
-				if ($.isEmptyObject(result['errors']) || result['errors'].length == 0 ) {
+				if ($.isEmptyObject(result['errors']) || Object.keys(result['errors']).length == 0 ) {
 					toastr["success"]("Record Deleted", "Success");
 					//getData();
 					$.bbq.removeState("appID");
@@ -399,7 +399,9 @@ $(document).ready(function () {
 		$.post("/admin/save/form/timeslot?ID=" + ID, $this.serialize(), function (result) {
 			result = result.data;
 			validationErrors(result, $this);
-			if ($.isEmptyObject(result['errors']) || result['errors'].length == 0 ) {
+
+
+			if ($.isEmptyObject(result['errors']) || Object.keys(result['errors']).length == 0 ) {
 				$.bbq.pushState({"timeslotID": ""});
 				$("#modal-window").modal("hide");
 			}
@@ -412,7 +414,7 @@ $(document).ready(function () {
 			$.post("/admin/save/form/delete_timeslot?ID=" + ID, {}, function (result) {
 				result = result.data;
 
-				if ($.isEmptyObject(result['errors']) || result['errors'].length == 0 ) {
+				if ($.isEmptyObject(result['errors']) || Object.keys(result['errors']).length == 0 ) {
 					toastr["success"]("Record Deleted", "Success");
 					//getData();
 					$.bbq.removeState("timeslotID");
