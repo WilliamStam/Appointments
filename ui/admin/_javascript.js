@@ -7723,7 +7723,7 @@ $(document).on("change", ".has-error input", function () {
 
 function validationErrors(data, $form) {
 
-	if (!$.isEmptyObject(data['errors'])) {
+	if (!$.isEmptyObject(data['errors']) && data['errors'].length >0 ) {
 
 		var i = 0;
 		//console.log(data.errors);
