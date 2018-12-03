@@ -420,7 +420,7 @@ class available_timeslots extends _ {
 			}
 
 
-			if (count($busy["staff-".$service['staffID']]['busy'])>0){
+			if ($busy["staff-".$service['staffID']]['busy'] && count($busy["staff-".$service['staffID']]['busy'])>0){
 				$available = 0;
 			}
 
@@ -430,7 +430,7 @@ class available_timeslots extends _ {
 			}
 
 			$soft_closed = 0;
-			if (count($busy_soft_closed["staff-".$service['staffID']]['busy'])>0){
+			if ($busy_soft_closed["staff-".$service['staffID']]['busy'] && count($busy_soft_closed["staff-".$service['staffID']]['busy'])>0){
 				$soft_closed = 1;
 			}
 			$other_selected = 0;

@@ -8,7 +8,7 @@ class home extends _ {
 	}
 	function page(){
 		//if ($this->user['ID']=="")$this->f3->reroute("/login");
-		
+
 		
 		$tmpl = new \template("template.twig","ui/admin");
 		$tmpl->page = array(

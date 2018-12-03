@@ -9,6 +9,7 @@ $errorFile = $errorFolder . DIRECTORY_SEPARATOR . date("Y-m") . ".log";
 ini_set("error_log", $errorFile);
 
 
+
 if (session_id() == "") {
 	$SID = @session_start();
 } else $SID = session_id();
