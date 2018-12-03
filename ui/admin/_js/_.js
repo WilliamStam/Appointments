@@ -342,7 +342,7 @@ $(document).ready(function () {
 		$.post("/admin/save/form/client", $this.serialize(), function (result) {
 			result = result.data;
 			validationErrors(result, $this);
-			if (!result.errors) {
+			if ($.isEmptyObject(result['errors']) || result['errors'].length == 0 ) {
 
 				setClient(result.ID);
 				show_form("appointment-form");
@@ -361,7 +361,7 @@ $(document).ready(function () {
 		$.post("/admin/save/form/appointment?ID=" + ID, $this.serialize(), function (result) {
 			result = result.data;
 			validationErrors(result, $this);
-			if (!result.errors) {
+			if ($.isEmptyObject(result['errors']) || result['errors'].length == 0 ) {
 				$.bbq.pushState({"appID": result.ID});
 				getAppointmentView();
 			}
@@ -376,7 +376,7 @@ $(document).ready(function () {
 			$.post("/admin/save/form/delete_appointment?ID=" + ID, {}, function (result) {
 				result = result.data;
 
-				if (!result.errors) {
+				if ($.isEmptyObject(result['errors']) || result['errors'].length == 0 ) {
 					toastr["success"]("Record Deleted", "Success");
 					//getData();
 					$.bbq.removeState("appID");
@@ -399,7 +399,7 @@ $(document).ready(function () {
 		$.post("/admin/save/form/timeslot?ID=" + ID, $this.serialize(), function (result) {
 			result = result.data;
 			validationErrors(result, $this);
-			if (!result.errors) {
+			if ($.isEmptyObject(result['errors']) || result['errors'].length == 0 ) {
 				$.bbq.pushState({"timeslotID": ""});
 				$("#modal-window").modal("hide");
 			}
@@ -412,7 +412,7 @@ $(document).ready(function () {
 			$.post("/admin/save/form/delete_timeslot?ID=" + ID, {}, function (result) {
 				result = result.data;
 
-				if (!result.errors) {
+				if ($.isEmptyObject(result['errors']) || result['errors'].length == 0 ) {
 					toastr["success"]("Record Deleted", "Success");
 					//getData();
 					$.bbq.removeState("timeslotID");
