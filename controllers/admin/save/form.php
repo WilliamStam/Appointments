@@ -201,7 +201,7 @@ class form extends _ {
 
 
 
-		if (($this->errors && count($this->errors)==0) || ! $this->errors){
+		if (count($this->errors)==0){
 			$result = models\appointments::_delete($ID);
 		}
 		$return = array(
