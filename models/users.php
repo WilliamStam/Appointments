@@ -113,14 +113,14 @@ class users extends _ {
 
 
 		$result = $f3->get("DB")->exec("
-			SELECT ID, username FROM users WHERE `username` ='$username' AND `password` = '$password_hash'
-		");
+			SELECT ID, username FROM users WHERE `username` = :username AND `password` = :password
+		",array(":username"=>$username,":password"=>$password_hash));
 
 
 		if (count($result)) {
 			$result = $result[0];
 			$ID = $result['ID'];
-			$f3->get("DB")->exec("UPDATE users SET lastlogin = now() WHERE ID = '$ID';");
+			$f3->get("DB")->exec("UPDATE users SET lastlogin = now() WHERE ID = :ID;",array(":ID"=>$ID));
 
 
 			$_SESSION['uID'] = base64_encode($ID);
